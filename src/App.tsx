@@ -18,26 +18,27 @@ import { ResizeHandles } from "./uiComponents/ResizeHandles";
 import { ObjectSelectionHighlightBox } from "./uiComponents/ObjectSelectionHighlightBox";
 
 const App: Component = () => {
-  window.onmousedown = EventHandlers.onMouseDown;
-  window.onmouseup = EventHandlers.onMouseUp;
-  window.onkeydown = EventHandlers.onKeyDown;
-  window.onkeyup = EventHandlers.onKeyUp;
-  window.onmousemove = EventHandlers.onMouseMove;
-  window.onwheel = EventHandlers.onMouseWheel;
+  window.onmousedown = EventHandlers.onMouseDown_Window;
+  window.onmouseup = EventHandlers.onMouseUp_Window;
+  window.onkeydown = EventHandlers.onKeyDown_Window;
+  window.onkeyup = EventHandlers.onKeyUp_Window;
+  window.onmousemove = EventHandlers.onMouseMove_Window;
+  window.onwheel = EventHandlers.onMouseWheel_Window;
 
   onMount(() => {
     const newObjects: { [key: string]: iObject } = {};
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 1000; i++) {
       let pos = {
-        x: Math.random() * 2000,
-        y: Math.random() * 2000,
+        x: Math.random() * 30_000,
+        y: Math.random() * 30_000,
       };
       let id = nanoid();
       newObjects[id] = {
         id,
         pos,
         preDragPos: pos,
+        preResizePos: pos,
         url: `/barney${_.sample([1, 2, 3, 4, 5])}.jpg`,
         aspectRatio: 1,
         zIndex: i,

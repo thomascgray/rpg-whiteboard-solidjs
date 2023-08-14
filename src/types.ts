@@ -88,8 +88,11 @@ export interface iState {
 
 export interface iObject {
   id: string;
+
+  // position stuff
   pos: iPoint;
   preDragPos: iPoint;
+  preResizePos: iPoint;
 
   dimensions: iDimensions;
   preResizeDimensions: iDimensions;

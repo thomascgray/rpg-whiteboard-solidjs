@@ -85,6 +85,20 @@ export const [objectSelectionBoxWidth, setObjectSelectionBoxWidth] =
   createSignal<number>(0);
 export const [objectSelectionBoxHeight, setObjectSelectionBoxHeight] =
   createSignal<number>(0);
+export const [objectSelectionBoxPosX, setObjectSelectionBoxPosX] =
+  createSignal<number>(0);
+export const [objectSelectionBoxPosY, setObjectSelectionBoxPosY] =
+  createSignal<number>(0);
+
+export const [
+  objectSelectionBoxWidthPreResize,
+  setObjectSelectionBoxWidthPreResize,
+] = createSignal<number>(0);
+export const [
+  objectSelectionBoxHeightPreResize,
+  setObjectSelectionBoxHeightPreResize,
+] = createSignal<number>(0);
+
 /**
  *
  * A bunch of state/store helpers
@@ -107,13 +121,32 @@ export const unselectObjects = () => {
   });
   setObjects(objs);
   setIsFocusedInTextbox(Object.values(objs).some((obj) => obj.isFocused));
-  // selectedObjectIds = [];
   setSelectedObjectIds([]);
+  recalculateObjectSelectionBoxPos();
   recalculateObjectSelectionBoxWidthAndHeight();
-  // state.isSelectingMultipleObjects = selectedObjectIds.length > 1;
   setIsSelectingMultipleObjects(false);
 
   window.getSelection()!.removeAllRanges();
+};
+
+export const recalculateObjectSelectionBoxPos = () => {
+  if (selectedObjectIds().length === 0) {
+    setObjectSelectionBoxPosX(0);
+    setObjectSelectionBoxPosY(0);
+  }
+  const selectedObjects = () => {
+    return Object.values(objects).filter((obj) =>
+      selectedObjectIds().includes(obj.id)
+    );
+  };
+  const tlXs = () => {
+    return selectedObjects().map((obj) => obj.pos.x);
+  };
+  const tlYs = () => {
+    return selectedObjects().map((obj) => obj.pos.y);
+  };
+  setObjectSelectionBoxPosX(Math.min(...tlXs()));
+  setObjectSelectionBoxPosY(Math.min(...tlYs()));
 };
 
 export const recalculateObjectSelectionBoxWidthAndHeight = () => {
@@ -121,43 +154,40 @@ export const recalculateObjectSelectionBoxWidthAndHeight = () => {
     setObjectSelectionBoxWidth(0);
     setObjectSelectionBoxHeight(0);
   }
-  const selectedObjects = createMemo(() => {
+  const selectedObjects = () => {
     return Object.values(objects).filter((obj) =>
       selectedObjectIds().includes(obj.id)
     );
-  });
-  const tlXs = createMemo(() => {
+  };
+  const tlXs = () => {
     return selectedObjects().map((obj) => obj.pos.x);
-  });
-  const tlYs = createMemo(() => {
+  };
+  const tlYs = () => {
     return selectedObjects().map((obj) => obj.pos.y);
-  });
-
-  const brXs = createMemo(() => {
+  };
+  const brXs = () => {
     return selectedObjects().map((obj) => obj.pos.x + obj.dimensions.width);
-  });
-  const brYs = createMemo(() => {
+  };
+  const brYs = () => {
     return selectedObjects().map((obj) => obj.pos.y + obj.dimensions.height);
-  });
-
-  const topLeftPoint = createMemo(() => {
+  };
+  const topLeftPoint = () => {
     return {
       x: Math.min(...tlXs()),
       y: Math.min(...tlYs()),
     };
-  });
-
-  const bottomRightPoint = createMemo(() => {
+  };
+  const bottomRightPoint = () => {
     return {
       x: Math.max(...brXs()),
       y: Math.max(...brYs()),
     };
-  });
-
-  //   these currently recalculate everytime any of the positions
-  // change (which is when you're dragging) but they dont need to - we just need to work out the width once
-  // basically i think we should just make these some dedicated signals, easy enough
+  };
 
   setObjectSelectionBoxWidth(bottomRightPoint().x - topLeftPoint().x);
   setObjectSelectionBoxHeight(bottomRightPoint().y - topLeftPoint().y);
+};
+
+export const getObjectById = (id: string) => {
+  return objects[id];
 };

@@ -49,3 +49,5 @@ so that means we need to direct inject into DOM for
 and when you've finished the action, put it all back into state.
 
 i still think solid is worth it just because its so much faster - but ye, a pain
+
+**if we get rid of using state as the core, we dont need the pre stuff. the state IS the pre stuff, and we just change against the dom directly**

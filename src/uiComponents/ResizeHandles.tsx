@@ -41,28 +41,30 @@ export const ResizeHandles: Component = (props) => {
   return (
     <>
       <div
+        data-pos-x={bottomLeftPoint().x}
+        data-pos-y={bottomLeftPoint().y}
         onMouseDown={(e) => {
           EventHandlers.onBeginResizing(e, eResizingFrom.BOTTOM_LEFT);
         }}
-        style={`width: ${20 / Store.camera().z}px; height: ${
-          20 / Store.camera().z
-        }px; transform: translate(${bottomLeftPoint().x}px, ${
-          bottomLeftPoint().y
-        }px)`}
-        class="absolute top-0 left-0 bg-red-500 rounded-full cursor-sw-resize"
+        style={`width: var(--app-resize-handle-size); height: var(--app-resize-handle-size); transform: translate(${
+          bottomLeftPoint().x
+        }px, ${bottomLeftPoint().y}px)`}
+        class="__resize-handle absolute top-0 left-0 bg-red-500 rounded-full cursor-sw-resize"
       >
         L
       </div>
       <div
+        data-pos-x={bottomRightPoint().x}
+        data-pos-y={bottomRightPoint().y}
         onMouseDown={(e) => {
           EventHandlers.onBeginResizing(e, eResizingFrom.BOTTOM_RIGHT);
         }}
-        style={`width: ${20 / Store.camera().z}px; height: ${
+        style={`width: var(--app-resize-handle-size); height: ${
           20 / Store.camera().z
         }px; transform: translate(${bottomRightPoint().x}px, ${
           bottomRightPoint().y
         }px)`}
-        class="absolute top-0 left-0 bg-red-500 rounded-full cursor-se-resize"
+        class="__resize-handle absolute top-0 left-0 bg-red-500 rounded-full cursor-se-resize"
       >
         R
       </div>

@@ -1,7 +1,8 @@
 import * as InteractionHandlers from "./interaction-handlers";
 import * as Store from "./store";
-import { eKey, eMouseButton, eResizingFrom, iObject } from "./types";
+import { eKey, eMouseButton, eResizingFrom, iCamera, iObject } from "./types";
 import * as Utils from "./utils";
+import * as DOMUtils from "./dom-utils";
 
 export const onMouseDown_Window = (e: MouseEvent) => {
   Store.setHeldMouseButtons((buttons) => [...buttons, e.button]);
@@ -24,33 +25,17 @@ export const onMouseDown_Window = (e: MouseEvent) => {
   }
 };
 
+// mouse up is primarily used for re-setting "dom state", e.g stuff that is
+// in style but not in state, like the position of a dragged object
+// BACK into actual state
 export const onMouseUp_Window = (e: MouseEvent) => {
   // if we were just dragging some objects around
   if (e.button === eMouseButton.LEFT && Store.selectedObjectIds().length > 0) {
-    // for each of those selected objects, we need to reflect their
-    // new style positions as their position back into state
-    const newObjs: Partial<{ [key: string]: iObject }> = {};
-    const selectedObjectDOMElements =
-      Utils.getAllCurrentlySelectedObjectDOMElements();
+    DOMUtils.persistSelectedObjectDOMElementsToState();
 
-    for (let el of selectedObjectDOMElements) {
-      const element = el as HTMLElement;
-      const obj = Store.objects[element.id];
-      const [x, y] = Utils.getDOMElementTranslateValues(element);
-      const pos: iObject["pos"] = {
-        x: +x,
-        y: +y,
-      };
-      newObjs[element.id] = {
-        ...obj,
-        pos,
-        preDragPos: pos,
-      };
-    }
-
-    Store.setObjects(newObjs);
-    Store.recalculateObjectSelectionBoxPos();
-    Store.recalculateObjectSelectionBoxWidthAndHeight();
+    // we should just work these out and set them directly
+    // Store.recalculateObjectSelectionBoxPos();
+    // Store.recalculateObjectSelectionBoxWidthAndHeight();
   }
 
   // // if we're letting go of dragging a selection box
@@ -88,20 +73,25 @@ export const onMouseUp_Window = (e: MouseEvent) => {
     Store.setDrawingSelectionBoxHeight(0);
   }
 
+  // if we were panning
+  if (e.button === eMouseButton.MIDDLE) {
+    const cameraDOM = document.getElementById("camera");
+    const existingCamera: iCamera = {
+      x: Number(cameraDOM!.dataset.posX),
+      y: Number(cameraDOM!.dataset.posY),
+      z: Number(cameraDOM!.dataset.posZ),
+    };
+    Store.setCamera(existingCamera);
+  }
+
   // // if we were just resizing, we're not anymore
   if (e.button === eMouseButton.LEFT && Store.isResizingFrom() !== null) {
-    Store.selectedObjectIds().forEach((id) => {
-      const obj = Store.objects[id];
-      Store.setObjects(id, {
-        preResizeDimensions: obj.dimensions,
-        preResizePos: obj.pos,
-      });
-    });
-    Store.setObjectSelectionBoxWidthPreResize(Store.objectSelectionBoxWidth());
-    Store.setObjectSelectionBoxHeightPreResize(
-      Store.objectSelectionBoxHeight()
-    );
+    DOMUtils.persistSelectedObjectDOMElementsToState();
+
     Store.setIsResizingFrom(null);
+    // we should just work these out and set them directly
+    Store.recalculateObjectSelectionBoxPos();
+    Store.recalculateObjectSelectionBoxWidthAndHeight();
   }
 
   // finally, unset the held buttons
@@ -121,6 +111,7 @@ export const onMouseMove_Window = (e: MouseEvent) => {
       Store.camera().y,
       Store.camera().z
     );
+
     Store.setDrawingSelectionBoxStartPos({
       x: Math.min(mousePoint.x, Store.mouseDownPosCanvas().x),
       y: Math.min(mousePoint.y, Store.mouseDownPosCanvas().y),
@@ -161,19 +152,7 @@ export const onMouseMove_Window = (e: MouseEvent) => {
 };
 
 export const onMouseWheel_Window = (e: WheelEvent) => {
-  let scrollValue = e.deltaY;
-  if (Math.abs(e.deltaY) === 100) {
-    scrollValue = scrollValue * 0.1;
-  }
-  if (scrollValue > 30) {
-    scrollValue = 30;
-  } else if (scrollValue < -30) {
-    scrollValue = -30;
-  }
-
-  Store.setCamera((camera) =>
-    Utils.zoomCamera(camera, { x: e.clientX, y: e.clientY }, scrollValue / 100)
-  );
+  InteractionHandlers.interactionZoomCamera(e);
 };
 
 export const onKeyDown_Window = (e: KeyboardEvent) => {
@@ -227,7 +206,6 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
 
     // if we're not holding any other objects, just select it
     if (selectedObjectIds.length === 0) {
-      // selectedObjectIds = [object.id];
       Store.setSelectedObjectIds([object.id]);
       Store.recalculateObjectSelectionBoxPos();
       Store.recalculateObjectSelectionBoxWidthAndHeight();

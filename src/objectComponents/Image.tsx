@@ -41,8 +41,8 @@ export const ImageObject: Component<ImageProps> = (props) => {
 
   return (
     <img
-      style={`width: ${props.object.dimensions.width}px; height: ${props.object.dimensions.height}px;`}
-      class="select-none"
+      // style={`width: ${props.object.dimensions.width}px; height: ${props.object.dimensions.height}px;`}
+      class="select-none w-full h-full object-contain"
       draggable="false"
       src={props.object.url}
     />

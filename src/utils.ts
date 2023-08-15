@@ -1,4 +1,5 @@
 import type { iBox, iCamera, iObject, iPoint } from "./types";
+
 export const withMinMax = (val: number, min: number, max: number) => {
   if (val < min) {
     return min;
@@ -34,6 +35,7 @@ export const panCamera = (camera: iCamera, dx: number, dy: number): iCamera => {
   };
 };
 
+// make the camera zoom in relative to the cursor
 export const zoomCamera = (
   camera: iCamera,
   point: iPoint,
@@ -52,12 +54,6 @@ export const zoomCamera = (
   };
 };
 
-// export const cullToObjectsOnScreen = (objects: iObject[]) => {
-// 	// return objects.filter((object) => isObjectInViewport(object, camera));
-// 	console.log('a');
-// 	return objects;
-// };
-
 export const checkOverlap = (obj1: iBox, obj2: iBox) => {
   return (
     obj1.pos.x < obj2.pos.x + obj2.dimensions.width &&
@@ -65,13 +61,4 @@ export const checkOverlap = (obj1: iBox, obj2: iBox) => {
     obj1.pos.y < obj2.pos.y + obj2.dimensions.height &&
     obj1.pos.y + obj1.dimensions.height > obj2.pos.y
   );
-};
-
-export const getAllCurrentlySelectedObjectDOMElements = () => {
-  const elements = document.getElementsByClassName("__selected-object");
-  return elements;
-};
-
-export const getDOMElementTranslateValues = (element: HTMLElement) => {
-  return element.dataset.translate!.split("/");
 };

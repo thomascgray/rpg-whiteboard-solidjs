@@ -1,11 +1,4 @@
-import {
-  createSignal,
-  type Component,
-  onMount,
-  For,
-  Show,
-  onCleanup,
-} from "solid-js";
+import { type Component, onMount, For, Show, onCleanup } from "solid-js";
 import { BaseComponent } from "./objectComponents/BaseObject";
 import { nanoid } from "nanoid";
 import { eObjectType, iObject } from "./types";
@@ -28,10 +21,10 @@ const App: Component = () => {
   onMount(() => {
     const newObjects: { [key: string]: iObject } = {};
 
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 1000; i++) {
       let pos = {
-        x: Math.random() * 10_000,
-        y: Math.random() * 10_000,
+        x: Math.random() * 30_000,
+        y: Math.random() * 30_000,
       };
       let id = nanoid();
       newObjects[id] = {
@@ -75,10 +68,35 @@ const App: Component = () => {
           Store.camera().x
         }px, ${Store.camera().y}px)`}
       >
-        {/* render the objects */}
-        <For each={Object.values(Store.objects)}>
-          {(object) => <BaseComponent object={object} />}
-        </For>
+        <div class="non-selected-objects">
+          <For
+            each={_.chunk(
+              Object.values(Store.objects).filter(
+                (obj) => !Store.selectedObjectIds().includes(obj.id)
+              ),
+              20
+            )}
+          >
+            {(objectsOuter) => (
+              <div>
+                <For each={objectsOuter}>
+                  {(objectInner) => <BaseComponent object={objectInner} />}
+                </For>
+              </div>
+            )}
+          </For>
+        </div>
+
+        {/* selected */}
+        <div class="selected-objects">
+          <For
+            each={Object.values(Store.objects).filter((obj) =>
+              Store.selectedObjectIds().includes(obj.id)
+            )}
+          >
+            {(object) => <BaseComponent object={object} isSelected={true} />}
+          </For>
+        </div>
 
         <Show when={Store.selectedObjectIds().length >= 1}>
           <ObjectSelectionHighlightBox />

@@ -66,3 +66,12 @@ export const checkOverlap = (obj1: iBox, obj2: iBox) => {
     obj1.pos.y + obj1.dimensions.height > obj2.pos.y
   );
 };
+
+export const getAllCurrentlySelectedObjectDOMElements = () => {
+  const elements = document.getElementsByClassName("__selected-object");
+  return elements;
+};
+
+export const getDOMElementTranslateValues = (element: HTMLElement) => {
+  return element.dataset.translate!.split("/");
+};

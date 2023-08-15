@@ -38,12 +38,6 @@ export const ImageObject: Component<ImageProps> = (props) => {
     }
     return _url;
   });
-  //   TODO the onmount image load is causing an infinite loop because we set
-  // the objects object signal which means that this component re-renders because
-  // its a NEW js object, technically
-
-  // look into how we can get round this
-  //   maybe we make each object its OWN signal?
 
   return (
     <img

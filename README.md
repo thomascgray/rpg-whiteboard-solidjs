@@ -32,3 +32,20 @@ Your app is ready to be deployed!
 ## Deployment
 
 You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+
+# dev notes
+
+_sigh_ we need to replace all the "as your dragging state" with straight DOM style access
+
+it cant be helped - state updating just simply isn't fast enough
+so that means we need to direct inject into DOM for
+
+- the drawing selection box
+- the object selection box
+- the resize handles
+- resizing
+- moving (already done)
+
+and when you've finished the action, put it all back into state.
+
+i still think solid is worth it just because its so much faster - but ye, a pain

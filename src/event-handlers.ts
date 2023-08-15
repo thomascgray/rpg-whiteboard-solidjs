@@ -1,7 +1,7 @@
 import * as InteractionHandlers from "./interaction-handlers";
 import * as Store from "./store";
 import { eKey, eMouseButton, eResizingFrom, iObject } from "./types";
-import { checkOverlap, screenToCanvas, zoomCamera } from "./utils";
+import * as Utils from "./utils";
 
 export const onMouseDown_Window = (e: MouseEvent) => {
   Store.setHeldMouseButtons((buttons) => [...buttons, e.button]);
@@ -9,7 +9,7 @@ export const onMouseDown_Window = (e: MouseEvent) => {
   if (e.button === eMouseButton.LEFT) {
     Store.setMouseDownPos({ x: e.clientX, y: e.clientY });
     Store.setMouseDownPosCanvas(
-      screenToCanvas(
+      Utils.screenToCanvas(
         e.clientX,
         e.clientY,
         Store.camera().x,
@@ -25,16 +25,32 @@ export const onMouseDown_Window = (e: MouseEvent) => {
 };
 
 export const onMouseUp_Window = (e: MouseEvent) => {
-  // // if we got some selected objects and we were just dragging them around, set
-  // // those objects to their new positions
+  // if we were just dragging some objects around
   if (e.button === eMouseButton.LEFT && Store.selectedObjectIds().length > 0) {
-    Store.selectedObjectIds().forEach((id) => {
-      const obj = Store.objects[id];
-      Store.setObjects(id, {
-        preDragPos: obj.pos,
-        preResizePos: obj.pos,
-      });
-    });
+    // for each of those selected objects, we need to reflect their
+    // new style positions as their position back into state
+    const newObjs: Partial<{ [key: string]: iObject }> = {};
+    const selectedObjectDOMElements =
+      Utils.getAllCurrentlySelectedObjectDOMElements();
+
+    for (let el of selectedObjectDOMElements) {
+      const element = el as HTMLElement;
+      const obj = Store.objects[element.id];
+      const [x, y] = Utils.getDOMElementTranslateValues(element);
+      const pos: iObject["pos"] = {
+        x: +x,
+        y: +y,
+      };
+      newObjs[element.id] = {
+        ...obj,
+        pos,
+        preDragPos: pos,
+      };
+    }
+
+    Store.setObjects(newObjs);
+    Store.recalculateObjectSelectionBoxPos();
+    Store.recalculateObjectSelectionBoxWidthAndHeight();
   }
 
   // // if we're letting go of dragging a selection box
@@ -58,7 +74,7 @@ export const onMouseUp_Window = (e: MouseEvent) => {
           },
         };
 
-        return checkOverlap(obj, selectionBox);
+        return Utils.checkOverlap(obj, selectionBox);
       }
     );
 
@@ -98,7 +114,7 @@ export const onMouseMove_Window = (e: MouseEvent) => {
     Store.selectedObjectIds().length <= 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT)
   ) {
-    const mousePoint = screenToCanvas(
+    const mousePoint = Utils.screenToCanvas(
       e.clientX,
       e.clientY,
       Store.camera().x,
@@ -156,7 +172,7 @@ export const onMouseWheel_Window = (e: WheelEvent) => {
   }
 
   Store.setCamera((camera) =>
-    zoomCamera(camera, { x: e.clientX, y: e.clientY }, scrollValue / 100)
+    Utils.zoomCamera(camera, { x: e.clientX, y: e.clientY }, scrollValue / 100)
   );
 };
 

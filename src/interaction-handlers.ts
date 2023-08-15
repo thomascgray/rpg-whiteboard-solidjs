@@ -12,10 +12,7 @@ export const interactionPanCamera = (movementX: number, movementY: number) => {
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {
-  console.log("interactionMoveObjects");
   const camera = Store.camera();
-  const existingObjects = Store.objects;
-  const selectedObjectIds = Store.selectedObjectIds();
   const mouseDownPosCanvas = Store.mouseDownPosCanvas();
 
   const mousePoint = screenToCanvas(
@@ -26,20 +23,19 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     camera.z
   );
 
-  Store.selectedObjectIds().forEach((id) => {
-    Store.setObjects(id, {
-      pos: {
-        x:
-          Store.objects[id].preDragPos.x +
-          (mousePoint.x - mouseDownPosCanvas.x),
-        y:
-          Store.objects[id].preDragPos.y +
-          (mousePoint.y - mouseDownPosCanvas.y),
-      },
-    });
-  });
+  const elements = document.getElementsByClassName("__selected-object");
+  for (let el of elements) {
+    const element = el as HTMLElement;
+    const x =
+      Number(element.dataset.predragX) + (mousePoint.x - mouseDownPosCanvas.x);
+    const y =
+      Number(element.dataset.predragY) + (mousePoint.y - mouseDownPosCanvas.y);
+    element.style.transform = `translate(${x}px, ${y}px)`;
+    element.dataset.translate = `${x}/${y}`;
+  }
 
-  Store.recalculateObjectSelectionBoxPos();
+  // we also need to recalculate all the selection box and resize handles fml
+  // make some helper functions to do this that take in all the elements, etc.
 };
 
 export const interactionResizeObjects = (e: MouseEvent) => {

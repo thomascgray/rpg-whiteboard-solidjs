@@ -29,7 +29,6 @@ export const ImageObject: Component<ImageProps> = (props) => {
             width: img.width,
             height: img.height,
           },
-          aspectRatio: img.height / img.width,
         });
 
         // @ts-ignore - manual garbage collection baybee

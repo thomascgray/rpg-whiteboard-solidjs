@@ -1,4 +1,4 @@
-import { Component, Show, createMemo } from "solid-js";
+import { Component, Show, createEffect, createMemo } from "solid-js";
 import { eObjectType, iObject } from "../types";
 import * as EventHandlers from "../event-handlers";
 import { ImageObject } from "./Image";

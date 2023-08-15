@@ -110,7 +110,6 @@ export const onMouseMove_Window = (e: MouseEvent) => {
       y: Math.min(mousePoint.y, Store.mouseDownPosCanvas().y),
     });
 
-    // Store.setDrawingSelectionBoxStartPos.y = Math.min(mousePoint.y, state.mouseDownPosCanvas.y);
     Store.setDrawingSelectionBoxWidth(
       Math.abs(mousePoint.x - Store.mouseDownPosCanvas().x)
     );
@@ -129,7 +128,7 @@ export const onMouseMove_Window = (e: MouseEvent) => {
     InteractionHandlers.interactionMoveObjects(e);
   }
 
-  // resizing
+  // resizing object(s)
   if (
     Store.selectedObjectIds().length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
@@ -139,6 +138,7 @@ export const onMouseMove_Window = (e: MouseEvent) => {
     InteractionHandlers.interactionResizeObjects(e);
   }
 
+  // panning
   if (Store.heldMouseButtons().includes(eMouseButton.MIDDLE)) {
     InteractionHandlers.interactionPanCamera(e.movementX, e.movementY);
   }

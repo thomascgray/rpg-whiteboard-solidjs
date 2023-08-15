@@ -134,17 +134,10 @@ export const recalculateObjectSelectionBoxPos = () => {
     setObjectSelectionBoxPosX(0);
     setObjectSelectionBoxPosY(0);
   }
-  const selectedObjects = () => {
-    return Object.values(objects).filter((obj) =>
-      selectedObjectIds().includes(obj.id)
-    );
-  };
-  const tlXs = () => {
-    return selectedObjects().map((obj) => obj.pos.x);
-  };
-  const tlYs = () => {
-    return selectedObjects().map((obj) => obj.pos.y);
-  };
+
+  const tlXs = () => selectedObjectIds().map((id) => objects[id].pos.x);
+  const tlYs = () => selectedObjectIds().map((id) => objects[id].pos.y);
+
   setObjectSelectionBoxPosX(Math.min(...tlXs()));
   setObjectSelectionBoxPosY(Math.min(...tlYs()));
 };

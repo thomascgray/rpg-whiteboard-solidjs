@@ -28,10 +28,10 @@ const App: Component = () => {
   onMount(() => {
     const newObjects: { [key: string]: iObject } = {};
 
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 500; i++) {
       let pos = {
-        x: Math.random() * 30_000,
-        y: Math.random() * 30_000,
+        x: Math.random() * 10_000,
+        y: Math.random() * 10_000,
       };
       let id = nanoid();
       newObjects[id] = {
@@ -40,7 +40,6 @@ const App: Component = () => {
         preDragPos: pos,
         preResizePos: pos,
         url: `/barney${_.sample([1, 2, 3, 4, 5])}.jpg`,
-        aspectRatio: 1,
         zIndex: i,
         type: eObjectType.IMAGE,
         isFocused: false,

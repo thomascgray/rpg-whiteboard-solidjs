@@ -104,7 +104,6 @@ export interface iObject {
 
   // for images
   url?: string;
-  aspectRatio?: number;
 
   // for text
   text?: string;

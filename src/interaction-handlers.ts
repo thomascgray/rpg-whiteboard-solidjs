@@ -12,6 +12,7 @@ export const interactionPanCamera = (movementX: number, movementY: number) => {
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {
+  console.log("interactionMoveObjects");
   const camera = Store.camera();
   const existingObjects = Store.objects;
   const selectedObjectIds = Store.selectedObjectIds();
@@ -24,23 +25,19 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     camera.y,
     camera.z
   );
-  const diff = {
-    x: mousePoint.x - mouseDownPosCanvas.x,
-    y: mousePoint.y - mouseDownPosCanvas.y,
-  };
 
-  const len = selectedObjectIds.length;
-  for (var x = 0; x < len; x++) {
-    const id = selectedObjectIds[x];
-    const obj = existingObjects[id];
-
+  Store.selectedObjectIds().forEach((id) => {
     Store.setObjects(id, {
       pos: {
-        x: obj.preDragPos.x + diff.x,
-        y: obj.preDragPos.y + diff.y,
+        x:
+          Store.objects[id].preDragPos.x +
+          (mousePoint.x - mouseDownPosCanvas.x),
+        y:
+          Store.objects[id].preDragPos.y +
+          (mousePoint.y - mouseDownPosCanvas.y),
       },
     });
-  }
+  });
 
   Store.recalculateObjectSelectionBoxPos();
 };

@@ -27,20 +27,6 @@ export const canvasToScreen = (point: iPoint, camera: iCamera): iPoint => {
   };
 };
 
-export const panCamera = (
-  cameraX: number,
-  cameraY: number,
-  cameraZ: number,
-  dx: number,
-  dy: number
-): iCamera => {
-  return {
-    x: cameraX - dx / cameraZ,
-    y: cameraY - dy / cameraZ,
-    z: cameraZ,
-  };
-};
-
 // make the camera zoom in relative to the cursor
 export const zoomCamera = (
   cameraX: number,

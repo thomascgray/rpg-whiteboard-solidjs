@@ -9,6 +9,8 @@ export interface BaseComponentProps {
 }
 
 export const BaseComponent: Component<BaseComponentProps> = (props) => {
+  // const isHidden = Math.random() > 0.25;
+
   return (
     <div
       data-pos-x={props.object.pos.x}
@@ -31,18 +33,10 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         translate(${props.object.pos.x}px,
           ${props.object.pos.y}px)`}
     >
-      <p class="absolute top-0 left-0 bg-red-600 text-white">
-        x: {props.object.pos.x}
-      </p>
-      <p class="absolute top-5 left-0 bg-blue-600 text-white">
-        y: {props.object.pos.y}
-      </p>
-      <p class="absolute top-10 left-0 bg-green-600 text-white">
-        width: {props.object.dimensions.width}
-      </p>
-      <p class="absolute top-16 left-0 bg-yellow-600 text-white">
-        height: {props.object.dimensions.height}
-      </p>
+      {/* <p class="absolute top-[0px] left-0">asd</p>
+      <p class="absolute top-[10px] left-0">asd</p>
+      <p class="absolute top-[20px] left-0">asd</p>
+      <p class="absolute top-[30px] left-0">asd</p> */}
       <Show when={props.object.type === eObjectType.IMAGE}>
         <ImageObject object={props.object} />
       </Show>

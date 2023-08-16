@@ -16,9 +16,9 @@ export const interactionPanCamera = (e: MouseEvent) => {
 
   const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
-  const newCamera = Utils.panCamera(x, y, z, deltaX, deltaY);
-
-  cameraDom.style.transform = `scale(${newCamera.z}) translate(${newCamera.x}px, ${newCamera.y}px)`;
+  cameraDom.style.transform = `scale(${z}) translate(${x - deltaX / z}px, ${
+    y - deltaY / z
+  }px)`;
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {

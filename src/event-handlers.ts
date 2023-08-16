@@ -19,10 +19,6 @@ export const onMouseDown_Window = (e: MouseEvent) => {
       )
     );
   }
-
-  // if (e.button === eMouseButton.MIDDLE) {
-  //   // Store.setIsPanning(true);
-  // }
 };
 
 // mouse up is primarily used for re-setting "dom state", e.g stuff that is
@@ -73,13 +69,6 @@ export const onMouseUp_Window = (e: MouseEvent) => {
 
   // if we were panning
   if (e.button === eMouseButton.MIDDLE) {
-    // need to store how fan we panned into the camera stuff
-    // Store.setCamera(Store.justPanned());
-    // // and we also need to store that against all the objects
-    // Object.values(Store.objects).forEach((obj) => {
-    //   obj.pos.x -= Store.justPanned().x;
-    //   obj.pos.y -= Store.justPanned().y;
-    // });
     const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
     Store.setCamera({ x, y, z });
@@ -98,9 +87,18 @@ export const onMouseUp_Window = (e: MouseEvent) => {
 };
 
 export const onMouseMove_Window = (e: MouseEvent) => {
+  const selectedObjectDOMElements =
+    DOMUtils.getAllCurrentlySelectedObjectDOMElements();
+
+  // panning
+  if (Store.heldMouseButtons().includes(eMouseButton.MIDDLE)) {
+    InteractionHandlers.interactionPanCamera(e);
+    return;
+  }
+
   // mouse movement for drawing a selection box
   if (
-    Store.selectedObjectIds().length <= 0 &&
+    selectedObjectDOMElements.length <= 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT)
   ) {
     const mousePoint = Utils.screenToCanvas(
@@ -126,7 +124,7 @@ export const onMouseMove_Window = (e: MouseEvent) => {
 
   // mouse movement for moving objects around
   if (
-    Store.selectedObjectIds().length > 0 &&
+    selectedObjectDOMElements.length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
     Store.isResizingFrom() === null &&
     !Store.isFocusedInTextbox()
@@ -136,17 +134,12 @@ export const onMouseMove_Window = (e: MouseEvent) => {
 
   // resizing object(s)
   if (
-    Store.selectedObjectIds().length > 0 &&
+    selectedObjectDOMElements.length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
     Store.isResizingFrom() !== null &&
     !Store.isFocusedInTextbox()
   ) {
     InteractionHandlers.interactionResizeObjects(e);
-  }
-
-  // panning
-  if (Store.heldMouseButtons().includes(eMouseButton.MIDDLE)) {
-    InteractionHandlers.interactionPanCamera(e);
   }
 };
 
@@ -212,8 +205,6 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
     if (!Store.heldKeys().includes(eKey.SHIFT)) {
       Store.setSelectedObjectIds([object.id]);
       Store.setIsSelectingMultipleObjects(false);
-      // selectedObjectIds = [object.id];
-      // state.isSelectingMultipleObjects = selectedObjectIds.length > 1;
       return;
     }
 

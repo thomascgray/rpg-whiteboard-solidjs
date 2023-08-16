@@ -8,8 +8,8 @@ export const makeDummyObjects = (num: number) => {
 
   for (let i = 0; i < num; i++) {
     let pos = {
-      x: Math.random() * num * 25,
-      y: Math.random() * num * 25,
+      x: Math.random() * num * 18,
+      y: Math.random() * num * 18,
     };
     let id = nanoid();
     newObjects[id] = {
@@ -22,12 +22,12 @@ export const makeDummyObjects = (num: number) => {
       type: eObjectType.IMAGE,
       isFocused: false,
       dimensions: {
-        width: 100,
-        height: 100,
+        width: 200,
+        height: 200,
       },
       preResizeDimensions: {
-        width: 100,
-        height: 100,
+        width: 200,
+        height: 200,
       },
     };
   }

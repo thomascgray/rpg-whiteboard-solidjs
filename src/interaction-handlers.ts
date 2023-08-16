@@ -11,15 +11,14 @@ export const interactionPanCamera = (e: MouseEvent) => {
     return;
   }
 
-  const movementX = e.clientX - Store.mouseDownPos().x;
-  const movementY = e.clientY - Store.mouseDownPos().y;
+  const deltaX = -e.movementX;
+  const deltaY = -e.movementY;
 
-  const newX =
-    Number(cameraDom.dataset.posX) + movementX / Number(cameraDom.dataset.posZ);
-  const newY =
-    Number(cameraDom.dataset.posY) + movementY / Number(cameraDom.dataset.posZ);
+  const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
-  cameraDom.style.transform = `scale(${cameraDom.dataset.posZ}) translate(${newX}px, ${newY}px)`;
+  const newCamera = Utils.panCamera(x, y, z, deltaX, deltaY);
+
+  cameraDom.style.transform = `scale(${newCamera.z}) translate(${newCamera.x}px, ${newCamera.y}px)`;
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {
@@ -128,7 +127,6 @@ export const interactionZoomCamera = (e: WheelEvent) => {
   }
   // @ts-ignore
   window.scrollingSetTimeout = setTimeout(() => {
-    console.log("newCamera", newCamera);
     Store.setCamera(newCamera);
     cameraDom.dataset.posX = String(newCamera.x);
     cameraDom.dataset.posY = String(newCamera.y);

@@ -24,7 +24,12 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
       onMouseDown={(e) => {
         EventHandlers.onObjectMouseDown(e, props.object);
       }}
-      style={`outline-width: var(--app-border-thickness); width: ${props.object.dimensions.width}px; height: ${props.object.dimensions.height}px; transform: translate(${props.object.pos.x}px, ${props.object.pos.y}px)`}
+      style={`outline-width: var(--app-border-thickness);
+      width: ${props.object.dimensions.width}px;
+      height: ${props.object.dimensions.height}px;
+      transform:
+        translate(${props.object.pos.x}px,
+          ${props.object.pos.y}px)`}
     >
       <p class="absolute top-0 left-0 bg-red-600 text-white">
         x: {props.object.pos.x}

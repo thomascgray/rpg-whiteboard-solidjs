@@ -105,13 +105,12 @@ export const persistSelectedObjectDOMElementsToState = () => {
 
 export const getCameraDomPosStyleValues = () => {
   const cameraDom = document.getElementById("camera");
-  if (!cameraDom) {
-    throw new Error("camera dom not found");
-  }
-  const regex = /(-?\d+\.?\d*)/gm;
-  const matches = cameraDom.style.transform.match(regex);
-  if (!matches) {
-    return [0, 0, 0];
-  }
-  return [Number(matches[1]), Number(matches[2]), Number(matches[0])];
+  const style = window.getComputedStyle(cameraDom!);
+  const matrix = style.transform
+    .substring(7, style.transform.length - 1)
+    .split(",")
+    .map((x) => Number(x));
+
+  const [z, , , , x, y] = matrix;
+  return [x / z, y / z, z];
 };

@@ -35,6 +35,12 @@ You can deploy the `dist` folder to any static host provider (netlify, surge, no
 
 # dev notes
 
+### dom manipulation for objects
+
+- objects have their state assigned to them as data- attributes on the DOM
+
+generally speaking, when we're interacting with objects
+
 _sigh_ we need to replace all the "as your dragging state" with straight DOM style access
 
 it cant be helped - state updating just simply isn't fast enough
@@ -51,3 +57,5 @@ and when you've finished the action, put it all back into state.
 i still think solid is worth it just because its so much faster - but ye, a pain
 
 **if we get rid of using state as the core, we dont need the pre stuff. the state IS the pre stuff, and we just change against the dom directly**
+
+https://write.as/browserboard-blog/browserboard-update-everything-is-faster

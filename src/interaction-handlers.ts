@@ -5,22 +5,21 @@ import * as Store from "./store";
 import * as ResizeUtils from "./resize-utils";
 import * as _ from "lodash";
 
-export const interactionPanCamera = (movementX: number, movementY: number) => {
-  const deltaX = -movementX;
-  const deltaY = -movementY;
+export const interactionPanCamera = (e: MouseEvent) => {
+  const cameraDom = document.getElementById("camera");
+  if (!cameraDom) {
+    return;
+  }
 
-  const cameraDOM = document.getElementById("camera");
-  const existingCamera: iCamera = {
-    x: Number(cameraDOM!.dataset.posX),
-    y: Number(cameraDOM!.dataset.posY),
-    z: Number(cameraDOM!.dataset.posZ),
-  };
-  const { x, y, z } = Utils.panCamera(existingCamera, deltaX, deltaY);
+  const movementX = e.clientX - Store.mouseDownPos().x;
+  const movementY = e.clientY - Store.mouseDownPos().y;
 
-  cameraDOM!.dataset.posX = x.toString();
-  cameraDOM!.dataset.posY = y.toString();
-  cameraDOM!.dataset.posZ = z.toString();
-  cameraDOM!.style.transform = `scale(${z}) translate(${x}px, ${y}px)`;
+  const newX =
+    Number(cameraDom.dataset.posX) + movementX / Number(cameraDom.dataset.posZ);
+  const newY =
+    Number(cameraDom.dataset.posY) + movementY / Number(cameraDom.dataset.posZ);
+
+  cameraDom.style.transform = `scale(${cameraDom.dataset.posZ}) translate(${newX}px, ${newY}px)`;
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {
@@ -88,12 +87,10 @@ export const interactionResizeObjects = (e: MouseEvent) => {
 
   if (Store.isResizingFrom() === eResizingFrom.BOTTOM_LEFT) {
     ResizeUtils.resizeBottomLeftToTopRight(diff.x, diff.y);
-    // Store.recalculateObjectSelectionBoxWidthAndHeight();
   }
 
   if (Store.isResizingFrom() === eResizingFrom.BOTTOM_RIGHT) {
     ResizeUtils.resizeBottomRightToTopLeft(diff.x, diff.y);
-    Store.recalculateObjectSelectionBoxWidthAndHeight();
   }
 };
 
@@ -108,20 +105,33 @@ export const interactionZoomCamera = (e: WheelEvent) => {
     scrollValue = -30;
   }
 
-  Store.setCamera((camera) =>
-    Utils.zoomCamera(camera, { x: e.clientX, y: e.clientY }, scrollValue / 100)
+  const cameraDom = document.getElementById("camera");
+  if (!cameraDom) {
+    return;
+  }
+
+  const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
+
+  const newCamera = Utils.zoomCamera(
+    x,
+    y,
+    z,
+    { x: e.clientX, y: e.clientY },
+    scrollValue / 100
   );
+  cameraDom.style.transform = `scale(${newCamera.z}) translate(${newCamera.x}px, ${newCamera.y}px)`;
 
-  // const cameraDOM = document.getElementById("camera");
-  // const existingCamera: iCamera = {
-  //   x: Number(cameraDOM!.dataset.posX),
-  //   y: Number(cameraDOM!.dataset.posY),
-  //   z: Number(cameraDOM!.dataset.posZ),
-  // };
-  // const { x, y, z } = Utils.panCamera(existingCamera, deltaX, deltaY);
-
-  // cameraDOM!.dataset.posX = x.toString();
-  // cameraDOM!.dataset.posY = y.toString();
-  // cameraDOM!.dataset.posZ = z.toString();
-  // cameraDOM!.style.transform = `scale(${z}) translate(${x}px, ${y}px)`;
+  // @ts-ignore
+  if (window.scrollingSetTimeout) {
+    // @ts-ignore
+    clearTimeout(window.scrollingSetTimeout);
+  }
+  // @ts-ignore
+  window.scrollingSetTimeout = setTimeout(() => {
+    console.log("newCamera", newCamera);
+    Store.setCamera(newCamera);
+    cameraDom.dataset.posX = String(newCamera.x);
+    cameraDom.dataset.posY = String(newCamera.y);
+    cameraDom.dataset.posZ = String(newCamera.z);
+  }, 80);
 };

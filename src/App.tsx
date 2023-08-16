@@ -9,6 +9,7 @@ import { SelectionBoxComponent } from "./uiComponents/SelectionBox";
 import { ResizeHandles } from "./uiComponents/ResizeHandles";
 import { ObjectSelectionHighlightBox } from "./uiComponents/ObjectSelectionHighlightBox";
 import * as TestingUtils from "./testing";
+import { ObjectCollection } from "./uiComponents/ObjectCollection";
 
 const App: Component = () => {
   window.onmousedown = EventHandlers.onMouseDown_Window;
@@ -35,8 +36,8 @@ const App: Component = () => {
       }}
       draggable="false"
       id="canvas"
-      class="w-screen cursor-auto h-screen bg-slate-100 overflow-hidden touch-none"
       onMouseDown={EventHandlers.onCanvasMouseDown}
+      class="w-screen cursor-auto h-screen bg-slate-100 overflow-hidden touch-none"
     >
       <div
         data-pos-x={Store.camera().x}
@@ -44,19 +45,13 @@ const App: Component = () => {
         data-pos-z={Store.camera().z}
         id="camera"
         draggable="false"
+        onMouseDown={EventHandlers.onCanvasMouseDown}
         class="h-screen w-screen origin-top-left select-none"
         style={`transform: scale(${Store.camera().z}) translate(${
           Store.camera().x
         }px, ${Store.camera().y}px)`}
       >
-        <For each={Object.values(Store.objects)}>
-          {(object) => (
-            <BaseComponent
-              object={object}
-              isSelected={Store.selectedObjectIds().includes(object.id)}
-            />
-          )}
-        </For>
+        <ObjectCollection />
 
         <Show when={Store.selectedObjectIds().length >= 1}>
           <ObjectSelectionHighlightBox />
@@ -73,27 +68,6 @@ const App: Component = () => {
         >
           <SelectionBoxComponent />
         </Show>
-      </div>
-
-      <div class="absolute bottom-0 bg-red-500 text-white w-full font-mono">
-        <p>isResizingFrom: {Store.isResizingFrom()}</p>
-        {/* <p>mouse buttons: {Store.heldMouseButtons()}</p>
-        <p>camera: {JSON.stringify(Store.camera())}</p> */}
-        {/* <p>selected object ids: {JSON.stringify(Store.selectedObjectIds())}</p> */}
-        {/* <p>
-          is drawing selection box
-          {JSON.stringify(Store.isDrawingSelectionBox())}
-        </p>
-        <p>
-          drawingbox pos {JSON.stringify(Store.drawingSelectionBoxStartPos())}
-        </p>
-        <p>
-          drawing box width: {JSON.stringify(Store.drawingSelectionBoxWidth())}
-        </p>
-        <p>
-          drawing box height:{" "}
-          {JSON.stringify(Store.drawingSelectionBoxHeight())}
-        </p> */}
       </div>
     </div>
   );

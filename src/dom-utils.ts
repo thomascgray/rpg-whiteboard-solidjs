@@ -11,9 +11,9 @@ export const getAllCurrentlySelectedObjectDOMElements = () => {
   return elements;
 };
 
-export const getDOMElementPosDataValues = (element: HTMLElement) => {
-  return [element.dataset.posX, element.dataset.posY];
-};
+// export const getDOMElementPosDataValues = (element: HTMLElement) => {
+//   return [element.dataset.posX, element.dataset.posY];
+// };
 
 export const getDOMElementPosStyleValues = (element: HTMLElement) => {
   const transformStyle = getComputedStyle(element).transform;
@@ -99,7 +99,19 @@ export const persistSelectedObjectDOMElementsToState = () => {
       },
     };
   }
-  console.log("newObjs", JSON.stringify(newObjs, null, 2));
 
   Store.setObjects(newObjs);
+};
+
+export const getCameraDomPosStyleValues = () => {
+  const cameraDom = document.getElementById("camera");
+  if (!cameraDom) {
+    throw new Error("camera dom not found");
+  }
+  const regex = /(-?\d+\.?\d*)/gm;
+  const matches = cameraDom.style.transform.match(regex);
+  if (!matches) {
+    return [0, 0, 0];
+  }
+  return [Number(matches[1]), Number(matches[2]), Number(matches[0])];
 };

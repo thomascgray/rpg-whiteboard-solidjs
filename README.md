@@ -41,6 +41,8 @@ You can deploy the `dist` folder to any static host provider (netlify, surge, no
 
 https://write.as/browserboard-blog/browserboard-update-everything-is-faster
 
+https://stackoverflow.com/questions/25910500/1000-dom-elements-on-a-single-page
+
 the browser is VERY sensitive to dom nodes - maybe its nested dom nodes?
 
 when each object is like this:
@@ -65,3 +67,9 @@ it works MUCH faster than when each object is like this:
 
 thats something we should take into account - hiding DOM nodes when
 they're effectively too small
+
+---
+
+average BitD charactr is 60 to 100 objects - the main sheet, then a bunch of dots, etc.
+
+by the end of the bitd campaign, the entire board was 1588 objects

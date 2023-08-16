@@ -33,10 +33,14 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         translate(${props.object.pos.x}px,
           ${props.object.pos.y}px)`}
     >
-      {/* <p class="absolute top-[0px] left-0">asd</p>
-      <p class="absolute top-[10px] left-0">asd</p>
-      <p class="absolute top-[20px] left-0">asd</p>
-      <p class="absolute top-[30px] left-0">asd</p> */}
+      {/* <p class="absolute bg-red-600 text-white top-[0px] left-0">asd</p>
+      <p class="absolute bg-blue-600 text-white top-[20px] left-0">asd</p>
+      <p class="absolute bg-green-600 text-white top-[40px] left-0">asd</p>
+      <p class="absolute bg-yellow-600 text-white top-[60px] left-0">asd</p> */}
+      {/* <p>hello</p>
+      <p>hello</p>
+      <p>hello</p>
+      <p>hello</p> */}
       <Show when={props.object.type === eObjectType.IMAGE}>
         <ImageObject object={props.object} />
       </Show>

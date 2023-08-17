@@ -8,8 +8,8 @@ export const makeDummyObjects = (num: number) => {
 
   for (let i = 0; i < num; i++) {
     let pos = {
-      x: Math.random() * num * 15,
-      y: Math.random() * num * 15,
+      x: Math.random() * num * 10,
+      y: Math.random() * num * 10,
     };
     let id = nanoid();
     newObjects[id] = {
@@ -17,7 +17,7 @@ export const makeDummyObjects = (num: number) => {
       pos,
       preDragPos: pos,
       preResizePos: pos,
-      url: `/sheet${_.sample([1, 2])}.png`,
+      url: `/${_.sample([1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])}.png`,
       zIndex: i,
       type: eObjectType.IMAGE,
       isFocused: false,

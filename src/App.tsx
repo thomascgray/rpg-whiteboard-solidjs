@@ -20,7 +20,7 @@ const App: Component = () => {
   window.onwheel = EventHandlers.onMouseWheel_Window;
 
   onMount(() => {
-    TestingUtils.makeDummyObjects(500);
+    TestingUtils.makeDummyObjects(2000);
   });
 
   onCleanup(() => {

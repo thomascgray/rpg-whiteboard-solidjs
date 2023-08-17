@@ -7,7 +7,6 @@ export interface ImageProps {
 }
 
 export const ImageObject: Component<ImageProps> = (props) => {
-  // const derivedUrl = () => props.object.url;
   const derivedUrl = createMemo(() => props.object.url);
   const derivedId = createMemo(() => props.object.id);
 

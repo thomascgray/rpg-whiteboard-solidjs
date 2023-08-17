@@ -156,6 +156,17 @@ export const onCoreKeyDown = (e: KeyboardEvent) => {
   if (e.key === eKey.DELETE) {
     Store.deleteSelectedObjects();
   }
+
+  if (e.key === eKey.ESCAPE) {
+    Store.setIsDrawingSelectionBox(false);
+    Store.setIsResizingFrom(null);
+    Store.setIsSelectingMultipleObjects(false);
+    Store.setSelectedObjectIds([]);
+  }
+
+  if (e.key === eKey.NUMBER_1) {
+    Utils.bringSelectedObjectsToFront();
+  }
 };
 
 export const onCoreKeyUp = (e: KeyboardEvent) => {

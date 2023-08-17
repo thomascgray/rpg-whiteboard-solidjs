@@ -45,28 +45,41 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
   }
 
   return (
-    <img
-      data-pos-x={props.object.pos.x}
-      data-pos-y={props.object.pos.y}
-      data-width={props.object.dimensions.width}
-      data-height={props.object.dimensions.height}
-      id={props.object.id}
-      class="bg-red-200 absolute select-none top-0 left-0 __inlens"
-      classList={{
-        "__selected-object hover:cursor-grab": props.isSelected,
-      }}
-      draggable="false"
-      onMouseDown={(e) => {
-        EventHandlers.onObjectMouseDown(e, props.object);
-      }}
-      src={props.object.url}
-      style={`outline-width: var(--app-border-thickness);
+    <>
+      <img
+        data-pos-x={props.object.pos.x}
+        data-pos-y={props.object.pos.y}
+        data-width={props.object.dimensions.width}
+        data-height={props.object.dimensions.height}
+        id={props.object.id}
+        class="bg-red-200 absolute select-none top-0 left-0 __inlens"
+        classList={{
+          "__selected-object hover:cursor-grab": props.isSelected,
+        }}
+        draggable="false"
+        onMouseDown={(e) => {
+          EventHandlers.onObjectMouseDown(e, props.object);
+        }}
+        src={props.object.url}
+        style={`outline-width: var(--app-border-thickness);
       min-width: ${props.object.dimensions.width}px;
       min-height: ${props.object.dimensions.height}px;
       transform:
         translate(${props.object.pos.x}px,
           ${props.object.pos.y}px)`}
-    />
+      />
+      <p
+        style={`
+    font-size: calc(12px / var(--app-camera-zoom));
+      transform:
+      translate(${props.object.pos.x}px,
+        ${props.object.pos.y + 20}px)
+    `}
+        class="absolute bg-red-500 text-white"
+      >
+        z index: {props.object.zIndex}
+      </p>
+    </>
   );
 };
 

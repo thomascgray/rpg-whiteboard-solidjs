@@ -20,11 +20,11 @@ const App: Component = () => {
   window.onwheel = EventHandlers.onCoreMouseWheel;
 
   onMount(() => {
-    TestingUtils.makeDummyObjects(2);
+    TestingUtils.makeDummyObjects(2000);
   });
 
   onCleanup(() => {
-    Store.setObjects(reconcile({}));
+    Store.setObjects(reconcile([]));
   });
 
   return (

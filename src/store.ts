@@ -30,9 +30,7 @@ import {
 // you use them by doing a fuckin `import * as Store from 'store'`
 
 // 1. all the objects are in a big map
-export const [objects, setObjects] = createStore<{ [key: string]: iObject }>(
-  {}
-);
+export const [objects, setObjects] = createStore<iObject[]>([]);
 
 // 2. we have the keyboard and mouse buttons that the user is pressing
 
@@ -89,35 +87,27 @@ export const unselectObjects = () => {
   // if any of the objects we're about to unselect are a text area, we need
   // to make that text area unfocused
 
-  const objs = objects;
-  selectedObjectIds().forEach((id) => {
-    const obj = objs[id];
-    if (obj && obj?.type === eObjectType.TEXT) {
-      objs[id] = {
-        ...obj,
-        isFocused: false,
-      };
-    }
-  });
-  setObjects(objs);
-  setIsFocusedInTextbox(Object.values(objs).some((obj) => obj.isFocused));
+  // const objs = objects;
+  // selectedObjectIds().forEach((id) => {
+  //   const obj = objs[id];
+  //   if (obj && obj?.type === eObjectType.TEXT) {
+  //     objs[id] = {
+  //       ...obj,
+  //       isFocused: false,
+  //     };
+  //   }
+  // });
+  // setObjects(objs);
+  // setIsFocusedInTextbox(Object.values(objs).some((obj) => obj.isFocused));
   setSelectedObjectIds([]);
   setIsSelectingMultipleObjects(false);
 
   window.getSelection()!.removeAllRanges();
 };
 
-export const getObjectById = (id: string) => {
-  return objects[id];
-};
-
 export const deleteSelectedObjects = () => {
-  setObjects(
-    produce((objs) => {
-      selectedObjectIds().forEach((id) => {
-        objs[id] = undefined!;
-      });
-    })
+  setObjects((objs) =>
+    objs.filter((obj) => !selectedObjectIds().includes(obj.id))
   );
   unselectObjects();
 };

@@ -16,13 +16,12 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
   // onMount(() => {
   //   console.log("on mount");
   // });
-  createEffect((prev) => {
-    const x = derivedUrl();
-    console.log("create effect");
-    console.log("prev", prev);
-    console.log("derivedUrl", x);
-    return x;
-  });
+  // createEffect((prev) => {
+  //   console.log("create effect");
+  //   console.log("prev", prev);
+  //   console.log("derivedUrl", props.object.url);
+  //   return props.object.url;
+  // });
 
   // onMount(() => {
   //   "on mount";

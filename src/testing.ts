@@ -7,12 +7,8 @@ export const makeDummyObjects = (num: number) => {
   const newObjects: { [key: string]: iObject } = {};
 
   for (let i = 0; i < num; i++) {
-    let pos = {
-      x: Math.random() * num * 10,
-      y: Math.random() * num * 10,
-    };
     let id = nanoid();
-    newObjects[id] = {
+    newObjects[i] = {
       id,
       x: Math.random() * num * 10,
       y: Math.random() * num * 10,

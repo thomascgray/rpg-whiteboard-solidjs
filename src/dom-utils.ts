@@ -62,43 +62,27 @@ export const getBottomLeftCoords = (
 export const persistSelectedObjectDOMElementsToState = () => {
   const selectedObjectDOMElements = getAllCurrentlySelectedObjectDOMElements();
 
-  const newObjs: { [key: string]: Partial<iObject> } = {};
+  const objs = [...Store.objects];
   for (let el of selectedObjectDOMElements) {
     const element = el as HTMLElement;
-    const obj = Store.objects[element.id];
+    const obj = Store.objects.find((o) => o.id === element.id)!;
+    const objIndex = Store.objects.findIndex((o) => o.id === element.id);
+
     const [x, y] = getDOMElementPosStyleValues(element);
     const [width, height] = getDOMElementDimensionsStyleValues(element);
-    element.dataset.posX = x.toString();
-    element.dataset.posY = y.toString();
-    element.dataset.width = width.toString();
-    element.dataset.height = height.toString();
 
-    // console.log("width", width);
-    // const newObj = {
-    //   x,
-    //   y,
-    // };
-    // console.log("newObj", newObj);
-    newObjs[element.id] = {
+    objs[objIndex] = {
       ...obj,
       x,
       y,
       width,
       height,
     };
-
-    // this is slow, make a new object and set it all at once
-    // why the fuck is dimensions not setting!?!?
-    // setTimeout(() => {
-    //   console.log("newObjs", newObjs);
-    //   console.log("width", width);
-    // }, 500);
   }
 
-  // @ts-ignore
-  Store.setObjects(newObjs);
-
-  // console.log("Store.objects", Store.objects);
+  // its chuggy when we're moving or resizing like 1000+ plus objects, but
+  // at that point... we'll worry about it later
+  Store.setObjects(objs);
 };
 
 export const getCameraDomPosStyleValues = () => {

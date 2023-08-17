@@ -105,7 +105,8 @@ export const interactionZoomCamera = (e: WheelEvent) => {
   }
 
   const cameraDom = document.getElementById("camera");
-  if (!cameraDom) {
+  const canvasDom = document.getElementById("canvas");
+  if (!cameraDom || !canvasDom) {
     return;
   }
 
@@ -119,6 +120,9 @@ export const interactionZoomCamera = (e: WheelEvent) => {
     scrollValue / 100
   );
   cameraDom.style.transform = `scale(${newCamera.z}) translate(${newCamera.x}px, ${newCamera.y}px)`;
+
+  // update the app zoom factor on the canvas
+  canvasDom.style.setProperty("--app-camera-zoom", String(newCamera.z));
 
   // @ts-ignore
   if (window.scrollingSetTimeout) {

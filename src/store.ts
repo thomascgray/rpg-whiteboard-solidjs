@@ -1,5 +1,5 @@
 import { createMemo, createSignal } from "solid-js";
-import { createStore } from "solid-js/store";
+import { createStore, produce } from "solid-js/store";
 
 import {
   eKey,
@@ -68,8 +68,6 @@ export const [drawingSelectionBoxWidth, setDrawingSelectionBoxWidth] =
 export const [drawingSelectionBoxHeight, setDrawingSelectionBoxHeight] =
   createSignal<number>(0);
 
-// export const [isPanning, setIsPanning] = createSignal<boolean>(false);
-
 export const [mouseDownPos, setMouseDownPos] = createSignal<iPoint>({
   x: 0,
   y: 0,
@@ -80,24 +78,6 @@ export const [mouseDownPosCanvas, setMouseDownPosCanvas] = createSignal<iPoint>(
 
 export const [isResizingFrom, setIsResizingFrom] =
   createSignal<eResizingFrom | null>(null);
-
-// export const [objectSelectionBoxWidth, setObjectSelectionBoxWidth] =
-//   createSignal<number>(0);
-// export const [objectSelectionBoxHeight, setObjectSelectionBoxHeight] =
-//   createSignal<number>(0);
-// export const [objectSelectionBoxPosX, setObjectSelectionBoxPosX] =
-//   createSignal<number>(0);
-// export const [objectSelectionBoxPosY, setObjectSelectionBoxPosY] =
-//   createSignal<number>(0);
-
-// export const [
-//   objectSelectionBoxWidthPreResize,
-//   setObjectSelectionBoxWidthPreResize,
-// ] = createSignal<number>(0);
-// export const [
-//   objectSelectionBoxHeightPreResize,
-//   setObjectSelectionBoxHeightPreResize,
-// ] = createSignal<number>(0);
 
 /**
  *
@@ -129,4 +109,15 @@ export const unselectObjects = () => {
 
 export const getObjectById = (id: string) => {
   return objects[id];
+};
+
+export const deleteSelectedObjects = () => {
+  setObjects(
+    produce((objs) => {
+      selectedObjectIds().forEach((id) => {
+        delete objs[id];
+      });
+    })
+  );
+  unselectObjects();
 };

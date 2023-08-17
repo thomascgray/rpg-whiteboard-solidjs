@@ -46,28 +46,30 @@ export const ResizeHandles: Component = (props) => {
         onMouseDown={(e) => {
           EventHandlers.onBeginResizing(e, eResizingFrom.BOTTOM_LEFT);
         }}
-        style={`width: var(--app-resize-handle-size); height: var(--app-resize-handle-size); transform: translate(${
-          bottomLeftPoint().x
-        }px, ${bottomLeftPoint().y}px)`}
-        class="__resize-handle absolute top-0 left-0 bg-red-500 rounded-full cursor-sw-resize"
-      >
-        L
-      </div>
+        style={`
+        width:  calc(20px / var(--app-camera-zoom)); 
+        height: calc(20px / var(--app-camera-zoom));
+        left: calc(-15px / var(--app-camera-zoom));
+        transform: translate(${bottomLeftPoint().x}px, ${
+          bottomLeftPoint().y
+        }px)`}
+        class="__resize-handle absolute top-0 bg-red-500 rounded-full cursor-sw-resize"
+      ></div>
       <div
         data-pos-x={bottomRightPoint().x}
         data-pos-y={bottomRightPoint().y}
         onMouseDown={(e) => {
           EventHandlers.onBeginResizing(e, eResizingFrom.BOTTOM_RIGHT);
         }}
-        style={`width: var(--app-resize-handle-size); height: ${
-          20 / Store.camera().z
-        }px; transform: translate(${bottomRightPoint().x}px, ${
+        style={`
+        width:  calc(20px / var(--app-camera-zoom)); 
+        height: calc(20px / var(--app-camera-zoom));
+        left: calc(-5px / var(--app-camera-zoom));
+        transform: translate(${bottomRightPoint().x}px, ${
           bottomRightPoint().y
         }px)`}
-        class="__resize-handle absolute top-0 left-0 bg-red-500 rounded-full cursor-se-resize"
-      >
-        R
-      </div>
+        class="__resize-handle absolute top-0 bg-red-500 rounded-full cursor-se-resize"
+      ></div>
     </>
   );
 };

@@ -4,7 +4,7 @@ import { eKey, eMouseButton, eResizingFrom, iCamera, iObject } from "./types";
 import * as Utils from "./utils";
 import * as DOMUtils from "./dom-utils";
 
-export const onMouseDown_Window = (e: MouseEvent) => {
+export const onCoreMouseDown = (e: MouseEvent) => {
   Store.setHeldMouseButtons((buttons) => [...buttons, e.button]);
 
   if (e.button === eMouseButton.LEFT || e.button === eMouseButton.MIDDLE) {
@@ -24,7 +24,7 @@ export const onMouseDown_Window = (e: MouseEvent) => {
 // mouse up is primarily used for re-setting "dom state", e.g stuff that is
 // in style but not in state, like the position of a dragged object
 // BACK into actual state
-export const onMouseUp_Window = (e: MouseEvent) => {
+export const onCoreMouseUp = (e: MouseEvent) => {
   // if we were just dragging some objects around
   if (
     e.button === eMouseButton.LEFT &&
@@ -86,7 +86,7 @@ export const onMouseUp_Window = (e: MouseEvent) => {
   Store.setHeldMouseButtons((buttons) => buttons.filter((b) => b !== e.button));
 };
 
-export const onMouseMove_Window = (e: MouseEvent) => {
+export const onCoreMouseMove = (e: MouseEvent) => {
   const selectedObjectDOMElements =
     DOMUtils.getAllCurrentlySelectedObjectDOMElements();
 
@@ -143,18 +143,22 @@ export const onMouseMove_Window = (e: MouseEvent) => {
   }
 };
 
-export const onMouseWheel_Window = (e: WheelEvent) => {
+export const onCoreMouseWheel = (e: WheelEvent) => {
   InteractionHandlers.interactionZoomCamera(e);
 };
 
-export const onKeyDown_Window = (e: KeyboardEvent) => {
+export const onCoreKeyDown = (e: KeyboardEvent) => {
   if (e.repeat) {
     return;
   }
   Store.setHeldKeys((keys) => [...keys, e.key as eKey]);
+
+  if (e.key === eKey.DELETE) {
+    Store.deleteSelectedObjects();
+  }
 };
 
-export const onKeyUp_Window = (e: KeyboardEvent) => {
+export const onCoreKeyUp = (e: KeyboardEvent) => {
   Store.setHeldKeys((keys) => keys.filter((k) => k !== (e.key as eKey)));
 };
 
@@ -168,7 +172,7 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
 export const onBeginResizing = (e: MouseEvent, resizingFrom: eResizingFrom) => {
   e.stopPropagation();
   // we've stopped propagation so, so we need to call this manually
-  onMouseDown_Window(e);
+  onCoreMouseDown(e);
 
   if (e.button === eMouseButton.LEFT) {
     Store.setIsResizingFrom(resizingFrom);
@@ -183,7 +187,7 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
   e.stopPropagation();
 
   // we've stopped propagation so, so we need to call this manually
-  onMouseDown_Window(e);
+  onCoreMouseDown(e);
 
   const selectedObjectIds = Store.selectedObjectIds();
   if (e.button === eMouseButton.LEFT) {

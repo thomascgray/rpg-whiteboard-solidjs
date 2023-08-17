@@ -10,47 +10,32 @@ export interface BaseComponentProps {
 }
 
 export const BaseComponent: Component<BaseComponentProps> = (props) => {
-  const derivedUrl = createMemo(() => props.object.url);
-  const derivedId = createMemo(() => props.object.id);
+  onMount(() => {
+    if (props.object.hasSelfResized === true) return;
+    if (
+      props.object.type === eObjectType.IMAGE &&
+      props.object.url &&
+      props.object.hasSelfResized === false
+    ) {
+      createEffect((prev) => {
+        let img = new Image();
+        img.onload = function () {
+          const index = Store.objects.findIndex(
+            (obj) => obj.id === props.object.id
+          );
+          Store.setObjects(index, {
+            width: img.width,
+            height: img.height,
+            hasSelfResized: true,
+          });
 
-  // onMount(() => {
-  //   console.log("on mount");
-  // });
-  // createEffect((prev) => {
-  //   console.log("create effect");
-  //   console.log("prev", prev);
-  //   console.log("derivedUrl", props.object.url);
-  //   return props.object.url;
-  // });
-
-  // onMount(() => {
-  //   "on mount";
-  // });
-  // if (props.object.type === eObjectType.IMAGE) {
-  //   createEffect((prev) => {
-  //     console.log("prev", prev);
-  //     console.log("upate image");
-  //     const _url = derivedUrl();
-  //     const _id = derivedId();
-  //     if (prev === _url) {
-  //       return;
-  //     }
-  //     if (_url) {
-  //       let img = new Image();
-  //       img.onload = function () {
-  //         Store.setObjects(_id, {
-  //           width: img.width,
-  //           height: img.height,
-  //         });
-
-  //         // @ts-ignore - manual garbage collection baybee
-  //         img = null;
-  //       };
-  //       img.src = _url;
-  //     }
-  //     return _url;
-  //   });
-  // }
+          // @ts-ignore - manual garbage collection baybee
+          img = null;
+        };
+        img.src = props.object.url!;
+      });
+    }
+  });
 
   return (
     <>

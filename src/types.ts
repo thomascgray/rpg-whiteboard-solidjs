@@ -41,7 +41,6 @@ export interface iState {
   };
 
   // 3. everything else is basically "interaction" state. e.g what objects are selected, is the user dragging, etc.
-  // selectedObjectIds: string[];
 
   isSelectingMultipleObjects: boolean;
 
@@ -76,6 +75,7 @@ export interface iObject {
 
   // for images
   url?: string;
+  hasSelfResized?: boolean;
 
   // for text
   text?: string;

@@ -46,8 +46,6 @@ export const [camera, setCamera] = createSignal<iCamera>({
 });
 
 // 3. everything else is basically "interaction" state. e.g what objects are selected, is the user dragging, etc.
-// selectedObjectIds: string[];
-
 export const [selectedObjectIds, setSelectedObjectIds] = createSignal<string[]>(
   []
 );
@@ -87,18 +85,6 @@ export const unselectObjects = () => {
   // if any of the objects we're about to unselect are a text area, we need
   // to make that text area unfocused
 
-  // const objs = objects;
-  // selectedObjectIds().forEach((id) => {
-  //   const obj = objs[id];
-  //   if (obj && obj?.type === eObjectType.TEXT) {
-  //     objs[id] = {
-  //       ...obj,
-  //       isFocused: false,
-  //     };
-  //   }
-  // });
-  // setObjects(objs);
-  // setIsFocusedInTextbox(Object.values(objs).some((obj) => obj.isFocused));
   setSelectedObjectIds([]);
   setIsSelectingMultipleObjects(false);
 

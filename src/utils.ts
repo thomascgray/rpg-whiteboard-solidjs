@@ -60,86 +60,37 @@ export const checkOverlap = (obj1: iBox, obj2: iBox) => {
   );
 };
 
-// wait this whole fuckin thing is backwards lol, coming to the front is a HIGHER z index
-// export const sendSelectedObjectsToBack = () => {
-//   const objs = { ...Store.objects };
-
-//   console.log("objs", JSON.stringify(objs, null, 2));
-//   // set the selected objects to have the highest z index, from 1 downwards
-//   _.sortBy(Store.selectedObjectIds(), (id) => objs[id].zIndex)
-//     .reverse() // because we want them desc because lower is "higher"
-//     .forEach((id, index) => {
-//       const obj = objs[id];
-//       if (obj) {
-//         obj.zIndex = index + 1;
-//       }
-//     });
-
-//   // now, for the rest of the objects, do the exact same but
-//   // add how many selected objects there are to the index
-//   // so that they are all still in the correct order
-//   _.sortBy(
-//     Object.values(objs).filter(
-//       (obj) => !Store.selectedObjectIds().includes(obj.id)
-//     ),
-//     (obj) => obj.zIndex
-//   )
-//     .reverse() // because we want them desc because lower is "higher"
-//     .forEach((obj, index) => {
-//       if (obj) {
-//         obj.zIndex = index + 1 + Store.selectedObjectIds().length;
-//       }
-//     });
-
-//   console.log("objs", JSON.stringify(objs, null, 2));
-//   // Store.setObjects(objs);
-//   // TODO fix this
-//   Store.setObjects(
-//     produce((objs) => {
-//       objs = objs;
-//     })
-//   );
-// };
-
 export const sendSelectedObjectsToBack = () => {
-  const objs = { ...Store.objects };
+  const objs = [...Store.objects];
 
-  const objIdsToZIndexes: any[][] = [];
+  const selectedIndexesToUse = Array.from(
+    Array(Store.selectedObjectIds().length).keys()
+  );
 
-  Object.values(objs).forEach((obj) => {
-    objIdsToZIndexes.push([obj.id, obj.zIndex]);
-  });
-
-  // set the selected objects to have the highest z index, from 1 downwards
-  _.sortBy(Store.selectedObjectIds(), (id) => objs[id].zIndex)
-    // because we want them desc because lower is "higher"
-    .forEach((id, index) => {
-      const obj = objs[id];
-      if (obj) {
-        objIdsToZIndexes.push([obj.id, index]);
-      }
-    });
-
-  // now, for the rest of the objects, do the exact same but
-  // add how many selected objects there are to the index
-  // so that they are all still in the correct order
+  // change all the z indexes of the selected objects
   _.sortBy(
-    Object.values(objs).filter(
-      (obj) => !Store.selectedObjectIds().includes(obj.id)
-    ),
-    (obj) => obj.zIndex
-  )
-    // because we want them desc because lower is "higher"
-    .forEach((obj, index) => {
-      if (obj) {
-        objIdsToZIndexes.push([
-          obj.id,
-          index + Store.selectedObjectIds().length,
-        ]);
-      }
+    Store.selectedObjectIds(),
+    (id) => objs[objs.findIndex((o) => o.id === id)!].zIndex
+  ).forEach((id) => {
+    const obj = objs.find((o) => o.id === id)!;
+    const objIndex = objs.findIndex((o) => o.id === id);
+    objs[objIndex] = {
+      ...obj,
+      zIndex: selectedIndexesToUse.shift() as number,
+    };
+  });
+
+  // change all the z indexes of the non-selected objects
+  _.sortBy(objs, (o) => o.zIndex)
+    .filter((o) => !Store.selectedObjectIds().includes(o.id))
+    .forEach((obj, i) => {
+      const objIndex = objs.findIndex((o) => o.id === obj.id);
+
+      objs[objIndex] = {
+        ...obj,
+        zIndex: i + Store.selectedObjectIds().length,
+      };
     });
 
-  objIdsToZIndexes.forEach(([id, zIndex]) => {
-    Store.setObjects(id, { zIndex });
-  });
+  Store.setObjects(objs);
 };

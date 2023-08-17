@@ -34,13 +34,22 @@ export const getDOMElementDimensionsStyleValues = (element: HTMLElement) => {
 };
 
 // sets the transform coords on an element
-// and also the data attributes so we can get them back out later
 export const setCoordsOnElement = (
   element: HTMLElement,
   x: number,
   y: number
 ) => {
   element.style.transform = `translate(${x}px, ${y}px)`;
+};
+
+// sets the transform coords on an element
+export const setDimensionOnElement = (
+  element: HTMLElement,
+  width: number,
+  height: number
+) => {
+  element.style.width = `${width}px`;
+  element.style.height = `${height}px`;
 };
 
 export const setCoordsAndDimensionsOnElement = (

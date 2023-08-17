@@ -27,7 +27,11 @@ export const resizeBottomRightToTopLeft = (
     newParentHeight / Number(objectSelectionBoxElement.dataset.height)
   );
 
-  const elements = DOMUtils.getAllCurrentlySelectedObjectDOMElements();
+  let elements = DOMUtils.getAllCurrentlySelectedObjectDOMElements();
+
+  const xList: number[] = [];
+  const yList: number[] = [];
+
   for (let el of elements) {
     const element = el as HTMLElement;
 
@@ -47,6 +51,9 @@ export const resizeBottomRightToTopLeft = (
     const newWidth = Number(element.dataset.width) * ratio;
     const newHeight = Number(element.dataset.height) * ratio;
 
+    xList.push(newX + newWidth);
+    yList.push(newY + newHeight);
+
     DOMUtils.setCoordsAndDimensionsOnElement(
       element,
       newX,
@@ -56,6 +63,16 @@ export const resizeBottomRightToTopLeft = (
     );
   }
 
-  // we now need to recalc the positions of the selection box
-  // and resize handle to fit the new dimensions of the selected objects
+  // move the selection box...
+  const newWidth =
+    Math.max(...xList) - Number(objectSelectionBoxElement.dataset.posX);
+  const newHeight =
+    Math.max(...yList) - Number(objectSelectionBoxElement.dataset.posY);
+  DOMUtils.setDimensionOnElement(
+    objectSelectionBoxElement,
+    newWidth,
+    newHeight
+  );
+
+  // now move the resize handles
 };

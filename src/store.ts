@@ -91,6 +91,10 @@ export const unselectObjects = () => {
   window.getSelection()!.removeAllRanges();
 };
 
+// we do this in a helper because when we select objects
+// we also want to store the bottom X position, etc.
+export const selectObjects = () => {};
+
 export const deleteSelectedObjects = () => {
   setObjects((objs) =>
     objs.filter((obj) => !selectedObjectIds().includes(obj.id))

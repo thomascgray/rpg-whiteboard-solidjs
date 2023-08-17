@@ -21,9 +21,6 @@ export const onCoreMouseDown = (e: MouseEvent) => {
   }
 };
 
-// mouse up is primarily used for re-setting "dom state", e.g stuff that is
-// in style but not in state, like the position of a dragged object
-// BACK into actual state
 export const onCoreMouseUp = (e: MouseEvent) => {
   // if we were just dragging some objects around
   if (
@@ -70,7 +67,7 @@ export const onCoreMouseUp = (e: MouseEvent) => {
     Store.setCamera({ x, y, z });
   }
 
-  // // if we were just resizing, we're not anymore
+  // // if we were just resizing
   if (e.button === eMouseButton.LEFT && Store.isResizingFrom() !== null) {
     Store.setIsResizingFrom(null);
     DOMUtils.persistSelectedObjectDOMElementsToState();

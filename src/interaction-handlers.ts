@@ -34,10 +34,10 @@ export const interactionMoveObjects = (e: MouseEvent) => {
   );
 
   // move the elements themeslves, and work out the top-left most set of coords
-  const elements = document.getElementsByClassName("__selected-object");
+  // const elements = document.getElementsByClassName("__selected-object");
   const xList: number[] = [];
   const yList: number[] = [];
-  for (let el of elements) {
+  for (let el of window.__app_selectedObjects) {
     const element = el as HTMLElement;
     const x =
       Number(element.dataset.posX) + (mousePoint.x - mouseDownPosCanvas.x);
@@ -93,28 +93,6 @@ export const interactionResizeObjects = (e: MouseEvent) => {
   if (Store.isResizingFrom() === eResizingFrom.BOTTOM_RIGHT) {
     ResizeUtils.resizeBottomRightToTopLeft(diff.x, diff.y);
   }
-
-  // const elements = document.getElementsByClassName("__selected-object");
-  // const xList: number[] = [];
-  // const yList: number[] = [];
-  // for (let el of elements) {
-  //   const element = el as HTMLElement;
-  //   const x =
-  //     Number(element.dataset.posX) + (mousePoint.x - mouseDownPosCanvas.x);
-  //   const y =
-  //     Number(element.dataset.posY) + (mousePoint.y - mouseDownPosCanvas.y);
-  //   xList.push(x);
-  //   yList.push(y);
-  //   DOMUtils.setCoordsOnElement(element, x, y);
-  // }
-
-  // // using the top-left most set of coords, move the selection box
-  // const objectSelectionBoxElement = document.getElementById(
-  //   "__object-selection-highlight-box"
-  // );
-  // const minX = _.min(xList) as number;
-  // const minY = _.min(yList) as number;
-  // DOMUtils.setCoordsOnElement(objectSelectionBoxElement!, minX, minY);
 };
 
 export const interactionZoomCamera = (e: WheelEvent) => {

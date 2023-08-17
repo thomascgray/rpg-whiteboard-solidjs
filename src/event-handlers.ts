@@ -120,7 +120,11 @@ export const onCoreMouseMove = (e: MouseEvent) => {
     Store.isResizingFrom() === null &&
     !Store.isFocusedInTextbox()
   ) {
+    // lol, do more of this i guess? [shrug]
+    window.__app_selectedObjects =
+      document.getElementsByClassName("__selected-object");
     InteractionHandlers.interactionMoveObjects(e);
+    window.__app_selectedObjects = undefined;
   }
 
   // resizing object(s)

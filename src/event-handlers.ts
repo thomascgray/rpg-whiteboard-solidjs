@@ -165,7 +165,7 @@ export const onCoreKeyDown = (e: KeyboardEvent) => {
   }
 
   if (e.key === eKey.NUMBER_1) {
-    Utils.bringSelectedObjectsToFront();
+    Utils.sendSelectedObjectsToBack();
   }
 };
 

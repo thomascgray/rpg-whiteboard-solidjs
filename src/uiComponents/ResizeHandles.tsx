@@ -53,7 +53,7 @@ export const ResizeHandles: Component = (props) => {
         transform: translate(${bottomLeftPoint().x}px, ${
           bottomLeftPoint().y
         }px)`}
-        class="__resize-handle absolute top-0 bg-red-500 rounded-full cursor-sw-resize"
+        class="__resize-handle absolute top-0 bg-red-500 rounded-full cursor-sw-resize z-[99999999]"
       ></div>
       <div
         data-pos-x={bottomRightPoint().x}
@@ -68,7 +68,7 @@ export const ResizeHandles: Component = (props) => {
         transform: translate(${bottomRightPoint().x}px, ${
           bottomRightPoint().y
         }px)`}
-        class="__resize-handle absolute top-0 bg-red-500 rounded-full cursor-se-resize"
+        class="__resize-handle absolute top-0 bg-red-500 rounded-full cursor-se-resize z-[99999999]"
       ></div>
     </>
   );

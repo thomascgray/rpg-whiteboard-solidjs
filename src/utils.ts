@@ -61,17 +61,62 @@ export const checkOverlap = (obj1: iBox, obj2: iBox) => {
 };
 
 // wait this whole fuckin thing is backwards lol, coming to the front is a HIGHER z index
-export const bringSelectedObjectsToFront = () => {
+// export const sendSelectedObjectsToBack = () => {
+//   const objs = { ...Store.objects };
+
+//   console.log("objs", JSON.stringify(objs, null, 2));
+//   // set the selected objects to have the highest z index, from 1 downwards
+//   _.sortBy(Store.selectedObjectIds(), (id) => objs[id].zIndex)
+//     .reverse() // because we want them desc because lower is "higher"
+//     .forEach((id, index) => {
+//       const obj = objs[id];
+//       if (obj) {
+//         obj.zIndex = index + 1;
+//       }
+//     });
+
+//   // now, for the rest of the objects, do the exact same but
+//   // add how many selected objects there are to the index
+//   // so that they are all still in the correct order
+//   _.sortBy(
+//     Object.values(objs).filter(
+//       (obj) => !Store.selectedObjectIds().includes(obj.id)
+//     ),
+//     (obj) => obj.zIndex
+//   )
+//     .reverse() // because we want them desc because lower is "higher"
+//     .forEach((obj, index) => {
+//       if (obj) {
+//         obj.zIndex = index + 1 + Store.selectedObjectIds().length;
+//       }
+//     });
+
+//   console.log("objs", JSON.stringify(objs, null, 2));
+//   // Store.setObjects(objs);
+//   // TODO fix this
+//   Store.setObjects(
+//     produce((objs) => {
+//       objs = objs;
+//     })
+//   );
+// };
+
+export const sendSelectedObjectsToBack = () => {
   const objs = { ...Store.objects };
 
-  console.log("objs", JSON.stringify(objs, null, 2));
+  const objIdsToZIndexes: any[][] = [];
+
+  Object.values(objs).forEach((obj) => {
+    objIdsToZIndexes.push([obj.id, obj.zIndex]);
+  });
+
   // set the selected objects to have the highest z index, from 1 downwards
   _.sortBy(Store.selectedObjectIds(), (id) => objs[id].zIndex)
-    .reverse() // because we want them desc because lower is "higher"
+    // because we want them desc because lower is "higher"
     .forEach((id, index) => {
       const obj = objs[id];
       if (obj) {
-        obj.zIndex = index + 1;
+        objIdsToZIndexes.push([obj.id, index]);
       }
     });
 
@@ -84,19 +129,17 @@ export const bringSelectedObjectsToFront = () => {
     ),
     (obj) => obj.zIndex
   )
-    .reverse() // because we want them desc because lower is "higher"
+    // because we want them desc because lower is "higher"
     .forEach((obj, index) => {
       if (obj) {
-        obj.zIndex = index + 1 + Store.selectedObjectIds().length;
+        objIdsToZIndexes.push([
+          obj.id,
+          index + Store.selectedObjectIds().length,
+        ]);
       }
     });
 
-  console.log("objs", JSON.stringify(objs, null, 2));
-  // Store.setObjects(objs);
-  // TODO fix this
-  Store.setObjects(
-    produce((objs) => {
-      objs = objs;
-    })
-  );
+  objIdsToZIndexes.forEach(([id, zIndex]) => {
+    Store.setObjects(id, { zIndex });
+  });
 };

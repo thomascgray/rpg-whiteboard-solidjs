@@ -62,23 +62,13 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         }}
         src={props.object.url}
         style={`outline-width: var(--app-border-thickness);
-      min-width: ${props.object.dimensions.width}px;
-      min-height: ${props.object.dimensions.height}px;
+      width: ${props.object.dimensions.width}px;
+      height: ${props.object.dimensions.height}px;
+      z-index: ${props.object.zIndex};
       transform:
         translate(${props.object.pos.x}px,
           ${props.object.pos.y}px)`}
       />
-      <p
-        style={`
-    font-size: calc(12px / var(--app-camera-zoom));
-      transform:
-      translate(${props.object.pos.x}px,
-        ${props.object.pos.y + 20}px)
-    `}
-        class="absolute bg-red-500 text-white"
-      >
-        z index: {props.object.zIndex}
-      </p>
     </>
   );
 };

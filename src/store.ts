@@ -115,7 +115,7 @@ export const deleteSelectedObjects = () => {
   setObjects(
     produce((objs) => {
       selectedObjectIds().forEach((id) => {
-        delete objs[id];
+        objs[id] = undefined!;
       });
     })
   );

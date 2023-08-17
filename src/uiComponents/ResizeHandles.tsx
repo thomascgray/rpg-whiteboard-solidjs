@@ -12,17 +12,17 @@ export const ResizeHandles: Component = (props) => {
   });
 
   const blXs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.pos.x);
+    return selectedObjects().map((obj) => obj.x);
   });
   const blYs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.pos.y + obj.dimensions.height);
+    return selectedObjects().map((obj) => obj.y + obj.height);
   });
 
   const brXs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.pos.x + obj.dimensions.width);
+    return selectedObjects().map((obj) => obj.x + obj.width);
   });
   const brYs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.pos.y + obj.dimensions.height);
+    return selectedObjects().map((obj) => obj.y + obj.height);
   });
 
   const bottomLeftPoint = createMemo(() => {

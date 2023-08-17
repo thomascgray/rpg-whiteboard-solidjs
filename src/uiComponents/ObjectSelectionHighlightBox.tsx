@@ -9,17 +9,17 @@ export const ObjectSelectionHighlightBox: Component = (props) => {
   });
 
   const tlXs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.pos.x);
+    return selectedObjects().map((obj) => obj.x);
   });
   const tlYs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.pos.y);
+    return selectedObjects().map((obj) => obj.y);
   });
 
   const brXs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.pos.x + obj.dimensions.width);
+    return selectedObjects().map((obj) => obj.x + obj.width);
   });
   const brYs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.pos.y + obj.dimensions.height);
+    return selectedObjects().map((obj) => obj.y + obj.height);
   });
 
   const topLeftX = () => Math.min(...tlXs());

@@ -45,14 +45,10 @@ export const onCoreMouseUp = (e: MouseEvent) => {
     const objectsWithinSelectionBox = Object.values(Store.objects).filter(
       (obj) => {
         const selectionBox = {
-          pos: {
-            x: Store.drawingSelectionBoxStartPos().x,
-            y: Store.drawingSelectionBoxStartPos().y,
-          },
-          dimensions: {
-            width: Store.drawingSelectionBoxWidth(),
-            height: Store.drawingSelectionBoxHeight(),
-          },
+          x: Store.drawingSelectionBoxStartPos().x,
+          y: Store.drawingSelectionBoxStartPos().y,
+          width: Store.drawingSelectionBoxWidth(),
+          height: Store.drawingSelectionBoxHeight(),
         };
 
         return Utils.checkOverlap(obj, selectionBox);
@@ -76,10 +72,8 @@ export const onCoreMouseUp = (e: MouseEvent) => {
 
   // // if we were just resizing, we're not anymore
   if (e.button === eMouseButton.LEFT && Store.isResizingFrom() !== null) {
-    DOMUtils.persistSelectedObjectDOMElementsToState();
-
     Store.setIsResizingFrom(null);
-    // we should just work these out and set them directly
+    DOMUtils.persistSelectedObjectDOMElementsToState();
   }
 
   // finally, unset the held buttons

@@ -93,4 +93,7 @@ export const resizeBottomRightToTopLeft = (
       newHeight
     );
   }
+
+  // we now need to recalc the positions of the selection box
+  // and resize handle to fit the new dimensions of the selected objects
 };

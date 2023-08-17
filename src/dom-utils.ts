@@ -1,5 +1,6 @@
 import { iObject } from "./types";
 import * as Store from "./store";
+import { reconcile } from "solid-js/store";
 
 // recalculates the position for the object selection box and redraws it manually
 export const redrawObjectSelectionBox = () => {
@@ -10,10 +11,6 @@ export const getAllCurrentlySelectedObjectDOMElements = () => {
   const elements = document.getElementsByClassName("__selected-object");
   return elements;
 };
-
-// export const getDOMElementPosDataValues = (element: HTMLElement) => {
-//   return [element.dataset.posX, element.dataset.posY];
-// };
 
 export const getDOMElementPosStyleValues = (element: HTMLElement) => {
   const transformStyle = getComputedStyle(element).transform;
@@ -44,8 +41,6 @@ export const setCoordsOnElement = (
   y: number
 ) => {
   element.style.transform = `translate(${x}px, ${y}px)`;
-  // element.dataset.posX = `${x}`;
-  // element.dataset.posY = `${y}`;
 };
 
 export const setCoordsAndDimensionsOnElement = (
@@ -58,10 +53,6 @@ export const setCoordsAndDimensionsOnElement = (
   element.style.transform = `translate(${x}px, ${y}px)`;
   element.style.width = `${width}px`;
   element.style.height = `${height}px`;
-  // element.dataset.posX = `${x}`;
-  // element.dataset.posY = `${y}`;
-  // element.dataset.width = `${width}`;
-  // element.dataset.height = `${height}`;
 };
 
 export const getBottomLeftCoords = (
@@ -69,38 +60,45 @@ export const getBottomLeftCoords = (
 ) => {};
 
 export const persistSelectedObjectDOMElementsToState = () => {
-  const newObjs: Partial<{ [key: string]: iObject }> = {};
   const selectedObjectDOMElements = getAllCurrentlySelectedObjectDOMElements();
 
+  const newObjs: { [key: string]: Partial<iObject> } = {};
   for (let el of selectedObjectDOMElements) {
     const element = el as HTMLElement;
     const obj = Store.objects[element.id];
     const [x, y] = getDOMElementPosStyleValues(element);
     const [width, height] = getDOMElementDimensionsStyleValues(element);
-    const pos: iObject["pos"] = {
-      x: +x!,
-      y: +y!,
-    };
     element.dataset.posX = x.toString();
     element.dataset.posY = y.toString();
     element.dataset.width = width.toString();
     element.dataset.height = height.toString();
+
+    // console.log("width", width);
+    // const newObj = {
+    //   x,
+    //   y,
+    // };
+    // console.log("newObj", newObj);
     newObjs[element.id] = {
       ...obj,
-      pos,
-      preDragPos: pos,
-      dimensions: {
-        width: +width,
-        height: +height,
-      },
-      preResizeDimensions: {
-        width: +width,
-        height: +height,
-      },
+      x,
+      y,
+      width,
+      height,
     };
+
+    // this is slow, make a new object and set it all at once
+    // why the fuck is dimensions not setting!?!?
+    // setTimeout(() => {
+    //   console.log("newObjs", newObjs);
+    //   console.log("width", width);
+    // }, 500);
   }
 
+  // @ts-ignore
   Store.setObjects(newObjs);
+
+  // console.log("Store.objects", Store.objects);
 };
 
 export const getCameraDomPosStyleValues = () => {

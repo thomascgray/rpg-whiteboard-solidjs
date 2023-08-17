@@ -1,5 +1,5 @@
 import { createMemo, createSignal } from "solid-js";
-import { createStore } from "solid-js/store";
+import { createStore, produce } from "solid-js/store";
 
 import {
   eKey,
@@ -68,8 +68,6 @@ export const [drawingSelectionBoxWidth, setDrawingSelectionBoxWidth] =
 export const [drawingSelectionBoxHeight, setDrawingSelectionBoxHeight] =
   createSignal<number>(0);
 
-export const [isPanning, setIsPanning] = createSignal<boolean>(false);
-
 export const [mouseDownPos, setMouseDownPos] = createSignal<iPoint>({
   x: 0,
   y: 0,
@@ -80,24 +78,6 @@ export const [mouseDownPosCanvas, setMouseDownPosCanvas] = createSignal<iPoint>(
 
 export const [isResizingFrom, setIsResizingFrom] =
   createSignal<eResizingFrom | null>(null);
-
-export const [objectSelectionBoxWidth, setObjectSelectionBoxWidth] =
-  createSignal<number>(0);
-export const [objectSelectionBoxHeight, setObjectSelectionBoxHeight] =
-  createSignal<number>(0);
-export const [objectSelectionBoxPosX, setObjectSelectionBoxPosX] =
-  createSignal<number>(0);
-export const [objectSelectionBoxPosY, setObjectSelectionBoxPosY] =
-  createSignal<number>(0);
-
-export const [
-  objectSelectionBoxWidthPreResize,
-  setObjectSelectionBoxWidthPreResize,
-] = createSignal<number>(0);
-export const [
-  objectSelectionBoxHeightPreResize,
-  setObjectSelectionBoxHeightPreResize,
-] = createSignal<number>(0);
 
 /**
  *
@@ -122,65 +102,22 @@ export const unselectObjects = () => {
   setObjects(objs);
   setIsFocusedInTextbox(Object.values(objs).some((obj) => obj.isFocused));
   setSelectedObjectIds([]);
-  recalculateObjectSelectionBoxPos();
-  recalculateObjectSelectionBoxWidthAndHeight();
   setIsSelectingMultipleObjects(false);
 
   window.getSelection()!.removeAllRanges();
 };
 
-export const recalculateObjectSelectionBoxPos = () => {
-  if (selectedObjectIds().length === 0) {
-    setObjectSelectionBoxPosX(0);
-    setObjectSelectionBoxPosY(0);
-  }
-
-  const tlXs = () => selectedObjectIds().map((id) => objects[id].pos.x);
-  const tlYs = () => selectedObjectIds().map((id) => objects[id].pos.y);
-
-  setObjectSelectionBoxPosX(Math.min(...tlXs()));
-  setObjectSelectionBoxPosY(Math.min(...tlYs()));
-};
-
-export const recalculateObjectSelectionBoxWidthAndHeight = () => {
-  if (selectedObjectIds().length === 0) {
-    setObjectSelectionBoxWidth(0);
-    setObjectSelectionBoxHeight(0);
-  }
-  const selectedObjects = () => {
-    return Object.values(objects).filter((obj) =>
-      selectedObjectIds().includes(obj.id)
-    );
-  };
-  const tlXs = () => {
-    return selectedObjects().map((obj) => obj.pos.x);
-  };
-  const tlYs = () => {
-    return selectedObjects().map((obj) => obj.pos.y);
-  };
-  const brXs = () => {
-    return selectedObjects().map((obj) => obj.pos.x + obj.dimensions.width);
-  };
-  const brYs = () => {
-    return selectedObjects().map((obj) => obj.pos.y + obj.dimensions.height);
-  };
-  const topLeftPoint = () => {
-    return {
-      x: Math.min(...tlXs()),
-      y: Math.min(...tlYs()),
-    };
-  };
-  const bottomRightPoint = () => {
-    return {
-      x: Math.max(...brXs()),
-      y: Math.max(...brYs()),
-    };
-  };
-
-  setObjectSelectionBoxWidth(bottomRightPoint().x - topLeftPoint().x);
-  setObjectSelectionBoxHeight(bottomRightPoint().y - topLeftPoint().y);
-};
-
 export const getObjectById = (id: string) => {
   return objects[id];
+};
+
+export const deleteSelectedObjects = () => {
+  setObjects(
+    produce((objs) => {
+      selectedObjectIds().forEach((id) => {
+        delete objs[id];
+      });
+    })
+  );
+  unselectObjects();
 };

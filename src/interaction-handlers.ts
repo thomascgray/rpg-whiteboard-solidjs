@@ -1,24 +1,31 @@
-import { eKey, eResizingFrom, iObject, type iState } from "./types";
-import { panCamera, screenToCanvas } from "./utils";
+import { eKey, eResizingFrom, iCamera, iObject, type iState } from "./types";
+import * as Utils from "./utils";
+import * as DOMUtils from "./dom-utils";
 import * as Store from "./store";
 import * as ResizeUtils from "./resize-utils";
 import * as _ from "lodash";
 
-export const interactionPanCamera = (movementX: number, movementY: number) => {
-  const deltaX = -movementX;
-  const deltaY = -movementY;
+export const interactionPanCamera = (e: MouseEvent) => {
+  const cameraDom = document.getElementById("camera");
+  if (!cameraDom) {
+    return;
+  }
 
-  Store.setCamera((camera) => panCamera(camera, deltaX, deltaY));
+  const deltaX = -e.movementX;
+  const deltaY = -e.movementY;
+
+  const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
+
+  cameraDom.style.transform = `scale(${z}) translate(${x - deltaX / z}px, ${
+    y - deltaY / z
+  }px)`;
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {
-  console.log("interactionMoveObjects");
   const camera = Store.camera();
-  const existingObjects = Store.objects;
-  const selectedObjectIds = Store.selectedObjectIds();
   const mouseDownPosCanvas = Store.mouseDownPosCanvas();
 
-  const mousePoint = screenToCanvas(
+  const mousePoint = Utils.screenToCanvas(
     e.clientX,
     e.clientY,
     camera.x,
@@ -26,27 +33,46 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     camera.z
   );
 
-  Store.selectedObjectIds().forEach((id) => {
-    Store.setObjects(id, {
-      pos: {
-        x:
-          Store.objects[id].preDragPos.x +
-          (mousePoint.x - mouseDownPosCanvas.x),
-        y:
-          Store.objects[id].preDragPos.y +
-          (mousePoint.y - mouseDownPosCanvas.y),
-      },
-    });
-  });
+  // move the elements themeslves, and work out the top-left most set of coords
+  const elements = document.getElementsByClassName("__selected-object");
+  const xList: number[] = [];
+  const yList: number[] = [];
+  for (let el of elements) {
+    const element = el as HTMLElement;
+    const x =
+      Number(element.dataset.posX) + (mousePoint.x - mouseDownPosCanvas.x);
+    const y =
+      Number(element.dataset.posY) + (mousePoint.y - mouseDownPosCanvas.y);
+    xList.push(x);
+    yList.push(y);
+    DOMUtils.setCoordsOnElement(element, x, y);
+  }
 
-  Store.recalculateObjectSelectionBoxPos();
+  // using the top-left most set of coords, move the selection box
+  const objectSelectionBoxElement = document.getElementById(
+    "__object-selection-highlight-box"
+  );
+  const minX = _.min(xList) as number;
+  const minY = _.min(yList) as number;
+  DOMUtils.setCoordsOnElement(objectSelectionBoxElement!, minX, minY);
+
+  // also move the resize handles by the amount the mouse has moved
+  const resizeHandles = document.getElementsByClassName("__resize-handle");
+  for (let el of resizeHandles) {
+    const element = el as HTMLElement;
+    const x =
+      Number(element.dataset.posX) + (mousePoint.x - mouseDownPosCanvas.x);
+    const y =
+      Number(element.dataset.posY) + (mousePoint.y - mouseDownPosCanvas.y);
+    DOMUtils.setCoordsOnElement(element, x, y);
+  }
 };
 
 export const interactionResizeObjects = (e: MouseEvent) => {
   const camera = Store.camera();
   const mouseDownPosCanvas = Store.mouseDownPosCanvas();
 
-  const mousePoint = screenToCanvas(
+  const mousePoint = Utils.screenToCanvas(
     e.clientX,
     e.clientY,
     camera.x,
@@ -60,11 +86,54 @@ export const interactionResizeObjects = (e: MouseEvent) => {
 
   if (Store.isResizingFrom() === eResizingFrom.BOTTOM_LEFT) {
     ResizeUtils.resizeBottomLeftToTopRight(diff.x, diff.y);
-    Store.recalculateObjectSelectionBoxWidthAndHeight();
   }
 
   if (Store.isResizingFrom() === eResizingFrom.BOTTOM_RIGHT) {
     ResizeUtils.resizeBottomRightToTopLeft(diff.x, diff.y);
-    Store.recalculateObjectSelectionBoxWidthAndHeight();
   }
+};
+
+export const interactionZoomCamera = (e: WheelEvent) => {
+  let scrollValue = e.deltaY;
+  if (Math.abs(e.deltaY) === 100) {
+    scrollValue = scrollValue * 0.1;
+  }
+  if (scrollValue > 30) {
+    scrollValue = 30;
+  } else if (scrollValue < -30) {
+    scrollValue = -30;
+  }
+
+  const cameraDom = document.getElementById("camera");
+  const canvasDom = document.getElementById("canvas");
+  if (!cameraDom || !canvasDom) {
+    return;
+  }
+
+  const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
+
+  const newCamera = Utils.zoomCamera(
+    x,
+    y,
+    z,
+    { x: e.clientX, y: e.clientY },
+    scrollValue / 100
+  );
+  cameraDom.style.transform = `scale(${newCamera.z}) translate(${newCamera.x}px, ${newCamera.y}px)`;
+
+  // update the app zoom factor on the canvas
+  canvasDom.style.setProperty("--app-camera-zoom", String(newCamera.z));
+
+  // @ts-ignore
+  if (window.scrollingSetTimeout) {
+    // @ts-ignore
+    clearTimeout(window.scrollingSetTimeout);
+  }
+  // @ts-ignore
+  window.scrollingSetTimeout = setTimeout(() => {
+    Store.setCamera(newCamera);
+    cameraDom.dataset.posX = String(newCamera.x);
+    cameraDom.dataset.posY = String(newCamera.y);
+    cameraDom.dataset.posZ = String(newCamera.z);
+  }, 80);
 };

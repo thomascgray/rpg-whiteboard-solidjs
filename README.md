@@ -32,3 +32,44 @@ Your app is ready to be deployed!
 ## Deployment
 
 You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+
+# dev notes
+
+### performance
+
+**if we get rid of using state as the core, we dont need the pre stuff. the state IS the pre stuff, and we just change against the dom directly**
+
+https://write.as/browserboard-blog/browserboard-update-everything-is-faster
+
+https://stackoverflow.com/questions/25910500/1000-dom-elements-on-a-single-page
+
+the browser is VERY sensitive to dom nodes - maybe its nested dom nodes?
+
+when each object is like this:
+
+```html
+<div>
+  <img />
+</div>
+```
+
+it works MUCH faster than when each object is like this:
+
+```html
+<div>
+  <img />
+  <p>debug info</p>
+  <p>debug info</p>
+  <p>debug info</p>
+  <p>debug info</p>
+</div>
+```
+
+thats something we should take into account - hiding DOM nodes when
+they're effectively too small
+
+---
+
+average BitD charactr is 60 to 100 objects - the main sheet, then a bunch of dots, etc.
+
+by the end of the bitd campaign, the entire board was 1588 objects

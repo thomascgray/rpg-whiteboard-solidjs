@@ -1,14 +1,6 @@
-import {
-  createSignal,
-  type Component,
-  onMount,
-  For,
-  Show,
-  onCleanup,
-} from "solid-js";
+import { type Component, onMount, For, Show, onCleanup } from "solid-js";
 import { BaseComponent } from "./objectComponents/BaseObject";
-import { nanoid } from "nanoid";
-import { eObjectType, iObject } from "./types";
+
 import * as _ from "lodash";
 import * as EventHandlers from "./event-handlers";
 import * as Store from "./store";
@@ -16,44 +8,19 @@ import { reconcile } from "solid-js/store";
 import { SelectionBoxComponent } from "./uiComponents/SelectionBox";
 import { ResizeHandles } from "./uiComponents/ResizeHandles";
 import { ObjectSelectionHighlightBox } from "./uiComponents/ObjectSelectionHighlightBox";
+import * as TestingUtils from "./testing";
+import { ObjectCollection } from "./uiComponents/ObjectCollection";
 
 const App: Component = () => {
-  window.onmousedown = EventHandlers.onMouseDown_Window;
-  window.onmouseup = EventHandlers.onMouseUp_Window;
-  window.onkeydown = EventHandlers.onKeyDown_Window;
-  window.onkeyup = EventHandlers.onKeyUp_Window;
-  window.onmousemove = EventHandlers.onMouseMove_Window;
-  window.onwheel = EventHandlers.onMouseWheel_Window;
+  window.onmousedown = EventHandlers.onCoreMouseDown;
+  window.onmouseup = EventHandlers.onCoreMouseUp;
+  window.onkeydown = EventHandlers.onCoreKeyDown;
+  window.onkeyup = EventHandlers.onCoreKeyUp;
+  window.onmousemove = EventHandlers.onCoreMouseMove;
+  window.onwheel = EventHandlers.onCoreMouseWheel;
 
   onMount(() => {
-    const newObjects: { [key: string]: iObject } = {};
-
-    for (let i = 0; i < 500; i++) {
-      let pos = {
-        x: Math.random() * 10_000,
-        y: Math.random() * 10_000,
-      };
-      let id = nanoid();
-      newObjects[id] = {
-        id,
-        pos,
-        preDragPos: pos,
-        preResizePos: pos,
-        url: `/barney${_.sample([1, 2, 3, 4, 5])}.jpg`,
-        zIndex: i,
-        type: eObjectType.IMAGE,
-        isFocused: false,
-        dimensions: {
-          width: 100,
-          height: 100,
-        },
-        preResizeDimensions: {
-          width: 100,
-          height: 100,
-        },
-      };
-    }
-    Store.setObjects(newObjects);
+    TestingUtils.makeDummyObjects(100);
   });
 
   onCleanup(() => {
@@ -62,23 +29,30 @@ const App: Component = () => {
 
   return (
     <div
+      style={{
+        "--app-border-thickness": `${2 / Store.camera().z}px`,
+        "--app-font-size": `${20 / Store.camera().z}px`,
+        "--app-resize-handle-size": `${20 / Store.camera().z}px`,
+        "--app-camera-zoom": `${Store.camera().z}`,
+      }}
       draggable="false"
       id="canvas"
-      class="w-screen cursor-auto h-screen bg-slate-100 overflow-hidden touch-none"
       onMouseDown={EventHandlers.onCanvasMouseDown}
+      class="w-screen cursor-auto h-screen bg-slate-100 overflow-hidden touch-none"
     >
       <div
+        data-pos-x={Store.camera().x}
+        data-pos-y={Store.camera().y}
+        data-pos-z={Store.camera().z}
         id="camera"
         draggable="false"
+        onMouseDown={EventHandlers.onCanvasMouseDown}
         class="h-screen w-screen origin-top-left select-none"
         style={`transform: scale(${Store.camera().z}) translate(${
           Store.camera().x
         }px, ${Store.camera().y}px)`}
       >
-        {/* render the objects */}
-        <For each={Object.values(Store.objects)}>
-          {(object) => <BaseComponent object={object} />}
-        </For>
+        <ObjectCollection />
 
         <Show when={Store.selectedObjectIds().length >= 1}>
           <ObjectSelectionHighlightBox />
@@ -95,26 +69,6 @@ const App: Component = () => {
         >
           <SelectionBoxComponent />
         </Show>
-      </div>
-
-      <div class="absolute bottom-0 bg-red-500 text-white w-full font-mono">
-        {/* <p>mouse buttons: {Store.heldMouseButtons()}</p>
-        <p>camera: {JSON.stringify(Store.camera())}</p> */}
-        {/* <p>selected object ids: {JSON.stringify(Store.selectedObjectIds())}</p> */}
-        {/* <p>
-          is drawing selection box
-          {JSON.stringify(Store.isDrawingSelectionBox())}
-        </p>
-        <p>
-          drawingbox pos {JSON.stringify(Store.drawingSelectionBoxStartPos())}
-        </p>
-        <p>
-          drawing box width: {JSON.stringify(Store.drawingSelectionBoxWidth())}
-        </p>
-        <p>
-          drawing box height:{" "}
-          {JSON.stringify(Store.drawingSelectionBoxHeight())}
-        </p> */}
       </div>
     </div>
   );

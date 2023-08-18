@@ -38,7 +38,7 @@ export const zoomCamera = (
   point: iPoint,
   dz: number
 ): iCamera => {
-  let zoom = withMinMax(cameraZ - dz * cameraZ, 0.1, 4);
+  let zoom = withMinMax(cameraZ - dz * cameraZ, 0.05, 4);
 
   const p1 = screenToCanvas(point.x, point.y, cameraX, cameraY, cameraZ);
 

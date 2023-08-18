@@ -48,14 +48,16 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         class="bg-red-200 absolute select-none top-0 left-0 __inlens"
         classList={{
           // invisible: isHidden(),
-          "__selected-object hover:cursor-grab": props.isSelected,
+          "__selected-object outline-dashed outline-blue-400 hover:cursor-grab":
+            props.isSelected,
         }}
         draggable="false"
         onMouseDown={(e) => {
           EventHandlers.onObjectMouseDown(e, props.object);
         }}
         src={props.object.url}
-        style={`outline-width: var(--app-border-thickness);
+        style={`
+        outline-width: calc(2px / var(--app-camera-zoom));
         max-width: none;
       width: ${props.object.width}px;
       height: ${props.object.height}px;

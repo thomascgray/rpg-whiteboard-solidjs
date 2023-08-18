@@ -75,4 +75,17 @@ export const resizeBottomRightToTopLeft = (
   );
 
   // now move the resize handles
+  // left one just needs to go up by the amount that the box has gone up
+  const resizeHandleLeft = document.getElementById("__resize_handle_left");
+  const resizeHandleRight = document.getElementById("__resize_handle_right");
+
+  const leftX = Number(resizeHandleLeft!.dataset.posX);
+  const leftY = Number(objectSelectionBoxElement.dataset.posY) + newHeight;
+  DOMUtils.setCoordsOnElement(resizeHandleLeft!, leftX, leftY);
+
+  const rightX =
+    Number(resizeHandleRight!.dataset.posX) -
+    (Number(objectSelectionBoxElement.dataset.width) - newWidth);
+  const rightY = Number(objectSelectionBoxElement.dataset.posY) + newHeight;
+  DOMUtils.setCoordsOnElement(resizeHandleRight!, rightX, rightY);
 };

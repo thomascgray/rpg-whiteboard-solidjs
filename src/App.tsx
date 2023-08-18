@@ -1,6 +1,4 @@
 import { type Component, onMount, For, Show, onCleanup } from "solid-js";
-import { BaseComponent } from "./objectComponents/BaseObject";
-
 import * as _ from "lodash";
 import * as EventHandlers from "./event-handlers";
 import * as Store from "./store";
@@ -20,7 +18,7 @@ const App: Component = () => {
   window.onwheel = EventHandlers.onCoreMouseWheel;
 
   onMount(() => {
-    TestingUtils.makeDummyObjects(2000, 10);
+    TestingUtils.makeDummyObjects(2000, 15);
   });
 
   onCleanup(() => {

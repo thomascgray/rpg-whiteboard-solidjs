@@ -13,13 +13,13 @@ export const makeDummyObjects = (num: number, spacingFactor: number) => {
       x: Math.random() * num * spacingFactor,
       y: Math.random() * num * spacingFactor,
       width: 200,
-      height: 20,
+      height: 52,
       // url: `/${_.sample([1, 2, 3, 4, 5, 6, 7])}.jpg`,
       // hasSelfResized: false,
       zIndex: i,
       type: eObjectType.TEXT,
       fontSize: 20,
-      text: Math.random().toString(36),
+      text: "Suspendisse vulputate sollicitudin",
       isFocused: false,
     };
   }

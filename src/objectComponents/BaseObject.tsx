@@ -79,14 +79,14 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           id={props.object.id}
           class="border bg-red-200 border-solid border-slate-600 absolute top-0 left-0 __inlens"
           classList={{
-            "outline-dashed outline-red-400": props.object.isFocused,
+            // "outline-dashed outline-red-400": props.object.isFocused,
             "cursor-default": !props.object.isFocused,
             "__selected-object outline-dashed outline-blue-400 hover:cursor-grab":
               props.isSelected,
           }}
           draggable="false"
           onDblClick={(e) => {
-            e.currentTarget.focus();
+            // e.currentTarget.focus();
             const index = Store.objects.findIndex(
               (obj) => obj.id === props.object.id
             );
@@ -109,20 +109,20 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           <textarea
             style={`font-size: ${props.object.fontSize}px;`} // this wont actually work, we want to be able to make the text areas wider and stuff
             value={props.object.text || ""}
-            class="w-full h-full leading-[20px] overflow-y-hidden resize-none"
+            class="w-full h-full leading-[22px] overflow-y-hidden resize-none p-[4px] disabled:bg-white bg-white"
             disabled={!props.object.isFocused}
             classList={{
               "pointer-events-none": !props.object.isFocused,
               "cursor-default": !props.object.isFocused,
             }}
             onInput={(e) => {
-              console.log("change");
               const index = Store.objects.findIndex(
                 (obj) => obj.id === props.object.id
               );
               e.currentTarget.style.height = "auto";
               e.currentTarget.style.height =
-                e.currentTarget.scrollHeight + "px";
+                e.currentTarget.scrollHeight + 4 + "px";
+
               Store.setObjects(index, {
                 text: e.currentTarget.value,
                 height: e.currentTarget.scrollHeight,

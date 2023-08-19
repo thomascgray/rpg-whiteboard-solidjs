@@ -107,20 +107,25 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
               ${props.object.y}px)`}
         >
           <textarea
-            style={`font-size: ${(props.object.width / 100) * 12}px;`} // this wont actually work, we want to be able to make the text areas wider and stuff
+            style={`font-size: ${props.object.fontSize}px;`} // this wont actually work, we want to be able to make the text areas wider and stuff
             value={props.object.text || ""}
-            class="w-full h-full"
+            class="w-full h-full leading-[20px] overflow-y-hidden resize-none"
             disabled={!props.object.isFocused}
             classList={{
               "pointer-events-none": !props.object.isFocused,
               "cursor-default": !props.object.isFocused,
             }}
-            onChange={(e) => {
+            onInput={(e) => {
+              console.log("change");
               const index = Store.objects.findIndex(
                 (obj) => obj.id === props.object.id
               );
+              e.currentTarget.style.height = "auto";
+              e.currentTarget.style.height =
+                e.currentTarget.scrollHeight + "px";
               Store.setObjects(index, {
                 text: e.currentTarget.value,
+                height: e.currentTarget.scrollHeight,
               });
             }}
           ></textarea>

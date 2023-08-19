@@ -69,7 +69,6 @@ export const getBottomLeftCoords = (
 ) => {};
 
 export const persistSelectedObjectDOMElementsToState = () => {
-  console.log("persistSelectedObjectDOMElementsToState");
   const selectedObjectDOMElements = getAllCurrentlySelectedObjectDOMElements();
 
   const objs = [...Store.objects];

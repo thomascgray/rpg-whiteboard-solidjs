@@ -4,7 +4,7 @@ import { eKey, eMouseButton, eResizingFrom, iCamera, iObject } from "./types";
 import * as Utils from "./utils";
 import * as DOMUtils from "./dom-utils";
 
-export const onCoreMouseDown = (e: MouseEvent) => {
+export const onWindowMouseDown = (e: MouseEvent) => {
   Store.setHeldMouseButtons((buttons) => [...buttons, e.button]);
 
   if (e.button === eMouseButton.LEFT || e.button === eMouseButton.MIDDLE) {
@@ -21,7 +21,7 @@ export const onCoreMouseDown = (e: MouseEvent) => {
   }
 };
 
-export const onCoreMouseUp = (e: MouseEvent) => {
+export const onWindowMouseUp = (e: MouseEvent) => {
   // if we were just dragging some objects around
   if (
     e.button === eMouseButton.LEFT &&
@@ -77,7 +77,7 @@ export const onCoreMouseUp = (e: MouseEvent) => {
   Store.setHeldMouseButtons((buttons) => buttons.filter((b) => b !== e.button));
 };
 
-export const onCoreMouseMove = (e: MouseEvent) => {
+export const onWindowMouseMove = (e: MouseEvent) => {
   const selectedObjectDOMElements =
     DOMUtils.getAllCurrentlySelectedObjectDOMElements();
 
@@ -138,13 +138,11 @@ export const onCoreMouseMove = (e: MouseEvent) => {
   }
 };
 
-export const onCoreMouseWheel = (e: WheelEvent) => {
+export const onWindowMouseWheel = (e: WheelEvent) => {
   // e.preventDefault();
   e.stopPropagation();
   if (e.type === "pinch" || e.ctrlKey) {
-    e.preventDefault();
     console.log("pinch");
-
     InteractionHandlers.interactionZoomCamera(e);
   } else {
     console.log("pan");
@@ -152,7 +150,7 @@ export const onCoreMouseWheel = (e: WheelEvent) => {
   }
 };
 
-export const onCoreKeyDown = (e: KeyboardEvent) => {
+export const onWindowKeyDown = (e: KeyboardEvent) => {
   if (e.repeat) {
     return;
   }
@@ -174,9 +172,13 @@ export const onCoreKeyDown = (e: KeyboardEvent) => {
   }
 };
 
-export const onCoreKeyUp = (e: KeyboardEvent) => {
+export const onWindowKeyUp = (e: KeyboardEvent) => {
   Store.setHeldKeys((keys) => keys.filter((k) => k !== (e.key as eKey)));
 };
+
+/**
+ * DOM handlers
+ */
 
 export const onCanvasMouseDown = (e: MouseEvent) => {
   if (e.button === eMouseButton.LEFT) {
@@ -188,14 +190,10 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
 export const onBeginResizing = (e: MouseEvent, resizingFrom: eResizingFrom) => {
   e.stopPropagation();
   // we've stopped propagation so, so we need to call this manually
-  onCoreMouseDown(e);
+  onWindowMouseDown(e);
 
   if (e.button === eMouseButton.LEFT) {
     Store.setIsResizingFrom(resizingFrom);
-    // Store.setObjectSelectionBoxWidthPreResize(Store.objectSelectionBoxWidth());
-    // Store.setObjectSelectionBoxHeightPreResize(
-    //   Store.objectSelectionBoxHeight()
-    // );
   }
 };
 
@@ -203,7 +201,7 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
   e.stopPropagation();
 
   // we've stopped propagation so, so we need to call this manually
-  onCoreMouseDown(e);
+  onWindowMouseDown(e);
 
   const selectedObjectIds = Store.selectedObjectIds();
   if (e.button === eMouseButton.LEFT) {

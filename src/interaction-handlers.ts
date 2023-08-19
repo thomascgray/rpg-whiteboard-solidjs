@@ -19,6 +19,18 @@ export const interactionPanCamera = (movementX: number, movementY: number) => {
   cameraDom.style.transform = `scale(${z}) translate(${x - deltaX / z}px, ${
     y - deltaY / z
   }px)`;
+  // @ts-ignore
+  if (window.scrollingSetTimeout) {
+    // @ts-ignore
+    clearTimeout(window.scrollingSetTimeout);
+  }
+  // @ts-ignore
+  window.scrollingSetTimeout = setTimeout(() => {
+    Store.setCamera({ x, y, z });
+    cameraDom.dataset.posX = String(x);
+    cameraDom.dataset.posY = String(y);
+    cameraDom.dataset.posZ = String(z);
+  }, 66);
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {

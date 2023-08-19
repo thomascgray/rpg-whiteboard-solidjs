@@ -1,5 +1,5 @@
 import { createMemo, createSignal } from "solid-js";
-import { createStore, produce } from "solid-js/store";
+import { createStore, produce, reconcile } from "solid-js/store";
 
 import {
   eKey,
@@ -84,16 +84,27 @@ export const [isResizingFrom, setIsResizingFrom] =
 export const unselectObjects = () => {
   // if any of the objects we're about to unselect are a text area, we need
   // to make that text area unfocused
+  const objs = [...objects];
 
+  // here we're actually setting ALL text objects to unfocused, but eh... thats fine? i think?
+  objs.forEach((obj, i) => {
+    if (obj.type === eObjectType.TEXT) {
+      objs[i] = {
+        ...obj,
+        isFocused: false,
+      };
+    }
+  });
   setSelectedObjectIds([]);
   setIsSelectingMultipleObjects(false);
+  setObjects(reconcile(objs));
 
   window.getSelection()!.removeAllRanges();
 };
 
 // we do this in a helper because when we select objects
 // we also want to store the bottom X position, etc.
-export const selectObjects = () => {};
+// export const selectObjects = () => {};
 
 export const deleteSelectedObjects = () => {
   setObjects((objs) =>

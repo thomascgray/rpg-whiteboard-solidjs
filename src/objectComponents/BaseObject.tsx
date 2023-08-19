@@ -77,6 +77,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           data-width={props.object.width}
           data-height={props.object.height}
           data-font-size={props.object.fontSize}
+          data-line-height={props.object.lineHeight}
           data-object-type={props.object.type}
           id={props.object.id}
           class="border bg-red-200 border-solid border-slate-600 absolute top-0 left-0 __inlens"
@@ -100,6 +101,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
             EventHandlers.onObjectMouseDown(e, props.object);
           }}
           style={`
+            --text-color: red;
             outline-width: calc(2px / var(--app-camera-zoom));
             max-width: none;
             width: ${props.object.width}px;
@@ -112,6 +114,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         >
           <textarea
             value={props.object.text || ""}
+            style={"color: var(--text-color);"}
             class="w-full h-full overflow-y-hidden resize-none p-[4px] disabled:bg-white bg-white"
             disabled={!props.object.isFocused}
             classList={{
@@ -124,14 +127,14 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
               );
               e.currentTarget.style.height = "auto";
               e.currentTarget.style.height =
-                e.currentTarget.scrollHeight + 4 + "px";
+                e.currentTarget.scrollHeight + "px";
 
               Store.setObjects(index, {
                 text: e.currentTarget.value,
                 height: e.currentTarget.scrollHeight,
-                fontSize: Number(
-                  e.currentTarget.style.fontSize.replace("px", "")
-                ),
+                // fontSize: Number(
+                //   e.currentTarget.style.fontSize.replace("px", "")
+                // ),
               });
             }}
           ></textarea>

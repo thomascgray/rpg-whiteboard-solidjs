@@ -1,4 +1,4 @@
-import { iObject } from "./types";
+import { eObjectType, iObject } from "./types";
 import * as Store from "./store";
 import { reconcile } from "solid-js/store";
 
@@ -31,6 +31,17 @@ export const getDOMElementDimensionsStyleValues = (element: HTMLElement) => {
   const height = parseFloat(style.height);
 
   return [width, height];
+};
+
+export const getDOMElementFontSizeAndLineHeightStyleValues = (
+  element: HTMLElement
+) => {
+  const style = getComputedStyle(element);
+
+  const fontSize = parseFloat(style.fontSize);
+  const lineHeight = parseFloat(style.lineHeight);
+
+  return [fontSize, lineHeight];
 };
 
 export const setStylesOnElement = (
@@ -86,13 +97,27 @@ export const persistSelectedObjectDOMElementsToState = () => {
     const [x, y] = getDOMElementPosStyleValues(element);
     const [width, height] = getDOMElementDimensionsStyleValues(element);
 
-    objs[objIndex] = {
-      ...obj,
-      x,
-      y,
-      width,
-      height,
-    };
+    if (obj.type === eObjectType.TEXT) {
+      const [fontSize, lineHeight] =
+        getDOMElementFontSizeAndLineHeightStyleValues(element);
+      objs[objIndex] = {
+        ...obj,
+        x,
+        y,
+        width,
+        height,
+        fontSize,
+        lineHeight,
+      };
+    } else {
+      objs[objIndex] = {
+        ...obj,
+        x,
+        y,
+        width,
+        height,
+      };
+    }
   }
 
   // its chuggy when we're moving or resizing like 1000+ plus objects, but

@@ -98,14 +98,13 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
             EventHandlers.onObjectMouseDown(e, props.object);
           }}
           style={`
-        outline-width: calc(2px / var(--app-camera-zoom));
-        max-width: none;
-      width: ${props.object.width}px;
-      height: ${props.object.height}px;
-      z-index: ${props.object.zIndex};
-      transform:
-        translate(${props.object.x}px,
-          ${props.object.y}px)`}
+            outline-width: calc(2px / var(--app-camera-zoom));
+            max-width: none;
+            width: ${props.object.width}px;
+            height: ${props.object.height}px;
+            z-index: ${props.object.zIndex};
+            transform: translate(${props.object.x}px,
+              ${props.object.y}px)`}
         >
           <textarea
             style={`font-size: ${(props.object.width / 100) * 12}px;`} // this wont actually work, we want to be able to make the text areas wider and stuff

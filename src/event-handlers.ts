@@ -134,13 +134,16 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     Store.isResizingFrom() !== null &&
     !Store.isFocusedInTextbox()
   ) {
+    window.__app_selectedObjects =
+      document.getElementsByClassName("__selected-object");
     InteractionHandlers.interactionResizeObjects(e);
+    window.__app_selectedObjects = undefined;
   }
 };
 
 export const onWindowMouseWheel = (e: WheelEvent) => {
-  // e.preventDefault();
   e.stopPropagation();
+  e.preventDefault();
   if (e.type === "pinch" || e.ctrlKey) {
     console.log("pinch");
     InteractionHandlers.interactionZoomCamera(e);

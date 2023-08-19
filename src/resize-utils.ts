@@ -11,6 +11,9 @@ export const resizeBottomRightToTopLeft = (
   distanceX: number,
   distanceY: number
 ) => {
+  if (!window.__app_selectedObjects) {
+    return;
+  }
   const objectSelectionBoxElement = document.getElementById(
     "__object-selection-highlight-box"
   );
@@ -27,12 +30,12 @@ export const resizeBottomRightToTopLeft = (
     newParentHeight / Number(objectSelectionBoxElement.dataset.height)
   );
 
-  let elements = DOMUtils.getAllCurrentlySelectedObjectDOMElements();
+  // let elements = DOMUtils.getAllCurrentlySelectedObjectDOMElements();
 
   const xList: number[] = [];
   const yList: number[] = [];
 
-  for (let el of elements) {
+  for (let el of window.__app_selectedObjects) {
     const element = el as HTMLElement;
 
     const x1 =

@@ -10,23 +10,23 @@ import * as TestingUtils from "./testing";
 import { ObjectCollection } from "./inCameraUiComponents/ObjectCollection";
 
 const App: Component = () => {
-  window.onmousedown = EventHandlers.onCoreMouseDown;
-  window.onmouseup = EventHandlers.onCoreMouseUp;
-  window.onkeydown = EventHandlers.onCoreKeyDown;
-  window.onkeyup = EventHandlers.onCoreKeyUp;
-  window.onmousemove = EventHandlers.onCoreMouseMove;
+  window.onmousedown = EventHandlers.onWindowMouseDown;
+  window.onmouseup = EventHandlers.onWindowMouseUp;
+  window.onkeydown = EventHandlers.onWindowKeyDown;
+  window.onkeyup = EventHandlers.onWindowKeyUp;
+  window.onmousemove = EventHandlers.onWindowMouseMove;
 
   // because we need to specify passive: false, we can't use the SolidJS onWheel event
   window.addEventListener(
     "wheel",
     (e) => {
-      EventHandlers.onCoreMouseWheel(e as WheelEvent);
+      EventHandlers.onWindowMouseWheel(e as WheelEvent);
     },
     { passive: false }
   );
 
   onMount(() => {
-    TestingUtils.makeDummyObjects(100, 20);
+    TestingUtils.makeDummyObjects(2, 10);
   });
 
   onCleanup(() => {

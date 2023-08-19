@@ -1,7 +1,7 @@
 import type { iBox, iCamera, iObject, iPoint } from "./types";
 import * as Store from "./store";
 import * as _ from "lodash";
-import { produce } from "solid-js/store";
+import { produce, reconcile } from "solid-js/store";
 
 export const withMinMax = (val: number, min: number, max: number) => {
   if (val < min) {
@@ -92,5 +92,5 @@ export const sendSelectedObjectsToBack = () => {
       };
     });
 
-  Store.setObjects(objs);
+  Store.setObjects(reconcile(objs));
 };

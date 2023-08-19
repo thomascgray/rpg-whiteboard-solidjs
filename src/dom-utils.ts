@@ -69,6 +69,7 @@ export const getBottomLeftCoords = (
 ) => {};
 
 export const persistSelectedObjectDOMElementsToState = () => {
+  console.log("persistSelectedObjectDOMElementsToState");
   const selectedObjectDOMElements = getAllCurrentlySelectedObjectDOMElements();
 
   const objs = [...Store.objects];
@@ -91,7 +92,7 @@ export const persistSelectedObjectDOMElementsToState = () => {
 
   // its chuggy when we're moving or resizing like 1000+ plus objects, but
   // at that point... we'll worry about it later
-  Store.setObjects(objs);
+  Store.setObjects(reconcile(objs));
 };
 
 export const getCameraDomPosStyleValues = () => {

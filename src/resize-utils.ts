@@ -30,8 +30,6 @@ export const resizeBottomRightToTopLeft = (
     newParentHeight / Number(objectSelectionBoxElement.dataset.height)
   );
 
-  // let elements = DOMUtils.getAllCurrentlySelectedObjectDOMElements();
-
   const xList: number[] = [];
   const yList: number[] = [];
 

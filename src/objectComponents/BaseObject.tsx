@@ -114,8 +114,6 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
             classList={{
               "pointer-events-none": !props.object.isFocused,
               "cursor-default": !props.object.isFocused,
-              "__selected-object outline-dashed outline-blue-400 hover:cursor-grab":
-                props.isSelected,
             }}
             onChange={(e) => {
               const index = Store.objects.findIndex(

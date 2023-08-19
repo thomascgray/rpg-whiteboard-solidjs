@@ -144,11 +144,9 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 export const onWindowMouseWheel = (e: WheelEvent) => {
   e.stopPropagation();
   e.preventDefault();
-  if (e.type === "pinch" || e.ctrlKey) {
-    console.log("pinch");
+  if (e.type === "wheel" || e.type === "pinch" || e.ctrlKey) {
     InteractionHandlers.interactionZoomCamera(e);
   } else {
-    console.log("pan");
     InteractionHandlers.interactionPanCamera(e.deltaX, e.deltaY);
   }
 };

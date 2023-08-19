@@ -5,14 +5,14 @@ import * as Store from "./store";
 import * as ResizeUtils from "./resize-utils";
 import * as _ from "lodash";
 
-export const interactionPanCamera = (e: MouseEvent) => {
+export const interactionPanCamera = (movementX: number, movementY: number) => {
   const cameraDom = document.getElementById("camera");
   if (!cameraDom) {
     return;
   }
 
-  const deltaX = -e.movementX;
-  const deltaY = -e.movementY;
+  const deltaX = movementX;
+  const deltaY = movementY;
 
   const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
@@ -22,6 +22,9 @@ export const interactionPanCamera = (e: MouseEvent) => {
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {
+  if (!window.__app_selectedObjects) {
+    return;
+  }
   const camera = Store.camera();
   const mouseDownPosCanvas = Store.mouseDownPosCanvas();
 

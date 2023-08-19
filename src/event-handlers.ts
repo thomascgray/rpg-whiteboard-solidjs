@@ -83,7 +83,7 @@ export const onCoreMouseMove = (e: MouseEvent) => {
 
   // panning
   if (Store.heldMouseButtons().includes(eMouseButton.MIDDLE)) {
-    InteractionHandlers.interactionPanCamera(e);
+    InteractionHandlers.interactionPanCamera(-e.movementX, -e.movementY);
     return;
   }
 
@@ -139,7 +139,17 @@ export const onCoreMouseMove = (e: MouseEvent) => {
 };
 
 export const onCoreMouseWheel = (e: WheelEvent) => {
-  InteractionHandlers.interactionZoomCamera(e);
+  // e.preventDefault();
+  e.stopPropagation();
+  if (e.type === "pinch" || e.ctrlKey) {
+    e.preventDefault();
+    console.log("pinch");
+
+    InteractionHandlers.interactionZoomCamera(e);
+  } else {
+    console.log("pan");
+    InteractionHandlers.interactionPanCamera(e.deltaX, e.deltaY);
+  }
 };
 
 export const onCoreKeyDown = (e: KeyboardEvent) => {

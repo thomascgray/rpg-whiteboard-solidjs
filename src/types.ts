@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    __app_selectedObjects?: HTMLCollectionOf<Element>;
+  }
+}
+
 export enum eKey {
   SPACE = " ",
   NUMBER_1 = "1",

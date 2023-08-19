@@ -76,6 +76,8 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           data-pos-y={props.object.y}
           data-width={props.object.width}
           data-height={props.object.height}
+          data-font-size={props.object.fontSize}
+          data-object-type={props.object.type}
           id={props.object.id}
           class="border bg-red-200 border-solid border-slate-600 absolute top-0 left-0 __inlens"
           classList={{
@@ -103,13 +105,14 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
             width: ${props.object.width}px;
             height: ${props.object.height}px;
             z-index: ${props.object.zIndex};
+            font-size: ${props.object.fontSize}px;
+            line-height: ${props.object.lineHeight}px;
             transform: translate(${props.object.x}px,
               ${props.object.y}px)`}
         >
           <textarea
-            style={`font-size: ${props.object.fontSize}px;`} // this wont actually work, we want to be able to make the text areas wider and stuff
             value={props.object.text || ""}
-            class="w-full h-full leading-[22px] overflow-y-hidden resize-none p-[4px] disabled:bg-white bg-white"
+            class="w-full h-full overflow-y-hidden resize-none p-[4px] disabled:bg-white bg-white"
             disabled={!props.object.isFocused}
             classList={{
               "pointer-events-none": !props.object.isFocused,
@@ -126,6 +129,9 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
               Store.setObjects(index, {
                 text: e.currentTarget.value,
                 height: e.currentTarget.scrollHeight,
+                fontSize: Number(
+                  e.currentTarget.style.fontSize.replace("px", "")
+                ),
               });
             }}
           ></textarea>

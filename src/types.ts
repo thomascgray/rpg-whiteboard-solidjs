@@ -87,6 +87,7 @@ export interface iObject {
   // for text
   text?: string;
   fontSize?: number;
+  lineHeight?: number;
 }
 
 export interface iPoint {

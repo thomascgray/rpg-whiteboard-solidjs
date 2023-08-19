@@ -60,7 +60,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
       Number(element.dataset.posY) + (mousePoint.y - mouseDownPosCanvas.y);
     xList.push(x);
     yList.push(y);
-    DOMUtils.setCoordsOnElement(element, x, y);
+    DOMUtils.setStylesOnElement(element, { x, y });
   }
 
   // using the top-left most set of coords, move the selection box
@@ -69,7 +69,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
   );
   const minX = _.min(xList) as number;
   const minY = _.min(yList) as number;
-  DOMUtils.setCoordsOnElement(objectSelectionBoxElement!, minX, minY);
+  DOMUtils.setStylesOnElement(objectSelectionBoxElement!, { x: minX, y: minY });
 
   // also move the resize handles by the amount the mouse has moved
   const resizeHandles = document.getElementsByClassName("__resize-handle");
@@ -81,7 +81,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     const y =
       Number(resizeHandleElement.dataset.posY) +
       (mousePoint.y - mouseDownPosCanvas.y);
-    DOMUtils.setCoordsOnElement(resizeHandleElement, x, y);
+    DOMUtils.setStylesOnElement(resizeHandleElement!, { x, y });
   }
 };
 

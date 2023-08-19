@@ -33,35 +33,41 @@ export const getDOMElementDimensionsStyleValues = (element: HTMLElement) => {
   return [width, height];
 };
 
-// sets the transform coords on an element
-export const setCoordsOnElement = (
+export const setStylesOnElement = (
   element: HTMLElement,
-  x: number,
-  y: number
+  styleAttrs: {
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+    fontSize?: number;
+    lineHeight?: number;
+  }
 ) => {
-  element.style.transform = `translate(${x}px, ${y}px)`;
-};
+  const { x, y, width, height, fontSize, lineHeight } = styleAttrs;
+  const styles: Partial<CSSStyleDeclaration> = {};
+  console.log("styleAttrs", JSON.stringify(styleAttrs, null, 2));
+  if (x && y) {
+    styles.transform = `translate(${x}px, ${y}px)`;
+  } else if (x && !y) {
+    styles.transform = `translate(${x}px)`;
+  } else if (!x && y) {
+    styles.transform = `translateY(${y}px)`;
+  }
+  if (width) {
+    styles.width = `${width}px`;
+  }
+  if (height) {
+    styles.height = `${height}px`;
+  }
+  if (fontSize) {
+    styles.fontSize = `${fontSize}px`;
+  }
+  if (lineHeight) {
+    styles.lineHeight = `${lineHeight}px`;
+  }
 
-// sets the transform coords on an element
-export const setDimensionOnElement = (
-  element: HTMLElement,
-  width: number,
-  height: number
-) => {
-  element.style.width = `${width}px`;
-  element.style.height = `${height}px`;
-};
-
-export const setCoordsAndDimensionsOnElement = (
-  element: HTMLElement,
-  x: number,
-  y: number,
-  width: number,
-  height: number
-) => {
-  element.style.transform = `translate(${x}px, ${y}px)`;
-  element.style.width = `${width}px`;
-  element.style.height = `${height}px`;
+  Object.assign(element.style, styles);
 };
 
 export const getBottomLeftCoords = (

@@ -55,13 +55,25 @@ export const resizeBottomRightToTopLeft = (
     xList.push(newX + newWidth);
     yList.push(newY + newHeight);
 
-    DOMUtils.setCoordsAndDimensionsOnElement(
-      element,
-      newX,
-      newY,
-      newWidth,
-      newHeight
-    );
+    // if its a text object, we ALSO need to recalculate the font ize by like, the fuckin ratio of the new
+    // width to the old width?
+    if (element.dataset.objectType === eObjectType.TEXT) {
+      DOMUtils.setStylesOnElement(element, {
+        x: newX,
+        y: newY,
+        width: newWidth,
+        height: newHeight,
+        fontSize: Number(element.dataset.fontSize) * ratio,
+        lineHeight: Number(element.dataset.lineHeight) * ratio,
+      });
+    } else {
+      DOMUtils.setStylesOnElement(element, {
+        x: newX,
+        y: newY,
+        width: newWidth,
+        height: newHeight,
+      });
+    }
   }
 
   // move the selection box...
@@ -69,11 +81,10 @@ export const resizeBottomRightToTopLeft = (
     Math.max(...xList) - Number(objectSelectionBoxElement.dataset.posX);
   const newHeight =
     Math.max(...yList) - Number(objectSelectionBoxElement.dataset.posY);
-  DOMUtils.setDimensionOnElement(
-    objectSelectionBoxElement,
-    newWidth,
-    newHeight
-  );
+  DOMUtils.setStylesOnElement(objectSelectionBoxElement, {
+    width: newWidth,
+    height: newHeight,
+  });
 
   // now move the resize handles
   // left one just needs to go up by the amount that the box has gone up
@@ -82,11 +93,11 @@ export const resizeBottomRightToTopLeft = (
 
   const leftX = Number(resizeHandleLeft!.dataset.posX);
   const leftY = Number(objectSelectionBoxElement.dataset.posY) + newHeight;
-  DOMUtils.setCoordsOnElement(resizeHandleLeft!, leftX, leftY);
+  DOMUtils.setStylesOnElement(resizeHandleLeft!, { x: leftX, y: leftY });
 
   const rightX =
     Number(resizeHandleRight!.dataset.posX) -
     (Number(objectSelectionBoxElement.dataset.width) - newWidth);
   const rightY = Number(objectSelectionBoxElement.dataset.posY) + newHeight;
-  DOMUtils.setCoordsOnElement(resizeHandleRight!, rightX, rightY);
+  DOMUtils.setStylesOnElement(resizeHandleRight!, { x: rightX, y: rightY });
 };

@@ -19,6 +19,7 @@ export const makeDummyObjects = (num: number, spacingFactor: number) => {
       zIndex: i,
       type: eObjectType.TEXT,
       fontSize: 20,
+      lineHeight: 22,
       text: "Suspendisse vulputate sollicitudin",
       isFocused: false,
     };

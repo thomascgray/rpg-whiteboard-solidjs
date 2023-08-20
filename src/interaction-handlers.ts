@@ -6,19 +6,14 @@ import * as ResizeUtils from "./resize-utils";
 import * as _ from "lodash";
 
 export const interactionPanCamera = (movementX: number, movementY: number) => {
-  const cameraDom = document.getElementById("camera");
-  if (!cameraDom) {
-    return;
-  }
-
   const deltaX = movementX;
   const deltaY = movementY;
 
   const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
-  cameraDom.style.transform = `scale(${z}) translate(${x - deltaX / z}px, ${
-    y - deltaY / z
-  }px)`;
+  window.__cameraDom!.style.transform = `scale(${z}) translate(${
+    x - deltaX / z
+  }px, ${y - deltaY / z}px)`;
   // @ts-ignore
   if (window.scrollingSetTimeout) {
     // @ts-ignore
@@ -27,9 +22,9 @@ export const interactionPanCamera = (movementX: number, movementY: number) => {
   // @ts-ignore
   window.scrollingSetTimeout = setTimeout(() => {
     Store.setCamera({ x, y, z });
-    cameraDom.dataset.posX = String(x);
-    cameraDom.dataset.posY = String(y);
-    cameraDom.dataset.posZ = String(z);
+    window.__cameraDom!.dataset.posX = String(x);
+    window.__cameraDom!.dataset.posY = String(y);
+    window.__cameraDom!.dataset.posZ = String(z);
   }, 66);
 };
 
@@ -121,12 +116,6 @@ export const interactionZoomCamera = (e: WheelEvent) => {
     scrollValue = -30;
   }
 
-  const cameraDom = document.getElementById("camera");
-  const canvasDom = document.getElementById("canvas");
-  if (!cameraDom || !canvasDom) {
-    return;
-  }
-
   const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
   const newCamera = Utils.zoomCamera(
@@ -136,24 +125,16 @@ export const interactionZoomCamera = (e: WheelEvent) => {
     { x: e.clientX, y: e.clientY },
     scrollValue / 100
   );
-  cameraDom.style.transform = `scale(${newCamera.z}) translate(${newCamera.x}px, ${newCamera.y}px)`;
+  window.__cameraDom!.style.transform = `scale(${newCamera.z}) translate(${newCamera.x}px, ${newCamera.y}px)`;
 
   // update the app zoom factor on the canvas
-  canvasDom.style.setProperty("--app-camera-zoom", String(newCamera.z));
+  window.__canvasDom!.style.setProperty(
+    "--app-camera-zoom",
+    String(newCamera.z)
+  );
 
-  // instead of doing this, maybe something like - when we scroll, we set in state that we're
-  // scrolling, and then on mouse down, if we were scrolling, we set the camera to the styles
-  // of the camera dom, and then clear the scrolling flag?
-  // // @ts-ignore
-  // if (window.scrollingSetTimeout) {
-  //   // @ts-ignore
-  //   clearTimeout(window.scrollingSetTimeout);
-  // }
-  // // @ts-ignore
-  // window.scrollingSetTimeout = setTimeout(() => {
-  //   Store.setCamera(newCamera);
-  //   cameraDom.dataset.posX = String(newCamera.x);
-  //   cameraDom.dataset.posY = String(newCamera.y);
-  //   cameraDom.dataset.posZ = String(newCamera.z);
-  // }, 80);
+  Store.setCamera(newCamera);
+  window.__cameraDom!.dataset.posX = String(newCamera.x);
+  window.__cameraDom!.dataset.posY = String(newCamera.y);
+  window.__cameraDom!.dataset.posZ = String(newCamera.z);
 };

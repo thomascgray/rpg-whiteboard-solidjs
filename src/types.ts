@@ -1,6 +1,9 @@
 declare global {
   interface Window {
     __app_selectedObjects?: HTMLCollectionOf<Element>;
+    __cameraDom?: HTMLElement;
+    __canvasDom?: HTMLElement;
+    __setScrollingTimeout?: any;
   }
 }
 

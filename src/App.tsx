@@ -27,6 +27,8 @@ const App: Component = () => {
 
   onMount(() => {
     TestingUtils.makeDummyObjects(2000, 15);
+    window.__cameraDom = document.getElementById("camera")!;
+    window.__canvasDom = document.getElementById("canvas")!;
   });
 
   onCleanup(() => {

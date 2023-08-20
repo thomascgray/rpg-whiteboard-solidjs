@@ -118,20 +118,38 @@ export const persistSelectedObjectDOMElementsToState = () => {
       };
     }
   }
-
-  // its chuggy when we're moving or resizing like 1000+ plus objects, but
-  // at that point... we'll worry about it later
   Store.setObjects(reconcile(objs));
 };
 
+// this func is slow
 export const getCameraDomPosStyleValues = () => {
-  const cameraDom = document.getElementById("camera");
-  const style = window.getComputedStyle(cameraDom!);
-  const matrix = style.transform
-    .substring(7, style.transform.length - 1)
-    .split(",")
-    .map((x) => Number(x));
+  // ridiculous string substition method
+  const chunks = window.__cameraDom!.style.transform.split(" ");
 
-  const [z, , , , x, y] = matrix;
-  return [x / z, y / z, z];
+  const [scale, trans1, trans2] = chunks;
+  const zA = scale.substring(6, scale.length - 1);
+  const xA = trans1.substring(10, trans1.length - 3);
+  const yA = trans2.substring(0, trans2.length - 3);
+  // console.log("chunks", chunks);
+  // console.log("zA", zA);
+  // console.log("xa, ya, za", xA, yA, zA);
+
+  // return [xA / zA, yA / zA, zA];
+
+  return [Number(xA), Number(yA), Number(zA)];
+
+  // matrix method
+  // const style = window.getComputedStyle(window.__cameraDom!);
+  // const matrix = style.transform
+  //   .substring(7, style.transform.length - 1)
+  //   .split(",")
+  //   .map((x) => Number(x));
+
+  // const [z, , , , x, y] = matrix;
+
+  // console.log("xes", x, xA);
+  // console.log("yes", y, yA);
+  // console.log("zes", z, zA);
+
+  // return [x / z, y / z, z];
 };

@@ -62,7 +62,7 @@ export const setStylesOnElement = (
   } else if (x && !y) {
     styles.transform = `translate(${x}px)`;
   } else if (!x && y) {
-    styles.transform = `translateY(${y}px)`;
+    styles.transform = `translate(${y}px)`;
   }
   if (width) {
     styles.width = `${width}px`;

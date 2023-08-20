@@ -70,6 +70,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         />
       </Show>
 
+      {/* text objects */}
       <Show when={props.object.type === eObjectType.TEXT}>
         <div
           data-pos-x={props.object.x}
@@ -89,7 +90,6 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           }}
           draggable="false"
           onDblClick={(e) => {
-            // e.currentTarget.focus();
             const index = Store.objects.findIndex(
               (obj) => obj.id === props.object.id
             );
@@ -114,10 +114,11 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         >
           <textarea
             value={props.object.text || ""}
-            class="w-full bg-blue-500 whitespace-normal h-full outline-none border-none overflow-y-hidden resize-none hidden"
+            class="w-full bg-white whitespace-normal h-full outline-none border-none overflow-y-hidden resize-none"
             classList={{
               "pointer-events-none": !props.object.isFocused,
               "cursor-default": !props.object.isFocused,
+              hidden: props.object.fontSize! * Store.camera().z < 6, // would be good to do this with css variables somehow
             }}
             rows={1}
             spellcheck={false}

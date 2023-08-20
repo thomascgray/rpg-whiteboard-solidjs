@@ -39,5 +39,19 @@ export const makeDummyObjects = (num: number, spacingFactor: number) => {
     ]);
   }
 
+  // newObjects[num + 1] = {
+  //   id: nanoid(),
+  //   x: Math.random() * num * spacingFactor,
+  //   y: Math.random() * num * spacingFactor,
+  //   width: 200,
+  //   height: 50,
+  //   zIndex: num + 1,
+  //   type: eObjectType.TEXT,
+  //   fontSize: 16,
+  //   lineHeight: 22,
+  //   text: "Suspendisse vulputate sollicitudin",
+  //   isFocused: false,
+  // };
+
   Store.setObjects(newObjects);
 };

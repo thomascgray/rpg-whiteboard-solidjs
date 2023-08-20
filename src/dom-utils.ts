@@ -121,7 +121,6 @@ export const persistSelectedObjectDOMElementsToState = () => {
   Store.setObjects(reconcile(objs));
 };
 
-// this func is slow
 export const getCameraDomPosStyleValues = () => {
   // ridiculous string substition method
   const chunks = window.__cameraDom!.style.transform.split(" ");
@@ -130,13 +129,6 @@ export const getCameraDomPosStyleValues = () => {
   const z = scale.substring(6, scale.length - 1);
   const x = trans1.substring(10, trans1.length - 3);
   const y = trans2.substring(0, trans2.length - 3);
-  // console.log("chunks", chunks);
-  // console.log("zA", zA);
-  // console.log("xa, ya, za", xA, yA, zA);
-
-  // return [xA / zA, yA / zA, zA];
-
-  console.log("x, y, z", x, y, z);
 
   return [Number(x), Number(y), Number(z)];
 

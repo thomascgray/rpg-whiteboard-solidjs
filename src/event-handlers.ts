@@ -5,6 +5,20 @@ import * as Utils from "./utils";
 import * as DOMUtils from "./dom-utils";
 
 export const onWindowMouseDown = (e: MouseEvent) => {
+  const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
+
+  window.__cameraDom!.style.transform = `scale(${z}) translate(${x}px, ${y}px)`;
+
+  // this isnt great because the camera will still be out at the _end_ of the drag
+  Store.setCamera({
+    x,
+    y,
+    z,
+  });
+  window.__cameraDom!.dataset.posX = String(x);
+  window.__cameraDom!.dataset.posY = String(y);
+  window.__cameraDom!.dataset.posZ = String(z);
+
   Store.setHeldMouseButtons((buttons) => [...buttons, e.button]);
 
   if (e.button === eMouseButton.LEFT || e.button === eMouseButton.MIDDLE) {

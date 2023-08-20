@@ -141,16 +141,19 @@ export const interactionZoomCamera = (e: WheelEvent) => {
   // update the app zoom factor on the canvas
   canvasDom.style.setProperty("--app-camera-zoom", String(newCamera.z));
 
-  // @ts-ignore
-  if (window.scrollingSetTimeout) {
-    // @ts-ignore
-    clearTimeout(window.scrollingSetTimeout);
-  }
-  // @ts-ignore
-  window.scrollingSetTimeout = setTimeout(() => {
-    Store.setCamera(newCamera);
-    cameraDom.dataset.posX = String(newCamera.x);
-    cameraDom.dataset.posY = String(newCamera.y);
-    cameraDom.dataset.posZ = String(newCamera.z);
-  }, 80);
+  // instead of doing this, maybe something like - when we scroll, we set in state that we're
+  // scrolling, and then on mouse down, if we were scrolling, we set the camera to the styles
+  // of the camera dom, and then clear the scrolling flag?
+  // // @ts-ignore
+  // if (window.scrollingSetTimeout) {
+  //   // @ts-ignore
+  //   clearTimeout(window.scrollingSetTimeout);
+  // }
+  // // @ts-ignore
+  // window.scrollingSetTimeout = setTimeout(() => {
+  //   Store.setCamera(newCamera);
+  //   cameraDom.dataset.posX = String(newCamera.x);
+  //   cameraDom.dataset.posY = String(newCamera.y);
+  //   cameraDom.dataset.posZ = String(newCamera.z);
+  // }, 80);
 };

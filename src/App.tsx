@@ -26,7 +26,7 @@ const App: Component = () => {
   );
 
   onMount(() => {
-    TestingUtils.makeDummyObjects(2, 10);
+    TestingUtils.makeDummyObjects(20, 10);
   });
 
   onCleanup(() => {

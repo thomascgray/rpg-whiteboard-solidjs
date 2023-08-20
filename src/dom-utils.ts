@@ -57,7 +57,6 @@ export const setStylesOnElement = (
 ) => {
   const { x, y, width, height, fontSize, lineHeight } = styleAttrs;
   const styles: Partial<CSSStyleDeclaration> = {};
-  console.log("styleAttrs", JSON.stringify(styleAttrs, null, 2));
   if (x && y) {
     styles.transform = `translate(${x}px, ${y}px)`;
   } else if (x && !y) {
@@ -100,14 +99,14 @@ export const persistSelectedObjectDOMElementsToState = () => {
     if (obj.type === eObjectType.TEXT) {
       const [fontSize, lineHeight] =
         getDOMElementFontSizeAndLineHeightStyleValues(element);
+
       objs[objIndex] = {
         ...obj,
         x,
         y,
         width,
         height,
-        fontSize,
-        lineHeight,
+        fontSize: fontSize,
       };
     } else {
       objs[objIndex] = {

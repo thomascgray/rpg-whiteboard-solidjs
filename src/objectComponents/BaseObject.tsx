@@ -49,9 +49,9 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           id={props.object.id}
           class="bg-red-200 absolute top-0 left-0 __inlens"
           classList={{
-            // invisible: isHidden(),
-            "__selected-object outline-dashed outline-blue-400 hover:cursor-grab":
-              props.isSelected,
+            "__selected-object hover:cursor-grab": props.isSelected,
+            "outline-dashed outline-blue-400":
+              props.isSelected && Store.selectedObjectIds().length > 1,
           }}
           draggable="false"
           onMouseDown={(e) => {
@@ -80,12 +80,12 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           data-line-height={props.object.lineHeight}
           data-object-type={props.object.type}
           id={props.object.id}
-          class="border bg-red-200 border-solid border-slate-600 absolute top-0 left-0 __inlens"
+          class="absolute top-0 left-0 __inlens shadow-md"
           classList={{
-            // "outline-dashed outline-red-400": props.object.isFocused,
             "cursor-default": !props.object.isFocused,
-            "__selected-object outline-dashed outline-blue-400 hover:cursor-grab":
-              props.isSelected,
+            "__selected-object hover:cursor-grab": props.isSelected,
+            "outline-dashed outline-blue-400":
+              props.isSelected && Store.selectedObjectIds().length > 1,
           }}
           draggable="false"
           onDblClick={(e) => {
@@ -108,33 +108,32 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
             height: ${props.object.height}px;
             z-index: ${props.object.zIndex};
             font-size: ${props.object.fontSize}px;
-            line-height: ${props.object.lineHeight}px;
+            line-height: 1em;
             transform: translate(${props.object.x}px,
               ${props.object.y}px)`}
         >
           <textarea
             value={props.object.text || ""}
-            style={"color: var(--text-color);"}
-            class="w-full h-full overflow-y-hidden resize-none p-[4px] disabled:bg-white bg-white"
-            disabled={!props.object.isFocused}
+            class="w-full absolute top-0 left-0 whitespace-normal h-full outline-none border-none overflow-y-hidden resize-none disabled:bg-white bg-white"
             classList={{
               "pointer-events-none": !props.object.isFocused,
               "cursor-default": !props.object.isFocused,
             }}
+            rows={1}
+            spellcheck={false}
             onInput={(e) => {
               const index = Store.objects.findIndex(
                 (obj) => obj.id === props.object.id
               );
-              e.currentTarget.style.height = "auto";
-              e.currentTarget.style.height =
-                e.currentTarget.scrollHeight + "px";
 
+              e.currentTarget.style.height = "auto";
+              let newHeight = e.currentTarget.scrollHeight;
+              e.currentTarget.style.height = "100%";
+
+              console.log("newHeight", newHeight);
               Store.setObjects(index, {
                 text: e.currentTarget.value,
-                height: e.currentTarget.scrollHeight,
-                // fontSize: Number(
-                //   e.currentTarget.style.fontSize.replace("px", "")
-                // ),
+                height: newHeight,
               });
             }}
           ></textarea>

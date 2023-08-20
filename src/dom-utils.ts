@@ -127,16 +127,18 @@ export const getCameraDomPosStyleValues = () => {
   const chunks = window.__cameraDom!.style.transform.split(" ");
 
   const [scale, trans1, trans2] = chunks;
-  const zA = scale.substring(6, scale.length - 1);
-  const xA = trans1.substring(10, trans1.length - 3);
-  const yA = trans2.substring(0, trans2.length - 3);
+  const z = scale.substring(6, scale.length - 1);
+  const x = trans1.substring(10, trans1.length - 3);
+  const y = trans2.substring(0, trans2.length - 3);
   // console.log("chunks", chunks);
   // console.log("zA", zA);
   // console.log("xa, ya, za", xA, yA, zA);
 
   // return [xA / zA, yA / zA, zA];
 
-  return [Number(xA), Number(yA), Number(zA)];
+  console.log("x, y, z", x, y, z);
+
+  return [Number(x), Number(y), Number(z)];
 
   // matrix method
   // const style = window.getComputedStyle(window.__cameraDom!);

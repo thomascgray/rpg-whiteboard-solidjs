@@ -80,7 +80,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           data-line-height={props.object.lineHeight}
           data-object-type={props.object.type}
           id={props.object.id}
-          class="absolute top-0 left-0 __inlens shadow-md"
+          class="absolute bg-red-600 top-0 left-0 __inlens"
           classList={{
             "cursor-default": !props.object.isFocused,
             "__selected-object hover:cursor-grab": props.isSelected,
@@ -114,7 +114,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         >
           <textarea
             value={props.object.text || ""}
-            class="w-full absolute top-0 left-0 whitespace-normal h-full outline-none border-none overflow-y-hidden resize-none disabled:bg-white bg-white"
+            class="w-full bg-blue-500 absolute top-0 left-0 whitespace-normal h-full outline-none border-none overflow-y-hidden resize-none disabled:bg-white bg-white"
             classList={{
               "pointer-events-none": !props.object.isFocused,
               "cursor-default": !props.object.isFocused,

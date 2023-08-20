@@ -15,17 +15,17 @@ export const interactionPanCamera = (movementX: number, movementY: number) => {
     x - deltaX / z
   }px, ${y - deltaY / z}px)`;
   // @ts-ignore
-  if (window.scrollingSetTimeout) {
-    // @ts-ignore
-    clearTimeout(window.scrollingSetTimeout);
-  }
-  // @ts-ignore
-  window.scrollingSetTimeout = setTimeout(() => {
-    Store.setCamera({ x, y, z });
-    window.__cameraDom!.dataset.posX = String(x);
-    window.__cameraDom!.dataset.posY = String(y);
-    window.__cameraDom!.dataset.posZ = String(z);
-  }, 66);
+  // if (window.scrollingSetTimeout) {
+  //   // @ts-ignore
+  //   clearTimeout(window.scrollingSetTimeout);
+  // }
+  // // @ts-ignore
+  // window.scrollingSetTimeout = setTimeout(() => {
+  //   Store.setCamera({ x, y, z });
+  //   window.__cameraDom!.dataset.posX = String(x);
+  //   window.__cameraDom!.dataset.posY = String(y);
+  //   window.__cameraDom!.dataset.posZ = String(z);
+  // }, 66);
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {

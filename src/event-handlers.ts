@@ -65,6 +65,9 @@ export const onWindowMouseUp = (e: MouseEvent) => {
     const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
     Store.setCamera({ x, y, z });
+    window.__cameraDom!.dataset.posX = String(x);
+    window.__cameraDom!.dataset.posY = String(y);
+    window.__cameraDom!.dataset.posZ = String(z);
   }
 
   // // if we were just resizing

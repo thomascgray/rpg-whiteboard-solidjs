@@ -14,6 +14,16 @@ export const interactionPanCamera = (movementX: number, movementY: number) => {
   window.__cameraDom!.style.transform = `scale(${z}) translate(${
     x - deltaX / z
   }px, ${y - deltaY / z}px)`;
+
+  // TODO need to do something like this here
+  // Store.setCamera({
+  //   x: x - deltaX / z,
+  //   y: y - deltaY / z,
+  //   z,
+  // });
+  // window.__cameraDom!.dataset.posX = String(x - deltaX / z);
+  // window.__cameraDom!.dataset.posY = String(y - deltaY / z);
+  // window.__cameraDom!.dataset.posZ = String(newCamera.z);
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {

@@ -16,6 +16,7 @@ const App: Component = () => {
   window.onkeyup = EventHandlers.onWindowKeyUp;
   window.onmousemove = EventHandlers.onWindowMouseMove;
 
+  // window.onwheel = EventHandlers.onWindowMouseWheel;
   // because we need to specify passive: false, we can't use the SolidJS onWheel event
   window.addEventListener(
     "wheel",

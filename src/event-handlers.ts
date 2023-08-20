@@ -22,6 +22,7 @@ export const onWindowMouseDown = (e: MouseEvent) => {
 };
 
 export const onWindowMouseUp = (e: MouseEvent) => {
+  console.log("on window mouse up");
   // if we were just dragging some objects around
   if (
     e.button === eMouseButton.LEFT &&
@@ -147,7 +148,8 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 export const onWindowMouseWheel = (e: WheelEvent) => {
   e.stopPropagation();
   e.preventDefault();
-  if (e.type === "wheel" || e.type === "pinch" || e.ctrlKey) {
+  console.log("e.ctrlKey", e.ctrlKey);
+  if (e.ctrlKey) {
     InteractionHandlers.interactionZoomCamera(e);
   } else {
     InteractionHandlers.interactionPanCamera(e.deltaX, e.deltaY);
@@ -178,6 +180,16 @@ export const onWindowKeyDown = (e: KeyboardEvent) => {
 
 export const onWindowKeyUp = (e: KeyboardEvent) => {
   Store.setHeldKeys((keys) => keys.filter((k) => k !== (e.key as eKey)));
+};
+
+export const onWindowTouchEnd = (e: TouchEvent) => {
+  console.log("onwindow touch end");
+  const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
+
+  Store.setCamera({ x, y, z });
+  window.__cameraDom!.dataset.posX = String(x);
+  window.__cameraDom!.dataset.posY = String(y);
+  window.__cameraDom!.dataset.posZ = String(z);
 };
 
 /**

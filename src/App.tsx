@@ -60,7 +60,8 @@ const App: Component = () => {
           class="h-screen w-screen origin-top-left select-none"
           style={`transform: scale(${Store.camera().z}) translate(${
             Store.camera().x
-          }px, ${Store.camera().y}px)`}
+          }px, ${Store.camera().y}px
+          )`}
         >
           <ObjectCollection />
 

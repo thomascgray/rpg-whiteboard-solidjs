@@ -5,7 +5,9 @@ declare global {
     __backgroundAppDom?: HTMLElement;
     __setScrollingTimeout?: any;
 
+    __canvasDom?: HTMLElement;
     __canvasContext?: CanvasRenderingContext2D;
+    __canvasSvgContext?: any;
   }
 }
 
@@ -38,6 +40,7 @@ export enum eMouseButton {
 export enum eObjectType {
   IMAGE = "IMAGE",
   TEXT = "TEXT",
+  SVG = "SVG",
 }
 
 export enum eResizingFrom {
@@ -66,6 +69,9 @@ export interface iObject {
   text?: string;
   fontSize?: number;
   lineHeight?: number;
+
+  // for SVG sketches
+  svgDataUri?: string;
 }
 
 export interface iPoint {

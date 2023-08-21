@@ -140,6 +140,43 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         </div>
       </Show>
 
+      {/* svg objects */}
+      <Show when={props.object.type === eObjectType.SVG}>
+        <div
+          data-pos-x={props.object.x}
+          data-pos-y={props.object.y}
+          data-width={props.object.width}
+          data-height={props.object.height}
+          id={props.object.id}
+          class="bg-red-200 absolute top-0 left-0 __object"
+          classList={{
+            "__selected-object hover:cursor-grab": props.isSelected,
+            "outline-dashed outline-blue-400":
+              props.isSelected && Store.selectedObjectIds().length > 1,
+          }}
+          draggable="false"
+          onMouseDown={(e) => {
+            EventHandlers.onObjectMouseDown(e, props.object);
+          }}
+          style={`
+      outline-width: calc(2px / var(--app-camera-zoom));
+      max-width: none;
+    width: ${props.object.width}px;
+    height: ${props.object.height}px;
+    z-index: ${props.object.zIndex};
+    transform:
+      translate(${props.object.x}px,
+        ${props.object.y}px)`}
+        >
+          <img
+            draggable="false"
+            class="w-full h-full pointer-events-none"
+            src={`${props.object.svgDataUri}`}
+            alt=""
+          />
+        </div>
+      </Show>
+
       {/* <span
         class="bg-red-600 text-white font-mono z-[999999] absolute top-0 left-0"
         style={`transform: translate(${props.object.x}px, ${props.object.y}px)`}

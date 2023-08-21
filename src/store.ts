@@ -127,3 +127,19 @@ export const deleteSelectedObjects = () => {
   );
   unselectObjects();
 };
+
+export const addNewObject = (props: Partial<iObject>) => {
+  const newObject: iObject = {
+    id: Math.random().toString(),
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 100,
+    zIndex: objects.length + 1,
+    type: eObjectType.IMAGE,
+    isFocused: false,
+    ...props,
+  };
+  setObjects((objs) => [...objs, newObject]);
+  // setSelectedObjectIds([newObject.id]);
+};

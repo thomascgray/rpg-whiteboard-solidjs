@@ -31,6 +31,10 @@ const App: Component = () => {
     TestingUtils.makeDummyObjects(2, 15);
     window.__cameraDom = document.getElementById("camera")!;
     window.__backgroundAppDom = document.getElementById("app_background")!;
+    window.__canvasDom = document.getElementById("canvas")!;
+
+    // @ts-ignore
+    window.__canvasContext = window.__canvasDom.getContext("2d");
   });
 
   onCleanup(() => {

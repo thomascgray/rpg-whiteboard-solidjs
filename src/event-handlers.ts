@@ -45,6 +45,11 @@ export const onWindowMouseDown = (e: MouseEvent) => {
   if (Store.selectedTool() === eTool.SKETCH) {
     var canvas = document.createElement("canvas");
     canvas.setAttribute("id", "app_canvas");
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.position = "absolute";
+    canvas.style.top = "0";
+    canvas.style.left = "0";
     document.body.appendChild(canvas);
   }
 };
@@ -120,6 +125,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 
   // mouse movement for drawing a selection box
   if (
+    Store.selectedTool() === eTool.DEFAULT &&
     selectedObjectDOMElements.length <= 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT)
   ) {
@@ -146,6 +152,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 
   // mouse movement for moving objects around
   if (
+    Store.selectedTool() === eTool.DEFAULT &&
     selectedObjectDOMElements.length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
     Store.isResizingFrom() === null &&
@@ -160,6 +167,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 
   // resizing object(s)
   if (
+    Store.selectedTool() === eTool.DEFAULT &&
     selectedObjectDOMElements.length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
     Store.isResizingFrom() !== null &&
@@ -175,9 +183,16 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     // draw on the canvas
 
     var canvas = document.getElementById("app_canvas") as HTMLCanvasElement;
-    var ctx = canvas.getContext("2d");
-    ctx.lineTo(e.clientX, c.clientY);
+    var ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+
+    // ctx.fillStyle = "#FF0000";
+    // ctx.fillRect(0, 0, 150, 75);
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.lineTo(e.pageX, e.pageY);
+    ctx.strokeStyle = "#FFF";
     ctx.stroke();
+    ctx.closePath();
   }
 };
 
@@ -255,6 +270,9 @@ export const onBeginResizing = (e: MouseEvent, resizingFrom: eResizingFrom) => {
 };
 
 export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
+  if (Store.selectedTool() === eTool.SKETCH) {
+    return;
+  }
   e.stopPropagation();
 
   // we've stopped propagation so, so we need to call this manually

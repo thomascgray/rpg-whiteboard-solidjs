@@ -16,7 +16,6 @@ const App: Component = () => {
   window.onkeyup = EventHandlers.onWindowKeyUp;
   window.onmousemove = EventHandlers.onWindowMouseMove;
 
-  // window.onwheel = EventHandlers.onWindowMouseWheel;
   // because we need to specify passive: false, we can't use the SolidJS onWheel event
   window.addEventListener(
     "wheel",
@@ -27,7 +26,7 @@ const App: Component = () => {
   );
 
   onMount(() => {
-    TestingUtils.makeDummyObjects(100, 15);
+    TestingUtils.makeDummyObjects(2, 15);
     window.__cameraDom = document.getElementById("camera")!;
     window.__canvasDom = document.getElementById("canvas")!;
   });

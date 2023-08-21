@@ -94,16 +94,7 @@ export const interactionResizeObjects = (e: MouseEvent) => {
 };
 
 export const interactionZoomCamera = (e: WheelEvent) => {
-  // i think _this_ is slow too
-  // let scrollValue = e.deltaY;
-  // if (Math.abs(e.deltaY) === 100) {
-  //   scrollValue = scrollValue * 0.1;
-  // }
-  // if (scrollValue > 30) {
-  //   scrollValue = 30;
-  // } else if (scrollValue < -30) {
-  //   scrollValue = -30;
-  // }
+  const scrollValue = e.deltaY > 0 ? 20 : -20;
 
   const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
@@ -112,7 +103,7 @@ export const interactionZoomCamera = (e: WheelEvent) => {
     y,
     z,
     { x: e.clientX, y: e.clientY },
-    e.deltaY / 100
+    scrollValue / 100
   );
 
   window.__cameraDom!.style.scale = String(newCamera.z);

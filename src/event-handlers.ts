@@ -36,7 +36,6 @@ export const onWindowMouseDown = (e: MouseEvent) => {
 };
 
 export const onWindowMouseUp = (e: MouseEvent) => {
-  console.log("on window mouse up");
   // if we were just dragging some objects around
   if (
     e.button === eMouseButton.LEFT &&
@@ -162,7 +161,6 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 export const onWindowMouseWheel = (e: WheelEvent) => {
   e.stopPropagation();
   e.preventDefault();
-  console.log("e.ctrlKey", e.ctrlKey);
   if (e.ctrlKey) {
     InteractionHandlers.interactionZoomCamera(e);
   } else {
@@ -197,7 +195,6 @@ export const onWindowKeyUp = (e: KeyboardEvent) => {
 };
 
 export const onWindowTouchEnd = (e: TouchEvent) => {
-  console.log("onwindow touch end");
   const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
   Store.setCamera({ x, y, z });

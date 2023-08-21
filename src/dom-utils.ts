@@ -131,19 +131,4 @@ export const getCameraDomPosStyleValues = () => {
   const y = trans2.substring(0, trans2.length - 3);
 
   return [Number(x), Number(y), Number(z)];
-
-  // matrix method
-  // const style = window.getComputedStyle(window.__cameraDom!);
-  // const matrix = style.transform
-  //   .substring(7, style.transform.length - 1)
-  //   .split(",")
-  //   .map((x) => Number(x));
-
-  // const [z, , , , x, y] = matrix;
-
-  // console.log("xes", x, xA);
-  // console.log("yes", y, yA);
-  // console.log("zes", z, zA);
-
-  // return [x / z, y / z, z];
 };

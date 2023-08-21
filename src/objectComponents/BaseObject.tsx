@@ -47,7 +47,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           data-width={props.object.width}
           data-height={props.object.height}
           id={props.object.id}
-          class="bg-red-200 absolute top-0 left-0 __inlens"
+          class="bg-red-200 absolute top-0 left-0 __object"
           classList={{
             "__selected-object hover:cursor-grab": props.isSelected,
             "outline-dashed outline-blue-400":
@@ -81,7 +81,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           data-line-height={props.object.lineHeight}
           data-object-type={props.object.type}
           id={props.object.id}
-          class="absolute bg-red-600 top-0 left-0 __inlens"
+          class="__object absolute bg-red-600 top-0 left-0"
           classList={{
             "cursor-default": !props.object.isFocused,
             "__selected-object hover:cursor-grab": props.isSelected,
@@ -131,7 +131,6 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
               let newHeight = e.currentTarget.scrollHeight;
               e.currentTarget.style.height = "100%";
 
-              console.log("newHeight", newHeight);
               Store.setObjects(index, {
                 text: e.currentTarget.value,
                 height: newHeight,
@@ -140,6 +139,15 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           ></textarea>
         </div>
       </Show>
+
+      {/* <span
+        class="bg-red-600 text-white font-mono z-[999999] absolute top-0 left-0"
+        style={`transform: translate(${props.object.x}px, ${props.object.y}px)`}
+      >
+        x: {props.object.x}
+        <br />
+        y: {props.object.y}
+      </span> */}
     </>
   );
 };

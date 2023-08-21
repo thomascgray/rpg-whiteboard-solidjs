@@ -5,7 +5,7 @@ import BaseComponent from "../objectComponents/BaseObject";
 
 export const ObjectCollection: Component = (props) => {
   return (
-    <For each={Object.values(Store.objects)}>
+    <For each={Store.objects}>
       {(object) => (
         <BaseComponent
           object={object}

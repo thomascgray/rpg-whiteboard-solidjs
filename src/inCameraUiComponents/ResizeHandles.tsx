@@ -1,4 +1,4 @@
-import { Component, createMemo, createEffect, onMount } from "solid-js";
+import { Component, createMemo, createEffect, onMount, Show } from "solid-js";
 import * as Store from "../store";
 import { eResizingFrom, iPoint } from "../types";
 import * as EventHandlers from "../event-handlers";
@@ -45,8 +45,9 @@ export const ResizeHandles: Component = (props) => {
 
   return (
     <>
+      {/* bottom left */}
       <div
-        id="__resize_handle_left"
+        id="__resize_handle_bottom_left"
         data-pos-x={bottomLeftPoint().x}
         data-pos-y={bottomLeftPoint().y}
         onMouseDown={(e) => {
@@ -63,8 +64,10 @@ export const ResizeHandles: Component = (props) => {
         }px)`}
         class="__resize-handle absolute bg-white outline outline-blue-400 rounded-full cursor-sw-resize z-[99999999]"
       ></div>
+
+      {/* bottom right */}
       <div
-        id="__resize_handle_right"
+        id="__resize_handle_bottom_right"
         data-pos-x={bottomRightPoint().x}
         data-pos-y={bottomRightPoint().y}
         onMouseDown={(e) => {
@@ -81,6 +84,13 @@ export const ResizeHandles: Component = (props) => {
         }px)`}
         class="__resize-handle absolute bg-white outline outline-blue-400 rounded-full cursor-se-resize z-[99999999]"
       ></div>
+
+      {/* right (for text boxes and other direct width editors) */}
+
+      {/* need to change this to "text box only" */}
+      <Show when={true}>
+        <div></div>
+      </Show>
     </>
   );
 };

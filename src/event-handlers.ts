@@ -1,6 +1,13 @@
 import * as InteractionHandlers from "./interaction-handlers";
 import * as Store from "./store";
-import { eKey, eMouseButton, eResizingFrom, iCamera, iObject } from "./types";
+import {
+  eKey,
+  eMouseButton,
+  eResizingFrom,
+  eTool,
+  iCamera,
+  iObject,
+} from "./types";
 import * as Utils from "./utils";
 import * as DOMUtils from "./dom-utils";
 
@@ -32,6 +39,13 @@ export const onWindowMouseDown = (e: MouseEvent) => {
         Store.camera().z
       )
     );
+  }
+
+  // if we're drawing
+  if (Store.selectedTool() === eTool.SKETCH) {
+    var canvas = document.createElement("canvas");
+    canvas.setAttribute("id", "app_canvas");
+    document.body.appendChild(canvas);
   }
 };
 
@@ -156,6 +170,15 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     InteractionHandlers.interactionResizeObjects(e);
     window.__app_selectedObjects = undefined;
   }
+
+  if (Store.selectedTool() === eTool.SKETCH) {
+    // draw on the canvas
+
+    var canvas = document.getElementById("app_canvas") as HTMLCanvasElement;
+    var ctx = canvas.getContext("2d");
+    ctx.lineTo(e.clientX, c.clientY);
+    ctx.stroke();
+  }
 };
 
 export const onWindowMouseWheel = (e: WheelEvent) => {
@@ -188,6 +211,10 @@ export const onWindowKeyDown = (e: KeyboardEvent) => {
   if (e.key === eKey.NUMBER_1) {
     Utils.sendSelectedObjectsToBack();
   }
+
+  if (e.key === eKey.NUMBER_3) {
+    Store.setSelectedTool(eTool.SKETCH);
+  }
 };
 
 export const onWindowKeyUp = (e: KeyboardEvent) => {
@@ -208,6 +235,9 @@ export const onWindowTouchEnd = (e: TouchEvent) => {
  */
 
 export const onCanvasMouseDown = (e: MouseEvent) => {
+  if (Store.selectedTool() === eTool.SKETCH) {
+    return;
+  }
   if (e.button === eMouseButton.LEFT) {
     Store.unselectObjects();
     Store.setIsDrawingSelectionBox(true);

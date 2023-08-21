@@ -83,6 +83,7 @@ const App: Component = () => {
       </div>
       <div class="fixed bottom-0 left-0 w-full font-mono bg-red-600 text-white">
         <p>camera: {JSON.stringify(Store.camera(), null, 2)}</p>
+        <p>tool: {JSON.stringify(Store.selectedTool(), null, 2)}</p>
       </div>
     </>
   );

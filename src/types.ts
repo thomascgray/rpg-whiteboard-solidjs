@@ -7,6 +7,10 @@ declare global {
   }
 }
 
+export enum eTool {
+  DEFAULT = "DEFAULT",
+  SKETCH = "SKETCH",
+}
 export enum eKey {
   SPACE = " ",
   NUMBER_1 = "1",
@@ -37,37 +41,6 @@ export enum eObjectType {
 export enum eResizingFrom {
   BOTTOM_RIGHT = "BOTTOM_RIGHT",
   BOTTOM_LEFT = "BOTTOM_LEFT",
-}
-
-export interface iState {
-  // 1. we have the actual objects we're rendering on the canvas
-  objects: { [key: string]: iObject };
-
-  // 2. we have the keyboard and mouse buttons that the user is pressing
-  input: {
-    heldMouseButtons: eMouseButton[];
-    heldKeys: eKey[];
-  };
-
-  // 3. everything else is basically "interaction" state. e.g what objects are selected, is the user dragging, etc.
-
-  isSelectingMultipleObjects: boolean;
-
-  isFocusedInTextbox: boolean;
-
-  isDrawingSelectionBox: boolean;
-
-  drawingSelectionBoxStartPos: iPoint;
-  drawingSelectionBoxWidth: number;
-  drawingSelectionBoxHeight: number;
-
-  isPanning: boolean;
-  camera: iCamera;
-
-  mouseDownPos: iPoint;
-  mouseDownPosCanvas: iPoint;
-
-  isResizingFrom: eResizingFrom | null;
 }
 
 export interface iObject {

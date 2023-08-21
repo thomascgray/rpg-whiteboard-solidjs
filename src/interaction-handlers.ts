@@ -1,4 +1,4 @@
-import { eKey, eResizingFrom, iCamera, iObject, type iState } from "./types";
+import { eKey, eResizingFrom, iCamera, iObject } from "./types";
 import * as Utils from "./utils";
 import * as DOMUtils from "./dom-utils";
 import * as Store from "./store";
@@ -94,7 +94,12 @@ export const interactionResizeObjects = (e: MouseEvent) => {
 };
 
 export const interactionZoomCamera = (e: WheelEvent) => {
-  const scrollValue = e.deltaY > 0 ? 20 : -20;
+  let scrollValue;
+  if (e.deltaY < 10) {
+    scrollValue = e.deltaY;
+  } else {
+    scrollValue = e.deltaY > 0 ? 20 : -20;
+  }
 
   const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 

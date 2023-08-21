@@ -6,6 +6,7 @@ import {
   eMouseButton,
   eObjectType,
   eResizingFrom,
+  eTool,
   iBox,
   iCamera,
   iObject,
@@ -75,9 +76,23 @@ export const [mouseDownPosCanvas, setMouseDownPosCanvas] = createSignal<iPoint>(
 export const [isResizingFrom, setIsResizingFrom] =
   createSignal<eResizingFrom | null>(null);
 
+export const [selectedTool, setSelectedTool] = createSignal<eTool>(
+  eTool.DEFAULT
+);
+
 /**
  *
+ *
+ *
+ *
+ *
+ *
  * A bunch of state/store helpers
+ *
+ *
+ *
+ *
+ *
  *
  *
  */

@@ -117,7 +117,7 @@ export const interactionZoomCamera = (e: WheelEvent) => {
 
   // i _think_ this is slow?
   // update the app zoom factor on the canvas
-  window.__canvasDom!.style.setProperty(
+  window.__backgroundAppDom!.style.setProperty(
     "--app-camera-zoom",
     String(newCamera.z)
   );

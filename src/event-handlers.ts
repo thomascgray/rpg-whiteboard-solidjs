@@ -40,18 +40,6 @@ export const onWindowMouseDown = (e: MouseEvent) => {
       )
     );
   }
-
-  // if we're drawing
-  if (Store.selectedTool() === eTool.SKETCH) {
-    var canvas = document.createElement("canvas");
-    canvas.setAttribute("id", "app_canvas");
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-    canvas.style.position = "absolute";
-    canvas.style.top = "0";
-    canvas.style.left = "0";
-    document.body.appendChild(canvas);
-  }
 };
 
 export const onWindowMouseUp = (e: MouseEvent) => {
@@ -179,21 +167,21 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     window.__app_selectedObjects = undefined;
   }
 
-  if (Store.selectedTool() === eTool.SKETCH) {
-    // draw on the canvas
+  // if (Store.selectedTool() === eTool.SKETCH) {
+  //   // draw on the canvas
 
-    var canvas = document.getElementById("app_canvas") as HTMLCanvasElement;
-    var ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+  //   var canvas = document.getElementById("app_canvas") as HTMLCanvasElement;
+  //   var ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
-    // ctx.fillStyle = "#FF0000";
-    // ctx.fillRect(0, 0, 150, 75);
-    ctx.beginPath();
-    ctx.lineWidth = 5;
-    ctx.lineTo(e.pageX, e.pageY);
-    ctx.strokeStyle = "#FFF";
-    ctx.stroke();
-    ctx.closePath();
-  }
+  //   // ctx.fillStyle = "#FF0000";
+  //   // ctx.fillRect(0, 0, 150, 75);
+  //   ctx.beginPath();
+  //   ctx.lineWidth = 5;
+  //   ctx.lineTo(e.pageX, e.pageY);
+  //   ctx.strokeStyle = "#FFF";
+  //   ctx.stroke();
+  //   ctx.closePath();
+  // }
 };
 
 export const onWindowMouseWheel = (e: WheelEvent) => {

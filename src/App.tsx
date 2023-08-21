@@ -8,6 +8,8 @@ import { ResizeHandles } from "./inCameraUiComponents/ResizeHandles";
 import { ObjectSelectionHighlightBox } from "./inCameraUiComponents/ObjectSelectionHighlightBox";
 import * as TestingUtils from "./testing";
 import { ObjectCollection } from "./inCameraUiComponents/ObjectCollection";
+import { AppUi } from "./AppUi";
+import { SketchingCanvas } from "./appUi/SketchingCanvas";
 
 const App: Component = () => {
   window.onmousedown = EventHandlers.onWindowMouseDown;
@@ -28,7 +30,7 @@ const App: Component = () => {
   onMount(() => {
     TestingUtils.makeDummyObjects(2, 15);
     window.__cameraDom = document.getElementById("camera")!;
-    window.__canvasDom = document.getElementById("canvas")!;
+    window.__backgroundAppDom = document.getElementById("app_background")!;
   });
 
   onCleanup(() => {
@@ -45,7 +47,7 @@ const App: Component = () => {
           "--app-camera-zoom": `${Store.camera().z}`,
         }}
         draggable="false"
-        id="canvas"
+        id="app_background"
         onMouseDown={EventHandlers.onCanvasMouseDown}
         class="w-screen cursor-auto h-screen bg-slate-100 overflow-hidden touch-none"
       >
@@ -80,6 +82,10 @@ const App: Component = () => {
           </Show>
         </div>
       </div>
+      <SketchingCanvas />
+
+      <AppUi />
+
       <div class="fixed bottom-0 left-0 w-full font-mono bg-red-600 text-white">
         <p>camera: {JSON.stringify(Store.camera(), null, 2)}</p>
         <p>tool: {JSON.stringify(Store.selectedTool(), null, 2)}</p>

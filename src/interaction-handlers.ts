@@ -14,29 +14,6 @@ export const interactionPanCamera = (movementX: number, movementY: number) => {
   window.__cameraDom!.style.transform = `scale(${z}) translate(${
     x - deltaX / z
   }px, ${y - deltaY / z}px)`;
-
-  // const objects = document.getElementsByClassName("__object");
-  // const canvasRect = window.__canvasDom!.getBoundingClientRect();
-  // for (let obj of objects) {
-  //   const objRect = obj.getBoundingClientRect();
-
-  //   const inCamera =
-  //     objRect.right > canvasRect.left &&
-  //     objRect.left < canvasRect.right &&
-  //     objRect.bottom > canvasRect.top &&
-  //     objRect.top < canvasRect.bottom;
-
-  //   if (inCamera) {
-  //     // if the object has the "invisible" class, remove it
-  //     if (obj.classList.contains("invisible")) {
-  //       obj.classList.remove("invisible");
-  //     }
-  //   } else {
-  //     if (!obj.classList.contains("invisible")) {
-  //       obj.classList.add("invisible");
-  //     }
-  //   }
-  // }
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {
@@ -117,15 +94,16 @@ export const interactionResizeObjects = (e: MouseEvent) => {
 };
 
 export const interactionZoomCamera = (e: WheelEvent) => {
-  let scrollValue = e.deltaY;
-  if (Math.abs(e.deltaY) === 100) {
-    scrollValue = scrollValue * 0.1;
-  }
-  if (scrollValue > 30) {
-    scrollValue = 30;
-  } else if (scrollValue < -30) {
-    scrollValue = -30;
-  }
+  // i think _this_ is slow too
+  // let scrollValue = e.deltaY;
+  // if (Math.abs(e.deltaY) === 100) {
+  //   scrollValue = scrollValue * 0.1;
+  // }
+  // if (scrollValue > 30) {
+  //   scrollValue = 30;
+  // } else if (scrollValue < -30) {
+  //   scrollValue = -30;
+  // }
 
   const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
@@ -134,14 +112,14 @@ export const interactionZoomCamera = (e: WheelEvent) => {
     y,
     z,
     { x: e.clientX, y: e.clientY },
-    scrollValue / 100
+    e.deltaY / 100
   );
-  // window.__cameraDom!.style.transform = `scale(${newCamera.z}) translate(${newCamera.x}px, ${newCamera.y}px)`;
-  window.__cameraDom!.style.transform = `translate(${newCamera.x}px, ${newCamera.y}px)`;
+
   window.__cameraDom!.style.scale = String(newCamera.z);
+  (window.__cameraDom!.style.translate = String(newCamera.x)),
+    String(newCamera.y);
 
-  // window.__cameraDom!.style.translate = String(newCamera.x);
-
+  // i _think_ this is slow?
   // update the app zoom factor on the canvas
   window.__canvasDom!.style.setProperty(
     "--app-camera-zoom",
@@ -152,28 +130,4 @@ export const interactionZoomCamera = (e: WheelEvent) => {
   window.__cameraDom!.dataset.posX = String(newCamera.x);
   window.__cameraDom!.dataset.posY = String(newCamera.y);
   window.__cameraDom!.dataset.posZ = String(newCamera.z);
-
-  // const objects = document.getElementsByClassName("__object");
-  // const canvasRect = window.__canvasDom!.getBoundingClientRect();
-  // for (let obj of objects) {
-  //   const objRect = obj.getBoundingClientRect();
-
-  //   const inCamera =
-  //     objRect.right > canvasRect.left &&
-  //     objRect.left < canvasRect.right &&
-  //     objRect.bottom > canvasRect.top &&
-  //     objRect.top < canvasRect.bottom;
-
-  //   if (inCamera) {
-  //     // if the object has the "invisible" class, remove it
-  //     if (obj.classList.contains("hidden")) {
-  //       obj.classList.remove("hidden");
-  //     }
-  //   } else {
-  //     if (!obj.classList.contains("hidden")) {
-  //       obj.classList.add("hidden");
-  //     }
-  //   }
-  // }
-  // we now need to find all the elements that are offscreen, and hide them
 };

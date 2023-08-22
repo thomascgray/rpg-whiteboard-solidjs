@@ -3,14 +3,14 @@ import * as Store from "../store";
 import { eTool } from "../types";
 import * as Icons from "../icons";
 
-export const LeftToolbar: Component = (props) => {
+export const BottomToolbar: Component = (props) => {
   return (
-    <div class="fixed top-[50%] left-2 translate-y-[-50%] flex flex-col justify-center bg-slate-300 p-2 rounded-full space-y-2 text-white shadow border border-solid border-slate-400">
+    <div class="fixed bottom-3 left-[50%] flex translate-x-[-50%] flex-row justify-center space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
       <button
         onClick={() => {
           Store.setSelectedTool(eTool.DEFAULT);
         }}
-        class="p-3 rounded-full"
+        class="rounded-full p-3"
         classList={{
           "bg-slate-400 text-white hover:bg-slate-500":
             Store.selectedTool() !== eTool.DEFAULT,
@@ -23,7 +23,7 @@ export const LeftToolbar: Component = (props) => {
         onClick={() => {
           Store.setSelectedTool(eTool.SKETCH);
         }}
-        class="p-3 rounded-full"
+        class="rounded-full p-3"
         classList={{
           "bg-slate-400 text-white hover:bg-slate-500":
             Store.selectedTool() !== eTool.SKETCH,
@@ -36,7 +36,7 @@ export const LeftToolbar: Component = (props) => {
         onClick={() => {
           Store.setSelectedTool(eTool.ERASER);
         }}
-        class="p-3 rounded-full"
+        class="rounded-full p-3"
         classList={{
           "bg-slate-400 text-white hover:bg-slate-500":
             Store.selectedTool() !== eTool.ERASER,

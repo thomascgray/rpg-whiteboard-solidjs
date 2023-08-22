@@ -9,8 +9,9 @@ import { ObjectSelectionHighlightBox } from "./inCameraUiComponents/ObjectSelect
 import * as TestingUtils from "./utils/testing-utils";
 import { ObjectCollection } from "./inCameraUiComponents/ObjectCollection";
 import { TopToolbar } from "./appUi/TopToolbar";
-import { LeftToolbar } from "./appUi/LeftToolbar";
+import { BottomToolbar } from "./appUi/BottomToolbar";
 import { SketchingCanvas } from "./appUi/SketchingCanvas";
+import { LeftTray } from "./appUi/LeftTray";
 
 const App: Component = () => {
   window.onmousedown = EventHandlers.onWindowMouseDown;
@@ -24,11 +25,11 @@ const App: Component = () => {
     (e) => {
       EventHandlers.onWindowMouseWheel(e as WheelEvent);
     },
-    { passive: false }
+    { passive: false },
   );
 
   onMount(() => {
-    TestingUtils.makeDummyObjects(2, 15);
+    TestingUtils.makeDummyObjects(200, 15);
     window.__cameraDom = document.getElementById("camera")!;
     window.__backgroundAppDom = document.getElementById("app_background")!;
     window.__canvasDom = document.getElementById("canvas")!;
@@ -53,7 +54,7 @@ const App: Component = () => {
         draggable="false"
         id="app_background"
         onMouseDown={EventHandlers.onCanvasMouseDown}
-        class="w-screen cursor-auto h-screen bg-slate-100 overflow-hidden touch-none"
+        class="h-screen w-screen cursor-auto touch-none overflow-hidden bg-slate-100"
       >
         <div
           data-pos-x={Store.camera().x}
@@ -88,7 +89,8 @@ const App: Component = () => {
       </div>
       <SketchingCanvas />
 
-      <LeftToolbar />
+      <BottomToolbar />
+      <LeftTray />
     </>
   );
 };

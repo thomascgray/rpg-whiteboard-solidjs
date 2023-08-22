@@ -48,7 +48,7 @@ export const [camera, setCamera] = createSignal<iCamera>({
 
 // 3. everything else is basically "interaction" state. e.g what objects are selected, is the user dragging, etc.
 export const [selectedObjectIds, setSelectedObjectIds] = createSignal<string[]>(
-  []
+  [],
 );
 
 export const [isSelectingMultipleObjects, setIsSelectingMultipleObjects] =
@@ -70,15 +70,18 @@ export const [mouseDownPos, setMouseDownPos] = createSignal<iPoint>({
   y: 0,
 });
 export const [mouseDownPosCanvas, setMouseDownPosCanvas] = createSignal<iPoint>(
-  { x: 0, y: 0 }
+  { x: 0, y: 0 },
 );
 
 export const [isResizingFrom, setIsResizingFrom] =
   createSignal<eResizingFrom | null>(null);
 
 export const [selectedTool, setSelectedTool] = createSignal<eTool>(
-  eTool.DEFAULT
+  eTool.DEFAULT,
 );
+
+export const [isLeftTrayExpanded, setIsLeftTrayExpanded] =
+  createSignal<boolean>(false);
 
 /**
  *
@@ -123,7 +126,7 @@ export const unselectObjects = () => {
 
 export const deleteSelectedObjects = () => {
   setObjects((objs) =>
-    objs.filter((obj) => !selectedObjectIds().includes(obj.id))
+    objs.filter((obj) => !selectedObjectIds().includes(obj.id)),
   );
   unselectObjects();
 };

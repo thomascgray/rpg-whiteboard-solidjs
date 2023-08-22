@@ -32,9 +32,8 @@ export const LeftTray: Component = (props) => {
           class="rounded-full p-3"
           classList={{
             "bg-slate-400 text-white hover:bg-slate-500":
-              Store.selectedTool() !== eTool.DEFAULT,
-            "text-red-500 bg-slate-700 ":
-              Store.selectedTool() === eTool.DEFAULT,
+              !Store.isLeftTrayExpanded(),
+            "text-red-500 bg-slate-700 ": Store.isLeftTrayExpanded(),
           }}
         >
           <Icons.D6_6 />

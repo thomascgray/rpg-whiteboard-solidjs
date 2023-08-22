@@ -81,7 +81,7 @@ export const [selectedTool, setSelectedTool] = createSignal<eTool>(
 );
 
 export const [isLeftTrayExpanded, setIsLeftTrayExpanded] =
-  createSignal<boolean>(false);
+  createSignal<boolean>(true);
 
 /**
  *

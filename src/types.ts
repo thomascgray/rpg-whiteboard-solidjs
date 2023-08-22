@@ -13,6 +13,9 @@ declare global {
 
     __canvasDrawingTopLeftPoint?: iPoint;
     __canvasDrawingBottomRightPoint?: iPoint;
+
+    // this seems so dumb, refactor this
+    __widthOfTray?: number;
   }
 }
 

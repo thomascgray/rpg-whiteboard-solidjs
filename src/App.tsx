@@ -34,6 +34,9 @@ const App: Component = () => {
     window.__backgroundAppDom = document.getElementById("app_background")!;
     window.__canvasDom = document.getElementById("canvas")!;
 
+    window.__widthOfTray = document.getElementById(
+      "tray-without-handle",
+    )!.offsetWidth;
     // @ts-ignore
     window.__canvasContext = window.__canvasDom.getContext("2d");
   });

@@ -77,6 +77,7 @@ export interface iObject {
 
   // for SVG sketches
   svgDataUri?: string;
+  originalDimensions?: iDimensions; // because we need the SVG viewbox to always be the original
 }
 
 export interface iPoint {
@@ -84,8 +85,8 @@ export interface iPoint {
   y: number;
 }
 export interface iDimensions {
-  _width: number;
-  _height: number;
+  width: number;
+  height: number;
 }
 
 export interface iBox {

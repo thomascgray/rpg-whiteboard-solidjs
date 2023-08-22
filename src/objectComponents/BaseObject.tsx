@@ -168,15 +168,15 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
       translate(${props.object.x}px,
         ${props.object.y}px)`}
         >
-          <img
-            style={`
-            
-            `}
-            draggable="false"
-            class="pointer-events-none w-full h-full"
-            src={`${props.object.svgDataUri}`}
-            alt=""
-          />
+          <svg
+            style="image-rendering: pixelated;"
+            class="w-full h-full"
+            width={props.object.width}
+            height={props.object.height}
+            shape-rendering="crispEdges"
+            viewBox={`0 0 ${props.object.originalDimensions?.width} ${props.object.originalDimensions?.height}`}
+            innerHTML={props.object.svgDataUri}
+          ></svg>
         </div>
       </Show>
 

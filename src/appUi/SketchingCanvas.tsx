@@ -34,17 +34,6 @@ export const SketchingCanvas: Component = (props) => {
         window.__canvasContext!.lineJoin = "round";
         window.__canvasContext!.lineWidth = 5;
         window.__canvasContext!.moveTo(e.pageX, e.pageY);
-
-        // window.__canvasSvgContext = new C2S(
-        //   window.innerWidth,
-        //   window.innerHeight
-        // );
-
-        // window.__canvasSvgContext!.beginPath();
-        // window.__canvasSvgContext!.strokeStyle = "#F00";
-        // window.__canvasSvgContext!.lineJoin = "round";
-        // window.__canvasSvgContext!.lineWidth = 5;
-        // window.__canvasSvgContext!.moveTo(e.pageX, e.pageY);
       }}
       onMouseMove={(e) => {
         if (!Store.heldMouseButtons().includes(eMouseButton.LEFT)) {
@@ -54,9 +43,6 @@ export const SketchingCanvas: Component = (props) => {
 
         window.__canvasContext!.lineTo(e.pageX, e.pageY);
         window.__canvasContext!.stroke();
-
-        // window.__canvasSvgContext!.lineTo(e.pageX, e.pageY);
-        // window.__canvasSvgContext!.stroke();
 
         // as we move, we update the top left and bottom right points
         // so we can draw a rectangle around the drawing
@@ -89,8 +75,8 @@ export const SketchingCanvas: Component = (props) => {
         //draw your canvas like you would normally
         window.__canvasSvgContext = new C2S(width, height);
 
-        console.log("width", width);
-        console.log("height", height);
+        // doing draw image results in blurry svg, maybe we DO need to mirror the inputs
+        // against both contexts, hmm, more math required
         window.__canvasSvgContext.drawImage(
           window.__canvasDom,
           window.__canvasDrawingTopLeftPoint!.x - 5,
@@ -106,9 +92,13 @@ export const SketchingCanvas: Component = (props) => {
 
         Store.addNewObject({
           type: eObjectType.SVG,
-          svgDataUri: svgToTinyDataUri(mySerializedSVG),
-          width,
-          height,
+          svgDataUri: mySerializedSVG,
+          width: width / Store.camera().z,
+          height: height / Store.camera().z,
+          originalDimensions: {
+            width,
+            height,
+          },
         });
 
         window.__canvasContext!.clearRect(

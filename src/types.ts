@@ -19,6 +19,7 @@ declare global {
 export enum eTool {
   DEFAULT = "DEFAULT",
   SKETCH = "SKETCH",
+  ERASER = "ERASER",
 }
 export enum eKey {
   SPACE = " ",

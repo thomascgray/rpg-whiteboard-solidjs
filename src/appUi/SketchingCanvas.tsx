@@ -95,6 +95,8 @@ export const SketchingCanvas: Component = (props) => {
           svgDataUri: mySerializedSVG,
           width: width / Store.camera().z,
           height: height / Store.camera().z,
+          x: window.__canvasDrawingTopLeftPoint!.x,
+          y: window.__canvasDrawingTopLeftPoint!.y,
           originalDimensions: {
             width,
             height,
@@ -107,6 +109,8 @@ export const SketchingCanvas: Component = (props) => {
           window.innerWidth,
           window.innerHeight
         );
+
+        Store.setSelectedTool(eTool.DEFAULT);
       }}
     ></canvas>
   );

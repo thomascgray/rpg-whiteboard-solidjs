@@ -1,8 +1,8 @@
 import { eKey, eResizingFrom, iCamera, iObject } from "./types";
-import * as Utils from "./utils";
-import * as DOMUtils from "./dom-utils";
+import * as Utils from "./utils/general-utils";
+import * as DOMUtils from "./utils/dom-utils";
 import * as Store from "./store";
-import * as ResizeUtils from "./resize-utils";
+import * as ResizeUtils from "./utils/resize-utils";
 import * as _ from "lodash";
 
 export const interactionPanCamera = (movementX: number, movementY: number) => {

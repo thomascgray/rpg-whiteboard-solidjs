@@ -1,8 +1,7 @@
 import { Component, Show, createEffect, createMemo, onMount } from "solid-js";
-import { eObjectType, iObject } from "../types";
-import * as EventHandlers from "../event-handlers";
-import { ImageObject } from "./Image";
-import * as Store from "../store";
+import { eObjectType, iObject } from "./types";
+import * as EventHandlers from "./event-handlers";
+import * as Store from "./store";
 
 export interface BaseComponentProps {
   object: iObject;
@@ -179,15 +178,6 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           ></svg>
         </div>
       </Show>
-
-      {/* <span
-        class="bg-red-600 text-white font-mono z-[999999] absolute top-0 left-0"
-        style={`transform: translate(${props.object.x}px, ${props.object.y}px)`}
-      >
-        x: {props.object.x}
-        <br />
-        y: {props.object.y}
-      </span> */}
     </>
   );
 };

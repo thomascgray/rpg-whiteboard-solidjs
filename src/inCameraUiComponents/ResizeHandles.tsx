@@ -57,8 +57,8 @@ export const ResizeHandles: Component = (props) => {
         width: calc(${HANDLE_SIZE}px / var(--app-camera-zoom)); 
         height: calc(${HANDLE_SIZE}px / var(--app-camera-zoom));
         outline-width: calc(3px / var(--app-camera-zoom));
-        left: calc(-${HANDLE_SIZE}px / var(--app-camera-zoom));
-        top: calc(${HANDLE_SIZE_QUARTER}px / var(--app-camera-zoom));
+        left: calc(-${HANDLE_SIZE * 2}px / var(--app-camera-zoom));
+        top: calc(${HANDLE_SIZE}px / var(--app-camera-zoom));
         transform: translate(${bottomLeftPoint().x}px, ${
           bottomLeftPoint().y
         }px)`}
@@ -76,8 +76,8 @@ export const ResizeHandles: Component = (props) => {
         style={`
         width:  calc(${HANDLE_SIZE}px / var(--app-camera-zoom)); 
         height: calc(${HANDLE_SIZE}px / var(--app-camera-zoom));
-        left: calc(${HANDLE_SIZE_QUARTER / 2}px / var(--app-camera-zoom));
-        top: calc(${HANDLE_SIZE_QUARTER}px / var(--app-camera-zoom));
+        left: calc(${HANDLE_SIZE}px / var(--app-camera-zoom));
+        top: calc(${HANDLE_SIZE}px / var(--app-camera-zoom));
         outline-width: calc(3px / var(--app-camera-zoom));
         transform: translate(${bottomRightPoint().x}px, ${
           bottomRightPoint().y

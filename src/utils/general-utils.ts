@@ -1,5 +1,5 @@
-import type { iBox, iCamera, iObject, iPoint } from "./types";
-import * as Store from "./store";
+import type { iBox, iCamera, iObject, iPoint } from "../types";
+import * as Store from "../store";
 import * as _ from "lodash";
 import { produce, reconcile } from "solid-js/store";
 

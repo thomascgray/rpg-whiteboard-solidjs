@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
-import { eObjectType, iObject } from "./types";
+import { eObjectType, iObject } from "../types";
 import * as _ from "lodash";
-import * as Store from "./store";
+import * as Store from "../store";
 
 export const makeDummyObjects = (num: number, spacingFactor: number) => {
   const newObjects: { [key: string]: iObject } = {};

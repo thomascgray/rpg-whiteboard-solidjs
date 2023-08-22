@@ -8,8 +8,8 @@ import {
   iCamera,
   iObject,
 } from "./types";
-import * as Utils from "./utils";
-import * as DOMUtils from "./dom-utils";
+import * as Utils from "./utils/general-utils";
+import * as DOMUtils from "./utils/dom-utils";
 
 export const onWindowMouseDown = (e: MouseEvent) => {
   const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();

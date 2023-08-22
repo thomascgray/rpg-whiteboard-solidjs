@@ -6,9 +6,10 @@ import { reconcile } from "solid-js/store";
 import { SelectionBoxComponent } from "./inCameraUiComponents/SelectionBox";
 import { ResizeHandles } from "./inCameraUiComponents/ResizeHandles";
 import { ObjectSelectionHighlightBox } from "./inCameraUiComponents/ObjectSelectionHighlightBox";
-import * as TestingUtils from "./testing";
+import * as TestingUtils from "./utils/testing-utils";
 import { ObjectCollection } from "./inCameraUiComponents/ObjectCollection";
-import { AppUi } from "./AppUi";
+import { TopToolbar } from "./appUi/TopToolbar";
+import { LeftToolbar } from "./appUi/LeftToolbar";
 import { SketchingCanvas } from "./appUi/SketchingCanvas";
 
 const App: Component = () => {
@@ -17,7 +18,6 @@ const App: Component = () => {
   window.onkeydown = EventHandlers.onWindowKeyDown;
   window.onkeyup = EventHandlers.onWindowKeyUp;
   window.onmousemove = EventHandlers.onWindowMouseMove;
-
   // because we need to specify passive: false, we can't use the SolidJS onWheel event
   window.addEventListener(
     "wheel",
@@ -88,12 +88,7 @@ const App: Component = () => {
       </div>
       <SketchingCanvas />
 
-      <AppUi />
-
-      <div class="fixed bottom-0 left-0 w-full font-mono bg-red-600 text-white">
-        <p>camera: {JSON.stringify(Store.camera(), null, 2)}</p>
-        <p>tool: {JSON.stringify(Store.selectedTool(), null, 2)}</p>
-      </div>
+      <LeftToolbar />
     </>
   );
 };

@@ -1,5 +1,5 @@
-import { eObjectType, iObject } from "./types";
-import * as Store from "./store";
+import { eObjectType, iObject } from "../types";
+import * as Store from "../store";
 import { reconcile } from "solid-js/store";
 
 // recalculates the position for the object selection box and redraws it manually

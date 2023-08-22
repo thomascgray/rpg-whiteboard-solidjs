@@ -1,5 +1,5 @@
-import { eObjectType, iObject } from "./types";
-import * as Store from "./store";
+import { eObjectType, iObject } from "../types";
+import * as Store from "../store";
 import * as DOMUtils from "./dom-utils";
 
 export const resizeBottomLeftToTopRight = (

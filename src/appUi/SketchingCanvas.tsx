@@ -5,6 +5,7 @@ import { eMouseButton, eObjectType, eTool } from "../types";
 // @ts-ignore
 import C2S from "canvas2svg";
 import svgToTinyDataUri from "mini-svg-data-uri";
+import { screenToCanvas } from "../utils/general-utils";
 
 export const SketchingCanvas: Component = (props) => {
   return (
@@ -90,13 +91,20 @@ export const SketchingCanvas: Component = (props) => {
         );
         var mySerializedSVG = window.__canvasSvgContext.getSerializedSvg();
 
+        const spawnPoint = screenToCanvas(
+          window.__canvasDrawingTopLeftPoint!.x,
+          window.__canvasDrawingTopLeftPoint!.y,
+          Store.camera().x,
+          Store.camera().y,
+          Store.camera().z
+        );
         Store.addNewObject({
           type: eObjectType.SVG,
           svgDataUri: mySerializedSVG,
           width: width / Store.camera().z,
           height: height / Store.camera().z,
-          x: window.__canvasDrawingTopLeftPoint!.x,
-          y: window.__canvasDrawingTopLeftPoint!.y,
+          x: spawnPoint.x,
+          y: spawnPoint.y,
           originalDimensions: {
             width,
             height,

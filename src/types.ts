@@ -1,3 +1,5 @@
+// we put a bunch of stuff onto the window object
+// its a huge performance gain
 declare global {
   interface Window {
     __app_selectedObjects?: HTMLCollectionOf<Element>;
@@ -8,6 +10,9 @@ declare global {
     __canvasDom?: HTMLElement;
     __canvasContext?: CanvasRenderingContext2D;
     __canvasSvgContext?: any;
+
+    __canvasDrawingTopLeftPoint?: iPoint;
+    __canvasDrawingBottomRightPoint?: iPoint;
   }
 }
 

@@ -148,7 +148,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           data-width={props.object.width}
           data-height={props.object.height}
           id={props.object.id}
-          class="bg-red-200 absolute top-0 left-0 __object"
+          class="absolute top-0 left-0 __object"
           classList={{
             "__selected-object hover:cursor-grab": props.isSelected,
             "outline-dashed outline-blue-400":
@@ -169,8 +169,11 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         ${props.object.y}px)`}
         >
           <img
+            style={`
+            
+            `}
             draggable="false"
-            class="w-full h-full pointer-events-none"
+            class="pointer-events-none w-full h-full"
             src={`${props.object.svgDataUri}`}
             alt=""
           />

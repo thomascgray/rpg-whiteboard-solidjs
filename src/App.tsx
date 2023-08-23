@@ -12,6 +12,9 @@ import { TopToolbar } from "./appUi/TopToolbar";
 import { BottomToolbar } from "./appUi/BottomToolbar";
 import { SketchingCanvas } from "./appUi/SketchingCanvas";
 import { LeftTray } from "./appUi/LeftTray";
+import { eTool } from "./types";
+import { BottomSketchToolbar } from "./appUi/BottomSketchToolbar";
+import { SketchPenNib } from "./inCameraUiComponents/SketchPenNib";
 
 const App: Component = () => {
   window.onmousedown = EventHandlers.onWindowMouseDown;
@@ -90,8 +93,14 @@ const App: Component = () => {
           </Show>
         </div>
       </div>
+
+      {/* this order below is important, due to z indexing, etc. */}
       <SketchingCanvas />
 
+      <Show when={Store.selectedTool() === eTool.SKETCH}>
+        <SketchPenNib />
+        <BottomSketchToolbar />
+      </Show>
       <BottomToolbar />
       <LeftTray />
     </>

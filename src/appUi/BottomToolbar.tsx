@@ -5,7 +5,7 @@ import * as Icons from "../icons";
 
 export const BottomToolbar: Component = (props) => {
   return (
-    <div class="fixed bottom-3 left-[50%] flex translate-x-[-50%] flex-row justify-center space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
+    <div class="fixed bottom-3 left-[50%] z-50 flex translate-x-[-50%] flex-row justify-center space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
       <button
         onClick={() => {
           Store.setSelectedTool(eTool.DEFAULT);

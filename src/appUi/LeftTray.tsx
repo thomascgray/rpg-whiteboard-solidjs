@@ -20,12 +20,35 @@ export const LeftTray: Component = (props) => {
       </div>
 
       {/* the buttons that sit outside */}
-      <div class="flex -translate-x-[2px] flex-col justify-center space-y-2 rounded-br-full rounded-tr-full border border-l-0 border-solid border-slate-400 bg-slate-300 p-2 text-white">
+      <div class="flex -translate-x-[2px] flex-col justify-center space-y-2 rounded-br-2xl rounded-tr-2xl border border-l-0 border-solid border-slate-400 bg-slate-300 p-2 text-white">
         <button
           onClick={() => {
-            console.log(
-              document.getElementById("tray-without-handle")!.offsetWidth,
-            );
+            Store.setIsLeftTrayExpanded(!Store.isLeftTrayExpanded());
+          }}
+          class="rounded-full p-3"
+          classList={{
+            "bg-slate-400 text-white hover:bg-slate-500":
+              !Store.isLeftTrayExpanded(),
+            "text-red-500 bg-slate-700 ": Store.isLeftTrayExpanded(),
+          }}
+        >
+          <Icons.D6_6 />
+        </button>
+        <button
+          onClick={() => {
+            Store.setIsLeftTrayExpanded(!Store.isLeftTrayExpanded());
+          }}
+          class="rounded-full p-3"
+          classList={{
+            "bg-slate-400 text-white hover:bg-slate-500":
+              !Store.isLeftTrayExpanded(),
+            "text-red-500 bg-slate-700 ": Store.isLeftTrayExpanded(),
+          }}
+        >
+          <Icons.D6_6 />
+        </button>
+        <button
+          onClick={() => {
             Store.setIsLeftTrayExpanded(!Store.isLeftTrayExpanded());
           }}
           class="rounded-full p-3"

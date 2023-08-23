@@ -77,11 +77,20 @@ export const [isResizingFrom, setIsResizingFrom] =
   createSignal<eResizingFrom | null>(null);
 
 export const [selectedTool, setSelectedTool] = createSignal<eTool>(
-  eTool.DEFAULT,
+  eTool.SKETCH,
 );
 
+export const [penColour, setPenColour] = createSignal<string>("#34495e");
+export const [penSize, setPenSize] = createSignal<number>(50);
+
+// this actually needs to be a "which tray on the left is open" cus theres gonna be more than 1
 export const [isLeftTrayExpanded, setIsLeftTrayExpanded] =
-  createSignal<boolean>(true);
+  createSignal<boolean>(false);
+
+export const [mousePosSketching, setmousePosSketching] = createSignal<iPoint>({
+  x: 0,
+  y: 0,
+});
 
 /**
  *

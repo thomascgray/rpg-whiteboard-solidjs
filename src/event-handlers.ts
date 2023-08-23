@@ -36,8 +36,8 @@ export const onWindowMouseDown = (e: MouseEvent) => {
         e.clientY,
         Store.camera().x,
         Store.camera().y,
-        Store.camera().z
-      )
+        Store.camera().z,
+      ),
     );
   }
 };
@@ -70,7 +70,7 @@ export const onWindowMouseUp = (e: MouseEvent) => {
         };
 
         return Utils.checkOverlap(obj, selectionBox);
-      }
+      },
     );
 
     Store.setSelectedObjectIds(objectsWithinSelectionBox.map((obj) => obj.id));
@@ -102,6 +102,10 @@ export const onWindowMouseUp = (e: MouseEvent) => {
 };
 
 export const onWindowMouseMove = (e: MouseEvent) => {
+  if (Store.selectedTool() === eTool.SKETCH) {
+    Store.setmousePosSketching({ x: e.clientX, y: e.clientY });
+  }
+
   const selectedObjectDOMElements =
     DOMUtils.getAllCurrentlySelectedObjectDOMElements();
 
@@ -122,7 +126,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
       e.clientY,
       Store.camera().x,
       Store.camera().y,
-      Store.camera().z
+      Store.camera().z,
     );
 
     Store.setDrawingSelectionBoxStartPos({
@@ -131,10 +135,10 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     });
 
     Store.setDrawingSelectionBoxWidth(
-      Math.abs(mousePoint.x - Store.mouseDownPosCanvas().x)
+      Math.abs(mousePoint.x - Store.mouseDownPosCanvas().x),
     );
     Store.setDrawingSelectionBoxHeight(
-      Math.abs(mousePoint.y - Store.mouseDownPosCanvas().y)
+      Math.abs(mousePoint.y - Store.mouseDownPosCanvas().y),
     );
   }
 

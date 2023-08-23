@@ -7,11 +7,12 @@ import C2S from "canvas2svg";
 import svgToTinyDataUri from "mini-svg-data-uri";
 import { screenToCanvas } from "../utils/general-utils";
 
+// todo something in here is causing console errors?
 export const SketchingCanvas: Component = (props) => {
   return (
     <canvas
       id="canvas"
-      class="absolute top-0 left-0 w-full h-full"
+      class="absolute left-0 top-0 h-full w-full"
       width={window.innerWidth}
       height={window.innerHeight}
       classList={{
@@ -31,9 +32,9 @@ export const SketchingCanvas: Component = (props) => {
           y: 0,
         };
         window.__canvasContext!.beginPath();
-        window.__canvasContext!.strokeStyle = "#000";
+        window.__canvasContext!.strokeStyle = Store.penColour();
         window.__canvasContext!.lineJoin = "round";
-        window.__canvasContext!.lineWidth = 5;
+        window.__canvasContext!.lineWidth = Store.penSize();
         window.__canvasContext!.moveTo(e.pageX, e.pageY);
       }}
       onMouseMove={(e) => {
@@ -87,7 +88,7 @@ export const SketchingCanvas: Component = (props) => {
           0,
           0,
           window.__canvasDrawingBottomRightPoint!.x - 15,
-          window.__canvasDrawingBottomRightPoint!.y - 15
+          window.__canvasDrawingBottomRightPoint!.y - 15,
         );
         var mySerializedSVG = window.__canvasSvgContext.getSerializedSvg();
 
@@ -96,7 +97,7 @@ export const SketchingCanvas: Component = (props) => {
           window.__canvasDrawingTopLeftPoint!.y,
           Store.camera().x,
           Store.camera().y,
-          Store.camera().z
+          Store.camera().z,
         );
         Store.addNewObject({
           type: eObjectType.SVG,
@@ -115,9 +116,10 @@ export const SketchingCanvas: Component = (props) => {
           0,
           0,
           window.innerWidth,
-          window.innerHeight
+          window.innerHeight,
         );
 
+        // TODO we should only go back to DEFAULT tool if the sketch was pretty big?
         Store.setSelectedTool(eTool.DEFAULT);
       }}
     ></canvas>

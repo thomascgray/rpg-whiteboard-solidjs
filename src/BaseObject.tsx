@@ -20,7 +20,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         let img = new Image();
         img.onload = function () {
           const index = Store.objects.findIndex(
-            (obj) => obj.id === props.object.id
+            (obj) => obj.id === props.object.id,
           );
           Store.setObjects(index, {
             width: img.width,
@@ -46,7 +46,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           data-width={props.object.width}
           data-height={props.object.height}
           id={props.object.id}
-          class="bg-red-200 absolute top-0 left-0 __object"
+          class="__object absolute left-0 top-0 bg-red-200"
           classList={{
             "__selected-object hover:cursor-grab": props.isSelected,
             "outline-dashed outline-blue-400":
@@ -80,7 +80,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           data-line-height={props.object.lineHeight}
           data-object-type={props.object.type}
           id={props.object.id}
-          class="__object absolute bg-red-600 top-0 left-0"
+          class="__object absolute left-0 top-0 bg-white"
           classList={{
             "cursor-default": !props.object.isFocused,
             "__selected-object hover:cursor-grab": props.isSelected,
@@ -90,7 +90,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           draggable="false"
           onDblClick={(e) => {
             const index = Store.objects.findIndex(
-              (obj) => obj.id === props.object.id
+              (obj) => obj.id === props.object.id,
             );
             Store.setObjects(index, {
               isFocused: true,
@@ -100,7 +100,6 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
             EventHandlers.onObjectMouseDown(e, props.object);
           }}
           style={`
-            --text-color: red;
             outline-width: calc(2px / var(--app-camera-zoom));
             max-width: none;
             width: ${props.object.width}px;
@@ -113,17 +112,17 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         >
           <textarea
             value={props.object.text || ""}
-            class="w-full bg-white whitespace-normal h-full outline-none border-none overflow-y-hidden resize-none"
+            class="h-full w-full resize-none overflow-y-hidden whitespace-normal border-none bg-white outline-none"
             classList={{
               "pointer-events-none": !props.object.isFocused,
               "cursor-default": !props.object.isFocused,
-              hidden: props.object.fontSize! * Store.camera().z < 6, // would be good to do this with css variables somehow
+              hidden: props.object.fontSize! * Store.camera().z < 4, // would be good to do this with css variables somehow
             }}
             rows={1}
             spellcheck={false}
             onInput={(e) => {
               const index = Store.objects.findIndex(
-                (obj) => obj.id === props.object.id
+                (obj) => obj.id === props.object.id,
               );
 
               e.currentTarget.style.height = "auto";
@@ -147,7 +146,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
           data-width={props.object.width}
           data-height={props.object.height}
           id={props.object.id}
-          class="absolute top-0 left-0 __object"
+          class="__object absolute left-0 top-0"
           classList={{
             "__selected-object hover:cursor-grab": props.isSelected,
             "outline-dashed outline-blue-400":
@@ -169,7 +168,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         >
           <svg
             style="image-rendering: pixelated;"
-            class="w-full h-full"
+            class="h-full w-full"
             width={props.object.width}
             height={props.object.height}
             shape-rendering="crispEdges"

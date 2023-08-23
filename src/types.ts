@@ -13,9 +13,6 @@ declare global {
 
     __canvasDrawingTopLeftPoint?: iPoint;
     __canvasDrawingBottomRightPoint?: iPoint;
-
-    // this seems so dumb, refactor this
-    __widthOfTray?: number;
   }
 }
 
@@ -24,6 +21,13 @@ export enum eTool {
   SKETCH = "SKETCH",
   ERASER = "ERASER",
 }
+
+export enum eLeftTray {
+  DICE_ROLLER = "DICE_ROLLER",
+  APP_BACKGROUND = "APP_BACKGROUND",
+  MUSIC_PLAYER = "MUSIC_PLAYER",
+}
+
 export enum eKey {
   SPACE = " ",
   NUMBER_1 = "1",

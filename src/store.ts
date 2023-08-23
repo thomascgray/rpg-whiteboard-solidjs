@@ -3,6 +3,7 @@ import { createStore, produce, reconcile } from "solid-js/store";
 
 import {
   eKey,
+  eLeftTray,
   eMouseButton,
   eObjectType,
   eResizingFrom,
@@ -77,15 +78,16 @@ export const [isResizingFrom, setIsResizingFrom] =
   createSignal<eResizingFrom | null>(null);
 
 export const [selectedTool, setSelectedTool] = createSignal<eTool>(
-  eTool.SKETCH,
+  eTool.DEFAULT,
 );
 
 export const [penColour, setPenColour] = createSignal<string>("#34495e");
 export const [penSize, setPenSize] = createSignal<number>(50);
 
 // this actually needs to be a "which tray on the left is open" cus theres gonna be more than 1
-export const [isLeftTrayExpanded, setIsLeftTrayExpanded] =
-  createSignal<boolean>(false);
+export const [openLeftTray, setOpenLeftTray] = createSignal<eLeftTray | null>(
+  null,
+);
 
 export const [mousePosSketching, setmousePosSketching] = createSignal<iPoint>({
   x: 0,

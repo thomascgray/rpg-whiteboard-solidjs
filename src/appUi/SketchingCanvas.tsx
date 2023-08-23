@@ -120,7 +120,9 @@ export const SketchingCanvas: Component = (props) => {
         );
 
         // TODO we should only go back to DEFAULT tool if the sketch was pretty big?
-        Store.setSelectedTool(eTool.DEFAULT);
+        // if (e.button === eMouseButton.LEFT) {
+        //   Store.setSelectedTool(eTool.DEFAULT);
+        // }
       }}
     ></canvas>
   );

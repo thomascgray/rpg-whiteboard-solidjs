@@ -6,6 +6,7 @@ import { eMouseButton, eObjectType, eTool } from "../types";
 import C2S from "canvas2svg";
 import svgToTinyDataUri from "mini-svg-data-uri";
 import { screenToCanvas } from "../utils/general-utils";
+import { nanoid } from "nanoid";
 
 // todo something in here is causing console errors?
 export const SketchingCanvas: Component = (props) => {
@@ -19,35 +20,47 @@ export const SketchingCanvas: Component = (props) => {
         "pointer-events-none": Store.selectedTool() !== eTool.SKETCH,
       }}
       onMouseDown={(e) => {
+        if (e.button !== eMouseButton.LEFT) {
+          return;
+        }
         window.__canvasContext!.globalCompositeOperation = "source-over";
-        let cameraZ = Store.camera().z;
 
-        // the points start out at the opposite ends
+        // [1] the points start just where we click...
         window.__canvasDrawingTopLeftPoint = {
-          x: window.innerWidth,
-          y: window.innerHeight,
+          x: e.pageX,
+          y: e.pageY,
         };
         window.__canvasDrawingBottomRightPoint = {
-          x: 0,
-          y: 0,
+          x: e.pageX,
+          y: e.pageY,
         };
+        window.__canvasContext!.globalCompositeOperation = "source-over";
         window.__canvasContext!.beginPath();
         window.__canvasContext!.strokeStyle = Store.penColour();
-        window.__canvasContext!.lineJoin = "round";
+        window.__canvasContext!.fillStyle = Store.penColour();
         window.__canvasContext!.lineWidth = Store.penSize();
         window.__canvasContext!.lineCap = "round";
         window.__canvasContext!.moveTo(e.pageX, e.pageY);
+        window.__canvasContext!.arc(
+          e.pageX,
+          e.pageY,
+          Store.penSize() / 2,
+          0,
+          2 * Math.PI,
+        );
+        window.__canvasContext!.fill();
+        window.__canvasContext!.closePath();
+        window.__canvasContext!.beginPath();
       }}
       onMouseMove={(e) => {
         if (!Store.heldMouseButtons().includes(eMouseButton.LEFT)) {
           return;
         }
-        window.__canvasContext!.globalCompositeOperation = "source-over";
 
         window.__canvasContext!.lineTo(e.pageX, e.pageY);
         window.__canvasContext!.stroke();
 
-        // as we move, we update the top left and bottom right points
+        // [1]...and as we move, we update the top left and bottom right points
         // so we can draw a rectangle around the drawing
         // e.g if any point is further up or left than the top left, that becomes
         // the new top left
@@ -70,17 +83,16 @@ export const SketchingCanvas: Component = (props) => {
         if (e.button !== eMouseButton.LEFT) {
           return;
         }
-        const width =
+        const xDiff =
           window.__canvasDrawingBottomRightPoint!.x -
-          window.__canvasDrawingTopLeftPoint!.x +
-          Store.penSize();
-
-        const height =
+          window.__canvasDrawingTopLeftPoint!.x;
+        const yDiff =
           window.__canvasDrawingBottomRightPoint!.y -
-          window.__canvasDrawingTopLeftPoint!.y +
-          Store.penSize();
+          window.__canvasDrawingTopLeftPoint!.y;
 
-        // make a new magic context to svg
+        const width = (xDiff < 1 ? 1 : xDiff) + Store.penSize();
+        const height = (yDiff < 1 ? 1 : yDiff) + Store.penSize();
+
         window.__canvasSvgContext = new C2S(width, height);
 
         // doing draw image results in blurry svg, maybe we DO need to mirror the inputs
@@ -105,6 +117,7 @@ export const SketchingCanvas: Component = (props) => {
           Store.camera().y,
           Store.camera().z,
         );
+
         Store.addNewObject({
           type: eObjectType.SVG,
           svgDataUri: mySerializedSVG,
@@ -125,10 +138,7 @@ export const SketchingCanvas: Component = (props) => {
           window.innerHeight,
         );
 
-        // TODO we should only go back to DEFAULT tool if the sketch was pretty big?
-        // if (e.button === eMouseButton.LEFT) {
-        //   Store.setSelectedTool(eTool.DEFAULT);
-        // }
+        console.log("Store.objects", JSON.stringify(Store.objects, null, 2));
       }}
     ></canvas>
   );

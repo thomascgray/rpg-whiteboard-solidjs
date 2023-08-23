@@ -13,6 +13,7 @@ import {
   iObject,
   iPoint,
 } from "./types";
+import { nanoid } from "nanoid";
 
 /**
  * OK, so
@@ -141,7 +142,7 @@ export const deleteSelectedObjects = () => {
 
 export const addNewObject = (props: Partial<iObject>) => {
   const newObject: iObject = {
-    id: Math.random().toString(),
+    id: nanoid(),
     x: 0,
     y: 0,
     width: 100,

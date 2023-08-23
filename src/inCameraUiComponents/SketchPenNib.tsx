@@ -7,13 +7,13 @@ export const SketchPenNib: Component = (props) => {
   return (
     <span
       style={`
-      background-color: ${Store.penColour()};
+        background-color: ${Store.penColour()};
         width: ${Store.penSize()}px;
         height: ${Store.penSize()}px;
         transform: translate(${
           Store.mousePosSketching().x - Store.penSize() / 2
         }px, ${Store.mousePosSketching().y - Store.penSize() / 2}px);`}
-      class="pointer-events-none absolute left-0 top-0 z-20 h-6 w-6 rounded-full "
+      class="pointer-events-none absolute left-0 top-0 z-20 h-6 w-6 rounded-full outline outline-2 outline-white"
     ></span>
   );
 };

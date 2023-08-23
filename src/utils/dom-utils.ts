@@ -34,7 +34,7 @@ export const getDOMElementDimensionsStyleValues = (element: HTMLElement) => {
 };
 
 export const getDOMElementFontSizeAndLineHeightStyleValues = (
-  element: HTMLElement
+  element: HTMLElement,
 ) => {
   const style = getComputedStyle(element);
 
@@ -53,7 +53,7 @@ export const setStylesOnElement = (
     height?: number;
     fontSize?: number;
     lineHeight?: number;
-  }
+  },
 ) => {
   const { x, y, width, height, fontSize, lineHeight } = styleAttrs;
   const styles: Partial<CSSStyleDeclaration> = {};
@@ -81,7 +81,7 @@ export const setStylesOnElement = (
 };
 
 export const getBottomLeftCoords = (
-  elements: HTMLCollectionOf<HTMLElement>
+  elements: HTMLCollectionOf<HTMLElement>,
 ) => {};
 
 export const persistSelectedObjectDOMElementsToState = () => {
@@ -131,4 +131,14 @@ export const getCameraDomPosStyleValues = () => {
   const y = trans2.substring(0, trans2.length - 3);
 
   return [Number(x), Number(y), Number(z)];
+};
+
+export const startCameraAnimating = () => {
+  window.__cameraDom!.classList.add("transition-all");
+  window.__cameraDom!.classList.add("duration-500");
+};
+
+export const stopCameraAnimating = () => {
+  window.__cameraDom!.classList.remove("transition-all");
+  window.__cameraDom!.classList.remove("duration-500");
 };

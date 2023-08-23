@@ -6,6 +6,8 @@ import * as ResizeUtils from "./utils/resize-utils";
 import * as _ from "lodash";
 
 export const interactionPanCamera = (movementX: number, movementY: number) => {
+  DOMUtils.stopCameraAnimating();
+
   const deltaX = movementX;
   const deltaY = movementY;
 

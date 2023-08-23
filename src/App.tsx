@@ -32,7 +32,7 @@ const App: Component = () => {
   );
 
   onMount(() => {
-    TestingUtils.makeDummyObjects(1, 15);
+    TestingUtils.makeDummyObjects(5, 15);
     window.__cameraDom = document.getElementById("camera")!;
     window.__backgroundAppDom = document.getElementById("app_background")!;
     window.__canvasDom = document.getElementById("canvas")!;
@@ -99,6 +99,7 @@ const App: Component = () => {
         <BottomSketchToolbar />
       </Show>
       <BottomToolbar />
+      <TopToolbar />
       <LeftTray />
     </>
   );

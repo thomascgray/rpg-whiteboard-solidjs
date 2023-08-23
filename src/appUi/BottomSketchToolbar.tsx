@@ -11,6 +11,10 @@ const ColourPickerButton: Component<{ colour: string }> = (props) => {
       }}
       style={{ "background-color": props.colour }}
       class="h-3 w-3 rounded-full bg-slate-400 p-3 text-white hover:bg-slate-500"
+      classList={{
+        "outline outline-blue-400 outline-dashed":
+          Store.penColour() === props.colour,
+      }}
     >
       {/* <Icons.DropletFilled /> */}
     </button>
@@ -47,8 +51,8 @@ export const BottomSketchToolbar: Component = (props) => {
         onInput={(e) => {
           Store.setPenSize(parseInt(e.currentTarget.value));
         }}
-        step={10}
         min={10}
+        step={5}
         max={50}
       />
 

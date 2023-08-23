@@ -32,7 +32,7 @@ const colours = [
 
 export const BottomSketchToolbar: Component = (props) => {
   return (
-    <div class="fixed bottom-[5rem] left-[50%] z-50 flex translate-x-[-50%] flex-row justify-center space-x-2 rounded-2xl border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
+    <div class="fixed bottom-[5rem] left-[50%] z-50 flex translate-x-[-50%] flex-row items-center justify-center space-x-2 rounded-2xl border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
       {/* buttons to change pen colour */}
       <div class="colours grid grid-cols-5 gap-2">
         <For each={colours}>
@@ -40,7 +40,28 @@ export const BottomSketchToolbar: Component = (props) => {
         </For>
       </div>
 
-      <input type="range" id="volume" name="volume" min="0" max="11" />
+      <input
+        class="accent-slate-600"
+        type="range"
+        value={Store.penSize()}
+        onInput={(e) => {
+          Store.setPenSize(parseInt(e.currentTarget.value));
+        }}
+        step={10}
+        min={10}
+        max={50}
+      />
+
+      <div class="flex min-w-[50px] justify-around">
+        <div
+          style={`
+          width: ${Store.penSize()}px;
+          height: ${Store.penSize()}px;
+          background-color: ${Store.penColour()};
+      `}
+          class="rounded-full"
+        ></div>
+      </div>
     </div>
   );
 };

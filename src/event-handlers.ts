@@ -74,7 +74,6 @@ export const onWindowMouseUp = (e: MouseEvent) => {
     );
 
     Store.setSelectedObjectIds(objectsWithinSelectionBox.map((obj) => obj.id));
-    Store.setIsSelectingMultipleObjects(objectsWithinSelectionBox.length > 1);
 
     Store.setIsDrawingSelectionBox(false);
     Store.setDrawingSelectionBoxWidth(0);
@@ -170,22 +169,6 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     InteractionHandlers.interactionResizeObjects(e);
     window.__app_selectedObjects = undefined;
   }
-
-  // if (Store.selectedTool() === eTool.SKETCH) {
-  //   // draw on the canvas
-
-  //   var canvas = document.getElementById("app_canvas") as HTMLCanvasElement;
-  //   var ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-
-  //   // ctx.fillStyle = "#FF0000";
-  //   // ctx.fillRect(0, 0, 150, 75);
-  //   ctx.beginPath();
-  //   ctx.lineWidth = 5;
-  //   ctx.lineTo(e.pageX, e.pageY);
-  //   ctx.strokeStyle = "#FFF";
-  //   ctx.stroke();
-  //   ctx.closePath();
-  // }
 };
 
 export const onWindowMouseWheel = (e: WheelEvent) => {
@@ -211,7 +194,6 @@ export const onWindowKeyDown = (e: KeyboardEvent) => {
   if (e.key === eKey.ESCAPE) {
     Store.setIsDrawingSelectionBox(false);
     Store.setIsResizingFrom(null);
-    Store.setIsSelectingMultipleObjects(false);
     Store.setSelectedObjectIds([]);
   }
 
@@ -281,7 +263,6 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
     // if we're not holding any other objects, just select it
     if (selectedObjectIds.length === 0) {
       Store.setSelectedObjectIds([object.id]);
-      Store.setIsSelectingMultipleObjects(false);
       return;
     }
 
@@ -289,14 +270,12 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
     // rid of those and only select the one we've clicked
     if (!Store.heldKeys().includes(eKey.SHIFT)) {
       Store.setSelectedObjectIds([object.id]);
-      Store.setIsSelectingMultipleObjects(false);
       return;
     }
 
     // if we ARE holding shift, then add the selected one to the list
     if (Store.heldKeys().includes(eKey.SHIFT)) {
       Store.setSelectedObjectIds((selectedIds) => [...selectedIds, object.id]);
-      Store.setIsSelectingMultipleObjects(Store.selectedObjectIds().length > 1);
       return;
     }
   }

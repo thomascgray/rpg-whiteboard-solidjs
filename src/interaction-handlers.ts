@@ -28,7 +28,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     e.clientY,
     camera.x,
     camera.y,
-    camera.z
+    camera.z,
   );
 
   // move the elements themeslves, and work out the top-left most set of coords
@@ -48,7 +48,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
 
   // using the top-left most set of coords, move the selection box
   const objectSelectionBoxElement = document.getElementById(
-    "__object-selection-highlight-box"
+    "__object-selection-highlight-box",
   );
   const minX = _.min(xList) as number;
   const minY = _.min(yList) as number;
@@ -77,7 +77,7 @@ export const interactionResizeObjects = (e: MouseEvent) => {
     e.clientY,
     camera.x,
     camera.y,
-    camera.z
+    camera.z,
   );
   const diff = {
     x: mousePoint.x - mouseDownPosCanvas.x,
@@ -94,21 +94,23 @@ export const interactionResizeObjects = (e: MouseEvent) => {
 };
 
 export const interactionZoomCamera = (e: WheelEvent) => {
-  let scrollValue;
-  if (e.deltaY < 10) {
-    scrollValue = e.deltaY;
+  // we need to make this NOT happen for trackpads
+  if (Math.sign(e.deltaY) === 1) {
+    zoomCamera(e.clientX, e.clientY, 15);
   } else {
-    scrollValue = e.deltaY > 0 ? 20 : -20;
+    zoomCamera(e.clientX, e.clientY, -15);
   }
+};
 
+export const zoomCamera = (xPos: number, yPos: number, distance: number) => {
   const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
   const newCamera = Utils.zoomCamera(
     x,
     y,
     z,
-    { x: e.clientX, y: e.clientY },
-    scrollValue / 100
+    { x: xPos, y: yPos },
+    distance / 100,
   );
 
   window.__cameraDom!.style.scale = String(newCamera.z);
@@ -119,7 +121,7 @@ export const interactionZoomCamera = (e: WheelEvent) => {
   // update the app zoom factor on the canvas
   window.__backgroundAppDom!.style.setProperty(
     "--app-camera-zoom",
-    String(newCamera.z)
+    String(newCamera.z),
   );
 
   Store.setCamera(newCamera);

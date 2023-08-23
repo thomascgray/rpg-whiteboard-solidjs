@@ -116,7 +116,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
             classList={{
               "pointer-events-none": !props.object.isFocused,
               "cursor-default": !props.object.isFocused,
-              hidden: props.object.fontSize! * Store.camera().z < 4, // would be good to do this with css variables somehow
+              hidden: props.object.fontSize! * Store.camera().z < 6, // would be good to do this with css variables somehow
             }}
             rows={1}
             spellcheck={false}

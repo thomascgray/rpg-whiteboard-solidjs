@@ -52,8 +52,6 @@ export const [selectedObjectIds, setSelectedObjectIds] = createSignal<string[]>(
   [],
 );
 
-export const [isSelectingMultipleObjects, setIsSelectingMultipleObjects] =
-  createSignal<boolean>(false);
 export const [isFocusedInTextbox, setIsFocusedInTextbox] =
   createSignal<boolean>(false);
 export const [isDrawingSelectionBox, setIsDrawingSelectionBox] =
@@ -82,7 +80,7 @@ export const [selectedTool, setSelectedTool] = createSignal<eTool>(
 );
 
 export const [penColour, setPenColour] = createSignal<string>("#34495e");
-export const [penSize, setPenSize] = createSignal<number>(50);
+export const [penSize, setPenSize] = createSignal<number>(10);
 
 // this actually needs to be a "which tray on the left is open" cus theres gonna be more than 1
 export const [openLeftTray, setOpenLeftTray] = createSignal<eLeftTray | null>(
@@ -125,7 +123,6 @@ export const unselectObjects = () => {
     }
   });
   setSelectedObjectIds([]);
-  setIsSelectingMultipleObjects(false);
   setObjects(reconcile(objs));
 
   window.getSelection()!.removeAllRanges();

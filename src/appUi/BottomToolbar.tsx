@@ -17,6 +17,17 @@ export const BottomToolbar: Component = (props) => {
             Store.setSelectedTool(eTool.DEFAULT);
           }}
         />
+      </div>
+
+      <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
+        <Common.CircleToolbarButton
+          icon={<Icons.Pencil />}
+          isActive={Store.selectedTool() === eTool.SKETCH}
+          title="Select tool"
+          onClick={() => {
+            Store.setSelectedTool(eTool.SKETCH);
+          }}
+        />
 
         <Common.CircleToolbarButton
           icon={<Icons.Eraser />}
@@ -78,14 +89,6 @@ export const BottomToolbar: Component = (props) => {
                 isFocused: false,
               },
             ]);
-          }}
-        />
-        <Common.CircleToolbarButton
-          icon={<Icons.Pencil />}
-          isActive={Store.selectedTool() === eTool.SKETCH}
-          title="Select tool"
-          onClick={() => {
-            Store.setSelectedTool(eTool.SKETCH);
           }}
         />
       </div>

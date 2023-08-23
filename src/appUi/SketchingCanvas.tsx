@@ -35,6 +35,7 @@ export const SketchingCanvas: Component = (props) => {
         window.__canvasContext!.strokeStyle = Store.penColour();
         window.__canvasContext!.lineJoin = "round";
         window.__canvasContext!.lineWidth = Store.penSize();
+        window.__canvasContext!.lineCap = "round";
         window.__canvasContext!.moveTo(e.pageX, e.pageY);
       }}
       onMouseMove={(e) => {
@@ -66,35 +67,40 @@ export const SketchingCanvas: Component = (props) => {
         }
       }}
       onMouseUp={(e) => {
+        if (e.button !== eMouseButton.LEFT) {
+          return;
+        }
         const width =
           window.__canvasDrawingBottomRightPoint!.x -
-          window.__canvasDrawingTopLeftPoint!.x;
+          window.__canvasDrawingTopLeftPoint!.x +
+          Store.penSize();
 
         const height =
           window.__canvasDrawingBottomRightPoint!.y -
-          window.__canvasDrawingTopLeftPoint!.y;
+          window.__canvasDrawingTopLeftPoint!.y +
+          Store.penSize();
 
-        //draw your canvas like you would normally
+        // make a new magic context to svg
         window.__canvasSvgContext = new C2S(width, height);
 
         // doing draw image results in blurry svg, maybe we DO need to mirror the inputs
         // against both contexts, hmm, more math required
         window.__canvasSvgContext.drawImage(
           window.__canvasDom,
-          window.__canvasDrawingTopLeftPoint!.x - 5,
-          window.__canvasDrawingTopLeftPoint!.y - 5,
-          window.__canvasDrawingBottomRightPoint!.x + 5, // source width
-          window.__canvasDrawingBottomRightPoint!.y + 5, // source height
-          0,
-          0,
-          window.__canvasDrawingBottomRightPoint!.x - 15,
-          window.__canvasDrawingBottomRightPoint!.y - 15,
+          window.__canvasDrawingTopLeftPoint!.x - Store.penSize() / 2, // source x
+          window.__canvasDrawingTopLeftPoint!.y - Store.penSize() / 2, // source y
+          width, // source width
+          height, // source height
+          0, // destination x
+          0, // destination y
+          width, // destination width
+          height, // destination height
         );
         var mySerializedSVG = window.__canvasSvgContext.getSerializedSvg();
 
         const spawnPoint = screenToCanvas(
-          window.__canvasDrawingTopLeftPoint!.x,
-          window.__canvasDrawingTopLeftPoint!.y,
+          window.__canvasDrawingTopLeftPoint!.x - Store.penSize() / 2,
+          window.__canvasDrawingTopLeftPoint!.y - Store.penSize() / 2,
           Store.camera().x,
           Store.camera().y,
           Store.camera().z,

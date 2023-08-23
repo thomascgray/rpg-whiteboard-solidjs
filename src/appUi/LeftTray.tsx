@@ -11,36 +11,7 @@ import * as Store from "../store";
 import * as Icons from "../icons";
 import { DiceRoller } from "./DiceRoller";
 import { eLeftTray } from "../types";
-
-interface iLeftTrayButtonProps {
-  icon: JSX.Element;
-  titleAttr: string;
-  value: eLeftTray;
-}
-const LeftTrayButton: Component<iLeftTrayButtonProps> = (props) => {
-  return (
-    <div class="flex -translate-x-1 items-center border border-b-0 border-l-0 border-t-0 border-solid border-slate-400 bg-slate-300 p-2 first:rounded-tr-2xl first:border-t last:rounded-br-2xl last:border-b">
-      <button
-        title={props.titleAttr}
-        onClick={() => {
-          if (Store.openLeftTray() === props.value) {
-            Store.setOpenLeftTray(null);
-          } else {
-            Store.setOpenLeftTray(props.value);
-          }
-        }}
-        class="rounded-full p-3"
-        classList={{
-          "bg-slate-400 text-white hover:bg-slate-500":
-            Store.openLeftTray() !== props.value,
-          "text-red-500 bg-slate-700": Store.openLeftTray() === props.value,
-        }}
-      >
-        {props.icon}
-      </button>
-    </div>
-  );
-};
+import * as Common from "../common-components";
 
 export const LeftTray: Component = (props) => {
   return (
@@ -60,21 +31,49 @@ export const LeftTray: Component = (props) => {
       </div>
 
       <div class="flex flex-col justify-center">
-        <LeftTrayButton
-          titleAttr="Dice Roller"
-          icon={<Icons.D6_6 />}
-          value={eLeftTray.DICE_ROLLER}
-        />
-        <LeftTrayButton
-          titleAttr="Edit board and screen details"
-          icon={<Icons.WindowFullScreen />}
-          value={eLeftTray.APP_BACKGROUND}
-        />
-        <LeftTrayButton
-          titleAttr="Music Player"
-          icon={<Icons.BoomboxFill />}
-          value={eLeftTray.MUSIC_PLAYER}
-        />
+        <div class="flex -translate-x-1 items-center border border-b-0 border-l-0 border-t-0 border-solid border-slate-400 bg-slate-300 p-2 first:rounded-tr-2xl first:border-t last:rounded-br-2xl last:border-b">
+          <Common.CircleToolbarButton
+            title="Dice Roller"
+            icon={<Icons.D6_6 />}
+            isActive={Store.openLeftTray() === eLeftTray.DICE_ROLLER}
+            onClick={() => {
+              Store.setOpenLeftTray(
+                Store.openLeftTray() === eLeftTray.DICE_ROLLER
+                  ? null
+                  : eLeftTray.DICE_ROLLER,
+              );
+            }}
+          />
+        </div>
+        <div class="flex -translate-x-1 items-center border border-b-0 border-l-0 border-t-0 border-solid border-slate-400 bg-slate-300 p-2 first:rounded-tr-2xl first:border-t last:rounded-br-2xl last:border-b">
+          <Common.CircleToolbarButton
+            title="Edit board and screen details"
+            icon={<Icons.WindowFullScreen />}
+            isActive={Store.openLeftTray() === eLeftTray.APP_BACKGROUND}
+            onClick={() => {
+              Store.setOpenLeftTray(
+                Store.openLeftTray() === eLeftTray.APP_BACKGROUND
+                  ? null
+                  : eLeftTray.APP_BACKGROUND,
+              );
+            }}
+          />
+        </div>
+
+        <div class="flex -translate-x-1 items-center border border-b-0 border-l-0 border-t-0 border-solid border-slate-400 bg-slate-300 p-2 first:rounded-tr-2xl first:border-t last:rounded-br-2xl last:border-b">
+          <Common.CircleToolbarButton
+            title="Music Player"
+            icon={<Icons.BoomboxFill />}
+            isActive={Store.openLeftTray() === eLeftTray.MUSIC_PLAYER}
+            onClick={() => {
+              Store.setOpenLeftTray(
+                Store.openLeftTray() === eLeftTray.MUSIC_PLAYER
+                  ? null
+                  : eLeftTray.MUSIC_PLAYER,
+              );
+            }}
+          />
+        </div>
       </div>
     </div>
   );

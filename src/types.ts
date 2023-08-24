@@ -58,6 +58,7 @@ export enum eObjectType {
 
 export enum eResizingFrom {
   BOTTOM_RIGHT = "BOTTOM_RIGHT",
+  MIDDLE_RIGHT = "MIDDLE_RIGHT",
   BOTTOM_LEFT = "BOTTOM_LEFT",
 }
 

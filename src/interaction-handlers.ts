@@ -93,6 +93,10 @@ export const interactionResizeObjects = (e: MouseEvent) => {
   if (Store.isResizingFrom() === eResizingFrom.BOTTOM_RIGHT) {
     ResizeUtils.resizeBottomRightToTopLeft(diff.x, diff.y);
   }
+
+  if (Store.isResizingFrom() === eResizingFrom.MIDDLE_RIGHT) {
+    ResizeUtils.resizeMiddleRight(diff.x, diff.y);
+  }
 };
 
 export const interactionZoomCamera = (e: WheelEvent) => {

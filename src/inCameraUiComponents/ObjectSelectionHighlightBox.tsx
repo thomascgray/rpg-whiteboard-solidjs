@@ -4,7 +4,7 @@ import * as Store from "../store";
 export const ObjectSelectionHighlightBox: Component = (props) => {
   const selectedObjects = createMemo(() => {
     return Object.values(Store.objects).filter((obj) =>
-      Store.selectedObjectIds().includes(obj.id)
+      Store.selectedObjectIds().includes(obj.id),
     );
   });
 
@@ -34,7 +34,7 @@ export const ObjectSelectionHighlightBox: Component = (props) => {
       data-width={width()}
       data-height={height()}
       id="__object-selection-highlight-box"
-      class="absolute outline-offset-1 top-0 left-0 pointer-events-none outline-2 outline-dashed outline-blue-400"
+      class="pointer-events-none absolute left-0 top-0 outline-dashed outline-2 outline-offset-1 outline-blue-400"
       style={`outline-width: var(--app-border-thickness); 
       width: ${width()}px; 
       height: ${height()}px; 
@@ -44,7 +44,7 @@ export const ObjectSelectionHighlightBox: Component = (props) => {
     >
       <p
         style="font-size: var(--app-font-size)"
-        class="absolute bg-red-500 text-white -top-5 left-0"
+        class="absolute -top-5 left-0 bg-red-500 text-white"
       >
         {Store.selectedObjectIds().length}
       </p>

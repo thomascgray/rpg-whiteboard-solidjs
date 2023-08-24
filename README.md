@@ -1,6 +1,6 @@
 # Barnabus VTT
 
-Like Miro or Google Jaboard or Microsoft Whiteboard, but for tabletop RPGs.
+Like Miro or Google Jamboard or Microsoft Whiteboard, but for tabletop RPGs.
 
 ## Technology Stack
 
@@ -18,7 +18,7 @@ Like Miro or Google Jaboard or Microsoft Whiteboard, but for tabletop RPGs.
   - on mouse move, directly modify CSS styles
   - on mouse up, grab the newly modified CSS styles and put them back into state
 
-  this gives the effect of everything working smoothly. when you let go of the mouse, nothing changes, but under the hood everything takes a split second to re-render because we update the state; but because we were directly changing CSS on the mouse move, from the users POV nothing changes
+So in plain terms: when you let go of the mouse, nothing changes _visually_, but under the hood everything takes a split second to re-render because we update the state; but because we were directly changing CSS on the mouse move, from the users POV nothing changes.
 
 General app architecture
 
@@ -76,3 +76,7 @@ https://github.com/wilsonpage/fastdom
 ---
 
 maybe we should start doing mad shit like keeping all selected object dom nodes on the window so we don't have to recompute, etc.
+
+### Things to Refactor
+
+- The resize utils code has got pretty gross, with a ton of duplication.

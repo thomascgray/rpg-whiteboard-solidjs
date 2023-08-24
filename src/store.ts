@@ -134,10 +134,9 @@ export const unselectObjects = () => {
 // export const selectObjects = () => {};
 
 export const deleteSelectedObjects = () => {
-  setObjects((objs) =>
-    objs.filter((obj) => !selectedObjectIds().includes(obj.id)),
-  );
+  const ids = [...selectedObjectIds()];
   unselectObjects();
+  setObjects((objs) => objs.filter((obj) => !ids.includes(obj.id)));
 };
 
 export const addNewObject = (props: Partial<iObject>) => {

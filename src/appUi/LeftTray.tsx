@@ -36,7 +36,7 @@ export const LeftTray: Component = (props) => {
             title="Dice Roller"
             icon={<Icons.D6_6 />}
             isActive={Store.openLeftTray() === eLeftTray.DICE_ROLLER}
-            onClick={() => {
+            onMouseDown={() => {
               Store.setOpenLeftTray(
                 Store.openLeftTray() === eLeftTray.DICE_ROLLER
                   ? null
@@ -50,7 +50,7 @@ export const LeftTray: Component = (props) => {
             title="Edit board and screen details"
             icon={<Icons.WindowFullScreen />}
             isActive={Store.openLeftTray() === eLeftTray.APP_BACKGROUND}
-            onClick={() => {
+            onMouseDown={() => {
               Store.setOpenLeftTray(
                 Store.openLeftTray() === eLeftTray.APP_BACKGROUND
                   ? null
@@ -65,7 +65,7 @@ export const LeftTray: Component = (props) => {
             title="Music Player"
             icon={<Icons.BoomboxFill />}
             isActive={Store.openLeftTray() === eLeftTray.MUSIC_PLAYER}
-            onClick={() => {
+            onMouseDown={() => {
               Store.setOpenLeftTray(
                 Store.openLeftTray() === eLeftTray.MUSIC_PLAYER
                   ? null

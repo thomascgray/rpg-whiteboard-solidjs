@@ -83,6 +83,7 @@ export interface iObject {
   text?: string;
   fontSize?: number;
   lineHeight?: number;
+  isBold?: boolean;
 
   // for SVG sketches
   svgDataUri?: string;

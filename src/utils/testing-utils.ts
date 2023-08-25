@@ -21,8 +21,9 @@ export const makeDummyObjects = (num: number, spacingFactor: number) => {
         type: eObjectType.TEXT,
         fontSize: 16,
         lineHeight: 22,
-        text: "Suspendisse vulputate sollicitudin",
+        text: "Proin efficitur, enim laoreet vestibulum accumsan, orci tortor semper orci, nec blandit urna dui nec leo. Nunc imperdiet velit in neque tempus pharetra. Etiam at eros fringilla, convallis erat et, placerat risus. Phasellus venenatis tellus eget nibh lobortis, quis pulvinar risus scelerisque. Suspendisse condimentum risus ac elit fringilla convallis. Aenean urna dui, posuere vel nisi a, gravida iaculis libero. Etiam ornare condimentum tellus sed semper.",
         isFocused: false,
+        isBold: Math.random() > 0.5,
       },
       // {
       //   id,

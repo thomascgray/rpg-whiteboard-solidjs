@@ -110,16 +110,16 @@ export const resizeBottomRightToTopLeft = (
   const rightY = Number(objectSelectionBoxElement.dataset.posY) + newHeight;
   DOMUtils.setStylesOnElement(resizeHandleRight!, { x: rightX, y: rightY });
 
-  // console.log("heightRatio", heightRatio);
-  console.log("newHeight", newHeight);
-  DOMUtils.setStylesOnElement(resizeHandleMiddleRight!, {
-    x: rightX,
-    y:
-      Number(objectSelectionBoxElement!.dataset.posY) +
-      newHeight / 2 -
-      15 / 2 -
-      15 / Store.camera().z,
-  });
+  if (resizeHandleMiddleRight) {
+    DOMUtils.setStylesOnElement(resizeHandleMiddleRight!, {
+      x: rightX,
+      y:
+        Number(objectSelectionBoxElement!.dataset.posY) +
+        newHeight / 2 -
+        15 / 2 -
+        15 / Store.camera().z,
+    });
+  }
 };
 
 export const resizeMiddleRight = (distanceX: number, distanceY: number) => {

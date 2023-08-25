@@ -42,12 +42,21 @@ export const ObjectSelectionHighlightBox: Component = (props) => {
       ${topLeftY()}px); 
       z-index: 9999999`}
     >
-      <p
-        style="font-size: var(--app-font-size)"
-        class="absolute -top-5 left-0 bg-red-500 text-white"
+      {/* count of selected objects */}
+      {/* <p
+        style={`
+          font-size: calc(var(--app-font-size) * 0.8);
+          padding-left: calc(10px / var(--app-camera-zoom));
+          padding-right: calc(10px / var(--app-camera-zoom));
+          padding-top: calc(6px / var(--app-camera-zoom));
+          padding-bottom: calc(6px / var(--app-camera-zoom));
+          height: calc(height: 1.5rem / var(--app-camera-zoom));
+          top: calc(-3rem / var(--app-camera-zoom));
+        `}
+        class="absolute left-0 flex items-center justify-around rounded-full bg-blue-400 text-white"
       >
-        {Store.selectedObjectIds().length}
-      </p>
+        <span>{Store.selectedObjectIds().length} selected</span>
+      </p> */}
     </div>
   );
 };

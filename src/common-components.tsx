@@ -13,7 +13,8 @@ export const CircleToolbarButton: Component<iCircleToolbarButtonProps> = (
   return (
     <button
       title={props.title}
-      onClick={props.onClick}
+      // onClick={props.onClick}
+      onMouseDown={props.onMouseDown}
       class="rounded-full p-3"
       classList={{
         "bg-slate-400 text-white hover:bg-slate-500": !props.isActive,

@@ -20,9 +20,11 @@ export const SketchingCanvas: Component = (props) => {
         "pointer-events-none": Store.selectedTool() !== eTool.SKETCH,
       }}
       onMouseDown={(e) => {
+        console.log("sketching canvas on mouse down");
         if (e.button !== eMouseButton.LEFT) {
           return;
         }
+        Store.unselectObjects();
         window.__canvasContext!.globalCompositeOperation = "source-over";
 
         // [1] the points start just where we click...

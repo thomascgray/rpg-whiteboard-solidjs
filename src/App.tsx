@@ -15,6 +15,7 @@ import { LeftTray } from "./appUi/LeftTray";
 import { eTool } from "./types";
 import { BottomSketchToolbar } from "./appUi/BottomSketchToolbar";
 import { SketchPenNib } from "./inCameraUiComponents/SketchPenNib";
+import { SelectedObjectsToolbar } from "./inCameraUiComponents/SelectedObjectsToolbar";
 
 const App: Component = () => {
   window.onmousedown = EventHandlers.onWindowMouseDown;
@@ -65,7 +66,6 @@ const App: Component = () => {
           data-pos-z={Store.camera().z}
           id="camera"
           draggable="false"
-          onMouseDown={EventHandlers.onCanvasMouseDown}
           class="h-screen w-screen origin-top-left select-none"
           style={`transform: scale(${Store.camera().z}) translate(${
             Store.camera().x
@@ -76,6 +76,7 @@ const App: Component = () => {
           <Show when={Store.selectedObjectIds().length >= 1}>
             <ObjectSelectionHighlightBox />
             <ResizeHandles />
+            <SelectedObjectsToolbar />
           </Show>
 
           {/* show the drawing box */}

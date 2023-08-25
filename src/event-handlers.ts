@@ -224,6 +224,7 @@ export const onWindowTouchEnd = (e: TouchEvent) => {
  */
 
 export const onCanvasMouseDown = (e: MouseEvent) => {
+  console.log("canvas mouse down");
   if (Store.selectedTool() === eTool.SKETCH) {
     return;
   }

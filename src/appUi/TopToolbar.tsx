@@ -16,7 +16,7 @@ export const TopToolbar: Component = (props) => {
           icon={<Icons.ZoomIn />}
           isActive={false}
           title="Zoom In"
-          onClick={() => {
+          onMouseDown={() => {
             InteractionHandlers.zoomCamera(
               window.innerWidth / 2,
               window.innerHeight / 2,
@@ -29,7 +29,7 @@ export const TopToolbar: Component = (props) => {
           icon={<Icons.ZoomOut />}
           isActive={false}
           title="Zoom Out"
-          onClick={() => {
+          onMouseDown={() => {
             InteractionHandlers.zoomCamera(
               window.innerWidth / 2,
               window.innerHeight / 2,
@@ -41,7 +41,7 @@ export const TopToolbar: Component = (props) => {
           icon={<Icons.HouseFill />}
           isActive={false}
           title="Reset Camera"
-          onClick={() => {
+          onMouseDown={() => {
             // add the transition thing to the camera element, do the move, then remove it
 
             DomUtils.startCameraAnimating();

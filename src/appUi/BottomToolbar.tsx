@@ -13,7 +13,7 @@ export const BottomToolbar: Component = (props) => {
           icon={<Icons.Cursor />}
           isActive={Store.selectedTool() === eTool.DEFAULT}
           title="Select tool"
-          onClick={() => {
+          onMouseDown={() => {
             Store.setSelectedTool(eTool.DEFAULT);
           }}
         />
@@ -24,7 +24,7 @@ export const BottomToolbar: Component = (props) => {
           icon={<Icons.Pencil />}
           isActive={Store.selectedTool() === eTool.SKETCH}
           title="Select tool"
-          onClick={() => {
+          onMouseDown={() => {
             Store.setSelectedTool(eTool.SKETCH);
           }}
         />
@@ -33,7 +33,7 @@ export const BottomToolbar: Component = (props) => {
           icon={<Icons.Eraser />}
           isActive={Store.selectedTool() === eTool.ERASER}
           title="eraser tool"
-          onClick={() => {
+          onMouseDown={() => {
             Store.setSelectedTool(eTool.ERASER);
           }}
         />
@@ -44,7 +44,7 @@ export const BottomToolbar: Component = (props) => {
           icon={<Icons.Image />}
           isActive={false}
           title="Image"
-          onClick={() => {
+          onMouseDown={() => {
             const imageUrl = prompt("Enter image url");
             if (imageUrl) {
               Store.setObjects([
@@ -69,7 +69,7 @@ export const BottomToolbar: Component = (props) => {
           icon={<Icons.TextArea />}
           isActive={false}
           title="eraser tool"
-          onClick={() => {
+          onMouseDown={() => {
             const text = prompt("Initial text (Optional)");
             if (text === null) return;
 

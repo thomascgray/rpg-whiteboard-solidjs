@@ -38,7 +38,7 @@ export const SelectedObjectsToolbar: Component = (props) => {
             }px - 50%), calc(${topLeftY()}px - 120%));
         
     `}
-      class="absolute left-0 top-0 z-[99999999] flex items-center justify-around"
+      class="absolute left-0 top-0 z-[99999999] flex items-center justify-around space-x-3"
     >
       <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
         <Common.CircleToolbarButton
@@ -47,9 +47,7 @@ export const SelectedObjectsToolbar: Component = (props) => {
           title="Select tool"
           onMouseDown={(e) => {
             e.stopPropagation();
-
             console.log("bold");
-            // Store.setSelectedTool(eTool.SKETCH);
           }}
         />
 
@@ -59,8 +57,38 @@ export const SelectedObjectsToolbar: Component = (props) => {
           title="eraser tool"
           onMouseDown={(e) => {
             e.stopPropagation();
+            console.log("talic");
+          }}
+        />
+      </div>
 
-            Store.setSelectedTool(eTool.ERASER);
+      <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
+        <Common.CircleToolbarButton
+          icon={<Icons.TextAlignLeft />}
+          isActive={Store.selectedTool() === eTool.SKETCH}
+          title="Select tool"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            console.log("text left");
+          }}
+        />
+
+        <Common.CircleToolbarButton
+          icon={<Icons.TextAlignCenter />}
+          isActive={Store.selectedTool() === eTool.ERASER}
+          title="eraser tool"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            console.log("text center");
+          }}
+        />
+        <Common.CircleToolbarButton
+          icon={<Icons.TextAlignRight />}
+          isActive={Store.selectedTool() === eTool.ERASER}
+          title="eraser tool"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            console.log("text right");
           }}
         />
       </div>

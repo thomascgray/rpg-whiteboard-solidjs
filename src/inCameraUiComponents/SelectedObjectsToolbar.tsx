@@ -1,4 +1,4 @@
-import { Component, createMemo, createEffect, onMount } from "solid-js";
+import { Component, createMemo, createEffect, onMount, Show } from "solid-js";
 // import { iObject } from "../types";
 import * as Store from "../store";
 import { eObjectType, eTool, iObject } from "../types";
@@ -20,20 +20,12 @@ export const SelectedObjectsToolbar: Component = (props) => {
       ? 0
       : Store.objectSelectionBox()!.y - myRef!.offsetHeight * 1.2;
 
-  const isAllBold = createMemo(() => {
+  const allText = createMemo(() => {
     if (Store.selectedObjectIds().length === 0) return false;
     return Store.selectedObjectIds().every((id) => {
       const obj = Store.objects.find((obj) => obj.id === id);
       if (obj === undefined) return false;
-      return obj.isBold;
-    });
-  });
-  const isAllItalic = createMemo(() => {
-    if (Store.selectedObjectIds().length === 0) return false;
-    return Store.selectedObjectIds().every((id) => {
-      const obj = Store.objects.find((obj) => obj.id === id);
-      if (obj === undefined) return false;
-      return obj.isItalic;
+      return obj.type === eObjectType.TEXT;
     });
   });
 
@@ -52,9 +44,11 @@ export const SelectedObjectsToolbar: Component = (props) => {
     `}
       class="absolute left-0 top-0 z-[99999999] flex items-center justify-around space-x-3"
     >
-      <TextToolbars.FontStyleToolbar />
+      <Show when={allText()}>
+        <TextToolbars.FontStyleToolbar />
 
-      <TextToolbars.TextAlignmentToolbar />
+        <TextToolbars.TextAlignmentToolbar />
+      </Show>
     </div>
   );
 };

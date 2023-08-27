@@ -5,7 +5,7 @@ import { eObjectType, eTool, iObject } from "../types";
 import * as Icons from "../icons";
 import * as Common from "../common-components";
 import { reconcile } from "solid-js/store";
-import * as TextToolbars from "./objectToolbars/Text";
+import * as TextToolbars from "./objectToolbars/TextToolbars";
 export const SelectedObjectsToolbar: Component = (props) => {
   let myRef;
   const topLeftX = () =>
@@ -45,9 +45,13 @@ export const SelectedObjectsToolbar: Component = (props) => {
       class="absolute left-0 top-0 z-[99999999] flex items-center justify-around space-x-3"
     >
       <Show when={allText()}>
-        <TextToolbars.FontStyleToolbar />
+        <div class="space-x-2 rounded-xl border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
+          <TextToolbars.FontStyleToolbar />
 
-        <TextToolbars.TextAlignmentToolbar />
+          <span class="border-r-4 border-slate-400"></span>
+
+          <TextToolbars.TextAlignmentToolbar />
+        </div>
       </Show>
     </div>
   );

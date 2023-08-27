@@ -25,8 +25,8 @@ export const FontStyleToolbar: Component = (props) => {
   });
 
   return (
-    <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
-      <Common.CircleToolbarButton
+    <>
+      <Common.SquareToolbarButton
         icon={<Icons.TypeBold />}
         isActive={isAllBold()}
         title="Select tool"
@@ -46,7 +46,7 @@ export const FontStyleToolbar: Component = (props) => {
         }}
       />
 
-      <Common.CircleToolbarButton
+      <Common.SquareToolbarButton
         icon={<Icons.TypeItalic />}
         isActive={isAllItalic()}
         title="eraser tool"
@@ -65,13 +65,14 @@ export const FontStyleToolbar: Component = (props) => {
           Store.setObjects(reconcile(objs));
         }}
       />
-    </div>
+    </>
   );
 };
 
 export const TextAlignmentToolbar: Component = (props) => {
   const isAllLeft = createMemo(() => {
     if (Store.selectedObjectIds().length === 0) return false;
+
     return Store.selectedObjectIds().every((id) => {
       const obj = Store.objects.find((obj) => obj.id === id);
       if (obj === undefined) return false;
@@ -83,7 +84,7 @@ export const TextAlignmentToolbar: Component = (props) => {
     return Store.selectedObjectIds().every((id) => {
       const obj = Store.objects.find((obj) => obj.id === id);
       if (obj === undefined) return false;
-      return obj.textAlign === eTextAlign.LEFT;
+      return obj.textAlign === eTextAlign.CENTER;
     });
   });
   const isAllRight = createMemo(() => {
@@ -91,38 +92,68 @@ export const TextAlignmentToolbar: Component = (props) => {
     return Store.selectedObjectIds().every((id) => {
       const obj = Store.objects.find((obj) => obj.id === id);
       if (obj === undefined) return false;
-      return obj.textAlign === eTextAlign.LEFT;
+      return obj.textAlign === eTextAlign.RIGHT;
     });
   });
   return (
-    <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
-      <Common.CircleToolbarButton
+    <>
+      <Common.SquareToolbarButton
         icon={<Icons.TextAlignLeft />}
         isActive={isAllLeft()}
         title="Select tool"
         onMouseDown={(e) => {
           e.stopPropagation();
-          console.log("text left");
+          const objs = [...Store.objects];
+          Store.selectedObjectIds().forEach((id) => {
+            const obj = Store.objects.find((obj) => obj.id === id);
+            if (obj === undefined) return;
+            const objIndex = Store.objects.findIndex((obj) => obj.id === id);
+            objs[objIndex] = {
+              ...obj,
+              textAlign: eTextAlign.LEFT,
+            };
+          });
+          Store.setObjects(reconcile(objs));
         }}
       />
-      <Common.CircleToolbarButton
+      <Common.SquareToolbarButton
         icon={<Icons.TextAlignCenter />}
         isActive={isAllCenter()}
         title="eraser tool"
         onMouseDown={(e) => {
           e.stopPropagation();
-          console.log("text center");
+          const objs = [...Store.objects];
+          Store.selectedObjectIds().forEach((id) => {
+            const obj = Store.objects.find((obj) => obj.id === id);
+            if (obj === undefined) return;
+            const objIndex = Store.objects.findIndex((obj) => obj.id === id);
+            objs[objIndex] = {
+              ...obj,
+              textAlign: eTextAlign.CENTER,
+            };
+          });
+          Store.setObjects(reconcile(objs));
         }}
       />
-      <Common.CircleToolbarButton
+      <Common.SquareToolbarButton
         icon={<Icons.TextAlignRight />}
         isActive={isAllRight()}
         title="eraser tool"
         onMouseDown={(e) => {
           e.stopPropagation();
-          console.log("text right");
+          const objs = [...Store.objects];
+          Store.selectedObjectIds().forEach((id) => {
+            const obj = Store.objects.find((obj) => obj.id === id);
+            if (obj === undefined) return;
+            const objIndex = Store.objects.findIndex((obj) => obj.id === id);
+            objs[objIndex] = {
+              ...obj,
+              textAlign: eTextAlign.RIGHT,
+            };
+          });
+          Store.setObjects(reconcile(objs));
         }}
       />
-    </div>
+    </>
   );
 };

@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { eObjectType, iObject } from "../types";
+import { eObjectType, eTextAlign, iObject } from "../types";
 import * as _ from "lodash";
 import * as Store from "../store";
 
@@ -24,6 +24,7 @@ export const makeDummyObjects = (num: number, spacingFactor: number) => {
         text: "Proin efficitur, enim laoreet vestibulum accumsan, orci tortor semper orci, nec blandit urna dui nec leo. Nunc imperdiet velit in neque tempus pharetra. Etiam at eros fringilla, convallis erat et, placerat risus. Phasellus venenatis tellus eget nibh lobortis, quis pulvinar risus scelerisque. Suspendisse condimentum risus ac elit fringilla convallis. Aenean urna dui, posuere vel nisi a, gravida iaculis libero. Etiam ornare condimentum tellus sed semper.",
         isFocused: false,
         isLocked: false,
+        textAlign: eTextAlign.LEFT,
       },
       // {
       //   id,

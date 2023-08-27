@@ -127,7 +127,7 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
         >
           <textarea
             value={props.object.text || ""}
-            class="h-full w-full resize-none overflow-y-hidden whitespace-normal border-none bg-white outline-none"
+            class="h-full w-full resize-none overflow-y-hidden whitespace-normal border-none bg-white p-2 outline-none"
             classList={{
               "pointer-events-none": !props.object.isFocused,
               "cursor-default": !props.object.isFocused,

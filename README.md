@@ -30,6 +30,21 @@ General app architecture
 
 there is then a bunch of utils to do maths, to interact with the DOM, etc.
 
+# TODO features
+
+- locking objects
+- grouping objects
+
+### ideas/thoughts/roadmap
+
+things that all objects can do that need to be in context menus, toolbars, etc.
+
+- send to back
+- bring to front
+- borders
+- opacity
+- rounding/cropping
+
 ### performance
 
 **if we get rid of using state as the core, we dont need the pre stuff. the state IS the pre stuff, and we just change against the dom directly**
@@ -67,7 +82,7 @@ they're effectively too small
 
 average BitD charactr is 60 to 100 objects - the main sheet, then a bunch of dots, etc.
 
-by the end of the bitd campaign, the entire board was 1588 objects
+by the end of the bitd campaign, the entire board was 1588 objects, including all characters, etc.
 
 ---
 

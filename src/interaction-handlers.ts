@@ -49,6 +49,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
   }
 
   // using the top-left most set of coords, move the selection box
+  // TODO this could actually just be moving by difference?
   const objectSelectionBoxElement = document.getElementById(
     "__object-selection-highlight-box",
   );
@@ -68,6 +69,17 @@ export const interactionMoveObjects = (e: MouseEvent) => {
       (mousePoint.y - mouseDownPosCanvas.y);
     DOMUtils.setStylesOnElement(resizeHandleElement!, { x, y });
   }
+
+  const selectedObjectsToolbar = document.getElementById(
+    "__selected-objects-toolbar",
+  );
+  const x = Number(selectedObjectsToolbar!.dataset.posX);
+  const y = Number(selectedObjectsToolbar!.dataset.posY);
+
+  DOMUtils.setStylesOnElement(selectedObjectsToolbar!, {
+    x: x + (mousePoint.x - mouseDownPosCanvas.x),
+    y: y + (mousePoint.y - mouseDownPosCanvas.y),
+  });
 };
 
 export const interactionResizeObjects = (e: MouseEvent) => {
@@ -101,10 +113,21 @@ export const interactionResizeObjects = (e: MouseEvent) => {
 
 export const interactionZoomCamera = (e: WheelEvent) => {
   // we need to make this NOT happen for trackpads
+
+  const isTrackpad = e.deltaY % 1 !== 0;
+  // console.log("e.deltaY", e.deltaY);
   if (Math.sign(e.deltaY) === 1) {
-    zoomCamera(e.clientX, e.clientY, 15);
+    if (isTrackpad) {
+      zoomCamera(e.clientX, e.clientY, 2);
+    } else {
+      zoomCamera(e.clientX, e.clientY, 15);
+    }
   } else {
-    zoomCamera(e.clientX, e.clientY, -15);
+    if (isTrackpad) {
+      zoomCamera(e.clientX, e.clientY, -2);
+    } else {
+      zoomCamera(e.clientX, e.clientY, -15);
+    }
   }
 };
 

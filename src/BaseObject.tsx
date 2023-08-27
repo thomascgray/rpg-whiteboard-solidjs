@@ -1,5 +1,5 @@
 import { Component, Show, createEffect, createMemo, onMount } from "solid-js";
-import { eObjectType, iObject } from "./types";
+import { eObjectType, eTextAlign, iObject } from "./types";
 import * as EventHandlers from "./event-handlers";
 import * as Store from "./store";
 
@@ -132,6 +132,10 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
               "pointer-events-none": !props.object.isFocused,
               "cursor-default": !props.object.isFocused,
               "font-bold": props.object.isBold,
+              italic: props.object.isItalic,
+              "text-left": props.object.textAlign === eTextAlign.LEFT,
+              "text-center": props.object.textAlign === eTextAlign.CENTER,
+              "text-right": props.object.textAlign === eTextAlign.RIGHT,
               hidden: props.object.fontSize! * Store.camera().z < 6, // would be good to do this with css variables somehow
             }}
             rows={1}

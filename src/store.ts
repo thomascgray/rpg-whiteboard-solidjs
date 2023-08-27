@@ -93,6 +93,9 @@ export const [mousePosSketching, setmousePosSketching] = createSignal<iPoint>({
   y: 0,
 });
 
+export const [objectSelectionBox, setObjectSelectionBox] =
+  createSignal<iBox | null>(null);
+
 /**
  *
  *

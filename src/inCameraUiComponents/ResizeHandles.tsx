@@ -108,7 +108,6 @@ export const ResizeHandles: Component = (props) => {
             HANDLE_SIZE / Store.camera().z
           }
           onMouseDown={(e) => {
-            console.log("middle right");
             EventHandlers.onBeginResizing(e, eResizingFrom.MIDDLE_RIGHT);
           }}
           class="__resize-handle absolute top-0 z-[99999999] cursor-ew-resize  bg-white outline outline-blue-400"

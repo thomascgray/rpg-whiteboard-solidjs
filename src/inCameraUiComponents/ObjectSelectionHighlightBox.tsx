@@ -1,4 +1,4 @@
-import { Component, createMemo } from "solid-js";
+import { Component, createMemo, createEffect } from "solid-js";
 import * as Store from "../store";
 
 export const ObjectSelectionHighlightBox: Component = (props) => {
@@ -27,6 +27,14 @@ export const ObjectSelectionHighlightBox: Component = (props) => {
   const width = () => Math.max(...brXs()) - topLeftX();
   const height = () => Math.max(...brYs()) - topLeftY();
 
+  createEffect(() => {
+    Store.setObjectSelectionBox({
+      x: topLeftX(),
+      y: topLeftY(),
+      width: width(),
+      height: height(),
+    });
+  });
   return (
     <div
       data-pos-x={topLeftX()}

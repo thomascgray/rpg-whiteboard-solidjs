@@ -20,7 +20,6 @@ export const SketchingCanvas: Component = (props) => {
         "pointer-events-none": Store.selectedTool() !== eTool.SKETCH,
       }}
       onMouseDown={(e) => {
-        console.log("sketching canvas on mouse down");
         if (e.button !== eMouseButton.LEFT) {
           return;
         }
@@ -39,6 +38,7 @@ export const SketchingCanvas: Component = (props) => {
         window.__canvasContext!.globalCompositeOperation = "source-over";
         window.__canvasContext!.beginPath();
         window.__canvasContext!.strokeStyle = Store.penColour();
+        window.__canvasContext!.lineJoin = "round";
         window.__canvasContext!.fillStyle = Store.penColour();
         window.__canvasContext!.lineWidth = Store.penSize();
         window.__canvasContext!.lineCap = "round";
@@ -139,8 +139,6 @@ export const SketchingCanvas: Component = (props) => {
           window.innerWidth,
           window.innerHeight,
         );
-
-        console.log("Store.objects", JSON.stringify(Store.objects, null, 2));
       }}
     ></canvas>
   );

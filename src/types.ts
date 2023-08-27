@@ -62,6 +62,12 @@ export enum eResizingFrom {
   BOTTOM_LEFT = "BOTTOM_LEFT",
 }
 
+export enum eTextAlign {
+  LEFT = "LEFT",
+  CENTER = "CENTER",
+  RIGHT = "RIGHT",
+}
+
 export interface iObject {
   id: string;
 
@@ -84,6 +90,8 @@ export interface iObject {
   fontSize?: number;
   lineHeight?: number;
   isBold?: boolean;
+  isItalic?: boolean;
+  textAlign?: eTextAlign;
 
   // for SVG sketches
   svgDataUri?: string;

@@ -54,6 +54,8 @@ const App: Component = () => {
           "--app-font-size": `${20 / Store.camera().z}px`,
           "--app-resize-handle-size": `${20 / Store.camera().z}px`,
           "--app-camera-zoom": `${Store.camera().z}`,
+          "background-color":
+            Store.boardSettings.boardBackgroundColour || "white",
         }}
         draggable="false"
         id="app_background"

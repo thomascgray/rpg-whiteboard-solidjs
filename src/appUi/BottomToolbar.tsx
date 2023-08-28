@@ -63,6 +63,11 @@ export const BottomToolbar: Component = (props) => {
                   isLocked: false,
                 },
               ]);
+
+              Store.setSelectedObjectIds([]);
+              Store.setIsDrawingSelectionBox(false);
+              Store.setDrawingSelectionBoxWidth(0);
+              Store.setDrawingSelectionBoxHeight(0);
             }
           }}
         />

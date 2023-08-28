@@ -6,10 +6,12 @@ import {
   For,
   createSignal,
   JSX,
+  Show,
 } from "solid-js";
 import * as Store from "../store";
 import * as Icons from "../icons";
 import { DiceRoller } from "./DiceRoller";
+import { BoardSettings } from "./BoardSettings";
 import { eLeftTray } from "../types";
 import * as Common from "../common-components";
 
@@ -27,7 +29,12 @@ export const LeftTray: Component = (props) => {
         id="tray-without-handle"
         class=" w-[500px] border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg"
       >
-        <DiceRoller />
+        <Show when={Store.openLeftTray() === eLeftTray.DICE_ROLLER}>
+          <DiceRoller />
+        </Show>
+        <Show when={Store.openLeftTray() === eLeftTray.APP_BACKGROUND}>
+          <BoardSettings />
+        </Show>
       </div>
 
       <div class="flex flex-col justify-center">

@@ -17,7 +17,7 @@ interface iParticle {
 // todo this is a good prototype, but completely borked
 // the particles dont self delete when they get to the bottom, and you cant have 2 motion effects running at the same time
 export const Rain: Component<iMotionEffectsElementProps> = (props) => {
-  var maxParts = 100;
+  var maxParts = 30;
   let canvasRef: any;
   const [particles, setParticles] = createSignal<iParticle[]>([]);
 
@@ -34,6 +34,18 @@ export const Rain: Component<iMotionEffectsElementProps> = (props) => {
     }
     setParticles(p);
   };
+
+  function move(w: number, h: number, particles: iParticle[]) {
+    for (var b = 0; b < particles.length; b++) {
+      var p = particles[b];
+      p.x += p.xs;
+      p.y += p.ys;
+      if (p.x > w || p.y > h) {
+        p.x = Math.random() * w;
+        p.y = -20;
+      }
+    }
+  }
 
   function draw(
     context: CanvasRenderingContext2D,
@@ -52,18 +64,6 @@ export const Rain: Component<iMotionEffectsElementProps> = (props) => {
       context.stroke();
     }
     move(w, h, particles);
-  }
-
-  function move(w: number, h: number, particles: iParticle[]) {
-    for (var b = 0; b < particles.length; b++) {
-      var p = particles[b];
-      p.x += p.xs;
-      p.y += p.ys;
-      if (p.x > w || p.y > h) {
-        p.x = Math.random() * w;
-        p.y = -20;
-      }
-    }
   }
 
   createEffect(() => {
@@ -100,7 +100,7 @@ export const Rain: Component<iMotionEffectsElementProps> = (props) => {
       style={`
         width: ${props.object.width}px;
         height: ${props.object.height}px;
-        z-index: ${props.object.zIndex + 1};
+        z-index: ${props.object.zIndex + 2};
         transform:
           translate(
             ${props.object.x}px,

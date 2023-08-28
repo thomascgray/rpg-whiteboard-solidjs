@@ -72,6 +72,15 @@ export enum eImageMotionEffects {
   RAIN = "RAIN",
 }
 
+export enum eImageMaskShapes {
+  CIRCLE = "CIRCLE",
+}
+
+export interface iBoardSettings {
+  boardName?: string;
+  boardBackgroundColour?: string;
+}
+
 export interface iObject {
   id: string;
 
@@ -90,6 +99,8 @@ export interface iObject {
   url?: string;
   hasSelfResized?: boolean;
   motionEffect?: eImageMotionEffects;
+  isBattlemap?: boolean;
+  maskShape?: eImageMaskShapes;
 
   // for text
   text?: string;

@@ -8,6 +8,7 @@ import {
   eObjectType,
   eResizingFrom,
   eTool,
+  iBoardSettings,
   iBox,
   iCamera,
   iObject,
@@ -32,11 +33,13 @@ import { nanoid } from "nanoid";
 
 // you use them by doing a fuckin `import * as Store from 'store'`
 
-// 1. all the objects are in a big map
+// 1. all the objects are in a big map, as are the board settings
 export const [objects, setObjects] = createStore<iObject[]>([]);
+export const [boardSettings, setBoardSettings] = createStore<iBoardSettings>({
+  boardBackgroundColour: "#34495e",
+});
 
 // 2. we have the keyboard and mouse buttons that the user is pressing
-
 export const [heldMouseButtons, setHeldMouseButtons] = createSignal<
   eMouseButton[]
 >([]);
@@ -152,6 +155,7 @@ export const addNewObject = (props: Partial<iObject>) => {
     zIndex: objects.length + 1,
     type: eObjectType.IMAGE,
     isFocused: false,
+    isLocked: false,
     ...props,
   };
   setObjects((objs) => [...objs, newObject]);

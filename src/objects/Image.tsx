@@ -1,5 +1,6 @@
 import { Component, Show } from "solid-js";
 import {
+  eImageMaskShapes,
   eImageMotionEffects,
   eObjectType,
   eTextAlign,
@@ -8,6 +9,7 @@ import {
 import * as EventHandlers from "../event-handlers";
 import * as Store from "../store";
 import * as MotionEffects from "../motion-effects";
+import * as BattleMapFeatures from "../battlemap-features";
 
 export interface ImageObjectProps {
   object: iObject;
@@ -26,6 +28,7 @@ export const ImageObject: Component<ImageObjectProps> = (props) => {
         class="__object absolute left-0 top-0 bg-red-200"
         classList={{
           "__selected-object hover:cursor-grab": props.isSelected,
+          "rounded-full": props.object.maskShape === eImageMaskShapes.CIRCLE,
           "outline-dashed outline-blue-400":
             props.isSelected && Store.selectedObjectIds().length > 1,
         }}
@@ -46,6 +49,10 @@ export const ImageObject: Component<ImageObjectProps> = (props) => {
       />
       <Show when={props.object.motionEffect === eImageMotionEffects.RAIN}>
         <MotionEffects.Rain object={props.object} />
+      </Show>
+
+      <Show when={props.object.isBattlemap}>
+        <BattleMapFeatures.BattlemapFeatures object={props.object} />
       </Show>
     </>
   );

@@ -33,7 +33,7 @@ const App: Component = () => {
   );
 
   onMount(() => {
-    TestingUtils.makeDummyObjects(2, 30);
+    TestingUtils.makeDummyObjects(3, 30);
     window.__cameraDom = document.getElementById("camera")!;
     window.__backgroundAppDom = document.getElementById("app_background")!;
     window.__canvasDom = document.getElementById("canvas")!;

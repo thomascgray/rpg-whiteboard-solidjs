@@ -29,7 +29,7 @@ export const Rain: Component<iMotionEffectsElementProps> = (props) => {
         y: Math.random() * props.object.height,
         l: Math.random() * 1,
         xs: -4 + Math.random() * 4 + 2,
-        ys: Math.random() * 10 + 10,
+        ys: Math.random() * 50 + 10,
       });
     }
     setParticles(p);
@@ -46,7 +46,7 @@ export const Rain: Component<iMotionEffectsElementProps> = (props) => {
     for (var c = 0; c < particles.length; c++) {
       var p = particles[c];
       context.beginPath();
-      context.globalAlpha = 0.5;
+      context.globalAlpha = 0.2;
       context.moveTo(p.x, p.y);
       context.lineTo(p.x + p.l * p.xs, p.y + p.l * p.ys);
       context.stroke();

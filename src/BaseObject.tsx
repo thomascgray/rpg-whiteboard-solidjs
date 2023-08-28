@@ -58,9 +58,6 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
       {/* image objects */}
       <Show when={props.object.type === eObjectType.IMAGE}>
         <ImageObject object={props.object} isSelected={props.isSelected} />
-        <Show when={props.object.motionEffect === eImageMotionEffects.RAIN}>
-          <MotionEffects.Rain object={props.object} />
-        </Show>
       </Show>
 
       {/* text objects */}

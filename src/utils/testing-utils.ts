@@ -43,7 +43,7 @@ export const makeDummyObjects = (num: number, spacingFactor: number) => {
         zIndex: i,
         type: eObjectType.IMAGE,
         isFocused: false,
-        motionEffect: eImageMotionEffects.RAIN,
+        motionEffect: undefined,
       },
     ]);
   }

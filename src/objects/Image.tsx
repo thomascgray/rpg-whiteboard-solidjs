@@ -1,7 +1,13 @@
-import { Component } from "solid-js";
-import { eObjectType, eTextAlign, iObject } from "../types";
+import { Component, Show } from "solid-js";
+import {
+  eImageMotionEffects,
+  eObjectType,
+  eTextAlign,
+  iObject,
+} from "../types";
 import * as EventHandlers from "../event-handlers";
 import * as Store from "../store";
+import * as MotionEffects from "../motion-effects";
 
 export interface ImageObjectProps {
   object: iObject;
@@ -38,6 +44,9 @@ export const ImageObject: Component<ImageObjectProps> = (props) => {
         translate(${props.object.x}px,
           ${props.object.y}px)`}
       />
+      <Show when={props.object.motionEffect === eImageMotionEffects.RAIN}>
+        <MotionEffects.Rain object={props.object} />
+      </Show>
     </>
   );
 };

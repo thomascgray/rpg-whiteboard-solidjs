@@ -68,6 +68,10 @@ export enum eTextAlign {
   RIGHT = "RIGHT",
 }
 
+export enum eImageMotionEffects {
+  RAIN = "RAIN",
+}
+
 export interface iObject {
   id: string;
 
@@ -85,6 +89,7 @@ export interface iObject {
   // for images
   url?: string;
   hasSelfResized?: boolean;
+  motionEffect?: eImageMotionEffects;
 
   // for text
   text?: string;

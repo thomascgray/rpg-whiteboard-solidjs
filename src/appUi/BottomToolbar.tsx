@@ -60,6 +60,7 @@ export const BottomToolbar: Component = (props) => {
                   zIndex: Store.objects.length + 1,
                   type: eObjectType.IMAGE,
                   isFocused: false,
+                  isLocked: false,
                 },
               ]);
             }
@@ -87,8 +88,14 @@ export const BottomToolbar: Component = (props) => {
                 lineHeight: 22,
                 text,
                 isFocused: false,
+                isLocked: false,
               },
             ]);
+
+            Store.setIsDrawingSelectionBox(false);
+            Store.setDrawingSelectionBoxHeight(0);
+            Store.setDrawingSelectionBoxWidth(0);
+            Store.setDrawingSelectionBoxStartPos({ x: 0, y: 0 });
           }}
         />
       </div>

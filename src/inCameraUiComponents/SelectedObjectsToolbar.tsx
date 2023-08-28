@@ -6,6 +6,8 @@ import * as Icons from "../icons";
 import * as Common from "../common-components";
 import { reconcile } from "solid-js/store";
 import * as TextToolbars from "./objectToolbars/TextToolbars";
+import * as ImageToolbars from "./objectToolbars/ImageToolbar";
+
 export const SelectedObjectsToolbar: Component = (props) => {
   let myRef;
   const topLeftX = () =>
@@ -26,6 +28,15 @@ export const SelectedObjectsToolbar: Component = (props) => {
       const obj = Store.objects.find((obj) => obj.id === id);
       if (obj === undefined) return false;
       return obj.type === eObjectType.TEXT;
+    });
+  });
+
+  const allImage = createMemo(() => {
+    if (Store.selectedObjectIds().length === 0) return false;
+    return Store.selectedObjectIds().every((id) => {
+      const obj = Store.objects.find((obj) => obj.id === id);
+      if (obj === undefined) return false;
+      return obj.type === eObjectType.IMAGE;
     });
   });
 
@@ -51,6 +62,12 @@ export const SelectedObjectsToolbar: Component = (props) => {
           <span class="border-r-4 border-slate-400"></span>
 
           <TextToolbars.TextAlignmentToolbar />
+        </div>
+      </Show>
+
+      <Show when={allImage()}>
+        <div class="space-x-2 rounded-xl border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
+          <ImageToolbars.MotionEffects />
         </div>
       </Show>
     </div>

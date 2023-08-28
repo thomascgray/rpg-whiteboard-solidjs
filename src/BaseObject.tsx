@@ -1,7 +1,9 @@
 import { Component, Show, createEffect, createMemo, onMount } from "solid-js";
-import { eObjectType, eTextAlign, iObject } from "./types";
+import { eImageMotionEffects, eObjectType, eTextAlign, iObject } from "./types";
 import * as EventHandlers from "./event-handlers";
 import * as Store from "./store";
+import { ImageObject } from "./objects/Image";
+import * as MotionEffects from "./motion-effects";
 
 export interface BaseComponentProps {
   object: iObject;
@@ -55,33 +57,10 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
     <>
       {/* image objects */}
       <Show when={props.object.type === eObjectType.IMAGE}>
-        <img
-          data-pos-x={props.object.x}
-          data-pos-y={props.object.y}
-          data-width={props.object.width}
-          data-height={props.object.height}
-          id={props.object.id}
-          class="__object absolute left-0 top-0 bg-red-200"
-          classList={{
-            "__selected-object hover:cursor-grab": props.isSelected,
-            "outline-dashed outline-blue-400":
-              props.isSelected && Store.selectedObjectIds().length > 1,
-          }}
-          draggable="false"
-          onMouseDown={(e) => {
-            EventHandlers.onObjectMouseDown(e, props.object);
-          }}
-          src={props.object.url}
-          style={`
-        outline-width: calc(2px / var(--app-camera-zoom));
-        max-width: none;
-      width: ${props.object.width}px;
-      height: ${props.object.height}px;
-      z-index: ${props.object.zIndex};
-      transform:
-        translate(${props.object.x}px,
-          ${props.object.y}px)`}
-        />
+        <ImageObject object={props.object} isSelected={props.isSelected} />
+        <Show when={props.object.motionEffect === eImageMotionEffects.RAIN}>
+          <MotionEffects.Rain object={props.object} />
+        </Show>
       </Show>
 
       {/* text objects */}

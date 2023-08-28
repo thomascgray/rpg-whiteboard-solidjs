@@ -12,7 +12,7 @@ export interface iMotionEffectsElementProps {
 // todo this is a good prototype, but completely borked
 // the particles dont self delete when they get to the bottom, and you cant have 2 motion effects running at the same time
 export const Rain: Component<iMotionEffectsElementProps> = (props) => {
-  var maxParts = 100;
+  var maxParts = 5;
   let particles: {
     x: number;
     y: number;

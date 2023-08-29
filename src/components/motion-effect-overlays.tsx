@@ -1,6 +1,6 @@
 import { Component, createEffect, onCleanup, createSignal } from "solid-js";
-import { iObject } from "./types";
-import * as Store from "./store";
+import { iObject } from "../types";
+import * as Store from "../store";
 
 export interface iMotionEffectsElementProps {
   object: iObject;

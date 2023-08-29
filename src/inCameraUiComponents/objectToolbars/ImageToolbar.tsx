@@ -9,8 +9,8 @@ import {
   eTool,
   iObject,
 } from "../../types";
-import * as Icons from "../../icons";
-import * as Common from "../../common-components";
+import * as Icons from "../../components/icons";
+import * as Common from "../../components/common-components";
 import { reconcile } from "solid-js/store";
 
 export const MotionEffects: Component = (props) => {

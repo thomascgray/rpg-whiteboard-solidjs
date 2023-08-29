@@ -1,7 +1,7 @@
 import { Component, createMemo, createEffect, onMount, For } from "solid-js";
 import * as Store from "../store";
 import { eTool } from "../types";
-import * as Icons from "../icons";
+import * as Icons from "../components/icons";
 
 export const SketchPenNib: Component = (props) => {
   return (

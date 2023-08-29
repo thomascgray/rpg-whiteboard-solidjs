@@ -1,6 +1,6 @@
 import { Component, createEffect } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
-import { iObject } from "./types";
+import { iObject } from "../types";
 
 export const calculateFinalSquareSize = (
   canvasWidth: number,

@@ -1,8 +1,8 @@
 import { Component, createMemo, createEffect, onMount, For } from "solid-js";
 import * as Store from "../store";
 import { eObjectType, eTool } from "../types";
-import * as Icons from "../icons";
-import * as Common from "../common-components";
+import * as Icons from "../components/icons";
+import * as Common from "../components/common-components";
 import { nanoid } from "nanoid";
 import * as InteractionHandlers from "../interaction-handlers";
 import { screenToCanvas } from "../utils/general-utils";

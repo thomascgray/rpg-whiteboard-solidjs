@@ -8,8 +8,8 @@ import {
 } from "../types";
 import * as EventHandlers from "../event-handlers";
 import * as Store from "../store";
-import * as MotionEffects from "../motion-effects";
-import * as BattleMapFeatures from "../battlemap-features";
+import * as MotionEffects from "../components/motion-effect-overlays";
+import * as BattleMapFeatures from "../components/battlemap-grid-overlays";
 
 export interface ImageObjectProps {
   object: iObject;

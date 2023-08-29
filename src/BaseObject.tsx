@@ -3,7 +3,7 @@ import { eImageMotionEffects, eObjectType, eTextAlign, iObject } from "./types";
 import * as EventHandlers from "./event-handlers";
 import * as Store from "./store";
 import { ImageObject } from "./objects/Image";
-import * as MotionEffects from "./motion-effects";
+import * as MotionEffects from "./components/motion-effect-overlays";
 
 export interface BaseComponentProps {
   object: iObject;

@@ -9,11 +9,11 @@ import {
   Show,
 } from "solid-js";
 import * as Store from "../store";
-import * as Icons from "../icons";
+import * as Icons from "../components/icons";
 import { DiceRoller } from "./DiceRoller";
 import { BoardSettings } from "./BoardSettings";
 import { eLeftTray } from "../types";
-import * as Common from "../common-components";
+import * as Common from "../components/common-components";
 
 export const LeftTray: Component = (props) => {
   return (

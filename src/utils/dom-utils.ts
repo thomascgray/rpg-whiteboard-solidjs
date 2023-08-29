@@ -59,22 +59,22 @@ export const setStylesOnElement = (
 ) => {
   const { scale, x, y, width, height, fontSize, lineHeight } = styleAttrs;
   const styles: Partial<CSSStyleDeclaration> = {};
-  if (scale && x && y) {
+  if (scale !== undefined && x !== undefined && y !== undefined) {
     styles.transform = `scale(${scale}) translate(${x}px, ${y}px)`;
-  } else if (x && y) {
+  } else if (x !== undefined && y !== undefined) {
     styles.transform = `translate(${x}px, ${y}px)`;
-  } else if (x && !y) {
+  } else if (x !== undefined && y === undefined) {
     styles.transform = `translate(${x}px)`;
-  } else if (!x && y) {
+  } else if (x === undefined && y !== undefined) {
     styles.transform = `translate(${y}px)`;
   }
-  if (width) {
+  if (width !== undefined) {
     styles.width = `${width}px`;
   }
-  if (height) {
+  if (height !== undefined) {
     styles.height = `${height}px`;
   }
-  if (fontSize) {
+  if (fontSize !== undefined) {
     styles.fontSize = `${fontSize}px`;
   }
   if (lineHeight) {

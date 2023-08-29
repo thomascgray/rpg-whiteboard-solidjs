@@ -7,9 +7,12 @@ import * as Common from "../components/common-components";
 import { reconcile } from "solid-js/store";
 import * as TextToolbars from "./objectToolbars/TextToolbars";
 import * as ImageToolbars from "./objectToolbars/ImageToolbar";
+import * as GenericToolbars from "./objectToolbars/GenericToolbars";
+import { withMinMax } from "../utils/general-utils";
 
 export const SelectedObjectsToolbar: Component = (props) => {
   let myRef;
+
   const topLeftX = () =>
     Store.objectSelectionBox() === null
       ? 0
@@ -21,8 +24,7 @@ export const SelectedObjectsToolbar: Component = (props) => {
   const topLeftY = () =>
     Store.objectSelectionBox() === null
       ? 0
-      : (Store.objectSelectionBox()!.y -
-          myRef!.offsetHeight / Store.camera().z) *
+      : (Store.objectSelectionBox()!.y - myRef!.offsetHeight * 1.2) *
         Store.camera().z;
 
   const allText = createMemo(() => {
@@ -57,23 +59,27 @@ export const SelectedObjectsToolbar: Component = (props) => {
           1 / Store.camera().z
         }) translate(${topLeftX()}px, ${topLeftY()}px);
     `}
-      class="absolute left-0 top-0 z-[99999999] flex items-center justify-around space-x-3"
+      class="absolute left-0 top-0 z-[99999999] flex origin-bottom items-center justify-around space-x-3"
     >
       <Show when={allText()}>
-        <div class="space-x-2 rounded-xl border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
+        <div class="space-x-2 rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">
           <TextToolbars.FontStyleToolbar />
 
-          <span class="border-r-4 border-slate-400"></span>
+          <span class="border-r-4 border-zinc-400"></span>
 
           <TextToolbars.TextAlignmentToolbar />
         </div>
       </Show>
 
       <Show when={allImage()}>
-        <div class="space-x-2 rounded-xl border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
+        <div class="space-x-2 rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">
           <ImageToolbars.MotionEffects />
         </div>
       </Show>
+
+      <div class="space-x-2 rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">
+        <GenericToolbars.SettingsToolbar />
+      </div>
     </div>
   );
 };

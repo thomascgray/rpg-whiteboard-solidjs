@@ -76,6 +76,10 @@ export enum eImageMaskShapes {
   CIRCLE = "CIRCLE",
 }
 
+export enum eModalTypes {
+  EDIT_IMAGE = "EDIT_IMAGE",
+}
+
 export interface iBoardSettings {
   boardName?: string;
   boardBackgroundColour?: string;

@@ -174,10 +174,15 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 export const onWindowMouseWheel = (e: WheelEvent) => {
   e.stopPropagation();
   e.preventDefault();
-  if (e.ctrlKey) {
-    InteractionHandlers.interactionZoomCamera(e);
+  const isTrackpad = e.deltaY % 1 !== 0;
+  if (isTrackpad) {
+    if (e.ctrlKey) {
+      InteractionHandlers.interactionZoomCamera(e);
+    } else {
+      InteractionHandlers.interactionPanCamera(e.deltaX, e.deltaY);
+    }
   } else {
-    InteractionHandlers.interactionPanCamera(e.deltaX, e.deltaY);
+    InteractionHandlers.interactionZoomCamera(e);
   }
 };
 

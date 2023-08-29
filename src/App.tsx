@@ -14,7 +14,7 @@ import { LeftTray } from "./appUi/LeftTray";
 import { eTool } from "./types";
 import { CanvasPenNib } from "./components/sketching-canvas/canvas-pen-nib";
 import { SelectedObjectsToolbar } from "./inCameraUiComponents/SelectedObjectsToolbar";
-
+import { ModalWrapper } from "./components/modals/modal-wrapper";
 const App: Component = () => {
   window.onmousedown = EventHandlers.onWindowMouseDown;
   window.onmouseup = EventHandlers.onWindowMouseUp;
@@ -102,6 +102,10 @@ const App: Component = () => {
       <ScreenToolbars.BottomToolbar />
       <ScreenToolbars.TopToolbar />
       <LeftTray />
+
+      <Show when={Store.currentModal() !== null}>
+        <ModalWrapper />
+      </Show>
     </>
   );
 };

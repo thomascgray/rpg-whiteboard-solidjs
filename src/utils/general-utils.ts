@@ -3,7 +3,11 @@ import * as Store from "../store";
 import * as _ from "lodash";
 import { produce, reconcile } from "solid-js/store";
 
-export const withMinMax = (val: number, min: number, max: number) => {
+export const withMinMax = (
+  val: number,
+  min: number = -Infinity,
+  max: number = Infinity,
+) => {
   if (val < min) {
     return min;
   } else if (val > max) {
@@ -18,7 +22,7 @@ export const screenToCanvas = (
   y: number,
   cameraX: number,
   cameraY: number,
-  cameraZ: number
+  cameraZ: number,
 ): iPoint => {
   return { x: x / cameraZ - cameraX, y: y / cameraZ - cameraY };
 };
@@ -36,7 +40,7 @@ export const zoomCamera = (
   cameraY: number,
   cameraZ: number,
   point: iPoint,
-  dz: number
+  dz: number,
 ): iCamera => {
   let zoom = withMinMax(cameraZ - dz * cameraZ, 0.05, 4);
 
@@ -64,13 +68,13 @@ export const sendSelectedObjectsToBack = () => {
   const objs = [...Store.objects];
 
   const selectedIndexesToUse = Array.from(
-    Array(Store.selectedObjectIds().length).keys()
+    Array(Store.selectedObjectIds().length).keys(),
   );
 
   // change all the z indexes of the selected objects
   _.sortBy(
     Store.selectedObjectIds(),
-    (id) => objs[objs.findIndex((o) => o.id === id)!].zIndex
+    (id) => objs[objs.findIndex((o) => o.id === id)!].zIndex,
   ).forEach((id) => {
     const obj = objs.find((o) => o.id === id)!;
     const objIndex = objs.findIndex((o) => o.id === id);

@@ -43,7 +43,7 @@ export const MotionEffects: Component = (props) => {
 
   return (
     <>
-      <Common.SquareToolbarButton
+      {/* <Common.SquareToolbarButton
         icon={<Icons.CloudDrizzleFill />}
         isActive={isAllRain()}
         title="Motion Effect - Rain"
@@ -61,7 +61,7 @@ export const MotionEffects: Component = (props) => {
           });
           Store.setObjects(reconcile(objs));
         }}
-      />
+      /> */}
 
       <Common.SquareToolbarButton
         icon={<Icons.MapFill />}

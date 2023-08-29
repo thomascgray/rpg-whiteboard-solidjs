@@ -15,7 +15,7 @@ export const CircleToolbarButton: Component<iToolbarButtonProps> = (props) => {
       onMouseDown={props.onMouseDown}
       class="rounded-full p-3"
       classList={{
-        "bg-slate-400 text-white hover:bg-slate-500": !props.isActive,
+        "bg-zinc-400 text-white hover:bg-slate-500": !props.isActive,
         "text-red-400 bg-slate-700": props.isActive,
       }}
     >
@@ -30,9 +30,9 @@ export const SquareToolbarButton: Component<iToolbarButtonProps> = (props) => {
       title={props.title}
       // onClick={props.onClick}
       onMouseDown={props.onMouseDown}
-      class="p-2"
+      class="rounded-xl p-2 transition-transform duration-100 active:-translate-y-1"
       classList={{
-        "bg-slate-400 text-white hover:bg-slate-500": !props.isActive,
+        "bg-zinc-400 text-white hover:bg-slate-500": !props.isActive,
         "text-red-400 bg-slate-700": props.isActive,
       }}
     >

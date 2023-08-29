@@ -4,6 +4,7 @@ import { createStore, produce, reconcile } from "solid-js/store";
 import {
   eKey,
   eLeftTray,
+  eModalTypes,
   eMouseButton,
   eObjectType,
   eResizingFrom,
@@ -99,6 +100,9 @@ export const [mousePosSketching, setmousePosSketching] = createSignal<iPoint>({
 export const [objectSelectionBox, setObjectSelectionBox] =
   createSignal<iBox | null>(null);
 
+export const [currentModal, setCurrentModal] = createSignal<eModalTypes | null>(
+  null,
+);
 /**
  *
  *

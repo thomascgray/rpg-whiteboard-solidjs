@@ -13,14 +13,17 @@ export const SelectedObjectsToolbar: Component = (props) => {
   const topLeftX = () =>
     Store.objectSelectionBox() === null
       ? 0
-      : Store.objectSelectionBox()!.x +
-        Store.objectSelectionBox()!.width / 2 -
-        myRef!.offsetWidth / 2;
+      : (Store.objectSelectionBox()!.x +
+          Store.objectSelectionBox()!.width / 2 -
+          myRef!.offsetWidth / 2) *
+        Store.camera().z;
 
   const topLeftY = () =>
     Store.objectSelectionBox() === null
       ? 0
-      : Store.objectSelectionBox()!.y - myRef!.offsetHeight * 1.2;
+      : (Store.objectSelectionBox()!.y -
+          myRef!.offsetHeight / Store.camera().z) *
+        Store.camera().z;
 
   const allText = createMemo(() => {
     if (Store.selectedObjectIds().length === 0) return false;
@@ -45,13 +48,14 @@ export const SelectedObjectsToolbar: Component = (props) => {
       ref={myRef}
       data-pos-x={topLeftX()}
       data-pos-y={topLeftY()}
+      // data-pos-scale={1 / Store.camera().z}
       id="__selected-objects-toolbar"
       // we need to work this out using JS values, so that we can put it into the data attributes,
       // so that we can then use those data attributes while we're doing movement
       style={`
-        transform: 
-            translate(${topLeftX()}px, ${topLeftY()}px);
-        
+        transform: scale(${
+          1 / Store.camera().z
+        }) translate(${topLeftX()}px, ${topLeftY()}px);
     `}
       class="absolute left-0 top-0 z-[99999999] flex items-center justify-around space-x-3"
     >

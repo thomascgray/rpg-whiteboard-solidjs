@@ -1,15 +1,15 @@
 import { Component, createMemo, createEffect, onMount, For } from "solid-js";
-import * as Store from "../store";
-import { eMouseButton, eObjectType, eTool } from "../types";
+import * as Store from "../../store";
+import { eMouseButton, eObjectType, eTool } from "../../types";
 
 // @ts-ignore
 import C2S from "canvas2svg";
 import svgToTinyDataUri from "mini-svg-data-uri";
-import { screenToCanvas } from "../utils/general-utils";
+import { screenToCanvas } from "../../utils/general-utils";
 import { nanoid } from "nanoid";
 
 // todo something in here is causing console errors?
-export const SketchingCanvas: Component = (props) => {
+export const MainCanvas: Component = (props) => {
   return (
     <canvas
       id="canvas"

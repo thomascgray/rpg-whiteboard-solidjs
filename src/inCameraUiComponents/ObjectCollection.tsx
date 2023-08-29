@@ -1,12 +1,12 @@
 import { Component, createMemo, createEffect, onMount, For } from "solid-js";
 import * as Store from "../store";
-import BaseComponent from "../BaseObject";
+import BaseObject from "../components/board_objects/base";
 
 export const ObjectCollection: Component = (props) => {
   return (
     <For each={Store.objects}>
       {(object) => (
-        <BaseComponent
+        <BaseObject
           object={object}
           isSelected={Store.selectedObjectIds().includes(object.id)}
         />

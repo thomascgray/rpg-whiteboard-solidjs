@@ -1,16 +1,21 @@
 import { Component, Show, createEffect, createMemo, onMount } from "solid-js";
-import { eImageMotionEffects, eObjectType, eTextAlign, iObject } from "./types";
-import * as EventHandlers from "./event-handlers";
-import * as Store from "./store";
-import { ImageObject } from "./objects/Image";
-import * as MotionEffects from "./components/motion-effect-overlays";
+import {
+  eImageMotionEffects,
+  eObjectType,
+  eTextAlign,
+  iObject,
+} from "../../types";
+import * as EventHandlers from "../../event-handlers";
+import * as Store from "../../store";
+import { ImageObject } from "./image";
+import * as MotionEffects from "../motion-effect-overlays";
 
-export interface BaseComponentProps {
+export interface iBaseObjectProps {
   object: iObject;
   isSelected?: boolean;
 }
 
-export const BaseComponent: Component<BaseComponentProps> = (props) => {
+export const BaseObject: Component<iBaseObjectProps> = (props) => {
   onMount(() => {
     if (props.object.type === eObjectType.IMAGE) {
       if (props.object.hasSelfResized === true) return;
@@ -177,4 +182,4 @@ export const BaseComponent: Component<BaseComponentProps> = (props) => {
   );
 };
 
-export default BaseComponent;
+export default BaseObject;

@@ -44,6 +44,7 @@ export const getDOMElementFontSizeAndLineHeightStyleValues = (
   return [fontSize, lineHeight];
 };
 
+// todo this needs to account for scale
 export const setStylesOnElement = (
   element: HTMLElement,
   styleAttrs: {

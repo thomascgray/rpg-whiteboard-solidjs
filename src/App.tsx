@@ -8,13 +8,11 @@ import { ResizeHandles } from "./inCameraUiComponents/ResizeHandles";
 import { ObjectSelectionHighlightBox } from "./inCameraUiComponents/ObjectSelectionHighlightBox";
 import * as TestingUtils from "./utils/testing-utils";
 import { ObjectCollection } from "./inCameraUiComponents/ObjectCollection";
-import { TopToolbar } from "./appUi/TopToolbar";
-import { BottomToolbar } from "./appUi/BottomToolbar";
-import { SketchingCanvas } from "./appUi/SketchingCanvas";
+import * as ScreenToolbars from "./components/toolbars/screen-toolbars";
+import { MainCanvas } from "./components/sketching-canvas/main-canvas";
 import { LeftTray } from "./appUi/LeftTray";
 import { eTool } from "./types";
-import { BottomSketchToolbar } from "./appUi/BottomSketchToolbar";
-import { SketchPenNib } from "./inCameraUiComponents/SketchPenNib";
+import { CanvasPenNib } from "./components/sketching-canvas/canvas-pen-nib";
 import { SelectedObjectsToolbar } from "./inCameraUiComponents/SelectedObjectsToolbar";
 
 const App: Component = () => {
@@ -95,14 +93,14 @@ const App: Component = () => {
       </div>
 
       {/* this order below is important, due to z indexing, etc. */}
-      <SketchingCanvas />
+      <MainCanvas />
 
       <Show when={Store.selectedTool() === eTool.SKETCH}>
-        <SketchPenNib />
-        <BottomSketchToolbar />
+        <CanvasPenNib />
+        <ScreenToolbars.BottomSketchToolbar />
       </Show>
-      <BottomToolbar />
-      <TopToolbar />
+      <ScreenToolbars.BottomToolbar />
+      <ScreenToolbars.TopToolbar />
       <LeftTray />
     </>
   );

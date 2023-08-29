@@ -48,7 +48,7 @@ export const SelectedObjectsToolbar: Component = (props) => {
       ref={myRef}
       data-pos-x={topLeftX()}
       data-pos-y={topLeftY()}
-      // data-pos-scale={1 / Store.camera().z}
+      data-scale={1 / Store.camera().z}
       id="__selected-objects-toolbar"
       // we need to work this out using JS values, so that we can put it into the data attributes,
       // so that we can then use those data attributes while we're doing movement

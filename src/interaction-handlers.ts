@@ -67,18 +67,29 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     const y =
       Number(resizeHandleElement.dataset.posY) +
       (mousePoint.y - mouseDownPosCanvas.y);
-    DOMUtils.setStylesOnElement(resizeHandleElement!, { x, y });
+    DOMUtils.setStylesOnElement(resizeHandleElement!, {
+      x,
+      y,
+    });
   }
 
   const selectedObjectsToolbar = document.getElementById(
     "__selected-objects-toolbar",
   );
-  const x = Number(selectedObjectsToolbar!.dataset.posX);
-  const y = Number(selectedObjectsToolbar!.dataset.posY);
+
+  const scale = Number(selectedObjectsToolbar!.dataset.scale);
+
+  const x =
+    Number(selectedObjectsToolbar!.dataset.posX) +
+    (mousePoint.x - mouseDownPosCanvas.x) * Store.camera().z;
+  const y =
+    Number(selectedObjectsToolbar!.dataset.posY) +
+    (mousePoint.y - mouseDownPosCanvas.y) * Store.camera().z;
 
   DOMUtils.setStylesOnElement(selectedObjectsToolbar!, {
-    x: x + (mousePoint.x - mouseDownPosCanvas.x),
-    y: y + (mousePoint.y - mouseDownPosCanvas.y),
+    scale,
+    x,
+    y,
   });
 };
 

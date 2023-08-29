@@ -48,6 +48,7 @@ export const getDOMElementFontSizeAndLineHeightStyleValues = (
 export const setStylesOnElement = (
   element: HTMLElement,
   styleAttrs: {
+    scale?: number;
     x?: number;
     y?: number;
     width?: number;
@@ -56,9 +57,11 @@ export const setStylesOnElement = (
     lineHeight?: number;
   },
 ) => {
-  const { x, y, width, height, fontSize, lineHeight } = styleAttrs;
+  const { scale, x, y, width, height, fontSize, lineHeight } = styleAttrs;
   const styles: Partial<CSSStyleDeclaration> = {};
-  if (x && y) {
+  if (scale && x && y) {
+    styles.transform = `scale(${scale}) translate(${x}px, ${y}px)`;
+  } else if (x && y) {
     styles.transform = `translate(${x}px, ${y}px)`;
   } else if (x && !y) {
     styles.transform = `translate(${x}px)`;

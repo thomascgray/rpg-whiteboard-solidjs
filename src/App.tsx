@@ -13,7 +13,7 @@ import { MainCanvas } from "./components/sketching-canvas/main-canvas";
 import { LeftTray } from "./appUi/LeftTray";
 import { eTool } from "./types";
 import { CanvasPenNib } from "./components/sketching-canvas/canvas-pen-nib";
-import { SelectedObjectsToolbar } from "./inCameraUiComponents/SelectedObjectsToolbar";
+import { SelectedObjectsToolbar } from "./components/toolbars/selected-objects-toolbar";
 import { ModalWrapper } from "./components/modals/modal-wrapper";
 const App: Component = () => {
   window.onmousedown = EventHandlers.onWindowMouseDown;

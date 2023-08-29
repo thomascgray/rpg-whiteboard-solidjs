@@ -1,6 +1,6 @@
 import { Component, createMemo, createEffect, onMount } from "solid-js";
 
-import * as Store from "../../store";
+import * as Store from "../../../store";
 import {
   eImageMaskShapes,
   eImageMotionEffects,
@@ -8,9 +8,9 @@ import {
   eTextAlign,
   eTool,
   iObject,
-} from "../../types";
-import * as Icons from "../../components/icons";
-import * as Common from "../../components/common-components";
+} from "../../../types";
+import * as Icons from "../../icons";
+import * as Common from "../../common-components";
 import { reconcile } from "solid-js/store";
 
 export const MotionEffects: Component = (props) => {

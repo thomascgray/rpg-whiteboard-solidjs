@@ -66,7 +66,6 @@ export const resizeBottomRightToTopLeft = (
         width: newWidth,
         height: newHeight,
         fontSize: Number(element.dataset.fontSize) * ratio,
-        // lineHeight: Number(element.dataset.lineHeight) * ratio,
       });
     } else {
       DOMUtils.setStylesOnElement(element, {

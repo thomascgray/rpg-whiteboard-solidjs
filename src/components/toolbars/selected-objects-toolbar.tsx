@@ -1,14 +1,14 @@
 import { Component, createMemo, createEffect, onMount, Show } from "solid-js";
 // import { iObject } from "../types";
-import * as Store from "../store";
-import { eObjectType, eTool, iObject } from "../types";
-import * as Icons from "../components/icons";
-import * as Common from "../components/common-components";
+import * as Store from "../../store";
+import { eObjectType, eTool, iObject } from "../../types";
+import * as Icons from "../icons";
+import * as Common from "../common-components";
 import { reconcile } from "solid-js/store";
-import * as TextToolbars from "./objectToolbars/TextToolbars";
-import * as ImageToolbars from "./objectToolbars/ImageToolbar";
-import * as GenericToolbars from "./objectToolbars/GenericToolbars";
-import { withMinMax } from "../utils/general-utils";
+import * as TextToolbars from "./object-toolbars/text-toolbars";
+import * as ImageToolbars from "./object-toolbars/image-toolbar";
+import * as GenericToolbars from "./object-toolbars/generic-toolbars";
+import { withMinMax } from "../../utils/general-utils";
 
 export const SelectedObjectsToolbar: Component = (props) => {
   let myRef;

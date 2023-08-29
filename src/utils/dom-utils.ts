@@ -101,8 +101,7 @@ export const persistSelectedObjectDOMElementsToState = () => {
     const [width, height] = getDOMElementDimensionsStyleValues(element);
 
     if (obj.type === eObjectType.TEXT) {
-      const [fontSize, lineHeight] =
-        getDOMElementFontSizeAndLineHeightStyleValues(element);
+      const [fontSize] = getDOMElementFontSizeAndLineHeightStyleValues(element);
 
       objs[objIndex] = {
         ...obj,

@@ -28,9 +28,8 @@ export const onWindowMouseDown = (e: MouseEvent) => {
 
   Store.setHeldMouseButtons((buttons) => [...buttons, e.button]);
 
-  if (e.button === eMouseButton.LEFT || e.button === eMouseButton.MIDDLE) {
-    Store.setMouseDownPos({ x: e.clientX, y: e.clientY });
-    Store.setMouseDownPosCanvas(
+  if (e.button === eMouseButton.LEFT) {
+    Store.setLeftMouseDownPosCanvas(
       Utils.screenToCanvas(
         e.clientX,
         e.clientY,
@@ -101,6 +100,20 @@ export const onWindowMouseUp = (e: MouseEvent) => {
 };
 
 export const onWindowMouseMove = (e: MouseEvent) => {
+  window.__mousePosition = { x: e.clientX, y: e.clientY };
+
+  if (Store.isMeasuringDistance()) {
+    Store.setMousePosMeasuringDistance(
+      Utils.screenToCanvas(
+        e.clientX,
+        e.clientY,
+        Store.camera().x,
+        Store.camera().y,
+        Store.camera().z,
+      ),
+    );
+  }
+
   if (Store.selectedTool() === eTool.SKETCH) {
     Store.setmousePosSketching({ x: e.clientX, y: e.clientY });
   }
@@ -129,15 +142,15 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     );
 
     Store.setDrawingSelectionBoxStartPos({
-      x: Math.min(mousePoint.x, Store.mouseDownPosCanvas().x),
-      y: Math.min(mousePoint.y, Store.mouseDownPosCanvas().y),
+      x: Math.min(mousePoint.x, Store.leftMouseDownPosCanvas().x),
+      y: Math.min(mousePoint.y, Store.leftMouseDownPosCanvas().y),
     });
 
     Store.setDrawingSelectionBoxWidth(
-      Math.abs(mousePoint.x - Store.mouseDownPosCanvas().x),
+      Math.abs(mousePoint.x - Store.leftMouseDownPosCanvas().x),
     );
     Store.setDrawingSelectionBoxHeight(
-      Math.abs(mousePoint.y - Store.mouseDownPosCanvas().y),
+      Math.abs(mousePoint.y - Store.leftMouseDownPosCanvas().y),
     );
   }
 
@@ -209,10 +222,40 @@ export const onWindowKeyDown = (e: KeyboardEvent) => {
   if (e.key === eKey.NUMBER_3) {
     Store.setSelectedTool(eTool.SKETCH);
   }
+
+  if (e.key === "m" || e.key === "M") {
+    e.preventDefault();
+    e.stopPropagation();
+    Store.setIsMeasuringDistance(true);
+    Store.setTabKeyMouseDownPosCanvas(
+      Utils.screenToCanvas(
+        window.__mousePosition!.x,
+        window.__mousePosition!.y,
+        Store.camera().x,
+        Store.camera().y,
+        Store.camera().z,
+      ),
+    );
+    Store.setMousePosMeasuringDistance(
+      Utils.screenToCanvas(
+        window.__mousePosition!.x,
+        window.__mousePosition!.y,
+        Store.camera().x,
+        Store.camera().y,
+        Store.camera().z,
+      ),
+    );
+  }
 };
 
 export const onWindowKeyUp = (e: KeyboardEvent) => {
   Store.setHeldKeys((keys) => keys.filter((k) => k !== (e.key as eKey)));
+
+  if (e.key === "m" || e.key === "M") {
+    e.preventDefault();
+    e.stopPropagation();
+    Store.setIsMeasuringDistance(false);
+  }
 };
 
 export const onWindowTouchEnd = (e: TouchEvent) => {

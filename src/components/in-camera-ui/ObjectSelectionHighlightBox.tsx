@@ -1,5 +1,5 @@
 import { Component, createMemo, createEffect } from "solid-js";
-import * as Store from "../store";
+import * as Store from "../../store";
 
 export const ObjectSelectionHighlightBox: Component = (props) => {
   const selectedObjects = createMemo(() => {

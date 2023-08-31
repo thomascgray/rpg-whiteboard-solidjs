@@ -3,25 +3,26 @@ import * as _ from "lodash";
 import * as EventHandlers from "./event-handlers";
 import * as Store from "./store";
 import { reconcile } from "solid-js/store";
-import { SelectionBoxComponent } from "./inCameraUiComponents/SelectionBox";
-import { ResizeHandles } from "./inCameraUiComponents/ResizeHandles";
-import { ObjectSelectionHighlightBox } from "./inCameraUiComponents/ObjectSelectionHighlightBox";
+import { SelectionBoxComponent } from "./components/in-camera-ui/SelectionBox";
+import { ResizeHandles } from "./components/in-camera-ui/ResizeHandles";
+import { ObjectSelectionHighlightBox } from "./components/in-camera-ui/ObjectSelectionHighlightBox";
 import * as TestingUtils from "./utils/testing-utils";
-import { ObjectCollection } from "./inCameraUiComponents/ObjectCollection";
+import { ObjectCollection } from "./components/in-camera-ui/object-collection";
 import * as ScreenToolbars from "./components/toolbars/screen-toolbars";
 import { MainCanvas } from "./components/sketching-canvas/main-canvas";
-import { LeftTray } from "./appUi/LeftTray";
+import { LeftTray } from "./components/left-tray/LeftTray";
 import { eTool } from "./types";
 import { CanvasPenNib } from "./components/sketching-canvas/canvas-pen-nib";
 import { SelectedObjectsToolbar } from "./components/toolbars/selected-objects-toolbar";
 import { ModalWrapper } from "./components/modals/modal-wrapper";
+import * as MeasuringSvgs from "./components/in-camera-ui/measuring-svg";
+
 const App: Component = () => {
   window.onmousedown = EventHandlers.onWindowMouseDown;
   window.onmouseup = EventHandlers.onWindowMouseUp;
   window.onkeydown = EventHandlers.onWindowKeyDown;
   window.onkeyup = EventHandlers.onWindowKeyUp;
   window.onmousemove = EventHandlers.onWindowMouseMove;
-  // because we need to specify passive: false, we can't use the SolidJS onWheel event
   window.addEventListener(
     "wheel",
     (e) => {
@@ -73,6 +74,7 @@ const App: Component = () => {
         >
           <ObjectCollection />
 
+          {/* object selection stuff */}
           <Show when={Store.selectedObjectIds().length >= 1}>
             <ObjectSelectionHighlightBox />
             <ResizeHandles />
@@ -89,7 +91,12 @@ const App: Component = () => {
           >
             <SelectionBoxComponent />
           </Show>
+
+          <Show when={Store.isMeasuringDistance()}>
+            <MeasuringSvgs.Circle />
+          </Show>
         </div>
+        {/* end camera */}
       </div>
 
       {/* this order below is important, due to z indexing, etc. */}
@@ -106,6 +113,14 @@ const App: Component = () => {
       <Show when={Store.currentModal() !== null}>
         <ModalWrapper />
       </Show>
+
+      {/* <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
+        <p>
+          is measuring distance:{" "}
+          {Store.isMeasuringDistance() ? "true" : "false"}
+        </p>
+        <p>aaa:</p>
+      </div> */}
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { Component, createMemo, createEffect, onMount, Show } from "solid-js";
-import * as Store from "../store";
-import { eObjectType, eResizingFrom, iPoint } from "../types";
-import * as EventHandlers from "../event-handlers";
+import * as Store from "../../store";
+import { eObjectType, eResizingFrom, iPoint } from "../../types";
+import * as EventHandlers from "../../event-handlers";
 
 const HANDLE_SIZE = 15;
 const HANDLE_SIZE_HALF = HANDLE_SIZE / 2;

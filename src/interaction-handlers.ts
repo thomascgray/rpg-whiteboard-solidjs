@@ -23,7 +23,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     return;
   }
   const camera = Store.camera();
-  const mouseDownPosCanvas = Store.mouseDownPosCanvas();
+  const mouseDownPosCanvas = Store.leftMouseDownPosCanvas();
 
   const mousePoint = Utils.screenToCanvas(
     e.clientX,
@@ -49,7 +49,6 @@ export const interactionMoveObjects = (e: MouseEvent) => {
   }
 
   // using the top-left most set of coords, move the selection box
-  // TODO this could actually just be moving by difference?
   const objectSelectionBoxElement = document.getElementById(
     "__object-selection-highlight-box",
   );
@@ -95,7 +94,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
 
 export const interactionResizeObjects = (e: MouseEvent) => {
   const camera = Store.camera();
-  const mouseDownPosCanvas = Store.mouseDownPosCanvas();
+  const mouseDownPosCanvas = Store.leftMouseDownPosCanvas();
 
   const mousePoint = Utils.screenToCanvas(
     e.clientX,

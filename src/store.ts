@@ -37,7 +37,7 @@ import { nanoid } from "nanoid";
 // 1. all the objects are in a big map, as are the board settings
 export const [objects, setObjects] = createStore<iObject[]>([]);
 export const [boardSettings, setBoardSettings] = createStore<iBoardSettings>({
-  boardBackgroundColour: "#FFFFFF",
+  boardBackgroundColour: "#34495e",
 });
 
 // 2. we have the keyboard and mouse buttons that the user is pressing
@@ -69,13 +69,11 @@ export const [drawingSelectionBoxWidth, setDrawingSelectionBoxWidth] =
 export const [drawingSelectionBoxHeight, setDrawingSelectionBoxHeight] =
   createSignal<number>(0);
 
-export const [mouseDownPos, setMouseDownPos] = createSignal<iPoint>({
-  x: 0,
-  y: 0,
-});
-export const [mouseDownPosCanvas, setMouseDownPosCanvas] = createSignal<iPoint>(
-  { x: 0, y: 0 },
-);
+export const [leftMouseDownPosCanvas, setLeftMouseDownPosCanvas] =
+  createSignal<iPoint>({ x: 0, y: 0 });
+
+export const [tabKeyMouseDownPosCanvas, setTabKeyMouseDownPosCanvas] =
+  createSignal<iPoint>({ x: 0, y: 0 });
 
 export const [isResizingFrom, setIsResizingFrom] =
   createSignal<eResizingFrom | null>(null);
@@ -103,6 +101,15 @@ export const [objectSelectionBox, setObjectSelectionBox] =
 export const [currentModal, setCurrentModal] = createSignal<eModalTypes | null>(
   null,
 );
+
+export const [isMeasuringDistance, setIsMeasuringDistance] =
+  createSignal<boolean>(false);
+
+export const [mousePosMeasuringDistance, setMousePosMeasuringDistance] =
+  createSignal<iPoint>({
+    x: 0,
+    y: 0,
+  });
 /**
  *
  *

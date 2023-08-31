@@ -13,6 +13,8 @@ declare global {
 
     __canvasDrawingTopLeftPoint?: iPoint;
     __canvasDrawingBottomRightPoint?: iPoint;
+
+    __mousePosition?: iPoint;
   }
 }
 
@@ -42,6 +44,7 @@ export enum eKey {
   DOWN = "ArrowDown",
   LEFT = "ArrowLeft",
   RIGHT = "ArrowRight",
+  TAB = "Tab",
 }
 
 export enum eMouseButton {

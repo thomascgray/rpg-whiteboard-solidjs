@@ -1,4 +1,4 @@
-import { Component, Show } from "solid-js";
+import { Component, Show, createEffect, onMount } from "solid-js";
 import {
   eImageMaskShapes,
   eImageMotionEffects,
@@ -11,12 +11,35 @@ import * as Store from "../../store";
 import * as MotionEffects from "../motion-effect-overlays";
 import * as BattleMapFeatures from "../battlemap-grid-overlays";
 
-export interface ImageObjectProps {
+export interface iImageObjectProps {
   object: iObject;
   isSelected?: boolean;
 }
 
-export const ImageObject: Component<ImageObjectProps> = (props) => {
+export const ImageObject: Component<iImageObjectProps> = (props) => {
+  onMount(() => {
+    if (props.object.hasSelfResized === true) return;
+    if (props.object.url && props.object.hasSelfResized === false) {
+      createEffect((prev) => {
+        let img = new Image();
+        img.onload = function () {
+          const index = Store.objects.findIndex(
+            (obj) => obj.id === props.object.id,
+          );
+          Store.setObjects(index, {
+            width: img.width,
+            height: img.height,
+            hasSelfResized: true,
+          });
+
+          // @ts-ignore - manual garbage collection baybee
+          img = null;
+        };
+        img.src = props.object.url!;
+      });
+    }
+  });
+
   return (
     <>
       <img
@@ -25,7 +48,7 @@ export const ImageObject: Component<ImageObjectProps> = (props) => {
         data-width={props.object.width}
         data-height={props.object.height}
         id={props.object.id}
-        class="__object absolute left-0 top-0 bg-red-200"
+        class="__object absolute left-0 top-0"
         classList={{
           "__selected-object hover:cursor-grab": props.isSelected,
           "rounded-full": props.object.maskShape === eImageMaskShapes.CIRCLE,

@@ -6,7 +6,7 @@ import {
   onMount,
   For,
 } from "solid-js";
-import * as Store from "../store";
+import * as Store from "../../store";
 import * as _ from "lodash";
 
 export const BoardSettings: Component = (props) => {

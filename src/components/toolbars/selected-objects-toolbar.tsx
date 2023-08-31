@@ -20,22 +20,22 @@ import { withMinMax } from "../../utils/general-utils";
 export const SelectedObjectsToolbar: Component = (props) => {
   let myRef;
 
+  const [width, setWidth] = createSignal(0);
+  const [height, setHeight] = createSignal(0);
+
   const topLeftX = () =>
     Store.objectSelectionBox() === null
       ? 0
       : (Store.objectSelectionBox()!.x +
           Store.objectSelectionBox()!.width / 2 -
-          myRef!.offsetWidth / 2) *
+          width() / 2) *
         Store.camera().z;
 
-  // TODO this needs to run when we change the height of the thing..... somehow?
-  // also, this runs an AWFUL lot of times, i think cus it uses the camera? maybe some way to improve that?
+  // TODO this seems to run an awful lot - work out whats happening there?
   const topLeftY = () => {
-    console.log("calculating top left y of selected objects toolbar");
     return Store.objectSelectionBox() === null
       ? 0
-      : (Store.objectSelectionBox()!.y - myRef!.offsetHeight) *
-          Store.camera().z;
+      : (Store.objectSelectionBox()!.y - height()) * Store.camera().z;
   };
 
   const allText = createMemo(() => {
@@ -63,6 +63,15 @@ export const SelectedObjectsToolbar: Component = (props) => {
       if (obj === undefined) return false;
       return obj.type === eObjectType.IMAGE && obj.isBattlemap === true;
     });
+  });
+
+  const ro = new ResizeObserver(() => {
+    setWidth(myRef!.offsetWidth);
+    setHeight(myRef!.offsetHeight);
+  });
+
+  onMount(() => {
+    ro.observe(myRef!);
   });
 
   return (

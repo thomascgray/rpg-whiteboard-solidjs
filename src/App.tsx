@@ -15,7 +15,7 @@ import { eTool } from "./types";
 import { CanvasPenNib } from "./components/sketching-canvas/canvas-pen-nib";
 import { SelectedObjectsToolbar } from "./components/toolbars/selected-objects-toolbar";
 import { ModalWrapper } from "./components/modals/modal-wrapper";
-import * as MeasuringSvgs from "./components/in-camera-ui/measuring-svg";
+import * as MeasuringSvgs from "./components/in-camera-ui/measuring-svgs";
 
 const App: Component = () => {
   window.onmousedown = EventHandlers.onWindowMouseDown;
@@ -55,6 +55,7 @@ const App: Component = () => {
           "--app-camera-zoom": `${Store.camera().z}`,
           "background-color":
             Store.boardSettings.boardBackgroundColour || "white",
+          "--app-active-pen-colour": Store.penColour() || "black",
         }}
         draggable="false"
         id="app_background"

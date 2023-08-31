@@ -72,7 +72,7 @@ export const ResizeHandles: Component = (props) => {
         transform: translate(${bottomLeftPoint().x}px, ${
           bottomLeftPoint().y
         }px)`}
-        class="__resize-handle absolute z-[99999999] cursor-sw-resize rounded-full bg-white outline outline-blue-400"
+        class="__resize-handle invisible absolute z-[99999999] cursor-sw-resize rounded-full bg-white outline outline-blue-400"
       ></div>
 
       {/* bottom right */}

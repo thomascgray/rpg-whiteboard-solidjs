@@ -37,7 +37,7 @@ import { nanoid } from "nanoid";
 // 1. all the objects are in a big map, as are the board settings
 export const [objects, setObjects] = createStore<iObject[]>([]);
 export const [boardSettings, setBoardSettings] = createStore<iBoardSettings>({
-  boardBackgroundColour: "#34495e",
+  boardBackgroundColour: "#fff",
 });
 
 // 2. we have the keyboard and mouse buttons that the user is pressing

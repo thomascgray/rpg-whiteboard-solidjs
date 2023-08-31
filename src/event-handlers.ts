@@ -14,6 +14,7 @@ import * as DOMUtils from "./utils/dom-utils";
 export const onWindowMouseDown = (e: MouseEvent) => {
   const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
+  // todo work out why this is necessary, and make a real comment
   window.__cameraDom!.style.transform = `scale(${z}) translate(${x}px, ${y}px)`;
 
   // this isnt great because the camera will still be out at the _end_ of the drag

@@ -4,6 +4,7 @@ import {
   eImageMotionEffects,
   eObjectType,
   eTextAlign,
+  eTool,
   iObject,
 } from "../../types";
 import * as EventHandlers from "../../event-handlers";
@@ -57,6 +58,9 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         }}
         draggable="false"
         onMouseDown={(e) => {
+          if (Store.selectedTool() !== eTool.CURSOR) {
+            return;
+          }
           EventHandlers.onObjectMouseDown(e, props.object);
         }}
         src={props.object.url}

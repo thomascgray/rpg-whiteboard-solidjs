@@ -4,6 +4,7 @@ import {
   eImageMotionEffects,
   eObjectType,
   eTextAlign,
+  eTool,
   iObject,
 } from "../../types";
 import * as EventHandlers from "../../event-handlers";
@@ -32,6 +33,9 @@ export const SVGObject: Component<iSVGObjectProps> = (props) => {
       }}
       draggable="false"
       onMouseDown={(e) => {
+        if (Store.selectedTool() !== eTool.CURSOR) {
+          return;
+        }
         EventHandlers.onObjectMouseDown(e, props.object);
       }}
       style={`

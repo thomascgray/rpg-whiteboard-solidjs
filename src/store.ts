@@ -59,15 +59,18 @@ export const [selectedObjectIds, setSelectedObjectIds] = createSignal<string[]>(
 
 export const [isFocusedInTextbox, setIsFocusedInTextbox] =
   createSignal<boolean>(false);
-export const [isDrawingSelectionBox, setIsDrawingSelectionBox] =
-  createSignal<boolean>(false);
+// export const [isDrawingSelectionBox, setIsDrawingSelectionBox] =
+//   createSignal<boolean>(false);
 
-export const [drawingSelectionBoxStartPos, setDrawingSelectionBoxStartPos] =
-  createSignal<iPoint>({ x: 0, y: 0 });
-export const [drawingSelectionBoxWidth, setDrawingSelectionBoxWidth] =
-  createSignal<number>(0);
-export const [drawingSelectionBoxHeight, setDrawingSelectionBoxHeight] =
-  createSignal<number>(0);
+export const [dragSelectionBox, setDragSelectionBox] =
+  createSignal<iBox | null>(null);
+
+// export const [drawingSelectionBoxStartPos, setDrawingSelectionBoxStartPos] =
+//   createSignal<iPoint>({ x: 0, y: 0 });
+// export const [drawingSelectionBoxWidth, setDrawingSelectionBoxWidth] =
+//   createSignal<number>(0);
+// export const [drawingSelectionBoxHeight, setDrawingSelectionBoxHeight] =
+//   createSignal<number>(0);
 
 export const [leftMouseDownPosCanvas, setLeftMouseDownPosCanvas] =
   createSignal<iPoint>({ x: 0, y: 0 });
@@ -79,7 +82,7 @@ export const [isResizingFrom, setIsResizingFrom] =
   createSignal<eResizingFrom | null>(null);
 
 export const [selectedTool, setSelectedTool] = createSignal<eTool>(
-  eTool.DEFAULT,
+  eTool.CURSOR,
 );
 
 export const [penColour, setPenColour] = createSignal<string>("#34495e");

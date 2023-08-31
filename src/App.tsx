@@ -3,9 +3,9 @@ import * as _ from "lodash";
 import * as EventHandlers from "./event-handlers";
 import * as Store from "./store";
 import { reconcile } from "solid-js/store";
-import { SelectionBoxComponent } from "./components/in-camera-ui/SelectionBox";
-import { ResizeHandles } from "./components/in-camera-ui/ResizeHandles";
-import { ObjectSelectionHighlightBox } from "./components/in-camera-ui/ObjectSelectionHighlightBox";
+import { DragSelectionBoxComponent } from "./components/in-camera-ui/drag-selection-box";
+import { ResizeHandles } from "./components/in-camera-ui/resize-handles";
+import { ObjectSelectionHighlightBox } from "./components/in-camera-ui/object-selection-highlight-box";
 import * as TestingUtils from "./utils/testing-utils";
 import { ObjectCollection } from "./components/in-camera-ui/object-collection";
 import * as ScreenToolbars from "./components/toolbars/screen-toolbars";
@@ -32,7 +32,7 @@ const App: Component = () => {
   );
 
   onMount(() => {
-    TestingUtils.makeDummyObjects(3, 30);
+    TestingUtils.makeDummyObjects(3, 10);
     window.__cameraDom = document.getElementById("camera")!;
     window.__backgroundAppDom = document.getElementById("app_background")!;
     window.__canvasDom = document.getElementById("canvas")!;
@@ -82,18 +82,12 @@ const App: Component = () => {
           </Show>
 
           {/* show the drawing box */}
-          <Show
-            when={
-              Store.isDrawingSelectionBox() &&
-              Store.drawingSelectionBoxWidth() > 2 &&
-              Store.drawingSelectionBoxHeight() > 2
-            }
-          >
-            <SelectionBoxComponent />
+          <Show when={Store.dragSelectionBox()}>
+            <DragSelectionBoxComponent />
           </Show>
 
           <Show when={Store.isMeasuringDistance()}>
-            <MeasuringSvgs.Circle />
+            <MeasuringSvgs.Wrapper />
           </Show>
         </div>
         {/* end camera */}
@@ -116,10 +110,13 @@ const App: Component = () => {
 
       {/* <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
         <p>
-          is measuring distance:{" "}
-          {Store.isMeasuringDistance() ? "true" : "false"}
+          is measuring distnace:
+          {JSON.stringify(Store.isMeasuringDistance())}
         </p>
-        <p>aaa:</p>
+        <p>
+          camera:
+          {JSON.stringify(Store.camera())}
+        </p>
       </div> */}
     </>
   );

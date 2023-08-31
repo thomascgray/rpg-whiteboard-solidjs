@@ -28,7 +28,9 @@ export const onWindowMouseDown = (e: MouseEvent) => {
 
   Store.setHeldMouseButtons((buttons) => [...buttons, e.button]);
 
+  // if we click left mouse
   if (e.button === eMouseButton.LEFT) {
+    // store the position of the mouse in canvas space
     Store.setLeftMouseDownPosCanvas(
       Utils.screenToCanvas(
         e.clientX,
@@ -38,6 +40,33 @@ export const onWindowMouseDown = (e: MouseEvent) => {
         Store.camera().z,
       ),
     );
+
+    //... AND if we're measuring, start measuring tool
+    if (
+      Store.selectedTool() === eTool.MEASURING_CIRCLE ||
+      Store.selectedTool() === eTool.MEASURING_LINE ||
+      Store.selectedTool() === eTool.MEASURING_SQUARE
+    ) {
+      Store.setIsMeasuringDistance(true);
+      Store.setMousePosMeasuringDistance(
+        Utils.screenToCanvas(
+          window.__mousePosition!.x,
+          window.__mousePosition!.y,
+          Store.camera().x,
+          Store.camera().y,
+          Store.camera().z,
+        ),
+      );
+      Store.setTabKeyMouseDownPosCanvas(
+        Utils.screenToCanvas(
+          e.clientX,
+          e.clientY,
+          Store.camera().x,
+          Store.camera().y,
+          Store.camera().z,
+        ),
+      );
+    }
   }
 };
 
@@ -51,21 +80,21 @@ export const onWindowMouseUp = (e: MouseEvent) => {
     DOMUtils.persistSelectedObjectDOMElementsToState();
   }
 
+  if (e.button === eMouseButton.LEFT && Store.isMeasuringDistance()) {
+    Store.setIsMeasuringDistance(false);
+  }
+
   // if we're letting go of dragging a selection box
-  if (
-    e.button === eMouseButton.LEFT &&
-    Store.isDrawingSelectionBox() &&
-    Store.drawingSelectionBoxWidth() > 2 &&
-    Store.drawingSelectionBoxHeight() > 2
-  ) {
+  if (e.button === eMouseButton.LEFT && Store.dragSelectionBox() !== null) {
+    const currentSelectionBox = Store.dragSelectionBox()!;
     // any objects that were within the bounding box of the drawing selection box need to be selected
     const objectsWithinSelectionBox = Object.values(Store.objects).filter(
       (obj) => {
         const selectionBox = {
-          x: Store.drawingSelectionBoxStartPos().x,
-          y: Store.drawingSelectionBoxStartPos().y,
-          width: Store.drawingSelectionBoxWidth(),
-          height: Store.drawingSelectionBoxHeight(),
+          x: currentSelectionBox.x,
+          y: currentSelectionBox.y,
+          width: currentSelectionBox.width,
+          height: currentSelectionBox.height,
         };
 
         return Utils.checkOverlap(obj, selectionBox);
@@ -74,9 +103,7 @@ export const onWindowMouseUp = (e: MouseEvent) => {
 
     Store.setSelectedObjectIds(objectsWithinSelectionBox.map((obj) => obj.id));
 
-    Store.setIsDrawingSelectionBox(false);
-    Store.setDrawingSelectionBoxWidth(0);
-    Store.setDrawingSelectionBoxHeight(0);
+    Store.setDragSelectionBox(null);
   }
 
   // if we were panning
@@ -129,7 +156,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 
   // mouse movement for drawing a selection box
   if (
-    Store.selectedTool() === eTool.DEFAULT &&
+    Store.selectedTool() === eTool.CURSOR &&
     selectedObjectDOMElements.length <= 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT)
   ) {
@@ -141,22 +168,17 @@ export const onWindowMouseMove = (e: MouseEvent) => {
       Store.camera().z,
     );
 
-    Store.setDrawingSelectionBoxStartPos({
+    Store.setDragSelectionBox({
       x: Math.min(mousePoint.x, Store.leftMouseDownPosCanvas().x),
       y: Math.min(mousePoint.y, Store.leftMouseDownPosCanvas().y),
+      width: Math.abs(mousePoint.x - Store.leftMouseDownPosCanvas().x),
+      height: Math.abs(mousePoint.y - Store.leftMouseDownPosCanvas().y),
     });
-
-    Store.setDrawingSelectionBoxWidth(
-      Math.abs(mousePoint.x - Store.leftMouseDownPosCanvas().x),
-    );
-    Store.setDrawingSelectionBoxHeight(
-      Math.abs(mousePoint.y - Store.leftMouseDownPosCanvas().y),
-    );
   }
 
   // mouse movement for moving objects around
   if (
-    Store.selectedTool() === eTool.DEFAULT &&
+    Store.selectedTool() === eTool.CURSOR &&
     selectedObjectDOMElements.length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
     Store.isResizingFrom() === null &&
@@ -171,7 +193,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 
   // resizing object(s)
   if (
-    Store.selectedTool() === eTool.DEFAULT &&
+    Store.selectedTool() === eTool.CURSOR &&
     selectedObjectDOMElements.length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
     Store.isResizingFrom() !== null &&
@@ -210,7 +232,7 @@ export const onWindowKeyDown = (e: KeyboardEvent) => {
   }
 
   if (e.key === eKey.ESCAPE) {
-    Store.setIsDrawingSelectionBox(false);
+    Store.setDragSelectionBox(null);
     Store.setIsResizingFrom(null);
     Store.setSelectedObjectIds([]);
   }
@@ -277,7 +299,7 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
   }
   if (e.button === eMouseButton.LEFT) {
     Store.unselectObjects();
-    Store.setIsDrawingSelectionBox(true);
+    Store.setDragSelectionBox(null);
   }
 };
 

@@ -18,48 +18,6 @@ export interface iBaseObjectProps {
 }
 
 export const BaseObject: Component<iBaseObjectProps> = (props) => {
-  onMount(() => {
-    if (props.object.type === eObjectType.IMAGE) {
-      if (props.object.hasSelfResized === true) return;
-      if (props.object.url && props.object.hasSelfResized === false) {
-        createEffect((prev) => {
-          let img = new Image();
-          img.onload = function () {
-            const index = Store.objects.findIndex(
-              (obj) => obj.id === props.object.id,
-            );
-            Store.setObjects(index, {
-              width: img.width,
-              height: img.height,
-              hasSelfResized: true,
-            });
-
-            // @ts-ignore - manual garbage collection baybee
-            img = null;
-          };
-          img.src = props.object.url!;
-        });
-      }
-    }
-
-    if (props.object.type === eObjectType.TEXT) {
-      const element = document.getElementById(props.object.id);
-      const index = Store.objects.findIndex(
-        (obj) => obj.id === props.object.id,
-      );
-      // @ts-ignore style doesn't exist on Element
-      element!.children[0].style.height = "auto";
-      let newHeight = element!.children[0].scrollHeight;
-      // @ts-ignore style doesn't exist on Element
-      element!.children[0].style.height = "100%";
-      Store.setObjects(index, {
-        // @ts-ignore value doesn't exist on Element
-        text: element!.children[0].value!,
-        height: newHeight,
-      });
-    }
-  });
-
   return (
     <>
       {/* image objects */}

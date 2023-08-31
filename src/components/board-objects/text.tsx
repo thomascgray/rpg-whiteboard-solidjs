@@ -4,6 +4,7 @@ import {
   eImageMotionEffects,
   eObjectType,
   eTextAlign,
+  eTool,
   iObject,
 } from "../../types";
 import * as EventHandlers from "../../event-handlers";
@@ -50,6 +51,9 @@ export const TextObject: Component<iTextObjectProps> = (props) => {
       }}
       draggable="false"
       onDblClick={(e) => {
+        if (Store.selectedTool() !== eTool.CURSOR) {
+          return;
+        }
         const index = Store.objects.findIndex(
           (obj) => obj.id === props.object.id,
         );
@@ -58,6 +62,9 @@ export const TextObject: Component<iTextObjectProps> = (props) => {
         });
       }}
       onMouseDown={(e) => {
+        if (Store.selectedTool() !== eTool.CURSOR) {
+          return;
+        }
         EventHandlers.onObjectMouseDown(e, props.object);
       }}
       style={`

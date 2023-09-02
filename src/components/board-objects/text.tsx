@@ -42,7 +42,7 @@ export const TextObject: Component<iTextObjectProps> = (props) => {
       data-line-height={props.object.lineHeight}
       data-object-type={props.object.type}
       id={props.object.id}
-      class="__object absolute left-0 top-0 bg-white"
+      class="__object absolute left-0 top-0 transform-gpu bg-white"
       classList={{
         "cursor-default": !props.object.isFocused,
         "__selected-object hover:cursor-grab": props.isSelected,

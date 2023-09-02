@@ -49,7 +49,7 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         data-width={props.object.width}
         data-height={props.object.height}
         id={props.object.id}
-        class="__object absolute left-0 top-0"
+        class="__object absolute left-0 top-0 transform-gpu"
         classList={{
           "__selected-object hover:cursor-grab": props.isSelected,
           "rounded-full": props.object.maskShape === eImageMaskShapes.CIRCLE,

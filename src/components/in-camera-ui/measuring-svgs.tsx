@@ -8,7 +8,7 @@ import {
 } from "solid-js";
 import * as Store from "../../store";
 import { eTool } from "../../types";
-
+import * as Utils from "../../utils/general-utils";
 // TODO all these components need to take into account the camera zoom level
 
 export const Wrapper: Component = (props) => {
@@ -54,8 +54,8 @@ export const StraightRule: Component = (props) => {
           x2={Store.mousePosMeasuringDistance().x}
           y2={Store.mousePosMeasuringDistance().y}
           style={`
-            stroke: var(--app-active-pen-colour);
-            stroke-width:3
+            stroke: var(--app-measuring-tool-colour);
+            stroke-width: calc(2px / var(--app-camera-zoom));
           `}
         />
       </svg>
@@ -104,9 +104,9 @@ export const Circle: Component = (props) => {
           )}
           fill-opacity="20%"
           style={`
-            stroke: var(--app-active-pen-colour);
-            fill: var(--app-active-pen-colour);
-            stroke-width:3
+            stroke: var(--app-measuring-tool-colour);
+            fill: var(--app-measuring-tool-colour);
+            stroke-width: calc(2px / var(--app-camera-zoom));
           `}
         />
       </svg>
@@ -149,11 +149,11 @@ export const Square: Component = (props) => {
       Store.mousePosMeasuringDistance().y - Store.tabKeyMouseDownPosCanvas().y,
     );
   });
-  const ratio = () => Math.min(width(), height());
+  const ratio = () => Math.max(width(), height());
   return (
     <>
       <svg
-        class="absolute left-0 top-0 z-[9999999999] origin-bottom-right overflow-visible"
+        class="absolute left-0 top-0 z-[9999999999] overflow-visible"
         height={window.innerHeight}
         width={window.innerWidth}
       >
@@ -163,10 +163,16 @@ export const Square: Component = (props) => {
           width={ratio() * 2}
           height={ratio() * 2}
           fill-opacity="20%"
+          class="origin-center"
           style={`
-            stroke: var(--app-active-pen-colour);
-            fill: var(--app-active-pen-colour);
-            stroke-width:3
+            transform-box: fill-box;
+            stroke: var(--app-measuring-tool-colour);
+            fill: var(--app-measuring-tool-colour);
+            stroke-width: calc(3px / var(--app-camera-zoom));
+            transform: rotate(${Utils.calculateRotationAngle(
+              Store.tabKeyMouseDownPosCanvas(),
+              Store.mousePosMeasuringDistance(),
+            )}deg);
           `}
         />
       </svg>

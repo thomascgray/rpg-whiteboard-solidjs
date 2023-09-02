@@ -130,13 +130,13 @@ export const interactionZoomCamera = (e: WheelEvent) => {
     if (isTrackpad) {
       zoomCamera(e.clientX, e.clientY, 2);
     } else {
-      zoomCamera(e.clientX, e.clientY, 15);
+      zoomCamera(e.clientX, e.clientY, 10);
     }
   } else {
     if (isTrackpad) {
       zoomCamera(e.clientX, e.clientY, -2);
     } else {
-      zoomCamera(e.clientX, e.clientY, -15);
+      zoomCamera(e.clientX, e.clientY, -10);
     }
   }
 };

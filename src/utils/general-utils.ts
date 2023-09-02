@@ -98,3 +98,29 @@ export const sendSelectedObjectsToBack = () => {
 
   Store.setObjects(reconcile(objs));
 };
+
+export const calculateRotationAngle = (point1: iPoint, point2: iPoint) => {
+  const deltaX = point2.x - point1.x;
+  const deltaY = point2.y - point1.y;
+
+  // Calculate the angle in radians
+  let angleRad = Math.atan2(deltaY, deltaX);
+
+  // Convert radians to degrees
+  let angleDeg = (angleRad * 180) / Math.PI;
+
+  // Ensure the angle is between 0 and 360 degrees
+  if (angleDeg < 0) {
+    angleDeg += 360;
+  }
+
+  // Adjust the angle to have 180 degrees for straight "down"
+  angleDeg += 180;
+
+  // Ensure the adjusted angle is between 0 and 360 degrees
+  if (angleDeg >= 360) {
+    angleDeg -= 360;
+  }
+
+  return angleDeg;
+};

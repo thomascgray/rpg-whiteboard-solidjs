@@ -32,7 +32,7 @@ const App: Component = () => {
   );
 
   onMount(() => {
-    TestingUtils.makeDummyObjects(3, 10);
+    TestingUtils.makeDummyObjects(5, 10);
     window.__cameraDom = document.getElementById("camera")!;
     window.__backgroundAppDom = document.getElementById("app_background")!;
     window.__canvasDom = document.getElementById("canvas")!;
@@ -56,6 +56,7 @@ const App: Component = () => {
           "background-color":
             Store.boardSettings.boardBackgroundColour || "white",
           "--app-active-pen-colour": Store.penColour() || "black",
+          "--app-measuring-tool-colour": "#e74c3c",
         }}
         draggable="false"
         id="app_background"
@@ -68,7 +69,7 @@ const App: Component = () => {
           data-pos-z={Store.camera().z}
           id="camera"
           draggable="false"
-          class="h-screen w-screen origin-top-left select-none"
+          class="h-screen w-screen origin-top-left transform-gpu select-none"
           style={`transform: scale(${Store.camera().z}) translate(${
             Store.camera().x
           }px, ${Store.camera().y}px)`}

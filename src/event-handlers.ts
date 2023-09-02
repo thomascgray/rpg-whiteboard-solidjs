@@ -210,12 +210,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 export const onWindowMouseWheel = (e: WheelEvent) => {
   e.stopPropagation();
   e.preventDefault();
-  // const isTrackpad = e.deltaY % 1 !== 0;
-
-  const isTrackpad = true;
-
-  console.log("e deltas", e.deltaY);
-  console.log("isTrackpad", isTrackpad);
+  const isTrackpad = Math.abs(e.deltaY) < 50;
   if (isTrackpad) {
     if (e.ctrlKey) {
       InteractionHandlers.interactionZoomCamera(e);

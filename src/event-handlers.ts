@@ -179,9 +179,8 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     selectedObjectDOMElements.length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
     Store.isResizingFrom() === null &&
-    !Store.isFocusedInTextbox()
+    Store.focusedObjectId() === null
   ) {
-    // lol, do more of this i guess? [shrug]
     window.__app_selectedObjects =
       document.getElementsByClassName("__selected-object");
     InteractionHandlers.interactionMoveObjects(e);
@@ -194,7 +193,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     selectedObjectDOMElements.length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
     Store.isResizingFrom() !== null &&
-    !Store.isFocusedInTextbox()
+    Store.focusedObjectId() === null
   ) {
     window.__app_selectedObjects =
       document.getElementsByClassName("__selected-object");

@@ -111,8 +111,6 @@ export interface iObject {
   zIndex: number;
   type: eObjectType;
 
-  // used for text at the minute but maybe other stuff later on?
-  isFocused: boolean;
   isLocked: boolean;
 
   // for images

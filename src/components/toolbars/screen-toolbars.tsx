@@ -1,12 +1,4 @@
-import {
-  Component,
-  createMemo,
-  createEffect,
-  onMount,
-  For,
-  createSignal,
-  Show,
-} from "solid-js";
+import { Component, For, Show } from "solid-js";
 import * as Store from "../../store";
 import { eMeasuringTools, eObjectType, eTool } from "../../types";
 import * as Icons from "../icons";
@@ -70,7 +62,6 @@ export const BottomToolbar: Component = (props) => {
                     hasSelfResized: false,
                     zIndex: Store.objects.length + 1,
                     type: eObjectType.IMAGE,
-                    isFocused: false,
                     isLocked: false,
                   },
                 ]);
@@ -113,7 +104,6 @@ export const BottomToolbar: Component = (props) => {
                   fontSize: 16,
                   lineHeight: 22,
                   text,
-                  isFocused: false,
                   isLocked: false,
                 },
               ]);

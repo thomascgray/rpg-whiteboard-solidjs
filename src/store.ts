@@ -58,20 +58,12 @@ export const [selectedObjectIds, setSelectedObjectIds] = createSignal<string[]>(
   [],
 );
 
-export const [isFocusedInTextbox, setIsFocusedInTextbox] =
-  createSignal<boolean>(false);
-// export const [isDrawingSelectionBox, setIsDrawingSelectionBox] =
-//   createSignal<boolean>(false);
+export const [focusedObjectId, setFocusedObjectId] = createSignal<
+  string | null
+>(null);
 
 export const [dragSelectionBox, setDragSelectionBox] =
   createSignal<iBox | null>(null);
-
-// export const [drawingSelectionBoxStartPos, setDrawingSelectionBoxStartPos] =
-//   createSignal<iPoint>({ x: 0, y: 0 });
-// export const [drawingSelectionBoxWidth, setDrawingSelectionBoxWidth] =
-//   createSignal<number>(0);
-// export const [drawingSelectionBoxHeight, setDrawingSelectionBoxHeight] =
-//   createSignal<number>(0);
 
 export const [leftMouseDownPosCanvas, setLeftMouseDownPosCanvas] =
   createSignal<iPoint>({ x: 0, y: 0 });
@@ -141,15 +133,7 @@ export const unselectObjects = () => {
   // to make that text area unfocused
   const objs = [...objects];
 
-  // here we're actually setting ALL text objects to unfocused, but eh... thats fine? i think?
-  objs.forEach((obj, i) => {
-    if (obj.type === eObjectType.TEXT) {
-      objs[i] = {
-        ...obj,
-        isFocused: false,
-      };
-    }
-  });
+  setFocusedObjectId(null);
   setSelectedObjectIds([]);
   setObjects(reconcile(objs));
 
@@ -175,12 +159,10 @@ export const addNewObject = (props: Partial<iObject>) => {
     height: 100,
     zIndex: objects.length + 1,
     type: eObjectType.IMAGE,
-    isFocused: false,
     isLocked: false,
     ...props,
   };
   setObjects((objs) => [...objs, newObject]);
-  // setSelectedObjectIds([newObject.id]);
 };
 
 export const getObjectProperty = (index: number, property: keyof iObject) => {

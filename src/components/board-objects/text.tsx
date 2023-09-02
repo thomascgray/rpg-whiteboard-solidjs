@@ -44,7 +44,7 @@ export const TextObject: Component<iTextObjectProps> = (props) => {
       id={props.object.id}
       class="__object absolute left-0 top-0 transform-gpu bg-white"
       classList={{
-        "cursor-default": !props.object.isFocused,
+        "cursor-default": Store.focusedObjectId() !== props.object.id,
         "__selected-object hover:cursor-grab": props.isSelected,
         "outline-dashed outline-blue-400":
           props.isSelected && Store.selectedObjectIds().length > 1,
@@ -54,12 +54,8 @@ export const TextObject: Component<iTextObjectProps> = (props) => {
         if (Store.selectedTool() !== eTool.CURSOR) {
           return;
         }
-        const index = Store.objects.findIndex(
-          (obj) => obj.id === props.object.id,
-        );
-        Store.setObjects(index, {
-          isFocused: true,
-        });
+
+        Store.setFocusedObjectId(props.object.id);
       }}
       onMouseDown={(e) => {
         if (Store.selectedTool() !== eTool.CURSOR) {
@@ -82,8 +78,8 @@ export const TextObject: Component<iTextObjectProps> = (props) => {
         value={props.object.text || ""}
         class="h-full w-full resize-none overflow-y-hidden whitespace-normal border-none bg-white p-2 outline-none"
         classList={{
-          "pointer-events-none": !props.object.isFocused,
-          "cursor-default": !props.object.isFocused,
+          "pointer-events-none cursor-default":
+            Store.focusedObjectId() !== props.object.id,
           "font-bold": props.object.isBold,
           italic: props.object.isItalic,
           "text-left": props.object.textAlign === eTextAlign.LEFT,

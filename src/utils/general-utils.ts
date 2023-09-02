@@ -124,3 +124,13 @@ export const calculateRotationAngle = (point1: iPoint, point2: iPoint) => {
 
   return angleDeg;
 };
+
+export const calculateMidpoint = (point1: iPoint, point2: iPoint) => {
+  // Calculate the midpoint coordinates
+  const midpointX = (point1.x + point2.x) / 2;
+  const midpointY = (point1.y + point2.y) / 2;
+
+  // Create and return a new point representing the midpoint
+  const midpoint = { x: midpointX, y: midpointY };
+  return midpoint;
+};

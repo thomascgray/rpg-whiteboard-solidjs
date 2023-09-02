@@ -79,16 +79,27 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         <MotionEffects.Rain object={props.object} />
       </Show>
 
-      <Show when={props.object.gridType === eBattlemapGridType.SQUARES}>
+      <Show
+        when={
+          props.object.battlemap_gridType === eBattlemapGridType.SQUARES &&
+          props.object.battlemap_shouldRenderGrid === true
+        }
+      >
         <BattleMapFeatures.SquaresOverlay object={props.object} />
       </Show>
       <Show
-        when={props.object.gridType === eBattlemapGridType.HEXAGONS_FLAT_TOP}
+        when={
+          props.object.battlemap_gridType ===
+          eBattlemapGridType.HEXAGONS_FLAT_TOP
+        }
       >
         <BattleMapFeatures.HexesFlatTopOverlay object={props.object} />
       </Show>
       <Show
-        when={props.object.gridType === eBattlemapGridType.HEXAGONS_POINTY_TOP}
+        when={
+          props.object.battlemap_gridType ===
+          eBattlemapGridType.HEXAGONS_POINTY_TOP
+        }
       >
         <BattleMapFeatures.HexesPointyTopOverlay object={props.object} />
       </Show>

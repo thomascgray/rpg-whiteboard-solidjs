@@ -53,6 +53,15 @@ export const SelectedObjectsToolbar: Component = (props) => {
     });
   });
 
+  const allImageBattleTokens = createMemo(() => {
+    if (Store.selectedObjectIds().length === 0) return false;
+    return Store.selectedObjectIds().every((id) => {
+      const obj = Store.objects.find((obj) => obj.id === id);
+      if (obj === undefined) return false;
+      return obj.type === eObjectType.IMAGE && obj.isBattleToken === true;
+    });
+  });
+
   const ro = new ResizeObserver(() => {
     setWidth(myRef!.offsetWidth);
     setHeight(myRef!.offsetHeight);
@@ -77,13 +86,20 @@ export const SelectedObjectsToolbar: Component = (props) => {
           1 / Store.camera().z
         }) translate(${topLeftX()}px, ${topLeftY()}px);
     `}
-        class="column absolute left-0 top-0 z-[99999999] flex origin-bottom flex-col items-center "
+        class="column absolute left-0 top-0 z-[99999999] flex origin-bottom flex-col items-center"
       >
         <Show when={allImageBattlemaps()}>
           <div class="space-x-2 rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">
             <ImageToolbars.BattlemapToolbar />
           </div>
         </Show>
+
+        <Show when={allImageBattleTokens()}>
+          <div class="space-x-2 rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">
+            <ImageToolbars.BattleTokenToolbar />
+          </div>
+        </Show>
+
         <div class="flex justify-around space-x-3">
           <Show when={allText()}>
             <div class="space-x-2 rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">

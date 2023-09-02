@@ -28,6 +28,27 @@ export const Wrapper: Component = (props) => {
     </>
   );
 };
+
+export const DistanceLabel: Component<{ label: string }> = (props) => {
+  return (
+    <span
+      style={`
+transform: translate(calc(${
+        Store.tabKeyMouseDownPosCanvas().x
+      }px - 50%), calc(${Store.tabKeyMouseDownPosCanvas().y}px - 50%));
+      font-size: calc(14px / var(--app-camera-zoom));
+      padding-left: calc(0.6em / var(--app-camera-zoom));
+      padding-right: calc(0.6em / var(--app-camera-zoom));
+      padding-top: calc(0.2em / var(--app-camera-zoom));
+      padding-bottom: calc(0.2em / var(--app-camera-zoom));
+`}
+      class="absolute left-0 top-0 z-[9999999999] rounded-full bg-red-500/50 text-center font-bold text-white"
+    >
+      {props.label}
+    </span>
+  );
+};
+
 export const StraightRule: Component = (props) => {
   const length = createMemo(() => {
     const originalLength = Math.max(
@@ -43,6 +64,12 @@ export const StraightRule: Component = (props) => {
     console.log("originalLength", originalLength);
     return Math.round(originalLength / Store.measuringScale());
   });
+
+  // const midPoint = () =>
+  //   Utils.calculateMidpoint(
+  //     Store.tabKeyMouseDownPosCanvas(),
+  //     Store.mousePosMeasuringDistance(),
+  //   );
   return (
     <>
       <svg
@@ -57,20 +84,11 @@ export const StraightRule: Component = (props) => {
           y2={Store.mousePosMeasuringDistance().y}
           style={`
             stroke: var(--app-measuring-tool-colour);
-            stroke-width: calc(2px / var(--app-camera-zoom));
+            stroke-width: calc(10px / var(--app-camera-zoom));
           `}
         />
       </svg>
-      <p
-        style={`
-      transform: translate(calc(${
-        Store.tabKeyMouseDownPosCanvas().x
-      }px - 50%), calc(${Store.tabKeyMouseDownPosCanvas().y}px - 50%));
-      `}
-        class="absolute left-0 top-0 z-[9999999999] rounded-full bg-red-500 px-4 py-2 text-center text-sm font-bold text-white"
-      >
-        {length()} Squares
-      </p>
+      <DistanceLabel label={`${length()} Squares`} />
     </>
   );
 };
@@ -107,16 +125,7 @@ export const Circle: Component = (props) => {
           `}
         />
       </svg>
-      <p
-        style={`
-      transform: translate(calc(${
-        Store.tabKeyMouseDownPosCanvas().x
-      }px - 50%), calc(${Store.tabKeyMouseDownPosCanvas().y}px - 50%));
-      `}
-        class="absolute left-0 top-0 z-[9999999999] rounded-full bg-red-500 px-4 py-2 text-center text-sm font-bold text-white"
-      >
-        {length()} Squares
-      </p>
+      <DistanceLabel label={`${length()} Squares`} />
     </>
   );
 };
@@ -168,16 +177,7 @@ export const Square: Component = (props) => {
           `}
         />
       </svg>
-      <p
-        style={`
-      transform: translate(calc(${
-        Store.tabKeyMouseDownPosCanvas().x
-      }px - 50%), calc(${Store.tabKeyMouseDownPosCanvas().y}px - 50%));
-      `}
-        class="absolute left-0 top-0 z-[9999999999] rounded-full bg-red-500 px-4 py-2 text-center text-sm font-bold text-white"
-      >
-        {length()} Squares
-      </p>
+      <DistanceLabel label={`${length()} Squares`} />
     </>
   );
 };

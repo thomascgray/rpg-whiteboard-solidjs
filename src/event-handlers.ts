@@ -234,13 +234,13 @@ export const onWindowKeyDown = (e: KeyboardEvent) => {
     Store.setSelectedObjectIds([]);
   }
 
-  if (e.key === eKey.NUMBER_1) {
-    Utils.sendSelectedObjectsToBack();
-  }
+  // if (e.key === eKey.NUMBER_1) {
+  //   Utils.sendSelectedObjectsToBack();
+  // }
 
-  if (e.key === eKey.NUMBER_3) {
-    Store.setSelectedTool(eTool.SKETCH);
-  }
+  // if (e.key === eKey.NUMBER_3) {
+  //   Store.setSelectedTool(eTool.SKETCH);
+  // }
 
   if (e.key === "m" || e.key === "M") {
     e.preventDefault();

@@ -123,8 +123,17 @@ export interface iObject {
 
   // sub stuff of images - battlemap things
   isBattlemap?: boolean;
-  gridType?: eBattlemapGridType;
-  squaresAcross?: number;
+  battlemap_shouldRenderGrid?: boolean;
+  battlemap_gridColour?: string;
+  battlemap_gridOpacity?: number;
+  battlemap_gridLineThickness?: number;
+  battlemap_gridType?: eBattlemapGridType;
+  battlemap_squaresAcross?: number;
+  battlemap_xOffset?: number;
+  battlemap_yOffset?: number;
+
+  isBattleToken?: boolean;
+  battleToken_autoMeasureMovement?: boolean;
 
   // for text
   text?: string;

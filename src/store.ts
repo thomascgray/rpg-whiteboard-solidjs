@@ -89,7 +89,7 @@ export const [selectedTool, setSelectedTool] = createSignal<eTool>(
 export const [selectedMeasuringTool, setSelectedMeasuringTool] =
   createSignal<eMeasuringTools>(eMeasuringTools.LINE);
 
-export const [penColour, setPenColour] = createSignal<string>("#34495e");
+export const [penColour, setPenColour] = createSignal<string>("#e74c3c");
 export const [penSize, setPenSize] = createSignal<number>(10);
 
 // this actually needs to be a "which tray on the left is open" cus theres gonna be more than 1
@@ -181,4 +181,44 @@ export const addNewObject = (props: Partial<iObject>) => {
   };
   setObjects((objs) => [...objs, newObject]);
   // setSelectedObjectIds([newObject.id]);
+};
+
+export const getObjectProperty = (index: number, property: keyof iObject) => {
+  return objects[index]?.[property];
+};
+
+export const getObjectPropertyById = (id: string, property: keyof iObject) => {
+  return objects.find((obj) => obj.id === id)?.[property];
+};
+
+/**
+ * get a property from the first selected object
+ *
+ * useful for the selected object toolbars
+ * @param property
+ * @returns
+ */
+export const so1_prop = (property: keyof iObject) => {
+  return objects.find((obj) => obj.id === selectedObjectIds()[0])?.[property];
+};
+
+/**
+ * set a property value against all the selected objects at once.
+ *
+ * useful for setting values from toolbars
+ * @param property
+ * @param value
+ */
+export const so_prop_set = (property: keyof iObject, value: any) => {
+  const objs = [...objects];
+  selectedObjectIds().forEach((id) => {
+    const obj = objects.find((obj) => obj.id === id);
+    if (obj === undefined) return;
+    const objIndex = objects.findIndex((obj) => obj.id === id);
+    objs[objIndex] = {
+      ...obj,
+      [property]: value,
+    };
+  });
+  setObjects(reconcile(objs));
 };

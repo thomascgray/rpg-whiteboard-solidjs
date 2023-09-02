@@ -14,10 +14,8 @@ export const SquaresOverlay: Component<{ object: iObject }> = (props) => {
     }
     const squareSize = BattlemapUtils.calculateFinalSquareSize(
       props.object.width,
-      props.object.squaresAcross || 20,
+      props.object.battlemap_squaresAcross || 20,
     );
-    console.log("render square battlemap");
-    console.log("squareSize", squareSize);
     const numberOfSquaresX = Math.ceil(props.object.width / squareSize);
     const numberOfSquaresY = Math.ceil(props.object.height / squareSize);
     // // clear the canvas
@@ -28,30 +26,26 @@ export const SquaresOverlay: Component<{ object: iObject }> = (props) => {
     for (let x = 0; x < numberOfSquaresX; x++) {
       for (let y = 0; y < numberOfSquaresY; y++) {
         context.rect(
-          x * squareSize + 0,
-          y * squareSize + 0,
+          x * squareSize + (props.object.battlemap_xOffset || 0),
+          y * squareSize + (props.object.battlemap_yOffset || 0),
           squareSize,
           squareSize,
         );
       }
     }
 
-    context.strokeStyle = "#FFF";
-    context.lineWidth = 2;
-    context.globalAlpha = 0.2;
+    context.strokeStyle = props.object.battlemap_gridColour || "#FFF";
+    context.lineWidth = props.object.battlemap_gridLineThickness || 1;
+    context.globalAlpha = props.object.battlemap_gridOpacity || 0.2;
     context.stroke();
   });
 
   return (
     <canvas
       onMouseDown={(e) => {
-        // e.stopPropagation();
-        // e.preventDefault();
-        // we need to set the global measuring distance to whatever this canvases square size is
-        console.log("aaaaa");
         const squareSize = BattlemapUtils.calculateFinalSquareSize(
           props.object.width,
-          props.object.squaresAcross || 20,
+          props.object.battlemap_squaresAcross || 20,
         );
         Store.setMeasuringScale(squareSize);
       }}
@@ -93,8 +87,8 @@ export const HexesFlatTopOverlay: Component<{ object: iObject }> = (props) => {
       context,
       props.object.width,
       props.object.height,
-      props.object.squaresAcross || 20,
-      props.object.squaresAcross || 20,
+      props.object.battlemap_squaresAcross || 20,
+      props.object.battlemap_squaresAcross || 20,
     );
     context.closePath();
   });
@@ -138,8 +132,8 @@ export const HexesPointyTopOverlay: Component<{ object: iObject }> = (
       context,
       props.object.width,
       props.object.height,
-      props.object.squaresAcross || 20,
-      props.object.squaresAcross || 20,
+      props.object.battlemap_squaresAcross || 20,
+      props.object.battlemap_squaresAcross || 20,
     );
     context.closePath();
   });

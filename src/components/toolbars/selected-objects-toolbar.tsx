@@ -1,21 +1,9 @@
-import {
-  Component,
-  createMemo,
-  createEffect,
-  onMount,
-  Show,
-  createSignal,
-} from "solid-js";
-// import { iObject } from "../types";
+import { Component, createMemo, onMount, Show, createSignal } from "solid-js";
 import * as Store from "../../store";
-import { eObjectType, eTool, iObject } from "../../types";
-import * as Icons from "../icons";
-import * as Common from "../common-components";
-import { reconcile } from "solid-js/store";
+import { eObjectType } from "../../types";
+
 import * as TextToolbars from "./object-toolbars/text-toolbars";
 import * as ImageToolbars from "./object-toolbars/image-toolbar";
-import * as GenericToolbars from "./object-toolbars/generic-toolbars";
-import { withMinMax } from "../../utils/general-utils";
 
 export const SelectedObjectsToolbar: Component = (props) => {
   let myRef;
@@ -109,7 +97,7 @@ export const SelectedObjectsToolbar: Component = (props) => {
 
           <Show when={allImage()}>
             <div class="space-x-2 rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">
-              <ImageToolbars.MotionEffects />
+              <ImageToolbars.ImageModeSelect />
             </div>
           </Show>
         </div>

@@ -4,6 +4,7 @@ import { createStore, produce, reconcile } from "solid-js/store";
 import {
   eKey,
   eLeftTray,
+  eMeasuringTools,
   eModalTypes,
   eMouseButton,
   eObjectType,
@@ -85,6 +86,9 @@ export const [selectedTool, setSelectedTool] = createSignal<eTool>(
   eTool.CURSOR,
 );
 
+export const [selectedMeasuringTool, setSelectedMeasuringTool] =
+  createSignal<eMeasuringTools>(eMeasuringTools.LINE);
+
 export const [penColour, setPenColour] = createSignal<string>("#34495e");
 export const [penSize, setPenSize] = createSignal<number>(10);
 
@@ -107,6 +111,9 @@ export const [currentModal, setCurrentModal] = createSignal<eModalTypes | null>(
 
 export const [isMeasuringDistance, setIsMeasuringDistance] =
   createSignal<boolean>(false);
+
+// how many pixels it is for 1 square across
+export const [measuringScale, setMeasuringScale] = createSignal<number>(0);
 
 export const [mousePosMeasuringDistance, setMousePosMeasuringDistance] =
   createSignal<iPoint>({

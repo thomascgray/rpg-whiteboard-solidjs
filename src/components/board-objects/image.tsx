@@ -1,5 +1,6 @@
 import { Component, Show, createEffect, onMount } from "solid-js";
 import {
+  eBattlemapGridType,
   eImageMaskShapes,
   eImageMotionEffects,
   eObjectType,
@@ -78,8 +79,18 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         <MotionEffects.Rain object={props.object} />
       </Show>
 
-      <Show when={props.object.isBattlemap}>
-        <BattleMapFeatures.BattlemapFeatures object={props.object} />
+      <Show when={props.object.gridType === eBattlemapGridType.SQUARES}>
+        <BattleMapFeatures.SquaresOverlay object={props.object} />
+      </Show>
+      <Show
+        when={props.object.gridType === eBattlemapGridType.HEXAGONS_FLAT_TOP}
+      >
+        <BattleMapFeatures.HexesFlatTopOverlay object={props.object} />
+      </Show>
+      <Show
+        when={props.object.gridType === eBattlemapGridType.HEXAGONS_POINTY_TOP}
+      >
+        <BattleMapFeatures.HexesPointyTopOverlay object={props.object} />
       </Show>
     </>
   );

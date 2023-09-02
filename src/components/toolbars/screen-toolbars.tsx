@@ -8,7 +8,7 @@ import {
   Show,
 } from "solid-js";
 import * as Store from "../../store";
-import { eObjectType, eTool } from "../../types";
+import { eMeasuringTools, eObjectType, eTool } from "../../types";
 import * as Icons from "../icons";
 import * as Common from "../common-components";
 import { nanoid } from "nanoid";
@@ -40,14 +40,10 @@ export const BottomToolbar: Component = (props) => {
 
           <Common.CircleToolbarButton
             icon={<Icons.Rulers />}
-            isActive={
-              Store.selectedTool() === eTool.MEASURING_LINE ||
-              Store.selectedTool() === eTool.MEASURING_CIRCLE ||
-              Store.selectedTool() === eTool.MEASURING_SQUARE
-            }
+            isActive={Store.selectedTool() === eTool.MEASURING}
             title="Measuring tool"
             onMouseDown={() => {
-              Store.setSelectedTool(eTool.MEASURING_LINE);
+              Store.setSelectedTool(eTool.MEASURING);
             }}
           />
         </div>
@@ -127,13 +123,7 @@ export const BottomToolbar: Component = (props) => {
           />
         </div>
       </div>
-      <Show
-        when={
-          Store.selectedTool() === eTool.MEASURING_LINE ||
-          Store.selectedTool() === eTool.MEASURING_CIRCLE ||
-          Store.selectedTool() === eTool.MEASURING_SQUARE
-        }
-      >
+      <Show when={Store.selectedTool() === eTool.MEASURING}>
         <MeasuringToolbar />
       </Show>
     </>
@@ -266,26 +256,26 @@ export const MeasuringToolbar: Component = (props) => {
       <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
         <Common.CircleToolbarButton
           icon={<Icons.Slash />}
-          isActive={Store.selectedTool() === eTool.MEASURING_LINE}
+          isActive={Store.selectedMeasuringTool() === eMeasuringTools.LINE}
           title="Measuring tool - Line"
           onMouseDown={() => {
-            Store.setSelectedTool(eTool.MEASURING_LINE);
+            Store.setSelectedMeasuringTool(eMeasuringTools.LINE);
           }}
         />
         <Common.CircleToolbarButton
           icon={<Icons.CircleNoFill />}
-          isActive={Store.selectedTool() === eTool.MEASURING_CIRCLE}
+          isActive={Store.selectedMeasuringTool() === eMeasuringTools.CIRCLE}
           title="Measuring tool - Circle"
           onMouseDown={() => {
-            Store.setSelectedTool(eTool.MEASURING_CIRCLE);
+            Store.setSelectedMeasuringTool(eMeasuringTools.CIRCLE);
           }}
         />
         <Common.CircleToolbarButton
           icon={<Icons.Square />}
-          isActive={Store.selectedTool() === eTool.MEASURING_SQUARE}
+          isActive={Store.selectedMeasuringTool() === eMeasuringTools.SQUARE}
           title="Measuring tool - Square"
           onMouseDown={() => {
-            Store.setSelectedTool(eTool.MEASURING_SQUARE);
+            Store.setSelectedMeasuringTool(eMeasuringTools.SQUARE);
           }}
         />
       </div>

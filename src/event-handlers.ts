@@ -43,11 +43,7 @@ export const onWindowMouseDown = (e: MouseEvent) => {
     );
 
     //... AND if we're measuring, start measuring tool
-    if (
-      Store.selectedTool() === eTool.MEASURING_CIRCLE ||
-      Store.selectedTool() === eTool.MEASURING_LINE ||
-      Store.selectedTool() === eTool.MEASURING_SQUARE
-    ) {
+    if (Store.selectedTool() === eTool.MEASURING) {
       Store.setIsMeasuringDistance(true);
       Store.setMousePosMeasuringDistance(
         Utils.screenToCanvas(
@@ -295,6 +291,7 @@ export const onWindowTouchEnd = (e: TouchEvent) => {
  */
 
 export const onCanvasMouseDown = (e: MouseEvent) => {
+  console.log("onCanvasMouseDown");
   if (Store.selectedTool() === eTool.SKETCH) {
     return;
   }

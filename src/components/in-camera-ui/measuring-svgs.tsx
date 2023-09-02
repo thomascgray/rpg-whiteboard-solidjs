@@ -7,20 +7,22 @@ import {
   createMemo,
 } from "solid-js";
 import * as Store from "../../store";
-import { eTool } from "../../types";
+import { eMeasuringTools, eTool } from "../../types";
 import * as Utils from "../../utils/general-utils";
-// TODO all these components need to take into account the camera zoom level
+
+// TODO all these components need to take into account
+// the camera zoom level for the label and stuff
 
 export const Wrapper: Component = (props) => {
   return (
     <>
-      <Show when={Store.selectedTool() === eTool.MEASURING_LINE}>
+      <Show when={Store.selectedMeasuringTool() === eMeasuringTools.LINE}>
         <StraightRule />
       </Show>
-      <Show when={Store.selectedTool() === eTool.MEASURING_CIRCLE}>
+      <Show when={Store.selectedMeasuringTool() === eMeasuringTools.CIRCLE}>
         <Circle />
       </Show>
-      <Show when={Store.selectedTool() === eTool.MEASURING_SQUARE}>
+      <Show when={Store.selectedMeasuringTool() === eMeasuringTools.SQUARE}>
         <Square />
       </Show>
     </>
@@ -28,18 +30,18 @@ export const Wrapper: Component = (props) => {
 };
 export const StraightRule: Component = (props) => {
   const length = createMemo(() => {
-    return Math.sqrt(
-      Math.pow(
-        Store.mousePosMeasuringDistance().x -
-          Store.tabKeyMouseDownPosCanvas().x,
-        2,
-      ) +
-        Math.pow(
-          Store.mousePosMeasuringDistance().y -
-            Store.tabKeyMouseDownPosCanvas().y,
-          2,
-        ),
+    const originalLength = Math.max(
+      Math.abs(
+        Store.tabKeyMouseDownPosCanvas().x -
+          Store.mousePosMeasuringDistance().x,
+      ),
+      Math.abs(
+        Store.tabKeyMouseDownPosCanvas().y -
+          Store.mousePosMeasuringDistance().y,
+      ),
     );
+    console.log("originalLength", originalLength);
+    return Math.round(originalLength / Store.measuringScale());
   });
   return (
     <>
@@ -67,7 +69,7 @@ export const StraightRule: Component = (props) => {
       `}
         class="absolute left-0 top-0 z-[9999999999] rounded-full bg-red-500 px-4 py-2 text-center text-sm font-bold text-white"
       >
-        {length().toFixed(2)}
+        {length()} Squares
       </p>
     </>
   );
@@ -75,18 +77,13 @@ export const StraightRule: Component = (props) => {
 
 export const Circle: Component = (props) => {
   const length = createMemo(() => {
-    return Math.sqrt(
-      Math.pow(
-        Store.mousePosMeasuringDistance().x -
-          Store.tabKeyMouseDownPosCanvas().x,
-        2,
-      ) +
-        Math.pow(
-          Store.mousePosMeasuringDistance().y -
-            Store.tabKeyMouseDownPosCanvas().y,
-          2,
-        ),
-    );
+    const originalLength =
+      Math.abs(
+        Store.tabKeyMouseDownPosCanvas().x -
+          Store.mousePosMeasuringDistance().x,
+      ) * 2;
+
+    return Math.round(originalLength / Store.measuringScale());
   });
   return (
     <>
@@ -118,7 +115,7 @@ export const Circle: Component = (props) => {
       `}
         class="absolute left-0 top-0 z-[9999999999] rounded-full bg-red-500 px-4 py-2 text-center text-sm font-bold text-white"
       >
-        {length().toFixed(2)}
+        {length()} Squares
       </p>
     </>
   );
@@ -126,18 +123,13 @@ export const Circle: Component = (props) => {
 
 export const Square: Component = (props) => {
   const length = createMemo(() => {
-    return Math.sqrt(
-      Math.pow(
-        Store.mousePosMeasuringDistance().x -
-          Store.tabKeyMouseDownPosCanvas().x,
-        2,
-      ) +
-        Math.pow(
-          Store.mousePosMeasuringDistance().y -
-            Store.tabKeyMouseDownPosCanvas().y,
-          2,
-        ),
-    );
+    const originalLength =
+      Math.abs(
+        Store.tabKeyMouseDownPosCanvas().x -
+          Store.mousePosMeasuringDistance().x,
+      ) * 2;
+
+    return Math.round(originalLength / Store.measuringScale());
   });
   const width = createMemo(() => {
     return Math.abs(
@@ -184,7 +176,7 @@ export const Square: Component = (props) => {
       `}
         class="absolute left-0 top-0 z-[9999999999] rounded-full bg-red-500 px-4 py-2 text-center text-sm font-bold text-white"
       >
-        {length().toFixed(2)}
+        {length()} Squares
       </p>
     </>
   );

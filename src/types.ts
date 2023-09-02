@@ -21,10 +21,14 @@ declare global {
 export enum eTool {
   CURSOR = "CURSOR",
   SKETCH = "SKETCH",
-  MEASURING_LINE = "MEASURING_LINE",
-  MEASURING_CIRCLE = "MEASURING_CIRCLE",
-  MEASURING_SQUARE = "MEASURING_SQUARE",
+  MEASURING = "MEASURING",
   ERASER = "ERASER",
+}
+
+export enum eMeasuringTools {
+  LINE = "LINE",
+  CIRCLE = "CIRCLE",
+  SQUARE = "SQUARE",
 }
 
 export enum eLeftTray {
@@ -86,6 +90,12 @@ export enum eModalTypes {
   EDIT_IMAGE = "EDIT_IMAGE",
 }
 
+export enum eBattlemapGridType {
+  SQUARES = "SQUARES",
+  HEXAGONS_FLAT_TOP = "HEXAGONS_FLAT_TOP",
+  HEXAGONS_POINTY_TOP = "HEXAGONS_POINTY_TOP",
+}
+
 export interface iBoardSettings {
   boardName?: string;
   boardBackgroundColour?: string;
@@ -109,8 +119,12 @@ export interface iObject {
   url?: string;
   hasSelfResized?: boolean;
   motionEffect?: eImageMotionEffects;
-  isBattlemap?: boolean;
   maskShape?: eImageMaskShapes;
+
+  // sub stuff of images - battlemap things
+  isBattlemap?: boolean;
+  gridType?: eBattlemapGridType;
+  squaresAcross?: number;
 
   // for text
   text?: string;

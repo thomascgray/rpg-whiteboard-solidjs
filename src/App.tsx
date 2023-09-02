@@ -110,16 +110,12 @@ const App: Component = () => {
         <ModalWrapper />
       </Show>
 
-      {/* <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
+      <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
         <p>
-          is measuring distnace:
-          {JSON.stringify(Store.isMeasuringDistance())}
+          measuring scale
+          {JSON.stringify(Store.measuringScale())}
         </p>
-        <p>
-          camera:
-          {JSON.stringify(Store.camera())}
-        </p>
-      </div> */}
+      </div>
     </>
   );
 };

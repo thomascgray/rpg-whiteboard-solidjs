@@ -1,12 +1,16 @@
 import { Component, createMemo, createEffect, onMount } from "solid-js";
 
 import * as Store from "../../../store";
-import { eImageMaskShapes, eImageMotionEffects } from "../../../types";
+import {
+  eBattlemapGridType,
+  eImageMaskShapes,
+  eImageMotionEffects,
+} from "../../../types";
 import * as Icons from "../../icons";
 import * as Common from "../../common-components";
 import { reconcile } from "solid-js/store";
 
-export const MotionEffects: Component = (props) => {
+export const ImageModeSelect: Component = (props) => {
   const isAllRain = createMemo(() => {
     if (Store.selectedObjectIds().length === 0) return false;
     return Store.selectedObjectIds().every((id) => {
@@ -36,26 +40,6 @@ export const MotionEffects: Component = (props) => {
 
   return (
     <>
-      {/* <Common.SquareToolbarButton
-        icon={<Icons.CloudDrizzleFill />}
-        isActive={isAllRain()}
-        title="Motion Effect - Rain"
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          const objs = [...Store.objects];
-          Store.selectedObjectIds().forEach((id) => {
-            const obj = Store.objects.find((obj) => obj.id === id);
-            if (obj === undefined) return;
-            const objIndex = Store.objects.findIndex((obj) => obj.id === id);
-            objs[objIndex] = {
-              ...obj,
-              motionEffect: isAllRain() ? undefined : eImageMotionEffects.RAIN,
-            };
-          });
-          Store.setObjects(reconcile(objs));
-        }}
-      /> */}
-
       <Common.SquareToolbarButton
         icon={<Icons.MapFill />}
         isActive={isAllBattlemap()}
@@ -69,21 +53,14 @@ export const MotionEffects: Component = (props) => {
             const objIndex = Store.objects.findIndex((obj) => obj.id === id);
             objs[objIndex] = {
               ...obj,
-              isBattlemap: obj.isBattlemap ? undefined : true,
+              isBattlemap: isAllBattlemap() ? undefined : true,
+              gridType: isAllBattlemap()
+                ? undefined
+                : eBattlemapGridType.SQUARES,
+              squaresAcross: isAllBattlemap() ? undefined : 20,
             };
           });
           Store.setObjects(reconcile(objs));
-
-          // TODO this is an actual crime against god
-          // find someway to make the selected objects toolbar recalculate where it should be without
-          // doiung this
-          // const el = document.getElementById("__selected-objects-toolbar");
-          // // make el invisible
-          // el.style.opacity = "0";
-          // setTimeout(() => {
-          //   Store.setCamera({ ...Store.camera() });
-          //   el.style.opacity = "1";
-          // }, 1);
         }}
       />
 
@@ -111,85 +88,115 @@ export const MotionEffects: Component = (props) => {
 };
 
 export const BattlemapToolbar: Component = (props) => {
+  const firstSelectedObjectsGridType = createMemo(() => {
+    if (Store.selectedObjectIds().length === 0) return undefined;
+    const obj = Store.objects.find(
+      (obj) => obj.id === Store.selectedObjectIds()[0],
+    );
+    if (obj === undefined) return undefined;
+    return obj.gridType;
+  });
+  const firstSelectedObjectsSquaresAcross = createMemo(() => {
+    if (Store.selectedObjectIds().length === 0) return undefined;
+    const obj = Store.objects.find(
+      (obj) => obj.id === Store.selectedObjectIds()[0],
+    );
+    if (obj === undefined) return undefined;
+    return obj.squaresAcross;
+  });
   return (
-    <>
-      <Common.SquareToolbarButton
-        icon={<Icons.BoomboxFill />}
-        isActive={false}
-        title="Enable battlemap features"
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          const objs = [...Store.objects];
-          Store.selectedObjectIds().forEach((id) => {
-            const obj = Store.objects.find((obj) => obj.id === id);
-            if (obj === undefined) return;
-            const objIndex = Store.objects.findIndex((obj) => obj.id === id);
-            objs[objIndex] = {
-              ...obj,
-              isBattlemap: obj.isBattlemap ? undefined : true,
-            };
-          });
-          Store.setObjects(reconcile(objs));
-        }}
-      />
+    <div class="font-poppins flex space-x-4 text-black">
+      {/* show the grid */}
+      <div class="space-y-1">
+        <label class="block text-sm font-bold text-slate-700">
+          Render Grid
+        </label>
+        <input
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          type="checkbox"
+          class="h-6 w-6"
+        />
+      </div>
 
-      <Common.SquareToolbarButton
-        icon={<Icons.D6_6 />}
-        isActive={false}
-        title="Mask - Circle"
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          const objs = [...Store.objects];
-          Store.selectedObjectIds().forEach((id) => {
-            const obj = Store.objects.find((obj) => obj.id === id);
-            if (obj === undefined) return;
-            const objIndex = Store.objects.findIndex((obj) => obj.id === id);
-            objs[objIndex] = {
-              ...obj,
-              maskShape: obj.maskShape ? undefined : eImageMaskShapes.CIRCLE,
-            };
-          });
-          Store.setObjects(reconcile(objs));
-        }}
-      />
-      <Common.SquareToolbarButton
-        icon={<Icons.D6_6 />}
-        isActive={false}
-        title="Mask - Circle"
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          const objs = [...Store.objects];
-          Store.selectedObjectIds().forEach((id) => {
-            const obj = Store.objects.find((obj) => obj.id === id);
-            if (obj === undefined) return;
-            const objIndex = Store.objects.findIndex((obj) => obj.id === id);
-            objs[objIndex] = {
-              ...obj,
-              maskShape: obj.maskShape ? undefined : eImageMaskShapes.CIRCLE,
-            };
-          });
-          Store.setObjects(reconcile(objs));
-        }}
-      />
-      <Common.SquareToolbarButton
-        icon={<Icons.D6_6 />}
-        isActive={false}
-        title="Mask - Circle"
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          const objs = [...Store.objects];
-          Store.selectedObjectIds().forEach((id) => {
-            const obj = Store.objects.find((obj) => obj.id === id);
-            if (obj === undefined) return;
-            const objIndex = Store.objects.findIndex((obj) => obj.id === id);
-            objs[objIndex] = {
-              ...obj,
-              maskShape: obj.maskShape ? undefined : eImageMaskShapes.CIRCLE,
-            };
-          });
-          Store.setObjects(reconcile(objs));
-        }}
-      />
-    </>
+      <div class="space-y-1">
+        <label class="block text-sm font-bold text-slate-700">Grid Type</label>
+        <select
+          class="px-2 py-1"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          onInput={(e) => {
+            const objs = [...Store.objects];
+            Store.selectedObjectIds().forEach((id) => {
+              const obj = Store.objects.find((obj) => obj.id === id);
+              if (obj === undefined) return;
+              const objIndex = Store.objects.findIndex((obj) => obj.id === id);
+              objs[objIndex] = {
+                ...obj,
+                gridType: e.currentTarget.value as eBattlemapGridType,
+              };
+            });
+            Store.setObjects(reconcile(objs));
+          }}
+        >
+          <option
+            selected={
+              firstSelectedObjectsGridType() === eBattlemapGridType.SQUARES
+            }
+            value={eBattlemapGridType.SQUARES}
+          >
+            Squares
+          </option>
+          <option
+            selected={
+              firstSelectedObjectsGridType() ===
+              eBattlemapGridType.HEXAGONS_FLAT_TOP
+            }
+            value={eBattlemapGridType.HEXAGONS_FLAT_TOP}
+          >
+            Hexes (Flat Top)
+          </option>
+          <option
+            selected={
+              firstSelectedObjectsGridType() ===
+              eBattlemapGridType.HEXAGONS_POINTY_TOP
+            }
+            value={eBattlemapGridType.HEXAGONS_POINTY_TOP}
+          >
+            Hexes (Pointy Top)
+          </option>
+        </select>
+      </div>
+
+      {/* how many squares across */}
+      <div class="space-y-1">
+        <label class="block text-sm font-bold text-slate-700">
+          Squares Across
+        </label>
+        <input
+          class="px-2 py-1"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          onInput={(e) => {
+            const objs = [...Store.objects];
+            Store.selectedObjectIds().forEach((id) => {
+              const obj = Store.objects.find((obj) => obj.id === id);
+              if (obj === undefined) return;
+              const objIndex = Store.objects.findIndex((obj) => obj.id === id);
+              objs[objIndex] = {
+                ...obj,
+                squaresAcross: Number(e.currentTarget.value),
+              };
+            });
+            Store.setObjects(reconcile(objs));
+          }}
+          value={firstSelectedObjectsSquaresAcross()}
+          type="number"
+        />
+      </div>
+    </div>
   );
 };

@@ -67,6 +67,9 @@ export const BottomToolbar: Component = (props) => {
                 ]);
 
                 Store.setSelectedObjectIds([]);
+                window.__app_selectedObjects = document.querySelectorAll(
+                  ".__selected-object:not(.__is-locked)",
+                );
                 Store.setDragSelectionBox(null);
               }
             }}
@@ -109,6 +112,9 @@ export const BottomToolbar: Component = (props) => {
               ]);
 
               Store.setSelectedObjectIds([]);
+              window.__app_selectedObjects = document.querySelectorAll(
+                ".__selected-object:not(.__is-locked)",
+              );
             }}
           />
         </div>

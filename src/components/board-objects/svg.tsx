@@ -28,6 +28,7 @@ export const SVGObject: Component<iSVGObjectProps> = (props) => {
       class="__object absolute left-0 top-0 transform-gpu"
       classList={{
         "__selected-object hover:cursor-grab": props.isSelected,
+        "__is-locked": props.object.isLocked,
         "outline-dashed outline-blue-400":
           props.isSelected && Store.selectedObjectIds().length > 1,
       }}

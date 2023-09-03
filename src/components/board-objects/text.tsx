@@ -46,6 +46,7 @@ export const TextObject: Component<iTextObjectProps> = (props) => {
       classList={{
         "cursor-default": Store.focusedObjectId() !== props.object.id,
         "__selected-object hover:cursor-grab": props.isSelected,
+        "__is-locked": props.object.isLocked,
         "outline-dashed outline-blue-400":
           props.isSelected && Store.selectedObjectIds().length > 1,
       }}

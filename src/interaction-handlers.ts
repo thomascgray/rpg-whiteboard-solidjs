@@ -19,7 +19,6 @@ export const interactionPanCamera = (movementX: number, movementY: number) => {
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {
-  // TODO make this _not_ move selected objects
   if (!window.__app_selectedObjects) {
     return;
   }
@@ -38,6 +37,8 @@ export const interactionMoveObjects = (e: MouseEvent) => {
   // const elements = document.getElementsByClassName("__selected-object");
   const xList: number[] = [];
   const yList: number[] = [];
+
+  // console.log("window.__app_selectedObjects", window.__app_selectedObjects);
   for (let el of window.__app_selectedObjects) {
     const element = el as HTMLElement;
     const x =

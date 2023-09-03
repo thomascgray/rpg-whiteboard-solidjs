@@ -2,7 +2,7 @@
 // its a huge performance gain
 declare global {
   interface Window {
-    __app_selectedObjects?: HTMLCollectionOf<Element>;
+    __app_selectedObjects?: NodeListOf<Element>;
     __cameraDom?: HTMLElement;
     __backgroundAppDom?: HTMLElement;
     __setScrollingTimeout?: any;

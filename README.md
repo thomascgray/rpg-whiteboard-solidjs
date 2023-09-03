@@ -33,7 +33,9 @@ there is then a bunch of utils to do maths, to interact with the DOM, etc.
 # TODO features
 
 - locking objects
+  - done very quick prototype, super broke, fix this up
 - grouping objects
+- map markers?
 
 ### ideas/thoughts/roadmap
 

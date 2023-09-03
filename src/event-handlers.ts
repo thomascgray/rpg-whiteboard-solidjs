@@ -77,6 +77,7 @@ export const onWindowMouseUp = (e: MouseEvent) => {
     DOMUtils.persistSelectedObjectDOMElementsToState();
   }
 
+  // if we're measuring distance
   if (e.button === eMouseButton.LEFT && Store.isMeasuringDistance()) {
     Store.setIsMeasuringDistance(false);
   }
@@ -99,8 +100,10 @@ export const onWindowMouseUp = (e: MouseEvent) => {
       });
 
     Store.setSelectedObjectIds(objectsWithinSelectionBox.map((obj) => obj.id));
-
     Store.setDragSelectionBox(null);
+    window.__app_selectedObjects = document.querySelectorAll(
+      ".__selected-object:not(.__is-locked)",
+    );
   }
 
   // if we were panning
@@ -125,7 +128,6 @@ export const onWindowMouseUp = (e: MouseEvent) => {
 
 export const onWindowMouseMove = (e: MouseEvent) => {
   window.__mousePosition = { x: e.clientX, y: e.clientY };
-
   if (Store.isMeasuringDistance()) {
     Store.setMousePosMeasuringDistance(
       Utils.screenToCanvas(
@@ -181,10 +183,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     Store.isResizingFrom() === null &&
     Store.focusedObjectId() === null
   ) {
-    window.__app_selectedObjects =
-      document.getElementsByClassName("__selected-object");
     InteractionHandlers.interactionMoveObjects(e);
-    window.__app_selectedObjects = undefined;
   }
 
   // resizing object(s)
@@ -195,10 +194,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     Store.isResizingFrom() !== null &&
     Store.focusedObjectId() === null
   ) {
-    window.__app_selectedObjects =
-      document.getElementsByClassName("__selected-object");
     InteractionHandlers.interactionResizeObjects(e);
-    window.__app_selectedObjects = undefined;
   }
 };
 
@@ -231,6 +227,9 @@ export const onWindowKeyDown = (e: KeyboardEvent) => {
     Store.setDragSelectionBox(null);
     Store.setIsResizingFrom(null);
     Store.setSelectedObjectIds([]);
+    window.__app_selectedObjects = document.querySelectorAll(
+      ".__selected-object:not(.__is-locked)",
+    );
   }
 
   // if (e.key === eKey.NUMBER_1) {
@@ -330,6 +329,9 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
     // if we're not holding any other objects, just select it
     if (selectedObjectIds.length === 0) {
       Store.setSelectedObjectIds([object.id]);
+      window.__app_selectedObjects = document.querySelectorAll(
+        ".__selected-object:not(.__is-locked)",
+      );
       return;
     }
 
@@ -337,12 +339,18 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
     // rid of those and only select the one we've clicked
     if (!Store.heldKeys().includes(eKey.SHIFT)) {
       Store.setSelectedObjectIds([object.id]);
+      window.__app_selectedObjects = document.querySelectorAll(
+        ".__selected-object:not(.__is-locked)",
+      );
       return;
     }
 
     // if we ARE holding shift, then add the selected one to the list
     if (Store.heldKeys().includes(eKey.SHIFT)) {
       Store.setSelectedObjectIds((selectedIds) => [...selectedIds, object.id]);
+      window.__app_selectedObjects = document.querySelectorAll(
+        ".__selected-object:not(.__is-locked)",
+      );
       return;
     }
   }

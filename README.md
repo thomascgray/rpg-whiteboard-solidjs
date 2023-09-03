@@ -98,3 +98,10 @@ maybe we should start doing mad shit like keeping all selected object dom nodes 
 - we do a ton of calculating how big, and the position, of the object selection box. because that is used to then work out the position of _other_ stuff. at this point, we should honestly just refactor so that everytime you select a new object, we work it out once and then store the state.
   - off the top of my head, we calculate it in the objection selection box component, the selected objects toolbar component, the resize handlers component AND effectively in the resize tools and stuff too
 - stop firing global key events when focused on a text box, all sorts of bugs to do with hitting delete and stuff
+
+# motion effects
+
+- https://codepen.io/agoodwin/pen/NMJoER
+  the clouds and twinkling, very sick
+  https://codepen.io/mikegolus/pen/Jegvym
+  fireflys, change colour, weird magic?

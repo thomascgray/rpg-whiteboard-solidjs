@@ -37,9 +37,8 @@ there is then a bunch of utils to do maths, to interact with the DOM, etc.
 - grouping objects
 - map markers?
 
-### ideas/thoughts/roadmap
-
-things that all objects can do that need to be in context menus, toolbars, etc.
+- dynamic lighting
+  https://codepen.io/loktar00/pen/kYVbPz
 
 - send to back
 - bring to front

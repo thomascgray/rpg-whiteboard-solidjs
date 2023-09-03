@@ -40,3 +40,11 @@ export const SquareToolbarButton: Component<iToolbarButtonProps> = (props) => {
     </button>
   );
 };
+
+export const ToolbarLabel: Component<{ children: JSX.Element }> = (props) => {
+  return (
+    <label class="block text-sm font-bold text-zinc-500">
+      {props.children}
+    </label>
+  );
+};

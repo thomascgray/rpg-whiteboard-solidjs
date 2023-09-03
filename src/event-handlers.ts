@@ -85,8 +85,9 @@ export const onWindowMouseUp = (e: MouseEvent) => {
   if (e.button === eMouseButton.LEFT && Store.dragSelectionBox() !== null) {
     const currentSelectionBox = Store.dragSelectionBox()!;
     // any objects that were within the bounding box of the drawing selection box need to be selected
-    const objectsWithinSelectionBox = Object.values(Store.objects).filter(
-      (obj) => {
+    const objectsWithinSelectionBox = Object.values(Store.objects)
+      .filter((o) => !o.isLocked)
+      .filter((obj) => {
         const selectionBox = {
           x: currentSelectionBox.x,
           y: currentSelectionBox.y,
@@ -95,8 +96,7 @@ export const onWindowMouseUp = (e: MouseEvent) => {
         };
 
         return Utils.checkOverlap(obj, selectionBox);
-      },
-    );
+      });
 
     Store.setSelectedObjectIds(objectsWithinSelectionBox.map((obj) => obj.id));
 

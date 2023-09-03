@@ -1,6 +1,8 @@
 import { Component, createMemo, onMount, Show, createSignal } from "solid-js";
 import * as Store from "../../store";
 import { eObjectType } from "../../types";
+import * as Common from "../common-components";
+import * as Icons from "../icons";
 
 import * as TextToolbars from "./object-toolbars/text-toolbars";
 import * as ImageToolbars from "./object-toolbars/image-toolbar";
@@ -88,20 +90,30 @@ export const SelectedObjectsToolbar: Component = (props) => {
     `}
         class="column absolute left-0 top-0 z-[99999999] flex origin-bottom flex-col items-center"
       >
-        <Show when={allImageBattlemaps()}>
-          <div class="space-x-2 rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">
+        <Show
+          when={
+            Store.so_every("type", eObjectType.IMAGE) &&
+            Store.so_every("isBattlemap", true)
+          }
+        >
+          <div class="rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">
             <ImageToolbars.BattlemapToolbar />
           </div>
         </Show>
 
-        <Show when={allImageBattleTokens()}>
+        <Show
+          when={
+            Store.so_every("type", eObjectType.IMAGE) &&
+            Store.so_every("isBattleToken", true)
+          }
+        >
           <div class="space-x-2 rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">
             <ImageToolbars.BattleTokenToolbar />
           </div>
         </Show>
 
         <div class="flex justify-around space-x-3">
-          <Show when={allText()}>
+          <Show when={Store.so_every("type", eObjectType.TEXT)}>
             <div class="space-x-2 rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">
               <TextToolbars.FontStyleToolbar />
 
@@ -111,11 +123,33 @@ export const SelectedObjectsToolbar: Component = (props) => {
             </div>
           </Show>
 
-          <Show when={allImage()}>
+          <Show when={Store.so_every("type", eObjectType.IMAGE)}>
             <div class="space-x-2 rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">
               <ImageToolbars.ImageModeSelect />
             </div>
           </Show>
+
+          <div class="space-x-2 rounded-xl border border-solid border-zinc-400 bg-zinc-300 p-2 text-white shadow-lg">
+            <Common.SquareToolbarButton
+              icon={
+                Store.so_every("isLocked", true) ? (
+                  <Icons.LockFill />
+                ) : (
+                  <Icons.UnlockFill />
+                )
+              }
+              isActive={Store.so_every("isLocked", true)}
+              title="Enable battle token features"
+              onMouseDown={(e) => {
+                e.stopPropagation();
+
+                Store.so_prop_set(
+                  "isLocked",
+                  !Store.so_every("isLocked", true),
+                );
+              }}
+            />
+          </div>
         </div>
       </div>
     </>

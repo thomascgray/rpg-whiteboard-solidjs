@@ -185,6 +185,19 @@ export const so1_prop = (property: keyof iObject) => {
 };
 
 /**
+ * return true if every selected object has the same value for a property
+ *
+ * useful for the selected object toolbars
+ * @param property
+ * @returns
+ */
+export const so_every = (property: keyof iObject, value: any) => {
+  return selectedObjectIds().every(
+    (id) => objects.find((obj) => obj.id === id)?.[property] === value,
+  );
+};
+
+/**
  * set a property value against all the selected objects at once.
  *
  * useful for setting values from toolbars

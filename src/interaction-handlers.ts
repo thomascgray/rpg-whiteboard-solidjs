@@ -19,6 +19,7 @@ export const interactionPanCamera = (movementX: number, movementY: number) => {
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {
+  // TODO make this _not_ move selected objects
   if (!window.__app_selectedObjects) {
     return;
   }

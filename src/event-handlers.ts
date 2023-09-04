@@ -346,7 +346,7 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
     }
 
     // if we ARE holding shift, then add the selected one to the list
-    if (Store.heldKeys().includes(eKey.SHIFT)) {
+    if (Store.heldKeys().includes(eKey.SHIFT) && !object.isLocked) {
       Store.setSelectedObjectIds((selectedIds) => [...selectedIds, object.id]);
       window.__app_selectedObjects = document.querySelectorAll(
         ".__selected-object:not(.__is-locked)",

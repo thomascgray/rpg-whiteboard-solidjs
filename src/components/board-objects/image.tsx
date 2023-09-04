@@ -52,7 +52,8 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         id={props.object.id}
         class="__object absolute left-0 top-0 transform-gpu"
         classList={{
-          "__selected-object hover:cursor-grab": props.isSelected,
+          "__selected-object hover:cursor-grab":
+            props.isSelected && !props.object.isLocked,
           "__is-locked": props.object.isLocked,
           "rounded-full": props.object.maskShape === eImageMaskShapes.CIRCLE,
           "outline-dashed outline-blue-400":

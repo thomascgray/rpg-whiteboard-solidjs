@@ -61,15 +61,8 @@ export const StraightRule: Component = (props) => {
           Store.mousePosMeasuringDistance().y,
       ),
     );
-    console.log("originalLength", originalLength);
     return Math.round(originalLength / Store.measuringScale());
   });
-
-  // const midPoint = () =>
-  //   Utils.calculateMidpoint(
-  //     Store.tabKeyMouseDownPosCanvas(),
-  //     Store.mousePosMeasuringDistance(),
-  //   );
   return (
     <>
       <svg

@@ -106,3 +106,4 @@ maybe we should start doing mad shit like keeping all selected object dom nodes 
   the clouds and twinkling, very sick
   https://codepen.io/mikegolus/pen/Jegvym
   fireflys, change colour, weird magic?
+  https://webdesign.tutsplus.com/21-ridiculously-impressive-html5-canvas-experiments--net-14210a

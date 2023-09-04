@@ -112,6 +112,7 @@ export const [mousePosMeasuringDistance, setMousePosMeasuringDistance] =
     x: 0,
     y: 0,
   });
+
 /**
  *
  *
@@ -163,14 +164,6 @@ export const addNewObject = (props: Partial<iObject>) => {
     ...props,
   };
   setObjects((objs) => [...objs, newObject]);
-};
-
-export const getObjectProperty = (index: number, property: keyof iObject) => {
-  return objects[index]?.[property];
-};
-
-export const getObjectPropertyById = (id: string, property: keyof iObject) => {
-  return objects.find((obj) => obj.id === id)?.[property];
 };
 
 /**

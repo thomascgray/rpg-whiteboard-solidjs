@@ -7,11 +7,39 @@ import {
   createMemo,
 } from "solid-js";
 import * as Store from "../../store";
-import { eMeasuringTools, eTool } from "../../types";
+import { eMeasuringTools, eTool, iPoint } from "../../types";
 import * as Utils from "../../utils/general-utils";
 
 // TODO all these components need to take into account
 // the camera zoom level for the label and stuff
+
+const calculateTrianglePoints = (
+  tipPoint: iPoint,
+  midPoint: iPoint,
+  angleInDegrees: number,
+) => {
+  // Convert the angle from degrees to radians
+  const angleInRadians = (angleInDegrees * Math.PI) / 180;
+
+  // Calculate the distance from the tip point to the opposite vertices
+  const oppositeSideLength = Math.sqrt(
+    Math.pow(midPoint.x - tipPoint.x, 2) + Math.pow(midPoint.y - tipPoint.y, 2),
+  );
+
+  // Calculate the coordinates of the first vertex (opposite the tip)
+  const vertex1 = {
+    x: midPoint.x + oppositeSideLength * Math.cos(angleInRadians),
+    y: midPoint.y + oppositeSideLength * Math.sin(angleInRadians),
+  };
+
+  // Calculate the coordinates of the second vertex (opposite the tip)
+  const vertex2 = {
+    x: midPoint.x + oppositeSideLength * Math.cos(Math.PI - angleInRadians),
+    y: midPoint.y - oppositeSideLength * Math.sin(Math.PI - angleInRadians),
+  };
+
+  return [tipPoint, vertex1, vertex2];
+};
 
 export const Wrapper: Component = (props) => {
   return (
@@ -24,6 +52,9 @@ export const Wrapper: Component = (props) => {
       </Show>
       <Show when={Store.selectedMeasuringTool() === eMeasuringTools.SQUARE}>
         <Square />
+      </Show>
+      <Show when={Store.selectedMeasuringTool() === eMeasuringTools.CONE}>
+        <Cone />
       </Show>
     </>
   );
@@ -63,6 +94,7 @@ export const StraightRule: Component = (props) => {
     );
     return Math.round(originalLength / Store.measuringScale());
   });
+
   return (
     <>
       <svg
@@ -171,6 +203,54 @@ export const Square: Component = (props) => {
         />
       </svg>
       <DistanceLabel label={`${length()} Squares`} />
+    </>
+  );
+};
+
+export const Cone: Component = (props) => {
+  const points = createMemo(() => {
+    const points = calculateTrianglePoints(
+      Store.tabKeyMouseDownPosCanvas(),
+      Store.mousePosMeasuringDistance(),
+      60,
+    );
+    return points;
+  });
+  // const [point1, point2, point3] = calculateTrianglePoints(
+  //   Store.tabKeyMouseDownPosCanvas(),
+  //   Store.mousePosMeasuringDistance(),
+  //   60,
+  // );
+  // console.log("points", points);
+
+  // const point1 = points()[0];
+  // const point2 = points()[1];
+  // const point3 = points()[2];
+  return (
+    <>
+      <svg
+        class="absolute left-0 top-0 z-[9999999999] overflow-visible"
+        height={window.innerHeight}
+        width={window.innerWidth}
+      >
+        <polygon
+          points={`
+            ${points()[0].x},${points()[0].y}
+            ${points()[1].x},${points()[1].y}
+            ${points()[2].x},${points()[2].y}
+          `}
+          fill-opacity="20%"
+          class="origin-center"
+          style={`
+            transform-box: fill-box;
+            stroke: var(--app-measuring-tool-colour);
+            fill: var(--app-measuring-tool-colour);
+            stroke-width: calc(3px / var(--app-camera-zoom));
+            
+          `}
+        />
+      </svg>
+      <DistanceLabel label={`2 Squares`} />
     </>
   );
 };

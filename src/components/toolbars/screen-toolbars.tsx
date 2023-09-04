@@ -274,6 +274,15 @@ export const MeasuringToolbar: Component = (props) => {
             Store.setSelectedMeasuringTool(eMeasuringTools.SQUARE);
           }}
         />
+
+        <Common.CircleToolbarButton
+          icon={<Icons.Triangle />}
+          isActive={Store.selectedMeasuringTool() === eMeasuringTools.CONE}
+          title="Measuring tool - Cone"
+          onMouseDown={() => {
+            Store.setSelectedMeasuringTool(eMeasuringTools.CONE);
+          }}
+        />
       </div>
     </div>
   );

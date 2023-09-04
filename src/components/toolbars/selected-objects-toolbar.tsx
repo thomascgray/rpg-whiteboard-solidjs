@@ -13,56 +13,22 @@ export const SelectedObjectsToolbar: Component = (props) => {
   const [width, setWidth] = createSignal(0);
   const [height, setHeight] = createSignal(0);
 
+  const cameraZ = createMemo(() => Store.camera().z);
+
   const topLeftX = () =>
     Store.objectSelectionBox() === null
       ? 0
       : (Store.objectSelectionBox()!.x +
           Store.objectSelectionBox()!.width / 2 -
           width() / 2) *
-        Store.camera().z;
+        cameraZ();
 
   // TODO this seems to run an awful lot - work out whats happening there?
   const topLeftY = () => {
     return Store.objectSelectionBox() === null
       ? 0
-      : (Store.objectSelectionBox()!.y - height()) * Store.camera().z;
+      : (Store.objectSelectionBox()!.y - height() - 15 / cameraZ()) * cameraZ();
   };
-
-  const allText = createMemo(() => {
-    if (Store.selectedObjectIds().length === 0) return false;
-    return Store.selectedObjectIds().every((id) => {
-      const obj = Store.objects.find((obj) => obj.id === id);
-      if (obj === undefined) return false;
-      return obj.type === eObjectType.TEXT;
-    });
-  });
-
-  const allImage = createMemo(() => {
-    if (Store.selectedObjectIds().length === 0) return false;
-    return Store.selectedObjectIds().every((id) => {
-      const obj = Store.objects.find((obj) => obj.id === id);
-      if (obj === undefined) return false;
-      return obj.type === eObjectType.IMAGE;
-    });
-  });
-
-  const allImageBattlemaps = createMemo(() => {
-    if (Store.selectedObjectIds().length === 0) return false;
-    return Store.selectedObjectIds().every((id) => {
-      const obj = Store.objects.find((obj) => obj.id === id);
-      if (obj === undefined) return false;
-      return obj.type === eObjectType.IMAGE && obj.isBattlemap === true;
-    });
-  });
-
-  const allImageBattleTokens = createMemo(() => {
-    if (Store.selectedObjectIds().length === 0) return false;
-    return Store.selectedObjectIds().every((id) => {
-      const obj = Store.objects.find((obj) => obj.id === id);
-      if (obj === undefined) return false;
-      return obj.type === eObjectType.IMAGE && obj.isBattleToken === true;
-    });
-  });
 
   const ro = new ResizeObserver(() => {
     setWidth(myRef!.offsetWidth);
@@ -146,6 +112,10 @@ export const SelectedObjectsToolbar: Component = (props) => {
                 Store.so_prop_set(
                   "isLocked",
                   !Store.so_every("isLocked", true),
+                );
+
+                window.__app_selectedObjects = document.querySelectorAll(
+                  ".__selected-object:not(.__is-locked)",
                 );
               }}
             />

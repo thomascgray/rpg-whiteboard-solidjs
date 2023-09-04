@@ -29,6 +29,7 @@ export enum eMeasuringTools {
   LINE = "LINE",
   CIRCLE = "CIRCLE",
   SQUARE = "SQUARE",
+  CONE = "CONE",
 }
 
 export enum eLeftTray {

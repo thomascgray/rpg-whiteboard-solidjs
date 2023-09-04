@@ -321,7 +321,7 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
   const selectedObjectIds = Store.selectedObjectIds();
   if (e.button === eMouseButton.LEFT) {
     // if the we've already selected the one we've clicked on, do nothing
-    // this is so we can start a drag AFTER selecting multiple via shift select
+    // this is so we can start a drag
     if (selectedObjectIds.includes(object.id)) {
       return;
     }

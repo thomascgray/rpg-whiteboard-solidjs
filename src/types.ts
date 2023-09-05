@@ -23,6 +23,7 @@ export enum eTool {
   SKETCH = "SKETCH",
   MEASURING = "MEASURING",
   ERASER = "ERASER",
+  ADD_MAP_MARKER = "ADD_MAP_MARKER",
 }
 
 export enum eMeasuringTools {
@@ -131,6 +132,7 @@ export interface iObject {
   battlemap_xOffset?: number;
   battlemap_yOffset?: number;
 
+  // sub stuff for images - battle tokens things
   isBattleToken?: boolean;
   battleToken_autoMeasureMovement?: boolean;
 
@@ -145,6 +147,10 @@ export interface iObject {
   // for SVG sketches
   svgDataUri?: string;
   originalDimensions?: iDimensions; // because we need the SVG viewbox to always be the original
+
+  // for map markers
+  mapMarkerType?: string;
+  title?: string;
 }
 
 export interface iPoint {

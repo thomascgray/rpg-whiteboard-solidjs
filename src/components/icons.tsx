@@ -5,7 +5,7 @@ export const Cursor = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-cursor-fill h-6 w-6"
+      class="bi bi-cursor-fill h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z" />
@@ -20,7 +20,7 @@ export const Pencil = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-pencil-fill h-6 w-6"
+      class="bi bi-pencil-fill h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
@@ -35,7 +35,7 @@ export const Eraser = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-eraser-fill h-6 w-6"
+      class="bi bi-eraser-fill h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
@@ -50,7 +50,7 @@ export const D6_6 = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-dice-6-fill h-6 w-6"
+      class="bi bi-dice-6-fill h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3zm1 5.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm8 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm1.5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM12 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM5.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM4 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
@@ -65,7 +65,7 @@ export const DropletFilled = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-droplet-fill h-6 w-6"
+      class="bi bi-droplet-fill h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M8 16a6 6 0 0 0 6-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 0 0 6 6ZM6.646 4.646l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448c.82-1.641 1.717-2.753 2.093-3.13Z" />
@@ -80,7 +80,7 @@ export const WindowFullScreen = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-window-fullscreen h-6 w-6"
+      class="bi bi-window-fullscreen h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M3 3.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Zm1.5 0a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Zm1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Z" />
@@ -96,7 +96,7 @@ export const BoomboxFill = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-boombox-fill h-6 w-6"
+      class="bi bi-boombox-fill h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M14 0a.5.5 0 0 1 .5.5V2h.5a1 1 0 0 1 1 1v2H0V3a1 1 0 0 1 1-1h12.5V.5A.5.5 0 0 1 14 0ZM2 3.5a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0Zm2 0a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0Zm7.5.5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Zm1.5-.5a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0ZM9.5 3h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1ZM6 10.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm-1.5.5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Zm7 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm.5-1.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Z" />
@@ -112,7 +112,7 @@ export const Image = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-image h-6 w-6"
+      class="bi bi-image h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
@@ -128,7 +128,7 @@ export const TextArea = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-textarea-t h-6 w-6"
+      class="bi bi-textarea-t h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M1.5 2.5A1.5 1.5 0 0 1 3 1h10a1.5 1.5 0 0 1 1.5 1.5v3.563a2 2 0 0 1 0 3.874V13.5A1.5 1.5 0 0 1 13 15H3a1.5 1.5 0 0 1-1.5-1.5V9.937a2 2 0 0 1 0-3.874V2.5zm1 3.563a2 2 0 0 1 0 3.874V13.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V9.937a2 2 0 0 1 0-3.874V2.5A.5.5 0 0 0 13 2H3a.5.5 0 0 0-.5.5v3.563zM2 7a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm12 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
@@ -144,7 +144,7 @@ export const ZoomIn = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-zoom-in h-6 w-6"
+      class="bi bi-zoom-in h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path
@@ -167,7 +167,7 @@ export const ZoomOut = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-zoom-out h-6 w-6"
+      class="bi bi-zoom-out h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path
@@ -190,7 +190,7 @@ export const HouseFill = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-house-fill h-6 w-6"
+      class="bi bi-house-fill h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z" />
@@ -206,7 +206,7 @@ export const TypeBold = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-type-bold h-6 w-6"
+      class="bi bi-type-bold h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.907z" />
@@ -221,7 +221,7 @@ export const TypeItalic = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-type-italic h-6 w-6"
+      class="bi bi-type-italic h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M7.991 11.674 9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z" />
@@ -236,7 +236,7 @@ export const TextAlignLeft = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-text-left h-6 w-6"
+      class="bi bi-text-left h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path
@@ -254,7 +254,7 @@ export const TextAlignCenter = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-text-center h-6 w-6"
+      class="bi bi-text-center h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path
@@ -272,7 +272,7 @@ export const TextAlignRight = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-text-right h-6 w-6"
+      class="bi bi-text-right h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path
@@ -366,7 +366,7 @@ export const MapFill = () => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      class="h-6 w-6"
+      class="h-5 w-5"
     >
       <path
         fill-rule="evenodd"
@@ -384,7 +384,7 @@ export const CircleNoFill = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-circle h-6 w-6"
+      class="bi bi-circle h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -399,7 +399,7 @@ export const GearFill = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-gear-fill h-6 w-6"
+      class="bi bi-gear-fill h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
@@ -413,7 +413,7 @@ export const XMark = () => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      class="h-6 w-6"
+      class="h-5 w-5"
     >
       <path
         fill-rule="evenodd"
@@ -429,7 +429,7 @@ export const PaletteFill = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
-      class="h-6 w-6"
+      class="h-5 w-5"
     >
       <g class="" transform="translate(0,0)" style="">
         <path
@@ -449,7 +449,7 @@ export const Rulers = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-rulers h-6 w-6"
+      class="bi bi-rulers h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V2h1v4h1V4h1v2h1V2h1v4h1V1a1 1 0 0 0-1-1H1z" />
@@ -460,7 +460,7 @@ export const Rulers = () => {
 export const Slash = () => {
   return (
     <svg
-      class="h-6 w-6"
+      class="h-5 w-5"
       width="15"
       height="15"
       viewBox="0 0 15 15"
@@ -484,7 +484,7 @@ export const Square = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-square h-6 w-6"
+      class="bi bi-square h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
@@ -497,7 +497,7 @@ export const Swordman = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
-      class="h-6 w-6"
+      class="h-5 w-5"
     >
       <g class="" transform="translate(0,0)" style="">
         <path
@@ -517,7 +517,7 @@ export const LockFill = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-lock-fill h-6 w-6"
+      class="bi bi-lock-fill h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
@@ -532,7 +532,7 @@ export const UnlockFill = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-unlock-fill h-6 w-6"
+      class="bi bi-unlock-fill h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z" />
@@ -547,10 +547,28 @@ export const Triangle = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-triangle h-6 w-6"
+      class="bi bi-triangle h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z" />
+    </svg>
+  );
+};
+
+export const GeoFill = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-geo-fill h-5 w-5"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z"
+      />
     </svg>
   );
 };

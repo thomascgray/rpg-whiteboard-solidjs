@@ -1,11 +1,4 @@
-import {
-  type Component,
-  onMount,
-  For,
-  Show,
-  onCleanup,
-  createMemo,
-} from "solid-js";
+import { type Component, Show, createMemo } from "solid-js";
 import * as Store from "../../store";
 import { eMeasuringTools, eTool, iPoint } from "../../types";
 import * as Utils from "../../utils/general-utils";
@@ -14,31 +7,41 @@ import * as Utils from "../../utils/general-utils";
 // the camera zoom level for the label and stuff
 
 const calculateTrianglePoints = (
-  tipPoint: iPoint,
-  midPoint: iPoint,
-  angleInDegrees: number,
+  tip: iPoint,
+  midpointBase: iPoint,
+  angle: number,
 ) => {
-  // Convert the angle from degrees to radians
-  const angleInRadians = (angleInDegrees * Math.PI) / 180;
-
-  // Calculate the distance from the tip point to the opposite vertices
-  const oppositeSideLength = Math.sqrt(
-    Math.pow(midPoint.x - tipPoint.x, 2) + Math.pow(midPoint.y - tipPoint.y, 2),
+  const angleInRadians = (angle * Math.PI) / 180;
+  // / Calculate the distance between tip and midpointBase
+  const height = Math.sqrt(
+    Math.pow(midpointBase.x - tip.x, 2) + Math.pow(midpointBase.y - tip.y, 2),
   );
 
-  // Calculate the coordinates of the first vertex (opposite the tip)
-  const vertex1 = {
-    x: midPoint.x + oppositeSideLength * Math.cos(angleInRadians),
-    y: midPoint.y + oppositeSideLength * Math.sin(angleInRadians),
+  // Calculate the coordinates of the other two points of the base
+  const baseLength = 2 * height * Math.tan(angleInRadians / 2);
+  console.log("baseLength", baseLength);
+  if (baseLength === 0) {
+    return [tip, tip, tip];
+  }
+  const baseVector = {
+    x: midpointBase.x - tip.x,
+    y: midpointBase.y - tip.y,
+  };
+  const perpendicularVector = {
+    x: baseVector.y,
+    y: -baseVector.x,
+  };
+  const basePoint1 = {
+    x: midpointBase.x + (baseLength / 2) * (perpendicularVector.x / height),
+    y: midpointBase.y + (baseLength / 2) * (perpendicularVector.y / height),
+  };
+  const basePoint2 = {
+    x: midpointBase.x - (baseLength / 2) * (perpendicularVector.x / height),
+    y: midpointBase.y - (baseLength / 2) * (perpendicularVector.y / height),
   };
 
-  // Calculate the coordinates of the second vertex (opposite the tip)
-  const vertex2 = {
-    x: midPoint.x + oppositeSideLength * Math.cos(Math.PI - angleInRadians),
-    y: midPoint.y - oppositeSideLength * Math.sin(Math.PI - angleInRadians),
-  };
-
-  return [tipPoint, vertex1, vertex2];
+  // Return the three points as an array
+  return [tip, basePoint1, basePoint2];
 };
 
 export const Wrapper: Component = (props) => {
@@ -65,8 +68,8 @@ export const DistanceLabel: Component<{ label: string }> = (props) => {
     <span
       style={`
 transform: translate(calc(${
-        Store.tabKeyMouseDownPosCanvas().x
-      }px - 50%), calc(${Store.tabKeyMouseDownPosCanvas().y}px - 50%));
+        Store.mousePosMeasuringDistance().x
+      }px - 50%), calc(${Store.mousePosMeasuringDistance().y}px - 150%));
       font-size: calc(14px / var(--app-camera-zoom));
       padding-left: calc(0.6em / var(--app-camera-zoom));
       padding-right: calc(0.6em / var(--app-camera-zoom));
@@ -120,11 +123,16 @@ export const StraightRule: Component = (props) => {
 
 export const Circle: Component = (props) => {
   const length = createMemo(() => {
-    const originalLength =
+    const originalLength = Math.max(
       Math.abs(
         Store.tabKeyMouseDownPosCanvas().x -
           Store.mousePosMeasuringDistance().x,
-      ) * 2;
+      ) * 2,
+      Math.abs(
+        Store.tabKeyMouseDownPosCanvas().y -
+          Store.mousePosMeasuringDistance().y,
+      ) * 2,
+    );
 
     return Math.round(originalLength / Store.measuringScale());
   });
@@ -157,11 +165,16 @@ export const Circle: Component = (props) => {
 
 export const Square: Component = (props) => {
   const length = createMemo(() => {
-    const originalLength =
+    const originalLength = Math.max(
       Math.abs(
         Store.tabKeyMouseDownPosCanvas().x -
           Store.mousePosMeasuringDistance().x,
-      ) * 2;
+      ) * 2,
+      Math.abs(
+        Store.tabKeyMouseDownPosCanvas().y -
+          Store.mousePosMeasuringDistance().y,
+      ) * 2,
+    );
 
     return Math.round(originalLength / Store.measuringScale());
   });
@@ -208,24 +221,29 @@ export const Square: Component = (props) => {
 };
 
 export const Cone: Component = (props) => {
+  const length = createMemo(() => {
+    const originalLength = Math.max(
+      Math.abs(
+        Store.tabKeyMouseDownPosCanvas().x -
+          Store.mousePosMeasuringDistance().x,
+      ),
+      Math.abs(
+        Store.tabKeyMouseDownPosCanvas().y -
+          Store.mousePosMeasuringDistance().y,
+      ),
+    );
+    return Math.round(originalLength / Store.measuringScale());
+  });
+
   const points = createMemo(() => {
     const points = calculateTrianglePoints(
       Store.tabKeyMouseDownPosCanvas(),
       Store.mousePosMeasuringDistance(),
-      60,
+      53.2,
     );
     return points;
   });
-  // const [point1, point2, point3] = calculateTrianglePoints(
-  //   Store.tabKeyMouseDownPosCanvas(),
-  //   Store.mousePosMeasuringDistance(),
-  //   60,
-  // );
-  // console.log("points", points);
 
-  // const point1 = points()[0];
-  // const point2 = points()[1];
-  // const point3 = points()[2];
   return (
     <>
       <svg
@@ -246,11 +264,10 @@ export const Cone: Component = (props) => {
             stroke: var(--app-measuring-tool-colour);
             fill: var(--app-measuring-tool-colour);
             stroke-width: calc(3px / var(--app-camera-zoom));
-            
           `}
         />
       </svg>
-      <DistanceLabel label={`2 Squares`} />
+      <DistanceLabel label={`${length()} Squares`} />
     </>
   );
 };

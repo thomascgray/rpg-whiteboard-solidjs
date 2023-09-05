@@ -38,6 +38,15 @@ export const BottomToolbar: Component = (props) => {
               Store.setSelectedTool(eTool.MEASURING);
             }}
           />
+
+          <Common.CircleToolbarButton
+            icon={<Icons.GeoFill />}
+            isActive={Store.selectedTool() === eTool.ADD_MAP_MARKER}
+            title="Add map marker"
+            onMouseDown={() => {
+              Store.setSelectedTool(eTool.ADD_MAP_MARKER);
+            }}
+          />
         </div>
 
         <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">

@@ -41,10 +41,10 @@ export const BottomToolbar: Component = (props) => {
 
           <Common.CircleToolbarButton
             icon={<Icons.GeoFill />}
-            isActive={Store.selectedTool() === eTool.ADD_MAP_MARKER}
-            title="Add map marker"
+            isActive={Store.selectedTool() === eTool.ADD_INFO_PIN}
+            title="Add info pin"
             onMouseDown={() => {
-              Store.setSelectedTool(eTool.ADD_MAP_MARKER);
+              Store.setSelectedTool(eTool.ADD_INFO_PIN);
             }}
           />
         </div>

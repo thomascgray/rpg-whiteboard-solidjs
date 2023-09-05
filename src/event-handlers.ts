@@ -3,6 +3,7 @@ import * as Store from "./store";
 import {
   eKey,
   eMouseButton,
+  eObjectType,
   eResizingFrom,
   eTool,
   iCamera,
@@ -289,13 +290,30 @@ export const onWindowTouchEnd = (e: TouchEvent) => {
  */
 
 export const onCanvasMouseDown = (e: MouseEvent) => {
-  console.log("onCanvasMouseDown");
   if (Store.selectedTool() === eTool.SKETCH) {
     return;
   }
   if (e.button === eMouseButton.LEFT) {
     Store.unselectObjects();
     Store.setDragSelectionBox(null);
+  }
+
+  if (Store.selectedTool() === eTool.ADD_INFO_PIN) {
+    const pos = Utils.screenToCanvas(
+      e.clientX,
+      e.clientY,
+      Store.camera().x,
+      Store.camera().y,
+      Store.camera().z,
+    );
+
+    console.log("pos", pos);
+
+    Store.addNewObject({
+      type: eObjectType.INFO_PIN,
+      x: pos.x,
+      y: pos.y,
+    });
   }
 };
 
@@ -318,40 +336,45 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
   // we've stopped propagation so, so we need to call this manually
   onWindowMouseDown(e);
 
-  const selectedObjectIds = Store.selectedObjectIds();
-  if (e.button === eMouseButton.LEFT) {
-    // if the we've already selected the one we've clicked on, do nothing
-    // this is so we can start a drag
-    if (selectedObjectIds.includes(object.id)) {
-      return;
-    }
+  if (Store.selectedTool() === eTool.CURSOR) {
+    const selectedObjectIds = Store.selectedObjectIds();
+    if (e.button === eMouseButton.LEFT) {
+      // if the we've already selected the one we've clicked on, do nothing
+      // this is so we can start a drag
+      if (selectedObjectIds.includes(object.id)) {
+        return;
+      }
 
-    // if we're not holding any other objects, just select it
-    if (selectedObjectIds.length === 0) {
-      Store.setSelectedObjectIds([object.id]);
-      window.__app_selectedObjects = document.querySelectorAll(
-        ".__selected-object:not(.__is-locked)",
-      );
-      return;
-    }
+      // if we're not holding any other objects, just select it
+      if (selectedObjectIds.length === 0) {
+        Store.setSelectedObjectIds([object.id]);
+        window.__app_selectedObjects = document.querySelectorAll(
+          ".__selected-object:not(.__is-locked)",
+        );
+        return;
+      }
 
-    // if we're not holding shift and we have some other objects, get
-    // rid of those and only select the one we've clicked
-    if (!Store.heldKeys().includes(eKey.SHIFT)) {
-      Store.setSelectedObjectIds([object.id]);
-      window.__app_selectedObjects = document.querySelectorAll(
-        ".__selected-object:not(.__is-locked)",
-      );
-      return;
-    }
+      // if we're not holding shift and we have some other objects, get
+      // rid of those and only select the one we've clicked
+      if (!Store.heldKeys().includes(eKey.SHIFT)) {
+        Store.setSelectedObjectIds([object.id]);
+        window.__app_selectedObjects = document.querySelectorAll(
+          ".__selected-object:not(.__is-locked)",
+        );
+        return;
+      }
 
-    // if we ARE holding shift, then add the selected one to the list
-    if (Store.heldKeys().includes(eKey.SHIFT) && !object.isLocked) {
-      Store.setSelectedObjectIds((selectedIds) => [...selectedIds, object.id]);
-      window.__app_selectedObjects = document.querySelectorAll(
-        ".__selected-object:not(.__is-locked)",
-      );
-      return;
+      // if we ARE holding shift, then add the selected one to the list
+      if (Store.heldKeys().includes(eKey.SHIFT) && !object.isLocked) {
+        Store.setSelectedObjectIds((selectedIds) => [
+          ...selectedIds,
+          object.id,
+        ]);
+        window.__app_selectedObjects = document.querySelectorAll(
+          ".__selected-object:not(.__is-locked)",
+        );
+        return;
+      }
     }
   }
 };

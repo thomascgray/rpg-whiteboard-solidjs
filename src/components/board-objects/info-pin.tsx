@@ -8,7 +8,7 @@ export interface iSVGObjectProps {
   isSelected?: boolean;
 }
 
-export const SVGObject: Component<iSVGObjectProps> = (props) => {
+export const InfoPin: Component<iSVGObjectProps> = (props) => {
   return (
     <div
       data-pos-x={props.object.x}
@@ -40,15 +40,7 @@ transform:
 translate(${props.object.x}px,
   ${props.object.y}px)`}
     >
-      <svg
-        style="image-rendering: pixelated;"
-        class="h-full w-full"
-        width={props.object.width}
-        height={props.object.height}
-        shape-rendering="crispEdges"
-        viewBox={`0 0 ${props.object.originalDimensions?.width} ${props.object.originalDimensions?.height}`}
-        innerHTML={props.object.svgDataUri}
-      ></svg>
+      <p class="bg-red-500 p-2 font-bold text-white">INFO PIN</p>
     </div>
   );
 };

@@ -23,7 +23,7 @@ export enum eTool {
   SKETCH = "SKETCH",
   MEASURING = "MEASURING",
   ERASER = "ERASER",
-  ADD_MAP_MARKER = "ADD_MAP_MARKER",
+  ADD_INFO_PIN = "ADD_INFO_PIN",
 }
 
 export enum eMeasuringTools {
@@ -66,6 +66,7 @@ export enum eObjectType {
   IMAGE = "IMAGE",
   TEXT = "TEXT",
   SVG = "SVG",
+  INFO_PIN = "INFO_PIN",
 }
 
 export enum eResizingFrom {

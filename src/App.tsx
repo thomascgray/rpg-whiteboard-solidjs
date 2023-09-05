@@ -112,8 +112,8 @@ const App: Component = () => {
 
       {/* <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
         <p>
-          measuring scale
-          {JSON.stringify(Store.measuringScale())}
+          tool
+          {JSON.stringify(Store.selectedTool())}
         </p>
       </div> */}
     </>

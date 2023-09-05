@@ -11,6 +11,7 @@ import { ImageObject } from "./image";
 import * as MotionEffects from "../motion-effect-overlays";
 import { TextObject } from "./text";
 import { SVGObject } from "./svg";
+import { InfoPin } from "./info-pin";
 
 export interface iBaseObjectProps {
   object: iObject;
@@ -33,6 +34,10 @@ export const BaseObject: Component<iBaseObjectProps> = (props) => {
       {/* svg objects */}
       <Show when={props.object.type === eObjectType.SVG}>
         <SVGObject object={props.object} isSelected={props.isSelected} />
+      </Show>
+
+      <Show when={props.object.type === eObjectType.INFO_PIN}>
+        <InfoPin object={props.object} isSelected={props.isSelected} />
       </Show>
     </>
   );

@@ -71,26 +71,45 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
 
     // compute the visibility polygon, this can be used to draw a polygon with Canvas or WebGL
     const visibility = compute(position, segments);
-    // context.globalCompositeOperation = "destination-out";
-    const [first, ...rest] = visibility;
+
+    // this is my mad bullshit from old project - use this?
+    // const xRatio = width / originalWidth;
+    // const yRatio = height / originalHeight;
+    // const x = (e.clientX - rect.left) / xRatio / cameraZ;
+    // const y = (e.clientY - rect.top) / yRatio / cameraZ;
+
+    if (lineOfSightWallPoints.length > 2) {
+      const [first, ...rest] = lineOfSightWallPoints;
+
+      context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+      context.beginPath();
+      context.moveTo(first.x, first.y);
+      rest.forEach((vector) => {
+        context.lineTo(vector.x - props.object.x, vector.y - props.object.y);
+      });
+      console.log("a");
+      context.fillStyle = "black";
+      context.fill();
+      context.closePath();
+    }
 
     // context.beginPath();
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-    context.globalCompositeOperation = "source-over";
-    context.globalAlpha = 0.5;
-    context.fillStyle = "black";
-    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+    // context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    // context.globalCompositeOperation = "source-over";
+    // context.globalAlpha = 0.5;
+    // context.fillStyle = "black";
+    // context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
-    context.globalAlpha = 1;
-    context.globalCompositeOperation = "destination-out";
-    context.beginPath();
-    context.moveTo(first[0], first[1]);
-    rest.forEach((vector) => {
-      context.lineTo(vector[0], vector[1]);
-    });
-    console.log("a");
-    context.fill();
-    context.closePath();
+    // context.globalAlpha = 1;
+    // context.globalCompositeOperation = "destination-out";
+    // context.beginPath();
+    // context.moveTo(first[0], first[1]);
+    // rest.forEach((vector) => {
+    //   context.lineTo(vector[0], vector[1]);
+    // });
+    // console.log("a");
+    // context.fill();
+    // context.closePath();
   });
 
   return (

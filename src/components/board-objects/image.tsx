@@ -85,6 +85,8 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         <MotionEffects.Rain object={props.object} />
       </Show>
 
+      <DynamicLighting object={props.object} />
+
       <Show
         when={
           props.object.battlemap_gridType === eBattlemapGridType.SQUARES &&
@@ -109,8 +111,6 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
       >
         <BattleMapFeatures.HexesPointyTopOverlay object={props.object} />
       </Show>
-
-      <DynamicLighting object={props.object} />
     </>
   );
 };

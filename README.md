@@ -39,6 +39,7 @@ there is then a bunch of utils to do maths, to interact with the DOM, etc.
 
 - dynamic lighting
   https://codepen.io/loktar00/pen/kYVbPz
+  https://www.npmjs.com/package/visibility-polygon
 
 - send to back
 - bring to front

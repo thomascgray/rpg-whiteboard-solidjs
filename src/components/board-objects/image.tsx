@@ -12,6 +12,7 @@ import * as EventHandlers from "../../event-handlers";
 import * as Store from "../../store";
 import * as MotionEffects from "../motion-effect-overlays";
 import * as BattleMapFeatures from "../battlemap-grid-overlays";
+import { DynamicLighting } from "../dynamic-light-overlays";
 
 export interface iImageObjectProps {
   object: iObject;
@@ -108,6 +109,8 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
       >
         <BattleMapFeatures.HexesPointyTopOverlay object={props.object} />
       </Show>
+
+      <DynamicLighting object={props.object} />
     </>
   );
 };

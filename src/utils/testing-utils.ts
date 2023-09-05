@@ -38,7 +38,7 @@ export const makeDummyObjects = (num: number, spacingFactor: number) => {
         width: 200,
         height: 200,
         // url: `/${_.sample([1, 2, 3, 4, 5, 6, 7])}.jpg`,
-        url: "https://i.pinimg.com/474x/86/24/21/862421d9b2f00ab5705467ca4f66b3b6.jpg",
+        url: "https://i.pinimg.com/736x/db/0f/2d/db0f2d4c6d8081480c19626e8466881e.jpg",
         hasSelfResized: false,
         zIndex: i,
         type: eObjectType.IMAGE,

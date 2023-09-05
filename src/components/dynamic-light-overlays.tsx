@@ -1,104 +1,40 @@
 import { Component, createEffect } from "solid-js";
-import { iObject, iPoint } from "../types";
+import { eObjectType, iObject, iPoint } from "../types";
+import * as Store from "../store";
+import {
+  breakIntersections,
+  convertToSegments,
+  compute,
+  computeViewport,
+  inPolygon,
+  // Position,
+  Polygon,
+  Vector2D,
+  Segments,
+} from "visibility-polygon";
 
-function calculateShadow(origin: iPoint, walls: iPoint[][]): iPoint[][] {
-  // Initialize an array to store shadow polygons
-  const shadows: iPoint[][] = [];
-
-  // Iterate through each wall polygon
-  for (const wall of walls) {
-    // Initialize an array to store the shadow vertices for this wall
-    const shadowVertices: iPoint[] = [];
-
-    // Iterate through each vertex of the wall polygon
-    for (let i = 0; i < wall.length; i++) {
-      const v1 = wall[i];
-      const v2 = wall[(i + 1) % wall.length]; // Next vertex
-
-      // Check if the origin is on one side of the wall
-      const side1 = sideOfLine(origin, v1, v2);
-      const side2 = sideOfLine(origin, v1, wall[(i + 2) % wall.length]); // Next next vertex
-
-      console.log("side1", side1);
-      console.log("side2", side2);
-      // If origin is on different sides, it's a shadow edge
-      if (side1 >= 0 && side2 < 0) {
-        const intersection = computeIntersection(origin, v1, v2);
-        shadowVertices.push(intersection);
-      }
-    }
-
-    console.log("shadowVertices", shadowVertices);
-
-    // Add the shadow polygon to the shadows array
-    if (shadowVertices.length > 1) {
-      shadows.push(shadowVertices);
-    }
+function pointsToLineSegments(points: iPoint[]): Segments {
+  if (points.length < 2) {
+    // Not enough points to create line segments
+    return [];
   }
 
-  return shadows;
-}
+  const lineSegments: Segments = [];
 
-// Helper function to determine which side of a line a point is on
-function sideOfLine(point: iPoint, lineStart: iPoint, lineEnd: iPoint): number {
-  const dx = lineEnd.x - lineStart.x;
-  const dy = lineEnd.y - lineStart.y;
-  const d = (point.x - lineStart.x) * dy - (point.y - lineStart.y) * dx;
-  return Math.sign(d);
-}
+  for (let i = 0; i < points.length; i++) {
+    const startPoint = points[i];
+    const endPoint = points[(i + 1) % points.length]; // Wrap around to the first point
+    lineSegments.push([
+      [startPoint.x, startPoint.y],
+      [endPoint.x, endPoint.y],
+    ]);
+  }
 
-// Helper function to compute the intersection point of two lines
-function computeIntersection(
-  point: iPoint,
-  lineStart: iPoint,
-  lineEnd: iPoint,
-): iPoint {
-  const dx1 = point.x - lineStart.x;
-  const dy1 = point.y - lineStart.y;
-  const dx2 = lineEnd.x - lineStart.x;
-  const dy2 = lineEnd.y - lineStart.y;
-  const t = (dx1 * dy2 - dy1 * dx2) / (dx1 * dx2 + dy1 * dy2);
-  const intersectionX = lineStart.x + t * dx2;
-  const intersectionY = lineStart.y + t * dy2;
-  return { x: intersectionX, y: intersectionY };
+  return lineSegments;
 }
-
-// Example usage:
-const origin = { x: 2, y: 2 };
-const walls = [
-  [
-    { x: 0, y: 0 },
-    { x: 4, y: 0 },
-    { x: 4, y: 4 },
-    { x: 0, y: 4 },
-  ],
-  [
-    { x: 3, y: 1 },
-    { x: 3, y: 3 },
-    { x: 5, y: 3 },
-  ],
-];
 
 export const DynamicLighting: Component<{ object: iObject }> = (props) => {
   let canvasRef: any;
-
-  const origin: iPoint = { x: 2, y: 2 };
-
-  const walls: iPoint[][] = [
-    [
-      { x: 0, y: 0 },
-      { x: 4, y: 0 },
-      { x: 4, y: 4 },
-      { x: 0, y: 4 },
-    ],
-    [
-      { x: 3, y: 1 },
-      { x: 3, y: 3 },
-      { x: 5, y: 3 },
-    ],
-  ];
-
-  const shadows = calculateShadow(origin, walls);
 
   createEffect(() => {
     const context = canvasRef.getContext("2d") as CanvasRenderingContext2D;
@@ -106,18 +42,55 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
       return;
     }
 
-    setTimeout(() => {
-      context.beginPath();
-      context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-      context.rect(0, 0, context.canvas.width, context.canvas.height);
-      context.fillStyle = "black";
-      context.strokeStyle = "white";
-      context.fill();
+    const lineOfSightWallPoints = Store.objects
+      .filter((o) => o.type === eObjectType.LINE_OF_SIGHT_WALL_POINT)
+      .map((o) => {
+        return {
+          x: o.x,
+          y: o.y,
+        };
+      });
 
-      context.closePath();
+    // todo we should always add the 4 corners of the canvas
+    // so that the line segments don't generate "forever"
 
-      console.log("shadows", JSON.stringify(shadows, null, 2));
-    }, 1000);
+    // todo we need to convert the x and y of the objects into
+    // canvas-relative coordinates
+    const segys = pointsToLineSegments(lineOfSightWallPoints);
+
+    const segments = breakIntersections(segys);
+
+    // define your position in which the visibility should be calculated from
+    const position: Vector2D = [
+      Store.leftMouseDownPosCanvas().x,
+      Store.leftMouseDownPosCanvas().y,
+    ];
+
+    console.log("segys", segys);
+    console.log("position", position);
+
+    // compute the visibility polygon, this can be used to draw a polygon with Canvas or WebGL
+    const visibility = compute(position, segments);
+    // context.globalCompositeOperation = "destination-out";
+    const [first, ...rest] = visibility;
+
+    // context.beginPath();
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    context.globalCompositeOperation = "source-over";
+    context.globalAlpha = 0.5;
+    context.fillStyle = "black";
+    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+
+    context.globalAlpha = 1;
+    context.globalCompositeOperation = "destination-out";
+    context.beginPath();
+    context.moveTo(first[0], first[1]);
+    rest.forEach((vector) => {
+      context.lineTo(vector[0], vector[1]);
+    });
+    console.log("a");
+    context.fill();
+    context.closePath();
   });
 
   return (

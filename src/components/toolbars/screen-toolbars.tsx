@@ -47,6 +47,15 @@ export const BottomToolbar: Component = (props) => {
               Store.setSelectedTool(eTool.ADD_INFO_PIN);
             }}
           />
+
+          <Common.CircleToolbarButton
+            icon={<Icons.Bricks />}
+            isActive={Store.selectedTool() === eTool.ADD_LINE_OF_SIGHT_WALL}
+            title="Add info pin"
+            onMouseDown={() => {
+              Store.setSelectedTool(eTool.ADD_LINE_OF_SIGHT_WALL);
+            }}
+          />
         </div>
 
         <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">

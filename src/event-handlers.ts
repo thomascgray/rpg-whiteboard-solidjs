@@ -315,6 +315,27 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
       y: pos.y,
     });
   }
+
+  if (
+    Store.selectedTool() === eTool.ADD_LINE_OF_SIGHT_WALL &&
+    e.button === eMouseButton.LEFT
+  ) {
+    const pos = Utils.screenToCanvas(
+      e.clientX,
+      e.clientY,
+      Store.camera().x,
+      Store.camera().y,
+      Store.camera().z,
+    );
+
+    Store.addNewObject({
+      type: eObjectType.LINE_OF_SIGHT_WALL_POINT,
+      x: pos.x - 5,
+      y: pos.y - 5,
+      height: 10,
+      width: 10,
+    });
+  }
 };
 
 export const onBeginResizing = (e: MouseEvent, resizingFrom: eResizingFrom) => {

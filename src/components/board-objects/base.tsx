@@ -12,6 +12,7 @@ import * as MotionEffects from "../motion-effect-overlays";
 import { TextObject } from "./text";
 import { SVGObject } from "./svg";
 import { InfoPin } from "./info-pin";
+import * as LineOfSight from "./line-of-sight";
 
 export interface iBaseObjectProps {
   object: iObject;
@@ -38,6 +39,13 @@ export const BaseObject: Component<iBaseObjectProps> = (props) => {
 
       <Show when={props.object.type === eObjectType.INFO_PIN}>
         <InfoPin object={props.object} isSelected={props.isSelected} />
+      </Show>
+
+      <Show when={props.object.type === eObjectType.LINE_OF_SIGHT_WALL_POINT}>
+        <LineOfSight.WallPoint
+          object={props.object}
+          isSelected={props.isSelected}
+        />
       </Show>
     </>
   );

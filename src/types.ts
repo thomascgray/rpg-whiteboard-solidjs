@@ -24,6 +24,7 @@ export enum eTool {
   MEASURING = "MEASURING",
   ERASER = "ERASER",
   ADD_INFO_PIN = "ADD_INFO_PIN",
+  ADD_LINE_OF_SIGHT_WALL = "ADD_LINE_OF_SIGHT_WALL",
 }
 
 export enum eMeasuringTools {
@@ -67,6 +68,7 @@ export enum eObjectType {
   TEXT = "TEXT",
   SVG = "SVG",
   INFO_PIN = "INFO_PIN",
+  LINE_OF_SIGHT_WALL_POINT = "LINE_OF_SIGHT_WALL_POINT",
 }
 
 export enum eResizingFrom {

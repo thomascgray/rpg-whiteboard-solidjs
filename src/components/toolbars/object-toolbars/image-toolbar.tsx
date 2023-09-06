@@ -110,6 +110,27 @@ export const BattlemapToolbar: Component = (props) => {
             />
           </div>
 
+          <div class="should-render-dynamic-lighting space-y-1">
+            <Common.ToolbarLabel>Render Dynamic Lighting</Common.ToolbarLabel>
+            <input
+              onMouseDown={(e) => {
+                e.stopPropagation();
+              }}
+              checked={
+                (Store.so1_prop("battlemap_isDynamicLighting") as boolean) ||
+                false
+              }
+              onChange={(e) => {
+                Store.so_prop_set(
+                  "battlemap_isDynamicLighting",
+                  e.currentTarget.checked,
+                );
+              }}
+              type="checkbox"
+              class="h-6 w-6"
+            />
+          </div>
+
           <div class="grid-colour space-y-1">
             <Common.ToolbarLabel>Grid Colour</Common.ToolbarLabel>
             <input

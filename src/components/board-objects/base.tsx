@@ -12,7 +12,7 @@ import * as MotionEffects from "../motion-effect-overlays";
 import { TextObject } from "./text";
 import { SVGObject } from "./svg";
 import { InfoPin } from "./info-pin";
-import * as LineOfSight from "./line-of-sight";
+import * as LineOfSight from "./line-of-sight-components";
 
 export interface iBaseObjectProps {
   object: iObject;

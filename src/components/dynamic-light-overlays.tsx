@@ -66,50 +66,42 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
       Store.leftMouseDownPosCanvas().y,
     ];
 
-    console.log("segys", segys);
-    console.log("position", position);
-
     // compute the visibility polygon, this can be used to draw a polygon with Canvas or WebGL
     const visibility = compute(position, segments);
 
-    // this is my mad bullshit from old project - use this?
-    // const xRatio = width / originalWidth;
-    // const yRatio = height / originalHeight;
-    // const x = (e.clientX - rect.left) / xRatio / cameraZ;
-    // const y = (e.clientY - rect.top) / yRatio / cameraZ;
+    context.beginPath();
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    context.globalCompositeOperation = "source-over";
+    context.globalAlpha = 0.5;
+    context.fillStyle = "black";
+    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
-    if (lineOfSightWallPoints.length > 2) {
-      const [first, ...rest] = lineOfSightWallPoints;
+    // there will be more than 1 visibility polygon, based on
+    // multiple characters, etc.
 
-      context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    const battleTokens = Store.objects.filter(
+      (o) => o.type === eObjectType.IMAGE && o.isBattleToken === true,
+    );
+    let visibilitySets: Vector2D[][] = [];
+    battleTokens.forEach((token) => {
+      const tokenPosition: Vector2D = [token.x, token.y];
+      const visibility = compute(tokenPosition, segments);
+      visibilitySets.push(visibility);
+    });
+
+    visibilitySets.forEach((visibility) => {
+      const [first, ...rest] = visibility;
+      context.globalAlpha = 1;
+      context.globalCompositeOperation = "destination-out";
       context.beginPath();
-      context.moveTo(first.x, first.y);
+      context.moveTo(first[0] - props.object.x, first[1] - props.object.y);
       rest.forEach((vector) => {
-        context.lineTo(vector.x - props.object.x, vector.y - props.object.y);
+        context.lineTo(vector[0] - props.object.x, vector[1] - props.object.y);
       });
       console.log("a");
-      context.fillStyle = "black";
       context.fill();
       context.closePath();
-    }
-
-    // context.beginPath();
-    // context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-    // context.globalCompositeOperation = "source-over";
-    // context.globalAlpha = 0.5;
-    // context.fillStyle = "black";
-    // context.fillRect(0, 0, context.canvas.width, context.canvas.height);
-
-    // context.globalAlpha = 1;
-    // context.globalCompositeOperation = "destination-out";
-    // context.beginPath();
-    // context.moveTo(first[0], first[1]);
-    // rest.forEach((vector) => {
-    //   context.lineTo(vector[0], vector[1]);
-    // });
-    // console.log("a");
-    // context.fill();
-    // context.closePath();
+    });
   });
 
   return (

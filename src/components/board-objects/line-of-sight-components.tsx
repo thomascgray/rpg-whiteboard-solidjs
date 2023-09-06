@@ -42,7 +42,7 @@ transform:
 translate(${props.object.x}px,
   ${props.object.y}px)`}
     >
-      <span class="block h-full w-full rounded-full bg-gradient-to-tl from-indigo-300 to-teal-300 outline outline-dotted outline-white"></span>
+      <span class="block h-full w-full rounded-full bg-gradient-to-tl from-indigo-300 to-teal-300 outline-dotted outline-white"></span>
     </div>
   );
 };

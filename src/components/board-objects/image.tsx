@@ -50,6 +50,9 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         data-pos-y={props.object.y}
         data-width={props.object.width}
         data-height={props.object.height}
+        data-is-battle-token={
+          props.object.type === eObjectType.IMAGE && props.object.isBattleToken
+        }
         id={props.object.id}
         class="__object absolute left-0 top-0 transform-gpu"
         classList={{
@@ -85,7 +88,9 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         <MotionEffects.Rain object={props.object} />
       </Show>
 
-      <DynamicLighting object={props.object} />
+      <Show when={props.object.battlemap_isDynamicLighting}>
+        <DynamicLighting object={props.object} />
+      </Show>
 
       <Show
         when={

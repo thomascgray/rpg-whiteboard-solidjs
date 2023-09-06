@@ -47,6 +47,8 @@ there is then a bunch of utils to do maths, to interact with the DOM, etc.
 - opacity
 - rounding/cropping
 
+- when you're dragging an object mark it as dragging, so we DONT show its toolbar
+
 ### performance
 
 **if we get rid of using state as the core, we dont need the pre stuff. the state IS the pre stuff, and we just change against the dom directly**

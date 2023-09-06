@@ -4,6 +4,7 @@ import * as DOMUtils from "./utils/dom-utils";
 import * as Store from "./store";
 import * as ResizeUtils from "./utils/resize-utils";
 import * as _ from "lodash";
+import { reconcile } from "solid-js/store";
 
 export const interactionPanCamera = (movementX: number, movementY: number) => {
   DOMUtils.stopCameraAnimating();
@@ -74,6 +75,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     });
   }
 
+  // move the toolbar
   const selectedObjectsToolbar = document.getElementById(
     "__selected-objects-toolbar",
   );

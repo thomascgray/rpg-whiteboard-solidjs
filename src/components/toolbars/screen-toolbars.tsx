@@ -50,10 +50,19 @@ export const BottomToolbar: Component = (props) => {
 
           <Common.CircleToolbarButton
             icon={<Icons.Bricks />}
-            isActive={Store.selectedTool() === eTool.ADD_LINE_OF_SIGHT_WALL}
-            title="Add info pin"
+            isActive={Store.selectedTool() === eTool.ADD_LOS_WALL_ANCHOR}
+            title="Add line of sight walls"
             onMouseDown={() => {
-              Store.setSelectedTool(eTool.ADD_LINE_OF_SIGHT_WALL);
+              Store.setSelectedTool(eTool.ADD_LOS_WALL_ANCHOR);
+            }}
+          />
+
+          <Common.CircleToolbarButton
+            icon={<Icons.Trash3Fill />}
+            isActive={Store.selectedTool() === eTool.DELETE_LOS_WALL}
+            title="Remove line of sight walls"
+            onMouseDown={() => {
+              Store.setSelectedTool(eTool.DELETE_LOS_WALL);
             }}
           />
         </div>

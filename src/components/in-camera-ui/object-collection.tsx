@@ -2,7 +2,7 @@ import { Component, createMemo, createEffect, onMount, For } from "solid-js";
 import { Portal } from "solid-js/web";
 import * as Store from "../../store";
 import BaseObject from "../board-objects/base";
-import { eObjectType } from "../../types";
+import { eObjectType, eTool } from "../../types";
 
 export const ObjectCollection: Component = (props) => {
   return (
@@ -26,7 +26,16 @@ export const LineOfSightWallCollection: Component = (props) => {
     <svg
       width={window.innerWidth}
       height={window.innerHeight}
-      class="pointer-events-none absolute left-0 top-0 z-[9999999] overflow-visible"
+      class="absolute left-0 top-0 z-[9999999] overflow-visible"
+      classList={{
+        "pointer-events-none":
+          Store.selectedTool() !== eTool.ADD_LOS_WALL_ANCHOR &&
+          Store.selectedTool() !== eTool.DELETE_LOS_WALL,
+      }}
+      onMouseDown={(e) => {
+        console.log("onmousedown svg line of sight wall collection");
+        return;
+      }}
     >
       <For
         each={Store.objects.filter(

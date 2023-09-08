@@ -24,7 +24,7 @@ export const WallAnchor: Component<iLineOfSightWallPointObjectProps> = (
         "__is-locked": props.object.isLocked,
         "outline-dashed outline-blue-400":
           props.isSelected && Store.selectedObjectIds().length > 1,
-        "outline-dotted outline-red-500":
+        "border border-solid border-red-500":
           Store.lastWallAnchorAdded()?.id === props.object.id,
       }}
       draggable="false"
@@ -36,6 +36,7 @@ export const WallAnchor: Component<iLineOfSightWallPointObjectProps> = (
       }}
       style={`
 outline-width: calc(2px / var(--app-camera-zoom));
+border-width: calc(4px / var(--app-camera-zoom));
 max-width: none;
 width: ${props.object.width}px;
 height: ${props.object.height}px;
@@ -62,21 +63,14 @@ export const Wall: Component<iLineOfSightWallPointObjectProps> = (props) => {
       data-type={props.object.type}
       id={props.object.id}
       class="z-[9999999999]"
-      // classList={{
-      //   "__selected-object hover:cursor-grab":
-      //     props.isSelected &&
-      //     !props.object.isLocked &&
-      //     Store.selectedTool() === eTool.CURSOR,
-      //   "__is-locked": props.object.isLocked,
-      // }}
       onMouseDown={(e) => {
-        // todo you need to not be able to select walls, only delete them
-        // i'll make a specialised tool for that
-        // console.log("a");
-        // if (Store.selectedTool() !== eTool.CURSOR) {
-        //   return;
-        // }
-        // EventHandlers.onObjectMouseDown(e, props.object);
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("aaaaa");
+        if (Store.selectedTool() === eTool.DELETE_LOS_WALL) {
+          Store.deleteObjectsById([props.object.id]);
+          return;
+        }
       }}
       x1={props.object.x}
       y1={props.object.y}
@@ -84,7 +78,7 @@ export const Wall: Component<iLineOfSightWallPointObjectProps> = (props) => {
       y2={props.object.wallEndPoint!.y}
       style={`
             stroke: #00FFFF;
-            stroke-width: calc(10px / var(--app-camera-zoom));
+            stroke-width: calc(5px / var(--app-camera-zoom));
           `}
     />
   );

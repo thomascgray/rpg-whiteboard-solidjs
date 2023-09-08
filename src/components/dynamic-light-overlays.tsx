@@ -65,10 +65,6 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
           [o.wallEndPoint!.x, o.wallEndPoint!.y],
         ]);
       });
-    // const segysX = pointsToLineSegments(lineOfSightWallPoints);
-
-    // console.log("segys", segys);
-    // console.log("segysX", segysX);
     const segments = breakIntersections(segys);
 
     // pain the canvas black

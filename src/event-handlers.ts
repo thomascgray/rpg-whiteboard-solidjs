@@ -89,6 +89,7 @@ export const onWindowMouseUp = (e: MouseEvent) => {
     // any objects that were within the bounding box of the drawing selection box need to be selected
     const objectsWithinSelectionBox = Object.values(Store.objects)
       .filter((o) => !o.isLocked)
+      .filter((o) => o.type !== eObjectType.LINE_OF_SIGHT_WALL)
       .filter((obj) => {
         const selectionBox = {
           x: currentSelectionBox.x,
@@ -234,7 +235,7 @@ export const onWindowKeyDown = (e: KeyboardEvent) => {
   }
 
   if (
-    Store.selectedTool() === eTool.ADD_LINE_OF_SIGHT_WALL &&
+    Store.selectedTool() === eTool.ADD_LOS_WALL_ANCHOR &&
     e.key === eKey.SPACE
   ) {
     Store.setLastWallAnchorAdded(null);
@@ -314,7 +315,7 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
   }
 
   if (
-    Store.selectedTool() === eTool.ADD_LINE_OF_SIGHT_WALL &&
+    Store.selectedTool() === eTool.ADD_LOS_WALL_ANCHOR &&
     e.button === eMouseButton.LEFT
   ) {
     const pos = Utils.screenToCanvas(
@@ -331,8 +332,8 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
       // also add a wall
       Store.addNewObject({
         type: eObjectType.LINE_OF_SIGHT_WALL,
-        x: Store.lastWallAnchorAdded()!.x,
-        y: Store.lastWallAnchorAdded()!.y,
+        x: Store.lastWallAnchorAdded()!.x + 10,
+        y: Store.lastWallAnchorAdded()!.y + 10,
         wallEndPoint: {
           x: pos.x,
           y: pos.y,

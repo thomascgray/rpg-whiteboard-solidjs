@@ -5,8 +5,6 @@ import * as EventHandlers from "../../event-handlers";
 
 const HANDLE_SIZE = 15;
 const HANDLE_SIZE_HALF = HANDLE_SIZE / 2;
-const HANDLE_SIZE_QUARTER = HANDLE_SIZE / 4;
-const HANDLE_SIZE_THREE_QUARTER = HANDLE_SIZE_HALF + HANDLE_SIZE_QUARTER;
 
 export const ResizeHandles: Component = (props) => {
   const isSelectingSingleTextarea = createMemo(() => {
@@ -26,30 +24,22 @@ export const ResizeHandles: Component = (props) => {
     );
   });
 
-  const blXs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.x);
-  });
-  const blYs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.y + obj.height);
-  });
-
-  const brXs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.x + obj.width);
-  });
-  const brYs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.y + obj.height);
-  });
-
   const bottomLeftPoint = createMemo(() => {
+    if (Store.objectSelectionBox() === null) {
+      return { x: 0, y: 0 };
+    }
     return {
-      x: Math.min(...blXs()),
-      y: Math.max(...blYs()),
+      x: Store.objectSelectionBox()!.x,
+      y: Store.objectSelectionBox()!.y,
     };
   });
   const bottomRightPoint = createMemo(() => {
+    if (Store.objectSelectionBox() === null) {
+      return { x: 0, y: 0 };
+    }
     return {
-      x: Math.max(...brXs()),
-      y: Math.max(...brYs()),
+      x: Store.objectSelectionBox()!.x + Store.objectSelectionBox()!.width,
+      y: Store.objectSelectionBox()!.y + Store.objectSelectionBox()!.height,
     };
   });
 

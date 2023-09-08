@@ -34,6 +34,11 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     camera.z,
   );
 
+  // todo need some madness that when you're in here moving a wall anchor,
+  // it moves the relevant line
+  // todo gonna be EXTRA tricky cus we need to work which point of the line we need to move?
+  // i guess we just find the matching point? inefficient though
+
   // move the elements themeslves, and work out the top-left most set of coords
   const xList: number[] = [];
   const yList: number[] = [];

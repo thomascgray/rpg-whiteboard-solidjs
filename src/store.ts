@@ -167,6 +167,7 @@ export const addNewObject = (props: Partial<iObject>) => {
     ...props,
   };
   setObjects((objs) => [...objs, newObject]);
+  return newObject;
 };
 
 /**

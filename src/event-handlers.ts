@@ -233,13 +233,12 @@ export const onWindowKeyDown = (e: KeyboardEvent) => {
     );
   }
 
-  // if (e.key === eKey.NUMBER_1) {
-  //   Utils.sendSelectedObjectsToBack();
-  // }
-
-  // if (e.key === eKey.NUMBER_3) {
-  //   Store.setSelectedTool(eTool.SKETCH);
-  // }
+  if (
+    Store.selectedTool() === eTool.ADD_LINE_OF_SIGHT_WALL &&
+    e.key === eKey.SPACE
+  ) {
+    Store.setLastWallAnchorAdded(null);
+  }
 
   if (e.key === "m" || e.key === "M") {
     e.preventDefault();
@@ -327,18 +326,31 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
     );
 
     // ok, so, if we have a current wall anchor position, we need to also create a wall between this new point and the previous poiint
-    if (Store.lastWallAnchorAdded() !== null) {
+    if (Store.lastWallAnchorAdded() != null) {
+      console.log("Store.lastWallAnchorAdded()", Store.lastWallAnchorAdded());
       // also add a wall
+      Store.addNewObject({
+        type: eObjectType.LINE_OF_SIGHT_WALL,
+        x: Store.lastWallAnchorAdded()!.x,
+        y: Store.lastWallAnchorAdded()!.y,
+        wallEndPoint: {
+          x: pos.x,
+          y: pos.y,
+        },
+        width: Math.abs(pos.x - Store.lastWallAnchorAdded()!.x),
+        height: Math.abs(pos.y - Store.lastWallAnchorAdded()!.y),
+      });
     }
 
     // then either way we add the new point
-    Store.addNewObject({
+    const no = Store.addNewObject({
       type: eObjectType.LINE_OF_SIGHT_WALL_ANCHOR,
       x: pos.x - 10,
       y: pos.y - 10,
       height: 20,
       width: 20,
     });
+    Store.setLastWallAnchorAdded(no);
 
     // and update the last wall anchor added to the new point
   }

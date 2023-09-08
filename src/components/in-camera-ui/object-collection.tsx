@@ -1,4 +1,5 @@
 import { Component, createMemo, createEffect, onMount, For } from "solid-js";
+import { Portal } from "solid-js/web";
 import * as Store from "../../store";
 import BaseObject from "../board-objects/base";
 import { eObjectType } from "../../types";
@@ -25,7 +26,7 @@ export const LineOfSightWallCollection: Component = (props) => {
     <svg
       width={window.innerWidth}
       height={window.innerHeight}
-      class="absolute left-0 top-0 overflow-visible"
+      class="pointer-events-none absolute left-0 top-0 z-[9999999] overflow-visible"
     >
       <For
         each={Store.objects.filter(

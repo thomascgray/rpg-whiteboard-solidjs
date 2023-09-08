@@ -56,19 +56,22 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
 
     // todo we need to convert the x and y of the objects into
     // canvas-relative coordinates
-    const segys = pointsToLineSegments(lineOfSightWallPoints);
+    const segys: Segments = [];
+    Store.objects
+      .filter((o) => o.type === eObjectType.LINE_OF_SIGHT_WALL)
+      .forEach((o) => {
+        segys.push([
+          [o.x, o.y],
+          [o.wallEndPoint!.x, o.wallEndPoint!.y],
+        ]);
+      });
+    // const segysX = pointsToLineSegments(lineOfSightWallPoints);
 
+    // console.log("segys", segys);
+    // console.log("segysX", segysX);
     const segments = breakIntersections(segys);
 
-    // define your position in which the visibility should be calculated from
-    const position: Vector2D = [
-      Store.leftMouseDownPosCanvas().x,
-      Store.leftMouseDownPosCanvas().y,
-    ];
-
-    // compute the visibility polygon, this can be used to draw a polygon with Canvas or WebGL
-    const visibility = compute(position, segments);
-
+    // pain the canvas black
     context.beginPath();
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     context.globalCompositeOperation = "source-over";

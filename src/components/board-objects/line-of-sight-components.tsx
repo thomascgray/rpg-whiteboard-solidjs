@@ -24,6 +24,8 @@ export const WallAnchor: Component<iLineOfSightWallPointObjectProps> = (
         "__is-locked": props.object.isLocked,
         "outline-dashed outline-blue-400":
           props.isSelected && Store.selectedObjectIds().length > 1,
+        "outline-dotted outline-red-500":
+          Store.lastWallAnchorAdded()?.id === props.object.id,
       }}
       draggable="false"
       onMouseDown={(e) => {
@@ -60,19 +62,21 @@ export const Wall: Component<iLineOfSightWallPointObjectProps> = (props) => {
       data-type={props.object.type}
       id={props.object.id}
       class="z-[9999999999]"
-      classList={{
-        "__selected-object hover:cursor-grab":
-          props.isSelected &&
-          !props.object.isLocked &&
-          Store.selectedTool() === eTool.CURSOR,
-        "__is-locked": props.object.isLocked,
-      }}
+      // classList={{
+      //   "__selected-object hover:cursor-grab":
+      //     props.isSelected &&
+      //     !props.object.isLocked &&
+      //     Store.selectedTool() === eTool.CURSOR,
+      //   "__is-locked": props.object.isLocked,
+      // }}
       onMouseDown={(e) => {
-        console.log("a");
-        if (Store.selectedTool() !== eTool.CURSOR) {
-          return;
-        }
-        EventHandlers.onObjectMouseDown(e, props.object);
+        // todo you need to not be able to select walls, only delete them
+        // i'll make a specialised tool for that
+        // console.log("a");
+        // if (Store.selectedTool() !== eTool.CURSOR) {
+        //   return;
+        // }
+        // EventHandlers.onObjectMouseDown(e, props.object);
       }}
       x1={props.object.x}
       y1={props.object.y}

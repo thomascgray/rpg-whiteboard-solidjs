@@ -35,7 +35,7 @@ const App: Component = () => {
   );
 
   onMount(() => {
-    TestingUtils.wallSectionsTest();
+    TestingUtils.battlemapTest();
     window.__cameraDom = document.getElementById("camera")!;
     window.__backgroundAppDom = document.getElementById("app_background")!;
     window.__canvasDom = document.getElementById("canvas")!;
@@ -77,9 +77,9 @@ const App: Component = () => {
             Store.camera().x
           }px, ${Store.camera().y}px)`}
         >
-          <LineOfSightWallCollection />
-
           <ObjectCollection />
+
+          <LineOfSightWallCollection />
 
           {/* object selection stuff */}
           <Show when={Store.selectedObjectIds().length >= 1}>
@@ -115,12 +115,6 @@ const App: Component = () => {
         <ModalWrapper />
       </Show>
 
-      <div class="absolute bottom-0 left-0 w-full bg-green-400 font-mono text-white">
-        <p>
-          tool
-          {JSON.stringify(Store.selectedTool())}
-        </p>
-      </div>
       {/* <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
         <p>
           tool

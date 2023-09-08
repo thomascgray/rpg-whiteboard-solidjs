@@ -1,4 +1,4 @@
-import { eKey, eResizingFrom, iCamera, iObject } from "./types";
+import { eKey, eObjectType, eResizingFrom, iCamera, iObject } from "./types";
 import * as Utils from "./utils/general-utils";
 import * as DOMUtils from "./utils/dom-utils";
 import * as Store from "./store";
@@ -35,11 +35,9 @@ export const interactionMoveObjects = (e: MouseEvent) => {
   );
 
   // move the elements themeslves, and work out the top-left most set of coords
-  // const elements = document.getElementsByClassName("__selected-object");
   const xList: number[] = [];
   const yList: number[] = [];
 
-  // console.log("window.__app_selectedObjects", window.__app_selectedObjects);
   for (let el of window.__app_selectedObjects) {
     const element = el as HTMLElement;
     const x =
@@ -48,7 +46,19 @@ export const interactionMoveObjects = (e: MouseEvent) => {
       Number(element.dataset.posY) + (mousePoint.y - mouseDownPosCanvas.y);
     xList.push(x);
     yList.push(y);
-    DOMUtils.setStylesOnElement(element, { x, y });
+
+    if (element.dataset.type === eObjectType.LINE_OF_SIGHT_WALL) {
+      // todo for line elements, this needs to move the line points
+      const x2 =
+        Number(element.dataset.posX2) + (mousePoint.x - mouseDownPosCanvas.x);
+      const y2 =
+        Number(element.dataset.posY2) + (mousePoint.y - mouseDownPosCanvas.y);
+      xList.push(x2);
+      yList.push(y2);
+      DOMUtils.setLineObjectPropertiesOnDom(element, x, y, x2, y2);
+    } else {
+      DOMUtils.setObjectPropertiesOnDom(element, { x, y });
+    }
   }
 
   // using the top-left most set of coords, move the selection box
@@ -57,7 +67,10 @@ export const interactionMoveObjects = (e: MouseEvent) => {
   );
   const minX = _.min(xList) as number;
   const minY = _.min(yList) as number;
-  DOMUtils.setStylesOnElement(objectSelectionBoxElement!, { x: minX, y: minY });
+  DOMUtils.setObjectPropertiesOnDom(objectSelectionBoxElement!, {
+    x: minX,
+    y: minY,
+  });
 
   // also move the resize handles by the amount the mouse has moved
   const resizeHandles = document.getElementsByClassName("__resize-handle");
@@ -69,7 +82,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     const y =
       Number(resizeHandleElement.dataset.posY) +
       (mousePoint.y - mouseDownPosCanvas.y);
-    DOMUtils.setStylesOnElement(resizeHandleElement!, {
+    DOMUtils.setObjectPropertiesOnDom(resizeHandleElement!, {
       x,
       y,
     });
@@ -89,7 +102,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     Number(selectedObjectsToolbar!.dataset.posY) +
     (mousePoint.y - mouseDownPosCanvas.y) * Store.camera().z;
 
-  DOMUtils.setStylesOnElement(selectedObjectsToolbar!, {
+  DOMUtils.setObjectPropertiesOnDom(selectedObjectsToolbar!, {
     scale,
     x,
     y,

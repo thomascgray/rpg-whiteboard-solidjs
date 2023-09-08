@@ -41,11 +41,15 @@ export const BaseObject: Component<iBaseObjectProps> = (props) => {
         <InfoPin object={props.object} isSelected={props.isSelected} />
       </Show>
 
-      <Show when={props.object.type === eObjectType.LINE_OF_SIGHT_WALL_POINT}>
-        <LineOfSight.WallPoint
+      <Show when={props.object.type === eObjectType.LINE_OF_SIGHT_WALL_ANCHOR}>
+        <LineOfSight.WallAnchor
           object={props.object}
           isSelected={props.isSelected}
         />
+      </Show>
+
+      <Show when={props.object.type === eObjectType.LINE_OF_SIGHT_WALL}>
+        <LineOfSight.Wall object={props.object} isSelected={props.isSelected} />
       </Show>
     </>
   );

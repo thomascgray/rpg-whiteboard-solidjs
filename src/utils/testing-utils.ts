@@ -12,19 +12,21 @@ export const textObjects = () => {};
 
 export const battlemapTest = () => {
   const newObjects: iObject[] = [
+    // battlemap
     {
       id: nanoid(),
       x: 100,
       y: 500,
       width: 200,
       height: 200,
-      url: "https://i.imgur.com/rzcJEeY.png",
+      url: "https://i.imgur.com/ifmUwsS.png",
       hasSelfResized: false,
       zIndex: 1,
       type: eObjectType.IMAGE,
-      isLocked: false,
+      isLocked: true,
     },
 
+    // token 1
     {
       id: nanoid(),
       x: 200,
@@ -36,8 +38,10 @@ export const battlemapTest = () => {
       zIndex: 2,
       type: eObjectType.IMAGE,
       isLocked: false,
+      isBattleToken: true,
     },
 
+    // token 2
     {
       id: nanoid(),
       x: 200,
@@ -49,11 +53,13 @@ export const battlemapTest = () => {
       zIndex: 3,
       type: eObjectType.IMAGE,
       isLocked: false,
+      isBattleToken: true,
     },
   ];
 
   Store.setObjects(newObjects);
 };
+
 export const makeDummyObjects = (num: number, spacingFactor: number) => {
   const newObjects: { [key: string]: iObject } = {};
 
@@ -106,6 +112,28 @@ export const makeDummyObjects = (num: number, spacingFactor: number) => {
   //   text: "Suspendisse vulputate sollicitudin",
 
   // };
+
+  Store.setObjects(newObjects);
+};
+
+export const wallSectionsTest = () => {
+  const newObjects: iObject[] = [
+    // walls
+    {
+      id: nanoid(),
+      x: 200,
+      y: 400,
+      width: Math.abs(200 - 500),
+      height: Math.abs(400 - 700),
+      zIndex: 10,
+      type: eObjectType.LINE_OF_SIGHT_WALL,
+      wallEndPoint: {
+        x: 500,
+        y: 700,
+      },
+      isLocked: false,
+    },
+  ];
 
   Store.setObjects(newObjects);
 };

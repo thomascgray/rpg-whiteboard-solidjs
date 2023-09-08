@@ -1,0 +1,708 @@
+{
+  "tldrawFileFormatVersion": 1,
+  "schema": {
+    "schemaVersion": 1,
+    "storeVersion": 4,
+    "recordVersions": {
+      "asset": {
+        "version": 1,
+        "subTypeKey": "type",
+        "subTypeVersions": {
+          "image": 2,
+          "video": 2,
+          "bookmark": 0
+        }
+      },
+      "camera": {
+        "version": 1
+      },
+      "document": {
+        "version": 2
+      },
+      "instance": {
+        "version": 17
+      },
+      "instance_page_state": {
+        "version": 3
+      },
+      "page": {
+        "version": 1
+      },
+      "shape": {
+        "version": 3,
+        "subTypeKey": "type",
+        "subTypeVersions": {
+          "group": 0,
+          "embed": 4,
+          "bookmark": 1,
+          "image": 2,
+          "text": 1,
+          "draw": 1,
+          "geo": 7,
+          "line": 0,
+          "note": 4,
+          "frame": 0,
+          "arrow": 1,
+          "highlight": 0,
+          "video": 1
+        }
+      },
+      "instance_presence": {
+        "version": 4
+      },
+      "pointer": {
+        "version": 1
+      }
+    }
+  },
+  "records": [
+    {
+      "gridSize": 10,
+      "name": "",
+      "meta": {},
+      "id": "document:document",
+      "typeName": "document"
+    },
+    {
+      "id": "pointer:pointer",
+      "typeName": "pointer",
+      "x": 50.8103236128959,
+      "y": -38.27970521466477,
+      "lastActivityTimestamp": 1694207015736,
+      "meta": {}
+    },
+    {
+      "meta": {},
+      "id": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "name": "Page 1",
+      "index": "a1",
+      "typeName": "page"
+    },
+    {
+      "x": 476.38651651401335,
+      "y": 426.740534781861,
+      "z": 0.6126743853818357,
+      "meta": {},
+      "id": "camera:page:e_xMAtUVhDNQu_kjx-7iJ",
+      "typeName": "camera"
+    },
+    {
+      "editingId": null,
+      "croppingId": null,
+      "selectedIds": [],
+      "hoveredId": null,
+      "erasingIds": [],
+      "hintingIds": [],
+      "focusLayerId": null,
+      "meta": {},
+      "id": "instance_page_state:page:e_xMAtUVhDNQu_kjx-7iJ",
+      "pageId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "typeName": "instance_page_state"
+    },
+    {
+      "followingUserId": null,
+      "opacityForNextShape": 1,
+      "stylesForNextShape": {
+        "tldraw:color": "light-blue"
+      },
+      "brush": null,
+      "scribble": null,
+      "cursor": {
+        "type": "default",
+        "color": "black",
+        "rotation": 0
+      },
+      "isFocusMode": false,
+      "exportBackground": true,
+      "isDebugMode": false,
+      "isToolLocked": false,
+      "screenBounds": {
+        "x": 0,
+        "y": 0,
+        "w": 2180,
+        "h": 1291
+      },
+      "zoomBrush": null,
+      "isGridMode": false,
+      "isPenMode": false,
+      "chatMessage": "",
+      "isChatting": false,
+      "highlightedUserIds": [],
+      "meta": {},
+      "id": "instance:instance",
+      "currentPageId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "typeName": "instance"
+    },
+    {
+      "x": -32.58138768974186,
+      "y": 241.82635258165737,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "geo",
+      "props": {
+        "w": 461.8307884773121,
+        "h": 172.77123022172827,
+        "geo": "rectangle",
+        "color": "black",
+        "labelColor": "black",
+        "fill": "none",
+        "dash": "draw",
+        "size": "xl",
+        "font": "draw",
+        "text": "Objects exist as state",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 0,
+        "url": ""
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "a1",
+      "id": "shape:0O6ZHuJQmfGuU1XPK9SWh",
+      "typeName": "shape"
+    },
+    {
+      "x": 548.8602524795333,
+      "y": 248.47139989787775,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "geo",
+      "props": {
+        "w": 461.8307884773121,
+        "h": 172.77123022172827,
+        "geo": "rectangle",
+        "color": "black",
+        "labelColor": "black",
+        "fill": "none",
+        "dash": "draw",
+        "size": "xl",
+        "font": "draw",
+        "text": "You click on an object(s)",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 0,
+        "url": ""
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "a2",
+      "id": "shape:W_snlD09RowW6Aa_pu_0C",
+      "typeName": "shape"
+    },
+    {
+      "x": 434.23318627473327,
+      "y": 333.19575317968656,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "arrow",
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "a3",
+      "props": {
+        "dash": "draw",
+        "size": "xl",
+        "fill": "none",
+        "color": "black",
+        "labelColor": "black",
+        "bend": 0,
+        "start": {
+          "type": "binding",
+          "boundShapeId": "shape:0O6ZHuJQmfGuU1XPK9SWh",
+          "normalizedAnchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "isExact": false
+        },
+        "end": {
+          "type": "binding",
+          "boundShapeId": "shape:W_snlD09RowW6Aa_pu_0C",
+          "normalizedAnchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "isExact": false
+        },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow",
+        "text": "",
+        "font": "draw"
+      },
+      "id": "shape:8_EUPAb4ooMGjhqknzrRx",
+      "typeName": "shape"
+    },
+    {
+      "x": 565.5019442396147,
+      "y": 610.0740827108336,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "geo",
+      "props": {
+        "w": 451,
+        "h": 244.20548887109635,
+        "geo": "rectangle",
+        "color": "light-blue",
+        "labelColor": "black",
+        "fill": "none",
+        "dash": "draw",
+        "size": "xl",
+        "font": "draw",
+        "text": "We put those objects into the window selected objects",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 0,
+        "url": ""
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "a4",
+      "id": "shape:6xbOBIDdwiVvlZngwSooI",
+      "typeName": "shape"
+    },
+    {
+      "x": 892.7414510939343,
+      "y": 334.8570150087412,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "arrow",
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "a5",
+      "props": {
+        "dash": "draw",
+        "size": "xl",
+        "fill": "none",
+        "color": "light-blue",
+        "labelColor": "black",
+        "bend": 0,
+        "start": {
+          "type": "point",
+          "x": -102.99823340141484,
+          "y": 84.72435328180882
+        },
+        "end": {
+          "type": "binding",
+          "boundShapeId": "shape:6xbOBIDdwiVvlZngwSooI",
+          "normalizedAnchor": {
+            "x": 0.4926329852370042,
+            "y": 0.04421768707482941
+          },
+          "isExact": false
+        },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow",
+        "text": "",
+        "font": "draw"
+      },
+      "id": "shape:ewnZKP7VoIJTv9SYwyc6B",
+      "typeName": "shape"
+    },
+    {
+      "x": 1146.8272905307745,
+      "y": 254.68034517116234,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "geo",
+      "props": {
+        "w": 462,
+        "h": 172.77123022172827,
+        "geo": "rectangle",
+        "color": "black",
+        "labelColor": "black",
+        "fill": "none",
+        "dash": "draw",
+        "size": "xl",
+        "font": "draw",
+        "text": "You start moving your mouse",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 0,
+        "url": ""
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "a6",
+      "id": "shape:WgsTf5dWTzX_yqHi0BLul",
+      "typeName": "shape"
+    },
+    {
+      "x": 994.0784226662945,
+      "y": 343.1633241540171,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "arrow",
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "a7",
+      "props": {
+        "dash": "draw",
+        "size": "xl",
+        "fill": "none",
+        "color": "black",
+        "labelColor": "black",
+        "bend": 0,
+        "start": {
+          "type": "binding",
+          "boundShapeId": "shape:W_snlD09RowW6Aa_pu_0C",
+          "normalizedAnchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "isExact": false
+        },
+        "end": {
+          "type": "binding",
+          "boundShapeId": "shape:WgsTf5dWTzX_yqHi0BLul",
+          "normalizedAnchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "isExact": false
+        },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow",
+        "text": "",
+        "font": "draw"
+      },
+      "id": "shape:s0VJ27SqlyqkgXt1WM6p4",
+      "typeName": "shape"
+    },
+    {
+      "x": 1160.2046055718038,
+      "y": 575.7399802217287,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "geo",
+      "props": {
+        "w": 451,
+        "h": 432.33756302511347,
+        "geo": "rectangle",
+        "color": "light-blue",
+        "labelColor": "black",
+        "fill": "none",
+        "dash": "draw",
+        "size": "xl",
+        "font": "draw",
+        "text": "We use the data-attrs on the object + how far your mouse has moved to work out new positions.\n\nAnd we set those positions against the object in DOM (usually via CSS) so everything is super fast.",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 74.72493697488653,
+        "url": ""
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "a8",
+      "id": "shape:NCKE-pCgHVBK98MwNlhX-",
+      "typeName": "shape"
+    },
+    {
+      "x": 1485.8119240665974,
+      "y": 316.5831348891352,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "arrow",
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "a9",
+      "props": {
+        "dash": "draw",
+        "size": "xl",
+        "fill": "none",
+        "color": "light-blue",
+        "labelColor": "black",
+        "bend": 0,
+        "start": {
+          "type": "point",
+          "x": -102.99823340141484,
+          "y": 84.72435328180882
+        },
+        "end": {
+          "type": "binding",
+          "boundShapeId": "shape:NCKE-pCgHVBK98MwNlhX-",
+          "normalizedAnchor": {
+            "x": 0.4926329852370042,
+            "y": 0.04421768707482941
+          },
+          "isExact": false
+        },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow",
+        "text": "",
+        "font": "draw"
+      },
+      "id": "shape:k22Iu7eDfDhpFZhtIOnAw",
+      "typeName": "shape"
+    },
+    {
+      "x": 1759.5689087579262,
+      "y": 257.7500829073691,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "geo",
+      "props": {
+        "w": 462,
+        "h": 172.77123022172827,
+        "geo": "rectangle",
+        "color": "black",
+        "labelColor": "black",
+        "fill": "none",
+        "dash": "draw",
+        "size": "xl",
+        "font": "draw",
+        "text": "You let go of your mouse",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 0,
+        "url": ""
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "aA",
+      "id": "shape:5eP6rJ_vKCqP3cDE-ahus",
+      "typeName": "shape"
+    },
+    {
+      "x": 1600.4389902713974,
+      "y": 331.53449135063147,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "arrow",
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "aB",
+      "props": {
+        "dash": "draw",
+        "size": "xl",
+        "fill": "none",
+        "color": "black",
+        "labelColor": "black",
+        "bend": 0,
+        "start": {
+          "type": "binding",
+          "boundShapeId": "shape:WgsTf5dWTzX_yqHi0BLul",
+          "normalizedAnchor": {
+            "x": 0.9816547171689095,
+            "y": 0.5384615384615348
+          },
+          "isExact": false
+        },
+        "end": {
+          "type": "binding",
+          "boundShapeId": "shape:5eP6rJ_vKCqP3cDE-ahus",
+          "normalizedAnchor": {
+            "x": 0.01456634865273758,
+            "y": 0.5961538461538456
+          },
+          "isExact": false
+        },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow",
+        "text": "",
+        "font": "draw"
+      },
+      "id": "shape:IBOF47l5aP_5eIKgZ4T4Q",
+      "typeName": "shape"
+    },
+    {
+      "x": 1805.7194766280363,
+      "y": 587.0311421630329,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "geo",
+      "props": {
+        "w": 451,
+        "h": 432.33756302511347,
+        "geo": "rectangle",
+        "color": "light-blue",
+        "labelColor": "black",
+        "fill": "none",
+        "dash": "draw",
+        "size": "xl",
+        "font": "draw",
+        "text": "We read all the data FROM the DOM and put it BACK into state.\n\nAgain, this is usually reading style data",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 0,
+        "url": ""
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "aC",
+      "id": "shape:0qhqVrSJGx8mMmKlv5f2j",
+      "typeName": "shape"
+    },
+    {
+      "x": 2087.1887061845346,
+      "y": 323.22818220535555,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "arrow",
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "aD",
+      "props": {
+        "dash": "draw",
+        "size": "xl",
+        "fill": "none",
+        "color": "light-blue",
+        "labelColor": "black",
+        "bend": 0,
+        "start": {
+          "type": "binding",
+          "boundShapeId": "shape:5eP6rJ_vKCqP3cDE-ahus",
+          "normalizedAnchor": {
+            "x": 0.5314482247577277,
+            "y": 0.9634929007216935
+          },
+          "isExact": false
+        },
+        "end": {
+          "type": "binding",
+          "boundShapeId": "shape:0qhqVrSJGx8mMmKlv5f2j",
+          "normalizedAnchor": {
+            "x": 0.4926329852370042,
+            "y": 0.04421768707482941
+          },
+          "isExact": false
+        },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow",
+        "text": "",
+        "font": "draw"
+      },
+      "id": "shape:AwN7FYKtMQvMJo-NY_22U",
+      "typeName": "shape"
+    },
+    {
+      "x": 670.454995003244,
+      "y": -167.018928113104,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:FN5Us2xjr_yp5tU45MXIg",
+      "type": "text",
+      "props": {
+        "color": "red",
+        "size": "m",
+        "w": 281.15625,
+        "text": "Real-Time Interactions",
+        "font": "draw",
+        "align": "middle",
+        "autoSize": true,
+        "scale": 3.975524258690681
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "aE",
+      "typeName": "shape"
+    },
+    {
+      "x": 654.5764750478102,
+      "y": -16.67718115752794,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:lw9lZ3v4foF91HUWDmCME",
+      "type": "text",
+      "props": {
+        "color": "black",
+        "size": "m",
+        "w": 2352.889185479463,
+        "text": "This is the process that happens when you drag\nobjects around, and/or when you resize objects",
+        "font": "draw",
+        "align": "middle",
+        "autoSize": true,
+        "scale": 1.8163135762470954
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "aF",
+      "typeName": "shape"
+    },
+    {
+      "x": -7.396169954023549,
+      "y": 614.9706477894117,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:MSJIhSX1TIFgeV6iIn-Kw",
+      "type": "geo",
+      "props": {
+        "w": 451,
+        "h": 244.20548887109635,
+        "geo": "rectangle",
+        "color": "light-blue",
+        "labelColor": "black",
+        "fill": "none",
+        "dash": "draw",
+        "size": "xl",
+        "font": "draw",
+        "text": "The objects are rendered onto the canvas, inside the camera, entirely via state data",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 0,
+        "url": ""
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "aG",
+      "typeName": "shape"
+    },
+    {
+      "x": 298.62488822645764,
+      "y": 372.39734727784,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:cuHD-yfSNJe-bsZ-kLGru",
+      "type": "arrow",
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "aH",
+      "props": {
+        "dash": "draw",
+        "size": "xl",
+        "fill": "none",
+        "color": "light-blue",
+        "labelColor": "black",
+        "bend": 0,
+        "start": {
+          "type": "binding",
+          "boundShapeId": "shape:0O6ZHuJQmfGuU1XPK9SWh",
+          "normalizedAnchor": {
+            "x": 0.5330136504783158,
+            "y": 0.8776924361878241
+          },
+          "isExact": false
+        },
+        "end": {
+          "type": "binding",
+          "boundShapeId": "shape:MSJIhSX1TIFgeV6iIn-Kw",
+          "normalizedAnchor": {
+            "x": 0.4926329852370042,
+            "y": 0.04421768707482941
+          },
+          "isExact": false
+        },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow",
+        "text": "",
+        "font": "draw"
+      },
+      "typeName": "shape"
+    }
+  ]
+}

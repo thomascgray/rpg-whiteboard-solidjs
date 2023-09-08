@@ -113,6 +113,9 @@ export const [mousePosMeasuringDistance, setMousePosMeasuringDistance] =
     y: 0,
   });
 
+export const [lastWallAnchorAdded, setLastWallAnchorAdded] =
+  createSignal<iObject | null>(null);
+
 /**
  *
  *

@@ -145,14 +145,14 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     Store.setmousePosSketching({ x: e.clientX, y: e.clientY });
   }
 
-  const selectedObjectDOMElements =
-    DOMUtils.getAllCurrentlySelectedObjectDOMElements();
-
   // panning
   if (Store.heldMouseButtons().includes(eMouseButton.MIDDLE)) {
     InteractionHandlers.interactionPanCamera(-e.movementX, -e.movementY);
     return;
   }
+
+  const selectedObjectDOMElements =
+    document.getElementsByClassName("__selected-object");
 
   // mouse movement for drawing a selection box
   if (
@@ -307,8 +307,6 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
       Store.camera().z,
     );
 
-    console.log("pos", pos);
-
     Store.addNewObject({
       type: eObjectType.INFO_PIN,
       x: pos.x,
@@ -328,13 +326,21 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
       Store.camera().z,
     );
 
+    // ok, so, if we have a current wall anchor position, we need to also create a wall between this new point and the previous poiint
+    if (Store.lastWallAnchorAdded() !== null) {
+      // also add a wall
+    }
+
+    // then either way we add the new point
     Store.addNewObject({
-      type: eObjectType.LINE_OF_SIGHT_WALL_POINT,
-      x: pos.x - 5,
-      y: pos.y - 5,
-      height: 10,
-      width: 10,
+      type: eObjectType.LINE_OF_SIGHT_WALL_ANCHOR,
+      x: pos.x - 10,
+      y: pos.y - 10,
+      height: 20,
+      width: 20,
     });
+
+    // and update the last wall anchor added to the new point
   }
 };
 
@@ -349,9 +355,9 @@ export const onBeginResizing = (e: MouseEvent, resizingFrom: eResizingFrom) => {
 };
 
 export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
-  if (Store.selectedTool() === eTool.SKETCH) {
-    return;
-  }
+  // if (Store.selectedTool() === eTool.SKETCH) {
+  //   return;
+  // }
   e.stopPropagation();
 
   // we've stopped propagation so, so we need to call this manually

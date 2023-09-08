@@ -68,7 +68,8 @@ export enum eObjectType {
   TEXT = "TEXT",
   SVG = "SVG",
   INFO_PIN = "INFO_PIN",
-  LINE_OF_SIGHT_WALL_POINT = "LINE_OF_SIGHT_WALL_POINT",
+  LINE_OF_SIGHT_WALL_ANCHOR = "LINE_OF_SIGHT_WALL_POINT",
+  LINE_OF_SIGHT_WALL = "LINE_OF_SIGHT_WALL",
 }
 
 export enum eResizingFrom {
@@ -156,6 +157,10 @@ export interface iObject {
   // for map markers
   mapMarkerType?: string;
   title?: string;
+
+  // for dyanmic light things
+  // the walls
+  wallEndPoint?: iPoint;
 }
 
 export interface iPoint {

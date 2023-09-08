@@ -19,7 +19,6 @@ const calculateTrianglePoints = (
 
   // Calculate the coordinates of the other two points of the base
   const baseLength = 2 * height * Math.tan(angleInRadians / 2);
-  console.log("baseLength", baseLength);
   if (baseLength === 0) {
     return [tip, tip, tip];
   }

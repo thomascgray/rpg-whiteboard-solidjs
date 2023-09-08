@@ -60,7 +60,7 @@ export const resizeBottomRightToTopLeft = (
     // if its a text object, we ALSO need to recalculate the font ize by like, the fuckin ratio of the new
     // width to the old width?
     if (element.dataset.objectType === eObjectType.TEXT) {
-      DOMUtils.setStylesOnElement(element, {
+      DOMUtils.setObjectPropertiesOnDom(element, {
         x: newX,
         y: newY,
         width: newWidth,
@@ -68,7 +68,7 @@ export const resizeBottomRightToTopLeft = (
         fontSize: Number(element.dataset.fontSize) * ratio,
       });
     } else {
-      DOMUtils.setStylesOnElement(element, {
+      DOMUtils.setObjectPropertiesOnDom(element, {
         x: newX,
         y: newY,
         width: newWidth,
@@ -82,7 +82,7 @@ export const resizeBottomRightToTopLeft = (
     Math.max(...xList) - Number(objectSelectionBoxElement.dataset.posX);
   const newHeight =
     Math.max(...yList) - Number(objectSelectionBoxElement.dataset.posY);
-  DOMUtils.setStylesOnElement(objectSelectionBoxElement, {
+  DOMUtils.setObjectPropertiesOnDom(objectSelectionBoxElement, {
     width: newWidth,
     height: newHeight,
   });
@@ -101,16 +101,19 @@ export const resizeBottomRightToTopLeft = (
 
   const leftX = Number(resizeHandleLeft!.dataset.posX);
   const leftY = Number(objectSelectionBoxElement.dataset.posY) + newHeight;
-  DOMUtils.setStylesOnElement(resizeHandleLeft!, { x: leftX, y: leftY });
+  DOMUtils.setObjectPropertiesOnDom(resizeHandleLeft!, { x: leftX, y: leftY });
 
   const rightX =
     Number(resizeHandleRight!.dataset.posX) -
     (Number(objectSelectionBoxElement.dataset.width) - newWidth);
   const rightY = Number(objectSelectionBoxElement.dataset.posY) + newHeight;
-  DOMUtils.setStylesOnElement(resizeHandleRight!, { x: rightX, y: rightY });
+  DOMUtils.setObjectPropertiesOnDom(resizeHandleRight!, {
+    x: rightX,
+    y: rightY,
+  });
 
   if (resizeHandleMiddleRight) {
-    DOMUtils.setStylesOnElement(resizeHandleMiddleRight!, {
+    DOMUtils.setObjectPropertiesOnDom(resizeHandleMiddleRight!, {
       x: rightX,
       y:
         Number(objectSelectionBoxElement!.dataset.posY) +
@@ -142,7 +145,7 @@ export const resizeMiddleRight = (distanceX: number, distanceY: number) => {
 
     const index = Store.objects.findIndex((obj) => obj.id === element.id);
 
-    DOMUtils.setStylesOnElement(element, {
+    DOMUtils.setObjectPropertiesOnDom(element, {
       width: newWidth,
     });
 
@@ -167,7 +170,7 @@ export const resizeMiddleRight = (distanceX: number, distanceY: number) => {
     Math.max(...xList) - Number(objectSelectionBoxElement.dataset.posX);
   const newHeight =
     Math.max(...yList) - Number(objectSelectionBoxElement.dataset.posY);
-  DOMUtils.setStylesOnElement(objectSelectionBoxElement, {
+  DOMUtils.setObjectPropertiesOnDom(objectSelectionBoxElement, {
     width: newWidth,
     height: newHeight,
   });
@@ -176,7 +179,7 @@ export const resizeMiddleRight = (distanceX: number, distanceY: number) => {
     "__resize_handle_bottom_right",
   );
 
-  DOMUtils.setStylesOnElement(resizeHandleBottomRight!, {
+  DOMUtils.setObjectPropertiesOnDom(resizeHandleBottomRight!, {
     x: Number(resizeHandleBottomRight!.dataset.posX) + distanceX,
     y: Number(resizeHandleBottomRight!.dataset.posY),
   });
@@ -185,7 +188,7 @@ export const resizeMiddleRight = (distanceX: number, distanceY: number) => {
     "__resize_handle_middle_right",
   );
 
-  DOMUtils.setStylesOnElement(resizeHandleMiddleRight!, {
+  DOMUtils.setObjectPropertiesOnDom(resizeHandleMiddleRight!, {
     x: Number(resizeHandleMiddleRight!.dataset.posX) + distanceX,
     y: Number(resizeHandleMiddleRight!.dataset.posY),
   });

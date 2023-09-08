@@ -43,7 +43,7 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
     }
 
     const lineOfSightWallPoints = Store.objects
-      .filter((o) => o.type === eObjectType.LINE_OF_SIGHT_WALL_POINT)
+      .filter((o) => o.type === eObjectType.LINE_OF_SIGHT_WALL_ANCHOR)
       .map((o) => {
         return {
           x: o.x,
@@ -98,7 +98,7 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
       rest.forEach((vector) => {
         context.lineTo(vector[0] - props.object.x, vector[1] - props.object.y);
       });
-      console.log("a");
+      console.log("b");
       context.fill();
       context.closePath();
     });

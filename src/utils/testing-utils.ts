@@ -1,10 +1,5 @@
 import { nanoid } from "nanoid";
-import {
-  eImageMotionEffects,
-  eObjectType,
-  eTextAlign,
-  iObject,
-} from "../types";
+import { eObjectType, iObject } from "../types";
 import * as _ from "lodash";
 import * as Store from "../store";
 
@@ -130,6 +125,20 @@ export const wallSectionsTest = () => {
       wallEndPoint: {
         x: 500,
         y: 700,
+      },
+      isLocked: false,
+    },
+    {
+      id: nanoid(),
+      x: 600,
+      y: 1000,
+      width: Math.abs(600 - 900),
+      height: Math.abs(1000 - 400),
+      zIndex: 12,
+      type: eObjectType.LINE_OF_SIGHT_WALL,
+      wallEndPoint: {
+        x: 900,
+        y: 400,
       },
       isLocked: false,
     },

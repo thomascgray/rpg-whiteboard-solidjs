@@ -8,24 +8,34 @@ export const ObjectSelectionHighlightBox: Component = (props) => {
     );
   });
 
-  const tlXs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.x);
+  const leftMostXList = createMemo(() => {
+    return [
+      ...selectedObjects().map((obj) => obj.x),
+      ...selectedObjects().map((obj) => obj.wallEndPoint?.x || obj.x),
+    ];
   });
-  const tlYs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.y);
+  const topMostYList = createMemo(() => {
+    return [
+      ...selectedObjects().map((obj) => obj.y),
+      ...selectedObjects().map((obj) => obj.wallEndPoint?.y || obj.y),
+    ];
   });
 
-  const brXs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.x + obj.width);
+  const rightMostXList = createMemo(() => {
+    return selectedObjects().map(
+      (obj) => Math.min(obj.x, obj.wallEndPoint?.x || obj.x) + obj.width,
+    );
   });
-  const brYs = createMemo(() => {
-    return selectedObjects().map((obj) => obj.y + obj.height);
+  const bottomMostYList = createMemo(() => {
+    return selectedObjects().map(
+      (obj) => Math.min(obj.y, obj.wallEndPoint?.y || obj.y) + obj.height,
+    );
   });
 
-  const topLeftX = () => Math.min(...tlXs());
-  const topLeftY = () => Math.min(...tlYs());
-  const width = () => Math.max(...brXs()) - topLeftX();
-  const height = () => Math.max(...brYs()) - topLeftY();
+  const topLeftX = () => Math.min(...leftMostXList());
+  const topLeftY = () => Math.min(...topMostYList());
+  const width = () => Math.max(...rightMostXList()) - topLeftX();
+  const height = () => Math.max(...bottomMostYList()) - topLeftY();
 
   createEffect(() => {
     Store.setObjectSelectionBox({

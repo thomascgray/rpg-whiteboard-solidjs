@@ -50,44 +50,38 @@ translate(${props.object.x * Store.camera().z}px,
 
 export const Wall: Component<iLineOfSightWallPointObjectProps> = (props) => {
   return (
-    <svg
-      width={window.innerWidth}
-      height={window.innerHeight}
-      class="absolute left-0 top-0 overflow-visible"
-    >
-      <line
-        data-pos-x={props.object.x}
-        data-pos-y={props.object.y}
-        data-pos-x2={props.object.wallEndPoint!.x}
-        data-pos-y2={props.object.wallEndPoint!.y}
-        data-width={props.object.width}
-        data-height={props.object.height}
-        data-type={props.object.type}
-        id={props.object.id}
-        class="z-[9999999999]"
-        classList={{
-          "__selected-object hover:cursor-grab":
-            props.isSelected &&
-            !props.object.isLocked &&
-            Store.selectedTool() === eTool.CURSOR,
-          "__is-locked": props.object.isLocked,
-        }}
-        onMouseDown={(e) => {
-          console.log("a");
-          if (Store.selectedTool() !== eTool.CURSOR) {
-            return;
-          }
-          EventHandlers.onObjectMouseDown(e, props.object);
-        }}
-        x1={props.object.x}
-        y1={props.object.y}
-        x2={props.object.wallEndPoint!.x}
-        y2={props.object.wallEndPoint!.y}
-        style={`
+    <line
+      data-pos-x={props.object.x}
+      data-pos-y={props.object.y}
+      data-pos-x2={props.object.wallEndPoint!.x}
+      data-pos-y2={props.object.wallEndPoint!.y}
+      data-width={props.object.width}
+      data-height={props.object.height}
+      data-type={props.object.type}
+      id={props.object.id}
+      class="z-[9999999999]"
+      classList={{
+        "__selected-object hover:cursor-grab":
+          props.isSelected &&
+          !props.object.isLocked &&
+          Store.selectedTool() === eTool.CURSOR,
+        "__is-locked": props.object.isLocked,
+      }}
+      onMouseDown={(e) => {
+        console.log("a");
+        if (Store.selectedTool() !== eTool.CURSOR) {
+          return;
+        }
+        EventHandlers.onObjectMouseDown(e, props.object);
+      }}
+      x1={props.object.x}
+      y1={props.object.y}
+      x2={props.object.wallEndPoint!.x}
+      y2={props.object.wallEndPoint!.y}
+      style={`
             stroke: #00FFFF;
             stroke-width: calc(10px / var(--app-camera-zoom));
           `}
-      />
-    </svg>
+    />
   );
 };

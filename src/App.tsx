@@ -7,7 +7,10 @@ import { DragSelectionBoxComponent } from "./components/in-camera-ui/drag-select
 import { ResizeHandles } from "./components/in-camera-ui/resize-handles";
 import { ObjectSelectionHighlightBox } from "./components/in-camera-ui/object-selection-highlight-box";
 import * as TestingUtils from "./utils/testing-utils";
-import { ObjectCollection } from "./components/in-camera-ui/object-collection";
+import {
+  ObjectCollection,
+  LineOfSightWallCollection,
+} from "./components/in-camera-ui/object-collection";
 import * as ScreenToolbars from "./components/toolbars/screen-toolbars";
 import { MainCanvas } from "./components/sketching-canvas/main-canvas";
 import { LeftTray } from "./components/left-tray/LeftTray";
@@ -74,6 +77,8 @@ const App: Component = () => {
             Store.camera().x
           }px, ${Store.camera().y}px)`}
         >
+          <LineOfSightWallCollection />
+
           <ObjectCollection />
 
           {/* object selection stuff */}

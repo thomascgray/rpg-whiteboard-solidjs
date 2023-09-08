@@ -1,5 +1,4 @@
 import { Component, createEffect } from "solid-js";
-import { JSX } from "solid-js/jsx-runtime";
 import { eTool, iObject } from "../types";
 import * as BattlemapUtils from "../utils/battlemap-utils";
 import * as Store from "../store";
@@ -21,8 +20,8 @@ export const SquaresOverlay: Component<{ object: iObject }> = (props) => {
     // // clear the canvas
     context.clearRect(0, 0, props.object.width, props.object.height);
     context.beginPath();
-    // // work out how many squares we need to draw
-    // // now draw the squares
+
+    // todo wait, why am i not just drawing the lines? why am i drawing individual rectangles?
     for (let x = 0; x < numberOfSquaresX; x++) {
       for (let y = 0; y < numberOfSquaresY; y++) {
         context.rect(
@@ -79,9 +78,9 @@ export const HexesFlatTopOverlay: Component<{ object: iObject }> = (props) => {
     }
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     context.beginPath();
-    context.strokeStyle = "#FFF";
-    context.lineWidth = 2;
-    context.globalAlpha = 0.2;
+    context.strokeStyle = props.object.battlemap_gridColour || "#FFF";
+    context.lineWidth = props.object.battlemap_gridLineThickness || 1;
+    context.globalAlpha = props.object.battlemap_gridOpacity || 0.2;
 
     BattlemapUtils.drawGrid_FlatTop(
       context,
@@ -124,9 +123,9 @@ export const HexesPointyTopOverlay: Component<{ object: iObject }> = (
     }
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     context.beginPath();
-    context.strokeStyle = "#FFF";
-    context.lineWidth = 2;
-    context.globalAlpha = 0.2;
+    context.strokeStyle = props.object.battlemap_gridColour || "#FFF";
+    context.lineWidth = props.object.battlemap_gridLineThickness || 1;
+    context.globalAlpha = props.object.battlemap_gridOpacity || 0.2;
 
     BattlemapUtils.drawGrid_PointyTop(
       context,

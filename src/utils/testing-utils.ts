@@ -79,8 +79,8 @@ export const makeDummyObjects = (num: number, spacingFactor: number) => {
       // },
       {
         id,
-        x: 100,
-        y: 100,
+        x: Math.random() * num * spacingFactor,
+        y: Math.random() * num * spacingFactor,
         width: 200,
         height: 200,
         // url: `/${_.sample([1, 2, 3, 4, 5, 6, 7])}.jpg`,

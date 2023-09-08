@@ -34,6 +34,7 @@ there is then a bunch of utils to do maths, to interact with the DOM, etc.
 
 - locking objects
   - done very quick prototype, super broke, fix this up
+  - its a bit better?
 - grouping objects
 - map markers?
 

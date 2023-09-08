@@ -32,7 +32,7 @@ const App: Component = () => {
   );
 
   onMount(() => {
-    TestingUtils.battlemapTest();
+    TestingUtils.makeDummyObjects(2000, 10);
     window.__cameraDom = document.getElementById("camera")!;
     window.__backgroundAppDom = document.getElementById("app_background")!;
     window.__canvasDom = document.getElementById("canvas")!;

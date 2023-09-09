@@ -20,7 +20,7 @@ import { SelectedObjectsToolbar } from "./components/toolbars/selected-objects-t
 import { ModalWrapper } from "./components/modals/modal-wrapper";
 import * as MeasuringSvgs from "./components/in-camera-ui/measuring-svgs";
 
-const App: Component = () => {
+export const App: Component = () => {
   window.onmousedown = EventHandlers.onWindowMouseDown;
   window.onmouseup = EventHandlers.onWindowMouseUp;
   window.onkeydown = EventHandlers.onWindowKeyDown;
@@ -77,6 +77,10 @@ const App: Component = () => {
             Store.camera().x
           }px, ${Store.camera().y}px)`}
         >
+          {/* 
+          The order of everything below is important, basically due to Z indexing.
+          */}
+
           <ObjectCollection />
 
           <LineOfSightWallCollection />
@@ -100,7 +104,9 @@ const App: Component = () => {
         {/* end camera */}
       </div>
 
-      {/* this order below is important, due to z indexing, etc. */}
+      {/* 
+      all of the below happens OUTSIDE of the camera, so it's not affected by the camera's transform.
+      */}
       <MainCanvas />
 
       <Show when={Store.selectedTool() === eTool.SKETCH}>
@@ -124,5 +130,3 @@ const App: Component = () => {
     </>
   );
 };
-
-export default App;

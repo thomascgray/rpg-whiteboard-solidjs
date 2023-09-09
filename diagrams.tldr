@@ -66,9 +66,9 @@
     {
       "id": "pointer:pointer",
       "typeName": "pointer",
-      "x": 50.8103236128959,
-      "y": -38.27970521466477,
-      "lastActivityTimestamp": 1694207015736,
+      "x": 371.96311394392944,
+      "y": -118.63793553404565,
+      "lastActivityTimestamp": 1694264303165,
       "meta": {}
     },
     {
@@ -79,9 +79,9 @@
       "typeName": "page"
     },
     {
-      "x": 476.38651651401335,
-      "y": 426.740534781861,
-      "z": 0.6126743853818357,
+      "x": 645.9729699194584,
+      "y": 414.72961011788277,
+      "z": 0.5167318541294503,
       "meta": {},
       "id": "camera:page:e_xMAtUVhDNQu_kjx-7iJ",
       "typeName": "camera"
@@ -103,7 +103,9 @@
       "followingUserId": null,
       "opacityForNextShape": 1,
       "stylesForNextShape": {
-        "tldraw:color": "light-blue"
+        "tldraw:color": "violet",
+        "tldraw:geo": "rectangle",
+        "tldraw:size": "xl"
       },
       "brush": null,
       "scribble": null,
@@ -120,7 +122,7 @@
         "x": 0,
         "y": 0,
         "w": 2180,
-        "h": 1291
+        "h": 1286
       },
       "zoomBrush": null,
       "isGridMode": false,
@@ -163,8 +165,8 @@
       "typeName": "shape"
     },
     {
-      "x": 548.8602524795333,
-      "y": 248.47139989787775,
+      "x": 650.2414231165312,
+      "y": 250.42103779474303,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -244,7 +246,7 @@
       "type": "geo",
       "props": {
         "w": 451,
-        "h": 244.20548887109635,
+        "h": 443.7895298902124,
         "geo": "rectangle",
         "color": "light-blue",
         "labelColor": "black",
@@ -252,7 +254,7 @@
         "dash": "draw",
         "size": "xl",
         "font": "draw",
-        "text": "We put those objects into the window selected objects",
+        "text": "We put those objects into a variable on the window itself. this is morally disgusting, BUT is a huge, HUGE performance win.",
         "align": "middle",
         "verticalAlign": "middle",
         "growY": 0,
@@ -281,9 +283,13 @@
         "labelColor": "black",
         "bend": 0,
         "start": {
-          "type": "point",
-          "x": -102.99823340141484,
-          "y": 84.72435328180882
+          "type": "binding",
+          "boundShapeId": "shape:W_snlD09RowW6Aa_pu_0C",
+          "normalizedAnchor": {
+            "x": 0.5426904419336378,
+            "y": 0.730840988992908
+          },
+          "isExact": false
         },
         "end": {
           "type": "binding",
@@ -303,7 +309,7 @@
       "typeName": "shape"
     },
     {
-      "x": 1146.8272905307745,
+      "x": 1431.5062746621018,
       "y": 254.68034517116234,
       "rotation": 0,
       "isLocked": false,
@@ -375,8 +381,8 @@
       "typeName": "shape"
     },
     {
-      "x": 1160.2046055718038,
-      "y": 575.7399802217287,
+      "x": 1119.51627722334,
+      "y": 584.8524974003187,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -392,10 +398,10 @@
         "dash": "draw",
         "size": "xl",
         "font": "draw",
-        "text": "We use the data-attrs on the object + how far your mouse has moved to work out new positions.\n\nAnd we set those positions against the object in DOM (usually via CSS) so everything is super fast.",
+        "text": "We use the data-attrs on the object + how far your mouse has moved to work out the new positions of those objects.",
         "align": "middle",
         "verticalAlign": "middle",
-        "growY": 74.72493697488653,
+        "growY": 0,
         "url": ""
       },
       "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
@@ -404,7 +410,7 @@
       "typeName": "shape"
     },
     {
-      "x": 1485.8119240665974,
+      "x": 1316.1934270393122,
       "y": 316.5831348891352,
       "rotation": 0,
       "isLocked": false,
@@ -421,9 +427,13 @@
         "labelColor": "black",
         "bend": 0,
         "start": {
-          "type": "point",
-          "x": -102.99823340141484,
-          "y": 84.72435328180882
+          "type": "binding",
+          "boundShapeId": "shape:WgsTf5dWTzX_yqHi0BLul",
+          "normalizedAnchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "isExact": false
         },
         "end": {
           "type": "binding",
@@ -443,8 +453,8 @@
       "typeName": "shape"
     },
     {
-      "x": 1759.5689087579262,
-      "y": 257.7500829073691,
+      "x": 2351.2151061122017,
+      "y": 257.1130085459869,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -472,8 +482,8 @@
       "typeName": "shape"
     },
     {
-      "x": 1600.4389902713974,
-      "y": 331.53449135063147,
+      "x": 1341.1371499883062,
+      "y": 360.7790598036115,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -515,16 +525,16 @@
       "typeName": "shape"
     },
     {
-      "x": 1805.7194766280363,
-      "y": 587.0311421630329,
+      "x": 2232.911607873515,
+      "y": 598.1038113696684,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
       "meta": {},
       "type": "geo",
       "props": {
-        "w": 451,
-        "h": 432.33756302511347,
+        "w": 831,
+        "h": 486.4113066903754,
         "geo": "rectangle",
         "color": "light-blue",
         "labelColor": "black",
@@ -532,7 +542,7 @@
         "dash": "draw",
         "size": "xl",
         "font": "draw",
-        "text": "We read all the data FROM the DOM and put it BACK into state.\n\nAgain, this is usually reading style data",
+        "text": "The user has finished the current interaction they were doing.\n\nIn this step, we read all the data FROM the DOM and put it BACK into state. This is usually style data we're reading, but could be all sorts, depending on the object and how we render it.\n\nTo reiterate - state is only updated when the user STOPS the \"current interaction\".",
         "align": "middle",
         "verticalAlign": "middle",
         "growY": 0,
@@ -544,8 +554,8 @@
       "typeName": "shape"
     },
     {
-      "x": 2087.1887061845346,
-      "y": 323.22818220535555,
+      "x": 2514.3808374300133,
+      "y": 334.30085141199106,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -593,7 +603,6 @@
       "isLocked": false,
       "opacity": 1,
       "meta": {},
-      "id": "shape:FN5Us2xjr_yp5tU45MXIg",
       "type": "text",
       "props": {
         "color": "red",
@@ -607,6 +616,7 @@
       },
       "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
       "index": "aE",
+      "id": "shape:FN5Us2xjr_yp5tU45MXIg",
       "typeName": "shape"
     },
     {
@@ -616,7 +626,6 @@
       "isLocked": false,
       "opacity": 1,
       "meta": {},
-      "id": "shape:lw9lZ3v4foF91HUWDmCME",
       "type": "text",
       "props": {
         "color": "black",
@@ -630,20 +639,20 @@
       },
       "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
       "index": "aF",
+      "id": "shape:lw9lZ3v4foF91HUWDmCME",
       "typeName": "shape"
     },
     {
-      "x": -7.396169954023549,
-      "y": 614.9706477894117,
+      "x": -137.0349948185434,
+      "y": 562.1286545984628,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
       "meta": {},
-      "id": "shape:MSJIhSX1TIFgeV6iIn-Kw",
       "type": "geo",
       "props": {
-        "w": 451,
-        "h": 244.20548887109635,
+        "w": 591,
+        "h": 556.4188942747901,
         "geo": "rectangle",
         "color": "light-blue",
         "labelColor": "black",
@@ -651,7 +660,7 @@
         "dash": "draw",
         "size": "xl",
         "font": "draw",
-        "text": "The objects are rendered onto the canvas, inside the camera, entirely via state data",
+        "text": "The objects are rendered into the DOM, inside the camera DOM node, entirely via state data. \n\nFor most objects, this looks something like setting the elements translateX and translateY style properties to the objects x and y state data.",
         "align": "middle",
         "verticalAlign": "middle",
         "growY": 0,
@@ -659,6 +668,7 @@
       },
       "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
       "index": "aG",
+      "id": "shape:MSJIhSX1TIFgeV6iIn-Kw",
       "typeName": "shape"
     },
     {
@@ -668,7 +678,6 @@
       "isLocked": false,
       "opacity": 1,
       "meta": {},
-      "id": "shape:cuHD-yfSNJe-bsZ-kLGru",
       "type": "arrow",
       "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
       "index": "aH",
@@ -683,8 +692,8 @@
           "type": "binding",
           "boundShapeId": "shape:0O6ZHuJQmfGuU1XPK9SWh",
           "normalizedAnchor": {
-            "x": 0.5330136504783158,
-            "y": 0.8776924361878241
+            "x": 0.3786912904134447,
+            "y": 0.8877537908074382
           },
           "isExact": false
         },
@@ -702,6 +711,137 @@
         "text": "",
         "font": "draw"
       },
+      "id": "shape:cuHD-yfSNJe-bsZ-kLGru",
+      "typeName": "shape"
+    },
+    {
+      "x": 1695.198809913108,
+      "y": 585.622939359689,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "geo",
+      "props": {
+        "w": 451,
+        "h": 432.33756302511347,
+        "geo": "rectangle",
+        "color": "light-blue",
+        "labelColor": "black",
+        "fill": "none",
+        "dash": "draw",
+        "size": "xl",
+        "font": "draw",
+        "text": "We then set those new positions against the element in DOM (usually via CSS) DIRECTLY. In this step, we DONT update the SolidJS.\n\nBy not updating the state, we keep everything fast, and by updating the DOM elements directly, the user sees the element move in real time.",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 204.28743697488653,
+        "url": ""
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "aI",
+      "id": "shape:1fB0CNEXDRiVLbPnzj_Dy",
+      "typeName": "shape"
+    },
+    {
+      "x": 1929.9998015825045,
+      "y": 320.621334721656,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "arrow",
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "aJ",
+      "props": {
+        "dash": "draw",
+        "size": "xl",
+        "fill": "none",
+        "color": "light-blue",
+        "labelColor": "black",
+        "bend": 0,
+        "start": {
+          "type": "binding",
+          "boundShapeId": "shape:WgsTf5dWTzX_yqHi0BLul",
+          "normalizedAnchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "isExact": false
+        },
+        "end": {
+          "type": "binding",
+          "boundShapeId": "shape:1fB0CNEXDRiVLbPnzj_Dy",
+          "normalizedAnchor": {
+            "x": 0.4926329852370042,
+            "y": 0.04421768707482941
+          },
+          "isExact": false
+        },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow",
+        "text": "",
+        "font": "draw"
+      },
+      "id": "shape:SYIGFaibc3XyjZAFqy6uL",
+      "typeName": "shape"
+    },
+    {
+      "x": 2254.9352263439314,
+      "y": 952.4797071861667,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "geo",
+      "props": {
+        "w": 782.2687227287524,
+        "h": 116.04516151737789,
+        "geo": "rectangle",
+        "color": "orange",
+        "labelColor": "black",
+        "fill": "none",
+        "dash": "draw",
+        "size": "m",
+        "font": "draw",
+        "text": "",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 0,
+        "url": ""
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "aK",
+      "id": "shape:bvm2LASzl4mueap5_KgLR",
+      "typeName": "shape"
+    },
+    {
+      "x": 208.03811113819722,
+      "y": 1343.0505691124765,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "type": "geo",
+      "props": {
+        "w": 2255,
+        "h": 289.4826969170572,
+        "geo": "rectangle",
+        "color": "violet",
+        "labelColor": "black",
+        "fill": "none",
+        "dash": "draw",
+        "size": "xl",
+        "font": "draw",
+        "text": "Important caveat to the above - there are SOME, VERY SPECIFIC things that we DO update the state for in \"real time\". For example, things to do with resize handles, the box that appears around selected objects, etc.\n\nBasically, the issue is with doing _thousands_ of state updates. If we tried to update the state position of 1000 objects at once when moving them, things get insanely juttery; hence all the madness above. \n\nBut updating the state for _one_ thing in real time seems to be basically fine, and saves us a ton of headaches.\n\nTl;dr we only do the crazy \"manipulating DOM elements directly when doing real time interactions\" stuff when theres possibly thousands of objects in the interaction.",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 174.39230308294282,
+        "url": ""
+      },
+      "parentId": "page:e_xMAtUVhDNQu_kjx-7iJ",
+      "index": "aL",
+      "id": "shape:l7kAINjN4nOPMe1VcNxq8",
       "typeName": "shape"
     }
   ]

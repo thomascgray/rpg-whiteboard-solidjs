@@ -4,6 +4,9 @@ import * as Store from "../../store";
 import BaseObject from "../board-objects/base";
 import { eObjectType, eTool } from "../../types";
 
+/**
+ * All of the objects that AREN'T line of sight walls
+ */
 export const ObjectCollection: Component = (props) => {
   return (
     <For
@@ -21,12 +24,19 @@ export const ObjectCollection: Component = (props) => {
   );
 };
 
+/**
+ * All of the line of sight wall objects.
+ *
+ * This is a separate component because we want to specifically render the line of sight walls all inside the same svg dom element.
+ */
 export const LineOfSightWallCollection: Component = (props) => {
   return (
     <svg
+      // this is a very cheeky hack - by making the parent SVG to all the lines the size of the screen, it makes doing a bunch of calculations much easier
       width={window.innerWidth}
       height={window.innerHeight}
       class="absolute left-0 top-0 z-[9999999] overflow-visible"
+      // you can only interact with the line of sight walls if you've got the right tool selected
       classList={{
         "pointer-events-none":
           Store.selectedTool() !== eTool.ADD_LOS_WALL_ANCHOR &&

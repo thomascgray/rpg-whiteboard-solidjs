@@ -10,7 +10,7 @@ import * as TestingUtils from "./utils/testing-utils";
 import {
   ObjectCollection,
   LineOfSightWallCollection,
-} from "./components/in-camera-ui/object-collection";
+} from "./components/in-camera-ui/object-collections";
 import * as ScreenToolbars from "./components/toolbars/screen-toolbars";
 import { MainCanvas } from "./components/sketching-canvas/main-canvas";
 import { LeftTray } from "./components/left-tray/LeftTray";

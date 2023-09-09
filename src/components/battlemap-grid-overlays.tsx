@@ -21,7 +21,7 @@ export const SquaresOverlay: Component<{ object: iObject }> = (props) => {
     context.clearRect(0, 0, props.object.width, props.object.height);
     context.beginPath();
 
-    // todo wait, why am i not just drawing the lines? why am i drawing individual rectangles?
+    // todo wait - why am i not just drawing the lines? why am i drawing individual rectangles? what the fuck am i doing?
     for (let x = 0; x < numberOfSquaresX; x++) {
       for (let y = 0; y < numberOfSquaresY; y++) {
         context.rect(

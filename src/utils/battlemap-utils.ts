@@ -112,12 +112,12 @@ export const drawHexagonFlatTop = (
   const hexagonWidthQuarter = hexagonWidth / 4;
   context.beginPath();
 
-  /*1*/ context.moveTo(xPos, yPos + hexagonWidth / 2);
-  /*2*/ context.lineTo(xPos + hexagonWidthQuarter, yPos);
-  /*3*/ context.lineTo(xPos + hexagonWidthQuarter * 3, yPos);
-  /*4*/ context.lineTo(xPos + hexagonWidth, yPos + hexagonHeight / 2);
-  /*5*/ context.lineTo(xPos + hexagonWidthQuarter * 3, yPos + hexagonHeight);
-  /*6*/ context.lineTo(xPos + hexagonWidthQuarter, yPos + hexagonHeight);
+  context.moveTo(xPos, yPos + hexagonWidth / 2);
+  context.lineTo(xPos + hexagonWidthQuarter, yPos);
+  context.lineTo(xPos + hexagonWidthQuarter * 3, yPos);
+  context.lineTo(xPos + hexagonWidth, yPos + hexagonHeight / 2);
+  context.lineTo(xPos + hexagonWidthQuarter * 3, yPos + hexagonHeight);
+  context.lineTo(xPos + hexagonWidthQuarter, yPos + hexagonHeight);
 
   context.closePath();
 };

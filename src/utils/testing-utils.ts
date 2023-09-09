@@ -3,7 +3,10 @@ import { eObjectType, iObject } from "../types";
 import * as _ from "lodash";
 import * as Store from "../store";
 
-export const textObjects = () => {};
+/**
+ * A bunch of functions that just create objects. Used for testing.
+ *
+ */
 
 export const battlemapTest = () => {
   const newObjects: iObject[] = [

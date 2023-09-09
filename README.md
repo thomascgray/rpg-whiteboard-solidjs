@@ -1,6 +1,6 @@
 # Barnabus VTT
 
-Like Miro or Google Jamboard or Microsoft Whiteboard, but for tabletop RPGs.
+Like [Miro](https://miro.com/app/dashboard/) or [Google Jamboard](https://jamboard.google.com/) or [Microsoft Whiteboard](https://www.microsoft.com/en-gb/microsoft-365/microsoft-whiteboard/digital-whiteboard-app), but for **tabletop RPGs**.
 
 ## Technology Stack
 
@@ -22,9 +22,9 @@ So in plain terms: when you let go of the mouse, nothing changes _visually_, but
 
 General app architecture
 
-- `src\App.tsx` loads everything in and sets up global event handlers
-- all the objects get rendered with `src\objectComponents\BaseObject.tsx`
-- various ephemeral UI components (the selection box, the resize handles, etc.) are in `src\uiComponents`
+- `src\app.tsx` loads everything in and sets up global event handlers
+- all the objects get rendered with `src\components\board-objects\base.tsx`
+- various ephemeral UI components (the selection box, the resize handles, etc.) are in `src\components\in-camera-ui`
 - various on clicks on objects and from App are handled in `src\event-handlers.ts` and determine what should happen based on what buttons a user is pressing, if they already have selected objects, etc.
 - the actual specific interactions that should take place are then handled in `src/interaction-handlers.ts`; moving objects, resizing objects, etc.
 

@@ -19,7 +19,7 @@ import {
 import { nanoid } from "nanoid";
 
 /**
- * OK, so
+ * OK, so;
  *
  * Every piece of state is its own signal. This is so that when we update
  * a single piece of it, only the components that are using that piece of state update.
@@ -29,11 +29,10 @@ import { nanoid } from "nanoid";
  * at the top of your file, and then give it an ol'
  *      Store.heldKeys();
  * inside the file
+ *
+ * Thanks to SolidJS black magic, it means we can turn _any_ random bit of code in the app into a "reactive"
+ * bit of code, by simply using a signal.
  */
-
-// every individual piece of state is stored in a separate writable store
-
-// you use them by doing a fuckin `import * as Store from 'store'`
 
 // 1. all the objects are in a big map, as are the board settings
 export const [objects, setObjects] = createStore<iObject[]>([]);
@@ -47,13 +46,13 @@ export const [heldMouseButtons, setHeldMouseButtons] = createSignal<
 >([]);
 export const [heldKeys, setHeldKeys] = createSignal<eKey[]>([]);
 
+// 3. everything else is basically "interaction" state. e.g what objects are selected, is the user dragging, etc.
 export const [camera, setCamera] = createSignal<iCamera>({
   x: 0,
   y: 0,
   z: 1,
 });
 
-// 3. everything else is basically "interaction" state. e.g what objects are selected, is the user dragging, etc.
 export const [selectedObjectIds, setSelectedObjectIds] = createSignal<string[]>(
   [],
 );

@@ -151,6 +151,7 @@ export const deleteSelectedObjects = () => {
 
 export const deleteObjectsById = (ids: string[]) => {
   unselectObjects();
+  // if the thing we're deleting
   setObjects((objs) => objs.filter((obj) => !ids.includes(obj.id)));
 };
 

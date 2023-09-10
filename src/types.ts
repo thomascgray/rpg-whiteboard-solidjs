@@ -70,7 +70,7 @@ export enum eObjectType {
   TEXT = "TEXT",
   SVG = "SVG",
   INFO_PIN = "INFO_PIN",
-  LINE_OF_SIGHT_WALL_ANCHOR = "LINE_OF_SIGHT_WALL_POINT",
+  LINE_OF_SIGHT_WALL_ANCHOR = "LINE_OF_SIGHT_WALL_ANCHOR",
   LINE_OF_SIGHT_WALL = "LINE_OF_SIGHT_WALL",
 }
 
@@ -164,8 +164,10 @@ export interface iObject {
   // for the anchor points
   wallObjectIds?: string[]; // these are the walls attached to this anchor point
 
-  // the walls
+  // the walls have some extra stuff too
   wallEndPoint?: iPoint;
+  startAnchorId?: string;
+  endAnchorId?: string;
 }
 
 export interface iPoint {

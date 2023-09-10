@@ -150,9 +150,28 @@ export const deleteSelectedObjects = () => {
 };
 
 export const deleteObjectsById = (ids: string[]) => {
+  let idsToDelete = [...ids];
   unselectObjects();
   // if the thing we're deleting
-  setObjects((objs) => objs.filter((obj) => !ids.includes(obj.id)));
+  ids.forEach((id) => {
+    const obj = objects.find((obj) => obj.id === id);
+    if (obj && obj.type === eObjectType.LINE_OF_SIGHT_WALL_ANCHOR) {
+      // if we're deleting a wall anchor, we need to delete the wall too
+      idsToDelete = [...idsToDelete, ...(obj.wallObjectIds || [])];
+    }
+  });
+
+  // also, if we have any wall anchors whose ALL walls are being deleted, we need to delete those too
+  objects
+    .filter((obj) => obj.type === eObjectType.LINE_OF_SIGHT_WALL_ANCHOR)
+    .forEach((obj) => {
+      if (obj.wallObjectIds?.every((id) => idsToDelete.includes(id))) {
+        console.log("obj.id", obj.id);
+        idsToDelete = [...idsToDelete, obj.id];
+      }
+    });
+
+  setObjects((objs) => objs.filter((obj) => !idsToDelete.includes(obj.id)));
 };
 
 export const addNewObject = (props: Partial<iObject>) => {

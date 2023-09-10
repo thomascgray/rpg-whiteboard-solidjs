@@ -13,43 +13,15 @@ import {
   Segments,
 } from "visibility-polygon";
 
-function pointsToLineSegments(points: iPoint[]): Segments {
-  if (points.length < 2) {
-    // Not enough points to create line segments
-    return [];
-  }
-
-  const lineSegments: Segments = [];
-
-  for (let i = 0; i < points.length; i++) {
-    const startPoint = points[i];
-    const endPoint = points[(i + 1) % points.length]; // Wrap around to the first point
-    lineSegments.push([
-      [startPoint.x, startPoint.y],
-      [endPoint.x, endPoint.y],
-    ]);
-  }
-
-  return lineSegments;
-}
-
 export const DynamicLighting: Component<{ object: iObject }> = (props) => {
   let canvasRef: any;
 
   createEffect(() => {
+    console.log("rebuilding dynamic light");
     const context = canvasRef.getContext("2d") as CanvasRenderingContext2D;
     if (!context) {
       return;
     }
-
-    const lineOfSightWallPoints = Store.objects
-      .filter((o) => o.type === eObjectType.LINE_OF_SIGHT_WALL_ANCHOR)
-      .map((o) => {
-        return {
-          x: o.x,
-          y: o.y,
-        };
-      });
 
     // todo we should always add the 4 corners of the canvas
     // so that the line segments don't generate "forever"
@@ -65,9 +37,8 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
           [o.wallEndPoint!.x, o.wallEndPoint!.y],
         ]);
       });
-    const segments = breakIntersections(segys);
 
-    // pain the canvas black
+    // paint the canvas entirely black...
     context.beginPath();
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     context.globalCompositeOperation = "source-over";
@@ -75,19 +46,19 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
     context.fillStyle = "black";
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
-    // there will be more than 1 visibility polygon, based on
-    // multiple characters, etc.
-
-    const battleTokens = Store.objects.filter(
-      (o) => o.type === eObjectType.IMAGE && o.isBattleToken === true,
-    );
+    // ...then calculate the visibility of each token
     let visibilitySets: Vector2D[][] = [];
-    battleTokens.forEach((token) => {
-      const tokenPosition: Vector2D = [token.x, token.y];
-      const visibility = compute(tokenPosition, segments);
-      visibilitySets.push(visibility);
-    });
+    Store.objects
+      .filter((o) => o.type === eObjectType.IMAGE && o.isBattleToken === true)
+      .forEach((token) => {
+        const visibility = compute(
+          [token.x, token.y],
+          breakIntersections(segys),
+        );
+        visibilitySets.push(visibility);
+      });
 
+    // ...then "paint"/remove the visibility of each token
     visibilitySets.forEach((visibility) => {
       const [first, ...rest] = visibility;
       context.globalAlpha = 1;
@@ -97,7 +68,6 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
       rest.forEach((vector) => {
         context.lineTo(vector[0] - props.object.x, vector[1] - props.object.y);
       });
-      console.log("b");
       context.fill();
       context.closePath();
     });

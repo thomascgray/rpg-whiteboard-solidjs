@@ -13,6 +13,7 @@ export const WallAnchor: Component<iLineOfSightWallPointObjectProps> = (
 ) => {
   return (
     <div
+      data-object-type={props.object.type}
       data-pos-x={props.object.x}
       data-pos-y={props.object.y}
       data-width={props.object.width}
@@ -32,7 +33,6 @@ export const WallAnchor: Component<iLineOfSightWallPointObjectProps> = (
         if (Store.selectedTool() !== eTool.CURSOR) {
           return;
         }
-        console.log("props.object.wallObjectIds", props.object.wallObjectIds);
         EventHandlers.onObjectMouseDown(e, props.object);
       }}
       style={`
@@ -79,7 +79,7 @@ export const Wall: Component<iLineOfSightWallPointObjectProps> = (props) => {
       y2={props.object.wallEndPoint!.y}
       style={`
             stroke: #00FFFF;
-            stroke-width: calc(5px / var(--app-camera-zoom));
+            stroke-width: calc(8px / var(--app-camera-zoom));
           `}
     />
   );

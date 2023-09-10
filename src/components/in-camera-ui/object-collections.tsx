@@ -43,7 +43,7 @@ export const LineOfSightWallCollection: Component = (props) => {
           Store.selectedTool() !== eTool.DELETE_LOS_WALL,
       }}
       onMouseDown={(e) => {
-        console.log("onmousedown svg line of sight wall collection");
+        // console.log("onmousedown svg line of sight wall collection");
         return;
       }}
     >

@@ -34,37 +34,64 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     camera.z,
   );
 
-  // todo need some madness that when you're in here moving a wall anchor,
-  // it moves the relevant line
-  // todo gonna be EXTRA tricky cus we need to work which point of the line we need to move?
-  // i guess we just find the matching point? inefficient though
-
   // move the elements themeslves, and work out the top-left most set of coords
   const xList: number[] = [];
   const yList: number[] = [];
 
+  // we move all the selected objects
   for (let el of window.__app_selectedObjects) {
     const element = el as HTMLElement;
-    const x =
-      Number(element.dataset.posX) + (mousePoint.x - mouseDownPosCanvas.x);
-    const y =
-      Number(element.dataset.posY) + (mousePoint.y - mouseDownPosCanvas.y);
-    xList.push(x);
-    yList.push(y);
 
-    if (element.dataset.type === eObjectType.LINE_OF_SIGHT_WALL) {
-      // todo for line elements, this needs to move the line points
-      const x2 =
-        Number(element.dataset.posX2) + (mousePoint.x - mouseDownPosCanvas.x);
-      const y2 =
-        Number(element.dataset.posY2) + (mousePoint.y - mouseDownPosCanvas.y);
-      xList.push(x2);
-      yList.push(y2);
-      DOMUtils.setLineObjectPropertiesOnDom(element, x, y, x2, y2);
+    if (element.dataset.isBattleToken) {
+      const x = Number(element.dataset.posX) + e.movementX / Store.camera().z;
+      const y = Number(element.dataset.posY) + e.movementY / Store.camera().z;
+      xList.push(x);
+      yList.push(y);
+
+      Store.updateObject(element.id, {
+        x: Number(element.dataset.posX) + e.movementX / Store.camera().z,
+        y: Number(element.dataset.posY) + e.movementY / Store.camera().z,
+        // width: Number(element.dataset.width) + 1,
+        // height: Number(element.dataset.height),
+      });
     } else {
+      const x =
+        Number(element.dataset.posX) + (mousePoint.x - mouseDownPosCanvas.x);
+      const y =
+        Number(element.dataset.posY) + (mousePoint.y - mouseDownPosCanvas.y);
+      xList.push(x);
+      yList.push(y);
       DOMUtils.setObjectPropertiesOnDom(element, { x, y });
+
+      // we then do some specific mad bullshit for certain element types
+      if (
+        element.dataset.objectType === eObjectType.LINE_OF_SIGHT_WALL_ANCHOR
+      ) {
+        // find any walls that have this anchor as either the start or end point, and update their relevant coords
+        Store.objects
+          .filter((o) => o.type === eObjectType.LINE_OF_SIGHT_WALL)
+          .forEach((wall) => {
+            if (wall.startAnchorId === element.id) {
+              Store.updateObject(wall.id, {
+                x: x + 10,
+                y: y + 10,
+              });
+            }
+            if (wall.endAnchorId === element.id) {
+              Store.updateObject(wall.id, {
+                wallEndPoint: {
+                  x: x + 10,
+                  y: y + 10,
+                },
+              });
+            }
+          });
+      }
     }
   }
+
+  // TODO replace the various document.getElement stuff below with window accessors - we should just them
+  // on the window so its faster
 
   // using the top-left most set of coords, move the selection box
   const objectSelectionBoxElement = document.getElementById(
@@ -98,7 +125,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     "__selected-objects-toolbar",
   );
 
-  const scale = Number(selectedObjectsToolbar!.dataset.scale);
+  // const scale = Number(selectedObjectsToolbar!.dataset.scale);
 
   const x =
     Number(selectedObjectsToolbar!.dataset.posX) +
@@ -108,7 +135,7 @@ export const interactionMoveObjects = (e: MouseEvent) => {
     (mousePoint.y - mouseDownPosCanvas.y) * Store.camera().z;
 
   DOMUtils.setObjectPropertiesOnDom(selectedObjectsToolbar!, {
-    scale,
+    scale: Number(selectedObjectsToolbar!.dataset.scale),
     x,
     y,
   });

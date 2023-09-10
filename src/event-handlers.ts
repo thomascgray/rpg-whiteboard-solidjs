@@ -330,6 +330,7 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
     );
 
     let addedWall: iObject | null = null;
+    const lastWallAnchorAdded = Store.lastWallAnchorAdded();
     // ok, so, if we have a current wall anchor position, we need to also create a wall between this new point and the previous poiint
     if (Store.lastWallAnchorAdded() != null) {
       // console.log("Store.lastWallAnchorAdded()", Store.lastWallAnchorAdded());
@@ -365,7 +366,13 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
       wallObjectIds: addedWall ? [addedWall.id] : [],
     });
     Store.setLastWallAnchorAdded(newAnchor);
-    // TODO we need to add the wall id here too
+
+    if (addedWall) {
+      Store.updateObject(addedWall.id, {
+        startAnchorId: lastWallAnchorAdded!.id,
+        endAnchorId: newAnchor.id,
+      });
+    }
   }
 };
 

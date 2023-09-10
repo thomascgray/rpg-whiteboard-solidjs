@@ -12,7 +12,7 @@ import * as EventHandlers from "../../event-handlers";
 import * as Store from "../../store";
 import * as MotionEffects from "../motion-effect-overlays";
 import * as BattleMapFeatures from "../battlemap-grid-overlays";
-import { DynamicLighting } from "../dynamic-light-overlays";
+import { DynamicLighting } from "../line-of-sight-overlays";
 
 export interface iImageObjectProps {
   object: iObject;
@@ -53,6 +53,7 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         data-is-battle-token={
           props.object.type === eObjectType.IMAGE && props.object.isBattleToken
         }
+        data-object-type={props.object.type}
         id={props.object.id}
         class="__object absolute left-0 top-0 transform-gpu"
         classList={{

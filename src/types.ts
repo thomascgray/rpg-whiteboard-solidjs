@@ -160,6 +160,9 @@ export interface iObject {
   title?: string;
 
   // for dyanmic light things
+  // for the anchor points
+  wallObjectIds?: string[]; // these are the walls attached to this anchor point
+
   // the walls
   wallEndPoint?: iPoint;
 }

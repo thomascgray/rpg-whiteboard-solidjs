@@ -36,7 +36,7 @@ export const WallAnchor: Component<iLineOfSightWallPointObjectProps> = (
       }}
       style={`
 outline-width: calc(2px / var(--app-camera-zoom));
-border-width: calc(4px / var(--app-camera-zoom));
+border-width: 4px;
 max-width: none;
 width: ${props.object.width}px;
 height: ${props.object.height}px;

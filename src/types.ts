@@ -56,6 +56,7 @@ export enum eKey {
   LEFT = "ArrowLeft",
   RIGHT = "ArrowRight",
   TAB = "Tab",
+  BACKSPACE = "Backspace",
 }
 
 export enum eMouseButton {

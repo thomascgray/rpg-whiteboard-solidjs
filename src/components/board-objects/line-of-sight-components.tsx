@@ -32,6 +32,7 @@ export const WallAnchor: Component<iLineOfSightWallPointObjectProps> = (
         if (Store.selectedTool() !== eTool.CURSOR) {
           return;
         }
+        console.log("props.object.wallObjectIds", props.object.wallObjectIds);
         EventHandlers.onObjectMouseDown(e, props.object);
       }}
       style={`

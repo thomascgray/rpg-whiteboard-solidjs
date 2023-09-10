@@ -146,7 +146,7 @@ export const unselectObjects = () => {
 export const deleteSelectedObjects = () => {
   const ids = [...selectedObjectIds()];
   unselectObjects();
-  setObjects((objs) => objs.filter((obj) => !ids.includes(obj.id)));
+  deleteObjectsById(ids);
 };
 
 export const deleteObjectsById = (ids: string[]) => {
@@ -212,5 +212,17 @@ export const so_prop_set = (property: keyof iObject, value: any) => {
       [property]: value,
     };
   });
+  setObjects(reconcile(objs));
+};
+
+export const updateObject = (id: string, props: Partial<iObject>) => {
+  const objs = [...objects];
+  const obj = objects.find((obj) => obj.id === id);
+  if (obj === undefined) return;
+  const objIndex = objects.findIndex((obj) => obj.id === id);
+  objs[objIndex] = {
+    ...obj,
+    ...props,
+  };
   setObjects(reconcile(objs));
 };

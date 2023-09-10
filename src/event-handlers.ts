@@ -221,7 +221,10 @@ export const onWindowKeyDown = (e: KeyboardEvent) => {
   }
   Store.setHeldKeys((keys) => [...keys, e.key as eKey]);
 
-  if (e.key === eKey.DELETE) {
+  if (
+    Store.selectedObjectIds().length >= 1 &&
+    (e.key === eKey.DELETE || e.key === eKey.BACKSPACE)
+  ) {
     Store.deleteSelectedObjects();
   }
 
@@ -326,11 +329,12 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
       Store.camera().z,
     );
 
+    let addedWall: iObject | null = null;
     // ok, so, if we have a current wall anchor position, we need to also create a wall between this new point and the previous poiint
     if (Store.lastWallAnchorAdded() != null) {
-      console.log("Store.lastWallAnchorAdded()", Store.lastWallAnchorAdded());
+      // console.log("Store.lastWallAnchorAdded()", Store.lastWallAnchorAdded());
       // also add a wall
-      Store.addNewObject({
+      addedWall = Store.addNewObject({
         type: eObjectType.LINE_OF_SIGHT_WALL,
         x: Store.lastWallAnchorAdded()!.x + 10,
         y: Store.lastWallAnchorAdded()!.y + 10,
@@ -341,19 +345,27 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
         width: Math.abs(pos.x - Store.lastWallAnchorAdded()!.x),
         height: Math.abs(pos.y - Store.lastWallAnchorAdded()!.y),
       });
+
+      Store.updateObject(Store.lastWallAnchorAdded()!.id, {
+        wallObjectIds: [
+          ...(Store.lastWallAnchorAdded()!.wallObjectIds || []),
+          addedWall.id,
+        ],
+      });
+      // TODO update the last wall anchor added in the store to have the new all id
     }
 
     // then either way we add the new point
-    const no = Store.addNewObject({
+    const newAnchor = Store.addNewObject({
       type: eObjectType.LINE_OF_SIGHT_WALL_ANCHOR,
       x: pos.x - 10,
       y: pos.y - 10,
       height: 20,
       width: 20,
+      wallObjectIds: addedWall ? [addedWall.id] : [],
     });
-    Store.setLastWallAnchorAdded(no);
-
-    // and update the last wall anchor added to the new point
+    Store.setLastWallAnchorAdded(newAnchor);
+    // TODO we need to add the wall id here too
   }
 };
 

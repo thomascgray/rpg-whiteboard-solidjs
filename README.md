@@ -1,17 +1,15 @@
 # Barnabus VTT
 
-Like [Miro](https://miro.com/app/dashboard/) or [Google Jamboard](https://jamboard.google.com/) or [Microsoft Whiteboard](https://www.microsoft.com/en-gb/microsoft-365/microsoft-whiteboard/digital-whiteboard-app), but for **tabletop RPGs**.
+Barnabus VTT is like [Miro](https://miro.com/app/dashboard/) or [Google Jamboard](https://jamboard.google.com/) or [Microsoft Whiteboard](https://www.microsoft.com/en-gb/microsoft-365/microsoft-whiteboard/digital-whiteboard-app), but for **tabletop RPGs**.
 
 ## Technology Stack
 
-This damn thing is built with;
+Barnabus VTT is built with:
 
 - [SolidJS](https://www.solidjs.com/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [TailwindCSS](https://tailwindcss.com/)
 - [Vite](https://vitejs.dev/)
-
-It currently doesn't have a backend! We'll get it online when it's ready!
 
 ## General Architecture Notes
 

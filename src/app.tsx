@@ -21,19 +21,6 @@ import { ModalWrapper } from "./components/modals/modal-wrapper";
 import * as MeasuringSvgs from "./components/in-camera-ui/measuring-svgs";
 
 export const App: Component = () => {
-  window.onmousedown = EventHandlers.onWindowMouseDown;
-  window.onmouseup = EventHandlers.onWindowMouseUp;
-  window.onkeydown = EventHandlers.onWindowKeyDown;
-  window.onkeyup = EventHandlers.onWindowKeyUp;
-  window.onmousemove = EventHandlers.onWindowMouseMove;
-  window.addEventListener(
-    "wheel",
-    (e) => {
-      EventHandlers.onWindowMouseWheel(e as WheelEvent);
-    },
-    { passive: false },
-  );
-
   onMount(() => {
     TestingUtils.battlemapTest();
     window.__cameraDom = document.getElementById("camera")!;
@@ -42,10 +29,30 @@ export const App: Component = () => {
 
     // @ts-ignore
     window.__canvasContext = window.__canvasDom.getContext("2d");
+
+    window.onmousedown = EventHandlers.onWindowMouseDown;
+    window.onmouseup = EventHandlers.onWindowMouseUp;
+    window.onkeydown = EventHandlers.onWindowKeyDown;
+    window.onkeyup = EventHandlers.onWindowKeyUp;
+    window.onmousemove = EventHandlers.onWindowMouseMove;
+    window.addEventListener(
+      "wheel",
+      (e) => {
+        EventHandlers.onWindowMouseWheel(e as WheelEvent);
+      },
+      { passive: false },
+    );
   });
 
   onCleanup(() => {
     Store.setObjects(reconcile([]));
+
+    window.onmousedown = null;
+    window.onmouseup = null;
+    window.onkeydown = null;
+    window.onkeyup = null;
+    window.onmousemove = null;
+    window.removeEventListener("wheel", EventHandlers.onWindowMouseWheel);
   });
 
   return (
@@ -123,8 +130,8 @@ export const App: Component = () => {
 
       {/* <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
         <p>
-          tool
-          {JSON.stringify(Store.selectedTool())}
+          camera
+          {JSON.stringify(Store.camera())}
         </p>
       </div> */}
     </>

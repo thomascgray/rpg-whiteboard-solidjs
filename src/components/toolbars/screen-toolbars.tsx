@@ -65,6 +65,15 @@ export const BottomToolbar: Component = (props) => {
               Store.setSelectedTool(eTool.DELETE_LOS_WALL);
             }}
           />
+
+          <Common.CircleToolbarButton
+            icon={<Icons.BulbFill />}
+            isActive={Store.selectedTool() === eTool.ADD_LOS_LIGHT_SOURCE}
+            title="Add line of sight light source"
+            onMouseDown={() => {
+              Store.setSelectedTool(eTool.ADD_LOS_LIGHT_SOURCE);
+            }}
+          />
         </div>
 
         <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">

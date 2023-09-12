@@ -200,18 +200,32 @@ export const onWindowMouseMove = (e: MouseEvent) => {
   }
 };
 
+let x: NodeJS.Timeout | null = null;
 export const onWindowMouseWheel = (e: WheelEvent) => {
   e.stopPropagation();
   e.preventDefault();
   const isTrackpad = Math.abs(e.deltaY) < 50;
+
   if (isTrackpad) {
     if (e.ctrlKey) {
-      InteractionHandlers.interactionZoomCamera(e);
+      InteractionHandlers.interactionZoomCamera(e, isTrackpad);
     } else {
       InteractionHandlers.interactionPanCamera(e.deltaX, e.deltaY);
     }
+    if (x) {
+      window.clearInterval(x);
+    }
+
+    x = setTimeout(() => {
+      const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
+
+      Store.setCamera({ x, y, z });
+      window.__cameraDom!.dataset.posX = String(x);
+      window.__cameraDom!.dataset.posY = String(y);
+      window.__cameraDom!.dataset.posZ = String(z);
+    }, 100);
   } else {
-    InteractionHandlers.interactionZoomCamera(e);
+    InteractionHandlers.interactionZoomCamera(e, isTrackpad);
   }
 };
 
@@ -373,6 +387,27 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
         endAnchorId: newAnchor.id,
       });
     }
+  }
+
+  if (
+    Store.selectedTool() === eTool.ADD_LOS_LIGHT_SOURCE &&
+    e.button === eMouseButton.LEFT
+  ) {
+    const pos = Utils.screenToCanvas(
+      e.clientX,
+      e.clientY,
+      Store.camera().x,
+      Store.camera().y,
+      Store.camera().z,
+    );
+
+    Store.addNewObject({
+      type: eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE,
+      x: pos.x,
+      y: pos.y,
+      width: 40,
+      height: 40,
+    });
   }
 };
 

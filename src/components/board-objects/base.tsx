@@ -51,6 +51,13 @@ export const BaseObject: Component<iBaseObjectProps> = (props) => {
       <Show when={props.object.type === eObjectType.LINE_OF_SIGHT_WALL}>
         <LineOfSight.Wall object={props.object} isSelected={props.isSelected} />
       </Show>
+
+      <Show when={props.object.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE}>
+        <LineOfSight.LightSource
+          object={props.object}
+          isSelected={props.isSelected}
+        />
+      </Show>
     </>
   );
 };

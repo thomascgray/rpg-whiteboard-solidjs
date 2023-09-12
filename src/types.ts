@@ -26,6 +26,7 @@ export enum eTool {
   ADD_INFO_PIN = "ADD_INFO_PIN",
   ADD_LOS_WALL_ANCHOR = "ADD_LOS_WALL_ANCHOR",
   DELETE_LOS_WALL = "DELETE_LOS_WALL",
+  ADD_LOS_LIGHT_SOURCE = "ADD_LOS_LIGHT_SOURCE",
 }
 
 export enum eMeasuringTools {
@@ -72,6 +73,7 @@ export enum eObjectType {
   INFO_PIN = "INFO_PIN",
   LINE_OF_SIGHT_WALL_ANCHOR = "LINE_OF_SIGHT_WALL_ANCHOR",
   LINE_OF_SIGHT_WALL = "LINE_OF_SIGHT_WALL",
+  LINE_OF_SIGHT_LIGHT_SOURCE = "LINE_OF_SIGHT_LIGHT_SOURCE",
 }
 
 export enum eResizingFrom {
@@ -160,11 +162,10 @@ export interface iObject {
   mapMarkerType?: string;
   title?: string;
 
-  // for dyanmic light things
-  // for the anchor points
+  // for line of sight wall anchors
   wallObjectIds?: string[]; // these are the walls attached to this anchor point
 
-  // the walls have some extra stuff too
+  // for line of sight walls
   wallEndPoint?: iPoint;
   startAnchorId?: string;
   endAnchorId?: string;

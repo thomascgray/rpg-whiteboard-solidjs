@@ -26,8 +26,6 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
     // todo we should always add the 4 corners of the canvas
     // so that the line segments don't generate "forever"
 
-    // todo we need to convert the x and y of the objects into
-    // canvas-relative coordinates
     const segys: Segments = [];
     Store.objects
       .filter((o) => o.type === eObjectType.LINE_OF_SIGHT_WALL)
@@ -52,7 +50,7 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
       .filter((o) => o.type === eObjectType.IMAGE && o.isBattleToken === true)
       .forEach((token) => {
         const visibility = compute(
-          [token.x, token.y],
+          [token.x + token.width / 2, token.y + token.height / 2],
           breakIntersections(segys),
         );
         visibilitySets.push(visibility);

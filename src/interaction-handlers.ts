@@ -42,52 +42,50 @@ export const interactionMoveObjects = (e: MouseEvent) => {
   for (let el of window.__app_selectedObjects) {
     const element = el as HTMLElement;
 
-    if (element.dataset.isBattleToken) {
-      const x = Number(element.dataset.posX) + e.movementX / Store.camera().z;
-      const y = Number(element.dataset.posY) + e.movementY / Store.camera().z;
-      xList.push(x);
-      yList.push(y);
+    // if (element.dataset.isBattleToken) {
+    //   // const x = Number(element.dataset.posX) + e.movementX / Store.camera().z;
+    //   // const y = Number(element.dataset.posY) + e.movementY / Store.camera().z;
+    //   // xList.push(x);
+    //   // yList.push(y);
 
-      Store.updateObject(element.id, {
-        x: Number(element.dataset.posX) + e.movementX / Store.camera().z,
-        y: Number(element.dataset.posY) + e.movementY / Store.camera().z,
-        // width: Number(element.dataset.width) + 1,
-        // height: Number(element.dataset.height),
-      });
-    } else {
-      const x =
-        Number(element.dataset.posX) + (mousePoint.x - mouseDownPosCanvas.x);
-      const y =
-        Number(element.dataset.posY) + (mousePoint.y - mouseDownPosCanvas.y);
-      xList.push(x);
-      yList.push(y);
-      DOMUtils.setObjectPropertiesOnDom(element, { x, y });
+    //   // Store.updateObject(element.id, {
+    //   //   x: Number(element.dataset.posX) + e.movementX / Store.camera().z,
+    //   //   y: Number(element.dataset.posY) + e.movementY / Store.camera().z,
+    //   //   // width: Number(element.dataset.width) + 1,
+    //   //   // height: Number(element.dataset.height),
+    //   // });
+    // } else {
+    const x =
+      Number(element.dataset.posX) + (mousePoint.x - mouseDownPosCanvas.x);
+    const y =
+      Number(element.dataset.posY) + (mousePoint.y - mouseDownPosCanvas.y);
+    xList.push(x);
+    yList.push(y);
+    DOMUtils.setObjectPropertiesOnDom(element, { x, y });
 
-      // we then do some specific mad bullshit for certain element types
-      if (
-        element.dataset.objectType === eObjectType.LINE_OF_SIGHT_WALL_ANCHOR
-      ) {
-        // find any walls that have this anchor as either the start or end point, and update their relevant coords
-        Store.objects
-          .filter((o) => o.type === eObjectType.LINE_OF_SIGHT_WALL)
-          .forEach((wall) => {
-            if (wall.startAnchorId === element.id) {
-              Store.updateObject(wall.id, {
+    // we then do some specific mad bullshit for certain element types
+    if (element.dataset.objectType === eObjectType.LINE_OF_SIGHT_WALL_ANCHOR) {
+      // find any walls that have this anchor as either the start or end point, and update their relevant coords
+      Store.objects
+        .filter((o) => o.type === eObjectType.LINE_OF_SIGHT_WALL)
+        .forEach((wall) => {
+          if (wall.startAnchorId === element.id) {
+            Store.updateObject(wall.id, {
+              x: x + 10,
+              y: y + 10,
+            });
+          }
+          if (wall.endAnchorId === element.id) {
+            Store.updateObject(wall.id, {
+              wallEndPoint: {
                 x: x + 10,
                 y: y + 10,
-              });
-            }
-            if (wall.endAnchorId === element.id) {
-              Store.updateObject(wall.id, {
-                wallEndPoint: {
-                  x: x + 10,
-                  y: y + 10,
-                },
-              });
-            }
-          });
-      }
+              },
+            });
+          }
+        });
     }
+    // }
   }
 
   // TODO replace the various document.getElement stuff below with window accessors - we should just them
@@ -170,11 +168,9 @@ export const interactionResizeObjects = (e: MouseEvent) => {
   }
 };
 
-export const interactionZoomCamera = (e: WheelEvent) => {
+export const interactionZoomCamera = (e: WheelEvent, isTrackpad: boolean) => {
   // we need to make this NOT happen for trackpads
 
-  const isTrackpad = e.deltaY % 1 !== 0;
-  // console.log("e.deltaY", e.deltaY);
   if (Math.sign(e.deltaY) === 1) {
     if (isTrackpad) {
       zoomCamera(e.clientX, e.clientY, 2);

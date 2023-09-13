@@ -15,6 +15,7 @@ declare global {
     __canvasDrawingBottomRightPoint?: iPoint;
 
     __mousePosition?: iPoint;
+    __barnabusGetObjects: () => void;
   }
 }
 

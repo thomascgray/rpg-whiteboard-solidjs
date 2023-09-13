@@ -22,10 +22,15 @@ import * as MeasuringSvgs from "./components/in-camera-ui/measuring-svgs";
 
 export const App: Component = () => {
   onMount(() => {
-    TestingUtils.battlemapTest();
+    TestingUtils.battlemapTest2();
+
     window.__cameraDom = document.getElementById("camera")!;
     window.__backgroundAppDom = document.getElementById("app_background")!;
     window.__canvasDom = document.getElementById("canvas")!;
+
+    window.__barnabusGetObjects = () => {
+      return Store.objects;
+    };
 
     // @ts-ignore
     window.__canvasContext = window.__canvasDom.getContext("2d");

@@ -1,4 +1,12 @@
-import { eKey, eObjectType, eResizingFrom, iCamera, iObject } from "./types";
+import {
+  eKey,
+  eMouseButton,
+  eObjectType,
+  eResizingFrom,
+  eTool,
+  iCamera,
+  iObject,
+} from "./types";
 import * as Utils from "./utils/general-utils";
 import * as DOMUtils from "./utils/dom-utils";
 import * as Store from "./store";
@@ -212,4 +220,106 @@ export const zoomCamera = (xPos: number, yPos: number, distance: number) => {
   window.__cameraDom!.dataset.posX = String(newCamera.x);
   window.__cameraDom!.dataset.posY = String(newCamera.y);
   window.__cameraDom!.dataset.posZ = String(newCamera.z);
+};
+
+export const mouseDownEmptySpace = () => {
+  Store.unselectObjects();
+  Store.setDragSelectionBox(null);
+};
+
+export const addingObjectsBasedOnSelectedTool = (e: MouseEvent) => {
+  if (Store.selectedTool() === eTool.ADD_INFO_PIN) {
+    const pos = Utils.screenToCanvas(
+      e.clientX,
+      e.clientY,
+      Store.camera().x,
+      Store.camera().y,
+      Store.camera().z,
+    );
+
+    Store.addNewObject({
+      type: eObjectType.INFO_PIN,
+      x: pos.x,
+      y: pos.y,
+    });
+  }
+
+  if (
+    Store.selectedTool() === eTool.ADD_LOS_WALL_ANCHOR &&
+    e.button === eMouseButton.LEFT
+  ) {
+    const pos = Utils.screenToCanvas(
+      e.clientX,
+      e.clientY,
+      Store.camera().x,
+      Store.camera().y,
+      Store.camera().z,
+    );
+
+    let addedWall: iObject | null = null;
+    const lastWallAnchorAdded = Store.lastWallAnchorAdded();
+    // ok, so, if we have a current wall anchor position, we need to also create a wall between this new point and the previous poiint
+    if (Store.lastWallAnchorAdded() != null) {
+      // console.log("Store.lastWallAnchorAdded()", Store.lastWallAnchorAdded());
+      // also add a wall
+      addedWall = Store.addNewObject({
+        type: eObjectType.LINE_OF_SIGHT_WALL,
+        x: Store.lastWallAnchorAdded()!.x + 10,
+        y: Store.lastWallAnchorAdded()!.y + 10,
+        wallEndPoint: {
+          x: pos.x,
+          y: pos.y,
+        },
+        width: Math.abs(pos.x - Store.lastWallAnchorAdded()!.x),
+        height: Math.abs(pos.y - Store.lastWallAnchorAdded()!.y),
+      });
+
+      Store.updateObject(Store.lastWallAnchorAdded()!.id, {
+        wallObjectIds: [
+          ...(Store.lastWallAnchorAdded()!.wallObjectIds || []),
+          addedWall.id,
+        ],
+      });
+      // TODO update the last wall anchor added in the store to have the new all id
+    }
+
+    // then either way we add the new point
+    const newAnchor = Store.addNewObject({
+      type: eObjectType.LINE_OF_SIGHT_WALL_ANCHOR,
+      x: pos.x - 10,
+      y: pos.y - 10,
+      height: 20,
+      width: 20,
+      wallObjectIds: addedWall ? [addedWall.id] : [],
+    });
+    Store.setLastWallAnchorAdded(newAnchor);
+
+    if (addedWall) {
+      Store.updateObject(addedWall.id, {
+        startAnchorId: lastWallAnchorAdded!.id,
+        endAnchorId: newAnchor.id,
+      });
+    }
+  }
+
+  if (
+    Store.selectedTool() === eTool.ADD_LOS_LIGHT_SOURCE &&
+    e.button === eMouseButton.LEFT
+  ) {
+    const pos = Utils.screenToCanvas(
+      e.clientX,
+      e.clientY,
+      Store.camera().x,
+      Store.camera().y,
+      Store.camera().z,
+    );
+
+    Store.addNewObject({
+      type: eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE,
+      x: pos.x,
+      y: pos.y,
+      width: 40,
+      height: 40,
+    });
+  }
 };

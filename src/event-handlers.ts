@@ -11,25 +11,27 @@ import {
 } from "./types";
 import * as Utils from "./utils/general-utils";
 import * as DOMUtils from "./utils/dom-utils";
+import * as Config from "./config";
 
 export const onWindowMouseDown = (e: MouseEvent) => {
-  const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
-
-  // todo work out why this is necessary, and make a real comment
-  window.__cameraDom!.style.transform = `scale(${z}) translate(${x}px, ${y}px)`;
-
-  // this isnt great because the camera will still be out at the _end_ of the drag
-  Store.setCamera({
-    x,
-    y,
-    z,
-  });
-  window.__cameraDom!.dataset.posX = String(x);
-  window.__cameraDom!.dataset.posY = String(y);
-  window.__cameraDom!.dataset.posZ = String(z);
-
   Store.setHeldMouseButtons((buttons) => [...buttons, e.button]);
 
+  // first of all, unless i can think of a better reason why, if we've just clicked
+  // on an element of UI, don't do anything
+  // console.log("e.currentTarget", e.target);
+  // if (e.target instanceof HTMLElement) {
+  // console.log("e.target", e.target);
+  if (e.target) {
+    const parentUiElement = (e.target as HTMLElement).closest(
+      `.${Config.UI_CLASS}`,
+    );
+    if (parentUiElement) {
+      return;
+    }
+  }
+
+  // todo this function should also be able to handle
+  // clicking on objects, resize handles, etc.
   // if we click left mouse
   if (e.button === eMouseButton.LEFT) {
     // store the position of the mouse in canvas space
@@ -43,12 +45,18 @@ export const onWindowMouseDown = (e: MouseEvent) => {
       ),
     );
 
-    // todo get the measuring scale for whatever battle map we're on top of
-    const element = document.elementFromPoint(e.clientX, e.clientY);
+    const elements = Array.from(document.querySelectorAll(":hover"));
 
-    console.log("element", element);
-    const elements = document.querySelectorAll(":hover");
-    console.log("elements", elements);
+    if (
+      elements.at(-1)?.id === Config.APP_BACKGROUND_DOM_ID ||
+      elements.at(-1)?.id === Config.APP_CAMERA_DOM_ID
+    ) {
+      InteractionHandlers.mouseDownEmptySpace();
+    }
+
+    // maybe we're adding an item, based on the tool
+    InteractionHandlers.addingObjectsBasedOnSelectedTool(e);
+
     //... AND if we're measuring, start measuring tool
     if (Store.selectedTool() === eTool.MEASURING) {
       Store.setIsMeasuringDistance(true);
@@ -312,111 +320,6 @@ export const onWindowTouchEnd = (e: TouchEvent) => {
  * DOM handlers
  */
 
-export const onCanvasMouseDown = (e: MouseEvent) => {
-  if (Store.selectedTool() === eTool.SKETCH) {
-    return;
-  }
-  if (e.button === eMouseButton.LEFT) {
-    Store.unselectObjects();
-    Store.setDragSelectionBox(null);
-  }
-
-  if (Store.selectedTool() === eTool.ADD_INFO_PIN) {
-    const pos = Utils.screenToCanvas(
-      e.clientX,
-      e.clientY,
-      Store.camera().x,
-      Store.camera().y,
-      Store.camera().z,
-    );
-
-    Store.addNewObject({
-      type: eObjectType.INFO_PIN,
-      x: pos.x,
-      y: pos.y,
-    });
-  }
-
-  if (
-    Store.selectedTool() === eTool.ADD_LOS_WALL_ANCHOR &&
-    e.button === eMouseButton.LEFT
-  ) {
-    const pos = Utils.screenToCanvas(
-      e.clientX,
-      e.clientY,
-      Store.camera().x,
-      Store.camera().y,
-      Store.camera().z,
-    );
-
-    let addedWall: iObject | null = null;
-    const lastWallAnchorAdded = Store.lastWallAnchorAdded();
-    // ok, so, if we have a current wall anchor position, we need to also create a wall between this new point and the previous poiint
-    if (Store.lastWallAnchorAdded() != null) {
-      // console.log("Store.lastWallAnchorAdded()", Store.lastWallAnchorAdded());
-      // also add a wall
-      addedWall = Store.addNewObject({
-        type: eObjectType.LINE_OF_SIGHT_WALL,
-        x: Store.lastWallAnchorAdded()!.x + 10,
-        y: Store.lastWallAnchorAdded()!.y + 10,
-        wallEndPoint: {
-          x: pos.x,
-          y: pos.y,
-        },
-        width: Math.abs(pos.x - Store.lastWallAnchorAdded()!.x),
-        height: Math.abs(pos.y - Store.lastWallAnchorAdded()!.y),
-      });
-
-      Store.updateObject(Store.lastWallAnchorAdded()!.id, {
-        wallObjectIds: [
-          ...(Store.lastWallAnchorAdded()!.wallObjectIds || []),
-          addedWall.id,
-        ],
-      });
-      // TODO update the last wall anchor added in the store to have the new all id
-    }
-
-    // then either way we add the new point
-    const newAnchor = Store.addNewObject({
-      type: eObjectType.LINE_OF_SIGHT_WALL_ANCHOR,
-      x: pos.x - 10,
-      y: pos.y - 10,
-      height: 20,
-      width: 20,
-      wallObjectIds: addedWall ? [addedWall.id] : [],
-    });
-    Store.setLastWallAnchorAdded(newAnchor);
-
-    if (addedWall) {
-      Store.updateObject(addedWall.id, {
-        startAnchorId: lastWallAnchorAdded!.id,
-        endAnchorId: newAnchor.id,
-      });
-    }
-  }
-
-  if (
-    Store.selectedTool() === eTool.ADD_LOS_LIGHT_SOURCE &&
-    e.button === eMouseButton.LEFT
-  ) {
-    const pos = Utils.screenToCanvas(
-      e.clientX,
-      e.clientY,
-      Store.camera().x,
-      Store.camera().y,
-      Store.camera().z,
-    );
-
-    Store.addNewObject({
-      type: eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE,
-      x: pos.x,
-      y: pos.y,
-      width: 40,
-      height: 40,
-    });
-  }
-};
-
 export const onBeginResizing = (e: MouseEvent, resizingFrom: eResizingFrom) => {
   e.stopPropagation();
   // we've stopped propagation so, so we need to call this manually
@@ -436,6 +339,7 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
   // we've stopped propagation so, so we need to call this manually
   onWindowMouseDown(e);
 
+  // todo convert this to work in the main window event handler
   if (Store.selectedTool() === eTool.CURSOR) {
     const selectedObjectIds = Store.selectedObjectIds();
     if (e.button === eMouseButton.LEFT) {

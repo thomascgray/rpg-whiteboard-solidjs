@@ -7,11 +7,14 @@ import { nanoid } from "nanoid";
 import * as InteractionHandlers from "../../interaction-handlers";
 import * as DomUtils from "../../utils/dom-utils";
 import * as Utils from "../../utils/general-utils";
+import * as Config from "../../config";
 
 export const BottomToolbar: Component = (props) => {
   return (
     <>
-      <div class="fixed bottom-3 left-[50%] z-50 flex translate-x-[-50%] flex-row justify-center space-x-2">
+      <div
+        class={`${Config.UI_CLASS} fixed bottom-3 left-[50%] z-50 flex translate-x-[-50%] flex-row justify-center space-x-2`}
+      >
         <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
           <Common.CircleToolbarButton
             icon={<Icons.Cursor />}
@@ -164,7 +167,9 @@ export const BottomToolbar: Component = (props) => {
 
 export const TopToolbar: Component = (props) => {
   return (
-    <div class="fixed left-[50%] top-3 z-50 flex translate-x-[-50%] flex-row justify-center space-x-2">
+    <div
+      class={`${Config.UI_CLASS} fixed left-[50%] top-3 z-50 flex translate-x-[-50%] flex-row justify-center space-x-2`}
+    >
       <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
         <Common.CircleToolbarButton
           icon={<Icons.ZoomIn />}
@@ -248,7 +253,9 @@ const colours = [
 
 export const BottomSketchToolbar: Component = (props) => {
   return (
-    <div class="fixed bottom-[5.5em] left-[50%] z-50 flex translate-x-[-50%] flex-row items-center justify-center space-x-2 rounded-2xl border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
+    <div
+      class={`${Config.UI_CLASS} fixed bottom-[5.5em] left-[50%] z-50 flex translate-x-[-50%] flex-row items-center justify-center space-x-2 rounded-2xl border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg`}
+    >
       {/* buttons to change pen colour */}
       <div class="colours grid grid-cols-5 gap-2">
         <For each={colours}>
@@ -284,7 +291,9 @@ export const BottomSketchToolbar: Component = (props) => {
 
 export const MeasuringToolbar: Component = (props) => {
   return (
-    <div class="fixed bottom-[5.5em] left-[50%] z-50 flex translate-x-[-50%] flex-row justify-center space-x-2">
+    <div
+      class={`${Config.UI_CLASS} fixed bottom-[5.5em] left-[50%] z-50 flex translate-x-[-50%] flex-row justify-center space-x-2`}
+    >
       <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
         <Common.CircleToolbarButton
           icon={<Icons.Slash />}

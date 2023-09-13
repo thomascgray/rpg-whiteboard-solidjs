@@ -1,6 +1,7 @@
 import { Component, createMemo, createEffect, onMount, For } from "solid-js";
 import * as Store from "../../store";
 import { eMouseButton, eObjectType, eTool } from "../../types";
+import * as Config from "../../config";
 
 // @ts-ignore
 import C2S from "canvas2svg";
@@ -12,7 +13,7 @@ import { nanoid } from "nanoid";
 export const MainCanvas: Component = (props) => {
   return (
     <canvas
-      id="canvas"
+      id={Config.APP_CANVAS_DOM_ID}
       class="absolute left-0 top-0 h-full w-full"
       width={window.innerWidth}
       height={window.innerHeight}

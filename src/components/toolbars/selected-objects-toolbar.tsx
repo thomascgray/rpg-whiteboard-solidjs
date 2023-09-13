@@ -3,7 +3,7 @@ import * as Store from "../../store";
 import { eObjectType } from "../../types";
 import * as Common from "../common-components";
 import * as Icons from "../icons";
-
+import * as Config from "../../config";
 import * as TextToolbars from "./object-toolbars/text-toolbars";
 import * as ImageToolbars from "./object-toolbars/image-toolbar";
 
@@ -47,6 +47,7 @@ export const SelectedObjectsToolbar: Component = (props) => {
         data-pos-y={topLeftY()}
         data-scale={1 / Store.camera().z}
         id="__selected-objects-toolbar"
+        class={`${Config.UI_CLASS} absolute left-0 top-0 z-[99999999] flex origin-bottom flex-col items-center`}
         // we need to work this out using JS values, so that we can put it into the data attributes,
         // so that we can then use those data attributes while we're doing movement
         style={`
@@ -54,7 +55,6 @@ export const SelectedObjectsToolbar: Component = (props) => {
           1 / Store.camera().z
         }) translate(${topLeftX()}px, ${topLeftY()}px);
     `}
-        class="column absolute left-0 top-0 z-[99999999] flex origin-bottom flex-col items-center"
       >
         <Show
           when={

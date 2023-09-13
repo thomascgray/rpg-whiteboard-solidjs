@@ -19,14 +19,17 @@ import { CanvasPenNib } from "./components/sketching-canvas/canvas-pen-nib";
 import { SelectedObjectsToolbar } from "./components/toolbars/selected-objects-toolbar";
 import { ModalWrapper } from "./components/modals/modal-wrapper";
 import * as MeasuringSvgs from "./components/in-camera-ui/measuring-svgs";
+import * as Config from "./config";
 
 export const App: Component = () => {
   onMount(() => {
     TestingUtils.battlemapTest2();
 
-    window.__cameraDom = document.getElementById("camera")!;
-    window.__backgroundAppDom = document.getElementById("app_background")!;
-    window.__canvasDom = document.getElementById("canvas")!;
+    window.__cameraDom = document.getElementById(Config.APP_CAMERA_DOM_ID)!;
+    window.__backgroundAppDom = document.getElementById(
+      Config.APP_BACKGROUND_DOM_ID,
+    )!;
+    window.__canvasDom = document.getElementById(Config.APP_CANVAS_DOM_ID)!;
 
     window.__barnabusGetObjects = () => {
       return Store.objects;
@@ -74,15 +77,14 @@ export const App: Component = () => {
           "--app-measuring-tool-colour": "#e74c3c",
         }}
         draggable="false"
-        id="app_background"
-        onMouseDown={EventHandlers.onCanvasMouseDown}
+        id={Config.APP_BACKGROUND_DOM_ID}
         class="h-screen w-screen cursor-auto touch-none overflow-hidden bg-slate-100"
       >
         <div
           data-pos-x={Store.camera().x}
           data-pos-y={Store.camera().y}
           data-pos-z={Store.camera().z}
-          id="camera"
+          id={Config.APP_CAMERA_DOM_ID}
           draggable="false"
           class="h-screen w-screen origin-top-left transform-gpu select-none"
           style={`transform: scale(${Store.camera().z}) translate(${
@@ -133,12 +135,12 @@ export const App: Component = () => {
         <ModalWrapper />
       </Show>
 
-      {/* <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
+      <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
         <p>
           camera
           {JSON.stringify(Store.camera())}
         </p>
-      </div> */}
+      </div>
     </>
   );
 };

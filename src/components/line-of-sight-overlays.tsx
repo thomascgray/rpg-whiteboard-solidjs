@@ -17,7 +17,7 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
   let canvasRef: any;
 
   createEffect(() => {
-    console.log("rebuilding dynamic light");
+    // console.log("rebuilding dynamic light");
     const context = canvasRef.getContext("2d") as CanvasRenderingContext2D;
     if (!context) {
       return;

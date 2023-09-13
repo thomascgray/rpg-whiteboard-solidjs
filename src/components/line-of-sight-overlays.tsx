@@ -28,6 +28,9 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
     // todo we should always add the 4 corners of the canvas
     // so that the line segments don't generate "forever"
 
+    // TODO i think all the positions in here need to acount for
+    // the offset between the items themselves, and the canvas
+
     // our segments basically are out wall objects
     const segys: Segments = [];
     Store.objects
@@ -73,26 +76,73 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
       context.closePath();
     });
 
-    visibilitySets.forEach((visibility) => {
-      const canvas = document.createElement("canvas");
-      canvas.id = "CursorLayer";
-      canvas.width = canvasRef;
-      canvas.height = canvasRef;
+    // night time mode stuff
 
-      // canvas.style.zIndex = 8;
-      // canvas.style.position = "absolute";
-      // canvas.style.border = "1px solid";
+    // todo this has a bug where the lightsources are "going through walls"
+    // see https://i.imgur.com/qRQHJEy.png
+    // i THINK a fix might be to only draw the lightsources that are in the same
+    // polygon as the token
+    // thats only gone and bloody done it boys
 
-      const [first, ...rest] = visibility;
-      context.globalAlpha = 1;
-      context.globalCompositeOperation = "destination-out";
-      context.beginPath();
-      context.moveTo(first[0] - props.object.x, first[1] - props.object.y);
+    visibilitySets.forEach((visibilityPolygon) => {
+      const visibilityCanvas = document.createElement("canvas");
+      visibilityCanvas.width = canvasRef.width;
+      visibilityCanvas.height = canvasRef.height;
+
+      const visibilityContext = visibilityCanvas.getContext("2d");
+      if (!visibilityContext) {
+        return;
+      }
+
+      // draw the shadows
+      const [first, ...rest] = visibilityPolygon;
+      visibilityContext.globalAlpha = 0.5;
+      visibilityContext.globalCompositeOperation = "source-over";
+      visibilityContext.fillStyle = "black";
+      visibilityContext.beginPath();
+      visibilityContext.moveTo(
+        first[0] - props.object.x,
+        first[1] - props.object.y,
+      );
       rest.forEach((vector) => {
-        context.lineTo(vector[0] - props.object.x, vector[1] - props.object.y);
+        // @ts-ignore
+        visibilityContext.lineTo(
+          vector[0] - props.object.x,
+          vector[1] - props.object.y,
+        );
       });
-      context.fill();
-      context.closePath();
+      visibilityContext.fill();
+      visibilityContext.closePath();
+
+      // "cut out" the light sources
+      visibilityContext.globalCompositeOperation = "destination-out";
+      visibilityContext.globalAlpha = 1;
+
+      Store.objects
+        .filter(
+          (o) =>
+            (o.type === eObjectType.IMAGE && o.isBattleToken === true) ||
+            (o.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE &&
+              inPolygon([o.x, o.y], visibilityPolygon)),
+        )
+        .forEach((token) => {
+          visibilityContext.beginPath();
+          visibilityContext.arc(
+            // we need the offest of the token from the canvas
+            // here but not above, because this visibilityContext is entirely in memory;
+            // the real context has the same offset as the tokens already
+            token.x + token.width / 2 - props.object.x,
+            token.y + token.height / 2 - props.object.y,
+            200,
+            0,
+            2 * Math.PI,
+          );
+          visibilityContext.fill();
+          visibilityContext.closePath();
+        });
+
+      context.globalCompositeOperation = "source-over";
+      context.drawImage(visibilityCanvas, 0, 0);
     });
 
     // if we're in nighttime mode, we need to

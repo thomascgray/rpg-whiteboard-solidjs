@@ -142,6 +142,7 @@ export interface iObject {
   battlemap_yOffset?: number;
 
   battlemap_isDynamicLighting?: boolean;
+  battlemap_isDynamicLightingDarkness?: boolean;
 
   // sub stuff for images - battle tokens things
   isBattleToken?: boolean;

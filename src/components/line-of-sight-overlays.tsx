@@ -13,8 +13,6 @@ import {
   Segments,
 } from "visibility-polygon";
 
-const isDarkMode = true;
-
 export const DynamicLighting: Component<{ object: iObject }> = (props) => {
   let canvasRef: any;
 
@@ -83,68 +81,71 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
     // i THINK a fix might be to only draw the lightsources that are in the same
     // polygon as the token
     // thats only gone and bloody done it boys
+    // wait, no, still fucked lmao
+    // https://i.imgur.com/3JL9BGE.png
 
-    visibilitySets.forEach((visibilityPolygon) => {
-      const visibilityCanvas = document.createElement("canvas");
-      visibilityCanvas.width = canvasRef.width;
-      visibilityCanvas.height = canvasRef.height;
+    if (props.object.battlemap_isDynamicLightingDarkness) {
+      visibilitySets.forEach((visibilityPolygon) => {
+        const visibilityCanvas = document.createElement("canvas");
+        visibilityCanvas.width = canvasRef.width;
+        visibilityCanvas.height = canvasRef.height;
 
-      const visibilityContext = visibilityCanvas.getContext("2d");
-      if (!visibilityContext) {
-        return;
-      }
+        const visibilityContext = visibilityCanvas.getContext("2d");
+        if (!visibilityContext) {
+          return;
+        }
 
-      // draw the shadows
-      const [first, ...rest] = visibilityPolygon;
-      visibilityContext.globalAlpha = 0.5;
-      visibilityContext.globalCompositeOperation = "source-over";
-      visibilityContext.fillStyle = "black";
-      visibilityContext.beginPath();
-      visibilityContext.moveTo(
-        first[0] - props.object.x,
-        first[1] - props.object.y,
-      );
-      rest.forEach((vector) => {
-        // @ts-ignore
-        visibilityContext.lineTo(
-          vector[0] - props.object.x,
-          vector[1] - props.object.y,
+        // draw the shadows
+        const [first, ...rest] = visibilityPolygon;
+        visibilityContext.globalAlpha = 0.5;
+        visibilityContext.globalCompositeOperation = "source-over";
+        visibilityContext.fillStyle = "black";
+        visibilityContext.beginPath();
+        visibilityContext.moveTo(
+          first[0] - props.object.x,
+          first[1] - props.object.y,
         );
-      });
-      visibilityContext.fill();
-      visibilityContext.closePath();
-
-      // "cut out" the light sources
-      visibilityContext.globalCompositeOperation = "destination-out";
-      visibilityContext.globalAlpha = 1;
-
-      Store.objects
-        .filter(
-          (o) =>
-            (o.type === eObjectType.IMAGE && o.isBattleToken === true) ||
-            (o.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE &&
-              inPolygon([o.x, o.y], visibilityPolygon)),
-        )
-        .forEach((token) => {
-          visibilityContext.beginPath();
-          visibilityContext.arc(
-            // we need the offest of the token from the canvas
-            // here but not above, because this visibilityContext is entirely in memory;
-            // the real context has the same offset as the tokens already
-            token.x + token.width / 2 - props.object.x,
-            token.y + token.height / 2 - props.object.y,
-            200,
-            0,
-            2 * Math.PI,
+        rest.forEach((vector) => {
+          // @ts-ignore
+          visibilityContext.lineTo(
+            vector[0] - props.object.x,
+            vector[1] - props.object.y,
           );
-          visibilityContext.fill();
-          visibilityContext.closePath();
         });
+        visibilityContext.fill();
+        visibilityContext.closePath();
 
-      context.globalCompositeOperation = "source-over";
-      context.drawImage(visibilityCanvas, 0, 0);
-    });
+        // "cut out" the light sources
+        visibilityContext.globalCompositeOperation = "destination-out";
+        visibilityContext.globalAlpha = 1;
 
+        Store.objects
+          .filter(
+            (o) =>
+              (o.type === eObjectType.IMAGE && o.isBattleToken === true) ||
+              (o.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE &&
+                inPolygon([o.x, o.y], visibilityPolygon)),
+          )
+          .forEach((token) => {
+            visibilityContext.beginPath();
+            visibilityContext.arc(
+              // we need the offest of the token from the canvas
+              // here but not above, because this visibilityContext is entirely in memory;
+              // the real context has the same offset as the tokens already
+              token.x + token.width / 2 - props.object.x,
+              token.y + token.height / 2 - props.object.y,
+              200,
+              0,
+              2 * Math.PI,
+            );
+            visibilityContext.fill();
+            visibilityContext.closePath();
+          });
+
+        context.globalCompositeOperation = "source-over";
+        context.drawImage(visibilityCanvas, 0, 0);
+      });
+    }
     // if we're in nighttime mode, we need to
     // - Work out the original visibility polygon
     // - Then we make an all black version of THAT polygon

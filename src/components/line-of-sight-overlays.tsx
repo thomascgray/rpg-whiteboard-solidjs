@@ -13,6 +13,8 @@ import {
   Segments,
 } from "visibility-polygon";
 
+const isDarkMode = true;
+
 export const DynamicLighting: Component<{ object: iObject }> = (props) => {
   let canvasRef: any;
 
@@ -26,6 +28,7 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
     // todo we should always add the 4 corners of the canvas
     // so that the line segments don't generate "forever"
 
+    // our segments basically are out wall objects
     const segys: Segments = [];
     Store.objects
       .filter((o) => o.type === eObjectType.LINE_OF_SIGHT_WALL)
@@ -69,6 +72,34 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
       context.fill();
       context.closePath();
     });
+
+    visibilitySets.forEach((visibility) => {
+      const canvas = document.createElement("canvas");
+      canvas.id = "CursorLayer";
+      canvas.width = canvasRef;
+      canvas.height = canvasRef;
+
+      // canvas.style.zIndex = 8;
+      // canvas.style.position = "absolute";
+      // canvas.style.border = "1px solid";
+
+      const [first, ...rest] = visibility;
+      context.globalAlpha = 1;
+      context.globalCompositeOperation = "destination-out";
+      context.beginPath();
+      context.moveTo(first[0] - props.object.x, first[1] - props.object.y);
+      rest.forEach((vector) => {
+        context.lineTo(vector[0] - props.object.x, vector[1] - props.object.y);
+      });
+      context.fill();
+      context.closePath();
+    });
+
+    // if we're in nighttime mode, we need to
+    // - Work out the original visibility polygon
+    // - Then we make an all black version of THAT polygon
+    // - We cut the light source circles out of THAT polygon
+    // - And we then overlay that on top of the area of the original visibility polygon
   });
 
   return (

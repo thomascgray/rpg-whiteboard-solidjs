@@ -43,6 +43,12 @@ export const onWindowMouseDown = (e: MouseEvent) => {
       ),
     );
 
+    // todo get the measuring scale for whatever battle map we're on top of
+    const element = document.elementFromPoint(e.clientX, e.clientY);
+
+    console.log("element", element);
+    const elements = document.querySelectorAll(":hover");
+    console.log("elements", elements);
     //... AND if we're measuring, start measuring tool
     if (Store.selectedTool() === eTool.MEASURING) {
       Store.setIsMeasuringDistance(true);

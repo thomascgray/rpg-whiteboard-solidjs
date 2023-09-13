@@ -130,6 +130,11 @@ export interface iObject {
   motionEffect?: eImageMotionEffects;
   maskShape?: eImageMaskShapes;
 
+  // these are effectively "temporary" values
+  // we set them and then set object-cover: fit in order to force things
+  // maskWidth?: number;
+  // masHeight?: number;
+
   // sub stuff of images - battlemap things
   isBattlemap?: boolean;
   battlemap_shouldRenderGrid?: boolean;
@@ -140,6 +145,10 @@ export interface iObject {
   battlemap_squaresAcross?: number;
   battlemap_xOffset?: number;
   battlemap_yOffset?: number;
+
+  // this is calculated when you change the squares across
+  // and then we use it for the measuring stuff
+  battlemap_tileSize?: number;
 
   battlemap_isDynamicLighting?: boolean;
   battlemap_isDynamicLightingDarkness?: boolean;

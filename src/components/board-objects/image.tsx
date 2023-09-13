@@ -55,14 +55,16 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         }
         data-object-type={props.object.type}
         id={props.object.id}
-        class="__object absolute left-0 top-0 transform-gpu"
+        class="__object absolute left-0 top-0 transform-gpu object-cover"
         classList={{
           "__selected-object hover:cursor-grab":
             props.isSelected &&
             !props.object.isLocked &&
             Store.selectedTool() === eTool.CURSOR,
           "__is-locked": props.object.isLocked,
-          "rounded-full": props.object.maskShape === eImageMaskShapes.CIRCLE,
+          "rounded-full":
+            props.object.maskShape === eImageMaskShapes.CIRCLE ||
+            props.object.isBattleToken,
           "cursor-cell": Store.selectedTool() === eTool.ADD_INFO_PIN,
           "outline-dashed outline-blue-400":
             props.isSelected && Store.selectedObjectIds().length > 1,
@@ -117,6 +119,12 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
       >
         <BattleMapFeatures.HexesPointyTopOverlay object={props.object} />
       </Show>
+      {/* <p
+        class="z-999999 absolute left-0 top-0 text-white"
+        style={`transform: translate(${props.object.x}px, ${props.object.y}px); z-index: ${props.object.zIndex};`}
+      >
+        {props.object.width}x{props.object.height}
+      </p> */}
     </>
   );
 };

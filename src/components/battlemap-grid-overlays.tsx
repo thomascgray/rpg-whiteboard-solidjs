@@ -41,13 +41,17 @@ export const SquaresOverlay: Component<{ object: iObject }> = (props) => {
 
   return (
     <canvas
-      onMouseDown={(e) => {
-        const squareSize = BattlemapUtils.calculateFinalSquareSize(
-          props.object.width,
-          props.object.battlemap_squaresAcross || 20,
-        );
-        Store.setMeasuringScale(squareSize);
-      }}
+      // we need to update the measuring scale of whatever battlemap
+      // we're on top of, whether it has its grid turned on or not
+      // onMouseDown={(e) => {
+      //   // this cant happen here, it needs to happen
+      //   // on some kind of generic
+      //   const squareSize = BattlemapUtils.calculateFinalSquareSize(
+      //     props.object.width,
+      //     props.object.battlemap_squaresAcross || 20,
+      //   );
+      //   Store.setMeasuringScale(squareSize);
+      // }}
       style={`
     width: ${props.object.width}px;
     height: ${props.object.height}px;

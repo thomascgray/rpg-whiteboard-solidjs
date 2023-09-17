@@ -18,14 +18,8 @@ export const onWindowMouseDown = (e: MouseEvent) => {
 
   // first of all, unless i can think of a better reason why, if we've just clicked
   // on an element of UI, don't do anything
-  // console.log("e.currentTarget", e.target);
-  // if (e.target instanceof HTMLElement) {
-  // console.log("e.target", e.target);
   if (e.target) {
-    const parentUiElement = (e.target as HTMLElement).closest(
-      `.${Config.UI_CLASS}`,
-    );
-    if (parentUiElement) {
+    if ((e.target as HTMLElement).closest(`.${Config.UI_CLASS}`)) {
       return;
     }
   }

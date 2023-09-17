@@ -280,7 +280,6 @@ export const addingObjectsBasedOnSelectedTool = (e: MouseEvent) => {
           addedWall.id,
         ],
       });
-      // TODO update the last wall anchor added in the store to have the new all id
     }
 
     // then either way we add the new point

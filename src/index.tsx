@@ -12,7 +12,7 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
-if (import.meta.env.VITE_IS_COMING_SOON) {
+if (import.meta.env.VITE_IS_COMING_SOON === "true") {
   render(() => <ComingSoon />, root!);
 } else {
   render(() => <App />, root!);

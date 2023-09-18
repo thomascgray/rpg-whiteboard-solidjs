@@ -115,6 +115,9 @@ export const [mousePosMeasuringDistance, setMousePosMeasuringDistance] =
 export const [lastWallAnchorAdded, setLastWallAnchorAdded] =
   createSignal<iObject | null>(null);
 
+export const [rightMouseDownPosCanvas, setRightMouseDownPosCanvas] =
+  createSignal<iPoint | null>(null);
+
 /**
  *
  *

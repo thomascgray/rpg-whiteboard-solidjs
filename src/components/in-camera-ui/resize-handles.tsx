@@ -62,7 +62,7 @@ export const ResizeHandles: Component = (props) => {
         transform: translate(${bottomLeftPoint().x}px, ${
           bottomLeftPoint().y
         }px)`}
-        class="__resize-handle invisible absolute z-[99999999] cursor-sw-resize rounded-full bg-white outline outline-blue-400"
+        class="__resize-handle invisible absolute z-[1700] cursor-sw-resize rounded-full bg-white outline outline-blue-400"
       ></div>
 
       {/* bottom right */}
@@ -83,7 +83,7 @@ export const ResizeHandles: Component = (props) => {
         transform: translate(${bottomRightPoint().x}px, ${
           bottomRightPoint().y
         }px)`}
-        class="__resize-handle absolute top-0 z-[99999999] cursor-se-resize rounded-full bg-white outline outline-blue-400"
+        class="__resize-handle absolute top-0 z-[1700] cursor-se-resize rounded-full bg-white outline outline-blue-400"
       ></div>
 
       {/* right (for text boxes and other direct width editors) */}
@@ -100,7 +100,7 @@ export const ResizeHandles: Component = (props) => {
           onMouseDown={(e) => {
             EventHandlers.onBeginResizing(e, eResizingFrom.MIDDLE_RIGHT);
           }}
-          class="__resize-handle absolute top-0 z-[99999999] cursor-ew-resize  bg-white outline outline-blue-400"
+          class="__resize-handle absolute top-0 z-[1700] cursor-ew-resize  bg-white outline outline-blue-400"
           style={`
         width:  calc(${HANDLE_SIZE}px / var(--app-camera-zoom)); 
         height: calc(${HANDLE_SIZE}px / var(--app-camera-zoom));

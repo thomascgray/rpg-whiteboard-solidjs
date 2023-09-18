@@ -20,7 +20,7 @@ import { SelectedObjectsToolbar } from "./components/toolbars/selected-objects-t
 import { ModalWrapper } from "./components/modals/modal-wrapper";
 import * as MeasuringSvgs from "./components/in-camera-ui/measuring-svgs";
 import * as Config from "./config";
-
+import { ContextMenu } from "./components/in-camera-ui/context-menu";
 export const App: Component = () => {
   onMount(() => {
     TestingUtils.battlemapTest2();
@@ -50,6 +50,7 @@ export const App: Component = () => {
       },
       { passive: false },
     );
+    window.oncontextmenu = EventHandlers.onWindowContextMenu;
   });
 
   onCleanup(() => {
@@ -114,6 +115,10 @@ export const App: Component = () => {
           <Show when={Store.isMeasuringDistance()}>
             <MeasuringSvgs.Wrapper />
           </Show>
+
+          <Show when={Store.rightMouseDownPosCanvas() !== null}>
+            <ContextMenu />
+          </Show>
         </div>
         {/* end camera */}
       </div>
@@ -139,6 +144,14 @@ export const App: Component = () => {
         <p>
           camera
           {JSON.stringify(Store.camera())}
+        </p>
+        <p>
+          left mouse last down
+          {JSON.stringify(Store.leftMouseDownPosCanvas())}
+        </p>
+        <p>
+          right mouse last down
+          {JSON.stringify(Store.rightMouseDownPosCanvas())}
         </p>
       </div>
     </>

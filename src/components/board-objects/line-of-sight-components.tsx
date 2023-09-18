@@ -63,7 +63,7 @@ export const Wall: Component<iLineOfSightWallPointObjectProps> = (props) => {
       data-height={props.object.height}
       data-type={props.object.type}
       id={props.object.id}
-      class="z-[9999999999]"
+      class="z-[1500]"
       onMouseDown={(e) => {
         e.preventDefault();
         e.stopPropagation();

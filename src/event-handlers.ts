@@ -16,6 +16,31 @@ import * as Config from "./config";
 export const onWindowMouseDown = (e: MouseEvent) => {
   Store.setHeldMouseButtons((buttons) => [...buttons, e.button]);
 
+  switch (e.button) {
+    case eMouseButton.LEFT:
+      Store.setLeftMouseDownPosCanvas(
+        Utils.screenToCanvas(
+          e.clientX,
+          e.clientY,
+          Store.camera().x,
+          Store.camera().y,
+          Store.camera().z,
+        ),
+      );
+      break;
+    case eMouseButton.RIGHT:
+      Store.setRightMouseDownPosCanvas(
+        Utils.screenToCanvas(
+          e.clientX,
+          e.clientY,
+          Store.camera().x,
+          Store.camera().y,
+          Store.camera().z,
+        ),
+      );
+      break;
+  }
+
   // first of all, unless i can think of a better reason why, if we've just clicked
   // on an element of UI, don't do anything
   if (e.target) {
@@ -27,6 +52,7 @@ export const onWindowMouseDown = (e: MouseEvent) => {
   // todo this function should also be able to handle
   // clicking on objects, resize handles, etc.
   // if we click left mouse
+
   if (e.button === eMouseButton.LEFT) {
     // store the position of the mouse in canvas space
     Store.setLeftMouseDownPosCanvas(
@@ -38,6 +64,7 @@ export const onWindowMouseDown = (e: MouseEvent) => {
         Store.camera().z,
       ),
     );
+    Store.setRightMouseDownPosCanvas(null);
 
     const elements = Array.from(document.querySelectorAll(":hover"));
 
@@ -310,6 +337,14 @@ export const onWindowTouchEnd = (e: TouchEvent) => {
   window.__cameraDom!.dataset.posZ = String(z);
 };
 
+export const onWindowContextMenu = (e: MouseEvent) => {
+  if (Store.heldKeys().includes(eKey.CONTROL)) {
+    return;
+  }
+  e.preventDefault();
+  e.stopPropagation();
+};
+
 /**
  * DOM handlers
  */
@@ -325,9 +360,6 @@ export const onBeginResizing = (e: MouseEvent, resizingFrom: eResizingFrom) => {
 };
 
 export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
-  // if (Store.selectedTool() === eTool.SKETCH) {
-  //   return;
-  // }
   e.stopPropagation();
 
   // we've stopped propagation so, so we need to call this manually

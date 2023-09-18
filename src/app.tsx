@@ -10,6 +10,7 @@ import * as TestingUtils from "./utils/testing-utils";
 import {
   ObjectCollection,
   LineOfSightWallCollection,
+  LineOfSightWallAnchorCollection,
 } from "./components/in-camera-ui/object-collections";
 import * as ScreenToolbars from "./components/toolbars/screen-toolbars";
 import { MainCanvas } from "./components/sketching-canvas/main-canvas";
@@ -21,6 +22,7 @@ import { ModalWrapper } from "./components/modals/modal-wrapper";
 import * as MeasuringSvgs from "./components/in-camera-ui/measuring-svgs";
 import * as Config from "./config";
 import { ContextMenu } from "./components/in-camera-ui/context-menu";
+
 export const App: Component = () => {
   onMount(() => {
     TestingUtils.battlemapTest2();
@@ -68,7 +70,7 @@ export const App: Component = () => {
     <>
       <div
         style={{
-          "--app-border-thickness": `${2 / Store.camera().z}px`,
+          "--app-border-thickness": `${3 / Store.camera().z}px`,
           "--app-font-size": `${20 / Store.camera().z}px`,
           "--app-resize-handle-size": `${20 / Store.camera().z}px`,
           "--app-camera-zoom": `${Store.camera().z}`,
@@ -99,6 +101,8 @@ export const App: Component = () => {
           <ObjectCollection />
 
           <LineOfSightWallCollection />
+
+          <LineOfSightWallAnchorCollection />
 
           {/* object selection stuff */}
           <Show when={Store.selectedObjectIds().length >= 1}>
@@ -140,7 +144,7 @@ export const App: Component = () => {
         <ModalWrapper />
       </Show>
 
-      <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
+      {/* <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
         <p>
           camera
           {JSON.stringify(Store.camera())}
@@ -153,7 +157,7 @@ export const App: Component = () => {
           right mouse last down
           {JSON.stringify(Store.rightMouseDownPosCanvas())}
         </p>
-      </div>
+      </div> */}
     </>
   );
 };

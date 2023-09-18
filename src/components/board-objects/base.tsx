@@ -1,14 +1,6 @@
-import { Component, Show, createEffect, createMemo, onMount } from "solid-js";
-import {
-  eImageMotionEffects,
-  eObjectType,
-  eTextAlign,
-  iObject,
-} from "../../types";
-import * as EventHandlers from "../../event-handlers";
-import * as Store from "../../store";
+import { Component, Show } from "solid-js";
+import { eObjectType, iObject } from "../../types";
 import { ImageObject } from "./image";
-import * as MotionEffects from "../motion-effect-overlays";
 import { TextObject } from "./text";
 import { SVGObject } from "./svg";
 import { InfoPin } from "./info-pin";

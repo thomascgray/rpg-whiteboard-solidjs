@@ -5,7 +5,7 @@ import * as Config from "../../config";
 export const ContextMenu: Component = (props) => {
   return (
     <div
-      class={`${Config.UI_CLASS} boder-slate-300 absolute left-0 top-0 z-[2000] flex origin-top-left flex-col space-y-2 rounded-lg border border-solid bg-slate-200 shadow`}
+      class={`${Config.UI_CLASS} boder-slate-300 absolute left-0 top-0 z-[2500] flex origin-top-left flex-col space-y-2 rounded-lg border border-solid bg-slate-200 shadow`}
       style={`
           border-width: var(--app-border-thickness);
           transform:
@@ -16,6 +16,9 @@ export const ContextMenu: Component = (props) => {
             );`}
     >
       <button
+        // style={`
+        //   padding: calc(8px * var(--app-camera-zoom));
+        // `}
         onClick={() => {
           alert("test 1");
         }}
@@ -27,6 +30,9 @@ export const ContextMenu: Component = (props) => {
         onClick={() => {
           alert("test 2");
         }}
+        // style={`
+        //   padding: calc(8px * var(--app-camera-zoom));
+        // `}
         class="p-2 hover:bg-zinc-300"
       >
         Bring to front

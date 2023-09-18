@@ -56,6 +56,9 @@ And all of those event and interaction handlers read and write state, read and w
 - The resize utils code has become extremely gross, refactor the shit out of this.
 - the text box objects _kinda_ work, _mostly_. but things get super fucky when you resize them, could do with going back to this at some point.
 - stop firing global key events when focused on a text box, all sorts of bugs to do with hitting delete and stuff.
+- the dynamic lighting needs to take into account only the tokens and walls inside the image thats relevant
+- sometimes deleting walls doesn't delete wall anchors correctly, and vice versa
+- the darkness lighting mode is fucked in many ways
 
 ## Motion Effects Notes
 

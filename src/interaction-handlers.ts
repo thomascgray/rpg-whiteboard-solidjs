@@ -14,6 +14,55 @@ import * as ResizeUtils from "./utils/resize-utils";
 import * as _ from "lodash";
 import { reconcile } from "solid-js/store";
 
+export const interactionLeftMouseDownOnObject = (
+  e: MouseEvent,
+  object: iObject,
+) => {
+  if (Store.selectedTool() === eTool.CURSOR) {
+    const selectedObjectIds = Store.selectedObjectIds();
+    // if the we've already selected the one we've clicked on, do nothing
+    // this is so we can start a drag
+    if (selectedObjectIds.includes(object.id)) {
+      return;
+    }
+
+    // if we're not holding any other objects, just select it
+    if (selectedObjectIds.length === 0) {
+      Store.setSelectedObjectIds([object.id]);
+      window.__app_selectedObjects = document.querySelectorAll(
+        ".__selected-object:not(.__is-locked)",
+      );
+      return;
+    }
+
+    // if we're not holding shift and we have some other objects, get
+    // rid of those and only select the one we've clicked
+    if (!Store.heldKeys().includes(eKey.SHIFT)) {
+      Store.setSelectedObjectIds([object.id]);
+      window.__app_selectedObjects = document.querySelectorAll(
+        ".__selected-object:not(.__is-locked)",
+      );
+      return;
+    }
+
+    // if we ARE holding shift, then add the selected one to the list
+    if (Store.heldKeys().includes(eKey.SHIFT) && !object.isLocked) {
+      Store.setSelectedObjectIds((selectedIds) => [...selectedIds, object.id]);
+      window.__app_selectedObjects = document.querySelectorAll(
+        ".__selected-object:not(.__is-locked)",
+      );
+      return;
+    }
+  }
+
+  if (
+    Store.selectedTool() === eTool.DELETE_LOS_WALL &&
+    object.type === eObjectType.LINE_OF_SIGHT_WALL
+  ) {
+    Store.deleteObjectsById([object.id]);
+  }
+};
+
 export const interactionPanCamera = (movementX: number, movementY: number) => {
   DOMUtils.stopCameraAnimating();
 
@@ -222,7 +271,7 @@ export const zoomCamera = (xPos: number, yPos: number, distance: number) => {
   window.__cameraDom!.dataset.posZ = String(newCamera.z);
 };
 
-export const mouseDownEmptySpace = () => {
+export const leftMouseDownEmptySpace = () => {
   Store.unselectObjects();
   Store.setDragSelectionBox(null);
 };

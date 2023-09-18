@@ -52,7 +52,7 @@ export const ObjectSelectionHighlightBox: Component = (props) => {
       data-width={width()}
       data-height={height()}
       id="__object-selection-highlight-box"
-      class="pointer-events-none absolute left-0 top-0 outline-dashed outline-2 outline-offset-1 outline-blue-400"
+      class="pointer-events-none absolute left-0 top-0 outline-dashed outline-offset-1 outline-[#00FFFF]"
       style={`outline-width: var(--app-border-thickness); 
       width: ${width()}px; 
       height: ${height()}px; 

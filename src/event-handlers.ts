@@ -16,6 +16,7 @@ import * as Config from "./config";
 export const onWindowMouseDown = (e: MouseEvent) => {
   Store.setHeldMouseButtons((buttons) => [...buttons, e.button]);
 
+  // store the mouse position in canvas space based on the pressed button
   switch (e.button) {
     case eMouseButton.LEFT:
       Store.setLeftMouseDownPosCanvas(
@@ -55,24 +56,26 @@ export const onWindowMouseDown = (e: MouseEvent) => {
 
   if (e.button === eMouseButton.LEFT) {
     // store the position of the mouse in canvas space
-    Store.setLeftMouseDownPosCanvas(
-      Utils.screenToCanvas(
-        e.clientX,
-        e.clientY,
-        Store.camera().x,
-        Store.camera().y,
-        Store.camera().z,
-      ),
-    );
     Store.setRightMouseDownPosCanvas(null);
 
     const elements = Array.from(document.querySelectorAll(":hover"));
 
+    // if we've clicked on the background
     if (
       elements.at(-1)?.id === Config.APP_BACKGROUND_DOM_ID ||
       elements.at(-1)?.id === Config.APP_CAMERA_DOM_ID
     ) {
-      InteractionHandlers.mouseDownEmptySpace();
+      InteractionHandlers.leftMouseDownEmptySpace();
+    }
+
+    // if we've clicked on an object, do some object stuff
+    if (elements.at(-1)?.classList.contains(Config.OBJECT_CLASS)) {
+      // get the object by its element id
+      const object = Store.objects.find((o) => o.id === elements.at(-1)!.id);
+      if (!object) {
+        return;
+      }
+      InteractionHandlers.interactionLeftMouseDownOnObject(e, object);
     }
 
     // maybe we're adding an item, based on the tool
@@ -100,6 +103,9 @@ export const onWindowMouseDown = (e: MouseEvent) => {
         ),
       );
     }
+  }
+  if (e.button === eMouseButton.RIGHT) {
+    console.log("aaaaaa right click");
   }
 };
 
@@ -360,51 +366,46 @@ export const onBeginResizing = (e: MouseEvent, resizingFrom: eResizingFrom) => {
 };
 
 export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
-  e.stopPropagation();
-
-  // we've stopped propagation so, so we need to call this manually
-  onWindowMouseDown(e);
-
-  // todo convert this to work in the main window event handler
-  if (Store.selectedTool() === eTool.CURSOR) {
-    const selectedObjectIds = Store.selectedObjectIds();
-    if (e.button === eMouseButton.LEFT) {
-      // if the we've already selected the one we've clicked on, do nothing
-      // this is so we can start a drag
-      if (selectedObjectIds.includes(object.id)) {
-        return;
-      }
-
-      // if we're not holding any other objects, just select it
-      if (selectedObjectIds.length === 0) {
-        Store.setSelectedObjectIds([object.id]);
-        window.__app_selectedObjects = document.querySelectorAll(
-          ".__selected-object:not(.__is-locked)",
-        );
-        return;
-      }
-
-      // if we're not holding shift and we have some other objects, get
-      // rid of those and only select the one we've clicked
-      if (!Store.heldKeys().includes(eKey.SHIFT)) {
-        Store.setSelectedObjectIds([object.id]);
-        window.__app_selectedObjects = document.querySelectorAll(
-          ".__selected-object:not(.__is-locked)",
-        );
-        return;
-      }
-
-      // if we ARE holding shift, then add the selected one to the list
-      if (Store.heldKeys().includes(eKey.SHIFT) && !object.isLocked) {
-        Store.setSelectedObjectIds((selectedIds) => [
-          ...selectedIds,
-          object.id,
-        ]);
-        window.__app_selectedObjects = document.querySelectorAll(
-          ".__selected-object:not(.__is-locked)",
-        );
-        return;
-      }
-    }
-  }
+  // e.stopPropagation();
+  // // we've stopped propagation so, so we need to call this manually
+  // onWindowMouseDown(e);
+  // // todo convert this to work in the main window event handler
+  // if (Store.selectedTool() === eTool.CURSOR) {
+  //   const selectedObjectIds = Store.selectedObjectIds();
+  //   if (e.button === eMouseButton.LEFT) {
+  //     // if the we've already selected the one we've clicked on, do nothing
+  //     // this is so we can start a drag
+  //     if (selectedObjectIds.includes(object.id)) {
+  //       return;
+  //     }
+  //     // if we're not holding any other objects, just select it
+  //     if (selectedObjectIds.length === 0) {
+  //       Store.setSelectedObjectIds([object.id]);
+  //       window.__app_selectedObjects = document.querySelectorAll(
+  //         ".__selected-object:not(.__is-locked)",
+  //       );
+  //       return;
+  //     }
+  //     // if we're not holding shift and we have some other objects, get
+  //     // rid of those and only select the one we've clicked
+  //     if (!Store.heldKeys().includes(eKey.SHIFT)) {
+  //       Store.setSelectedObjectIds([object.id]);
+  //       window.__app_selectedObjects = document.querySelectorAll(
+  //         ".__selected-object:not(.__is-locked)",
+  //       );
+  //       return;
+  //     }
+  //     // if we ARE holding shift, then add the selected one to the list
+  //     if (Store.heldKeys().includes(eKey.SHIFT) && !object.isLocked) {
+  //       Store.setSelectedObjectIds((selectedIds) => [
+  //         ...selectedIds,
+  //         object.id,
+  //       ]);
+  //       window.__app_selectedObjects = document.querySelectorAll(
+  //         ".__selected-object:not(.__is-locked)",
+  //       );
+  //       return;
+  //     }
+  //   }
+  // }
 };

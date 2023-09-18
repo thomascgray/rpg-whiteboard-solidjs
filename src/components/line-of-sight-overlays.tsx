@@ -12,12 +12,12 @@ import {
   Vector2D,
   Segments,
 } from "visibility-polygon";
+import { isPointInsideBox } from "../utils/general-utils";
 
 export const DynamicLighting: Component<{ object: iObject }> = (props) => {
   let canvasRef: any;
 
   createEffect(() => {
-    // console.log("rebuilding dynamic light");
     const context = canvasRef.getContext("2d") as CanvasRenderingContext2D;
     if (!context) {
       return;
@@ -33,6 +33,7 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
     const segys: Segments = [];
     Store.objects
       .filter((o) => o.type === eObjectType.LINE_OF_SIGHT_WALL)
+      .filter((o) => isPointInsideBox(o, props.object))
       .forEach((o) => {
         segys.push([
           [o.x, o.y],
@@ -52,6 +53,7 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
     let visibilitySets: Vector2D[][] = [];
     Store.objects
       .filter((o) => o.type === eObjectType.IMAGE && o.isBattleToken === true)
+      .filter((o) => isPointInsideBox(o, props.object))
       .forEach((token) => {
         const visibility = compute(
           [token.x + token.width / 2, token.y + token.height / 2],

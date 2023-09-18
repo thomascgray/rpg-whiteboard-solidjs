@@ -55,6 +55,15 @@ export const zoomCamera = (
   };
 };
 
+export const isPointInsideBox = (point: iPoint, box: iBox) => {
+  return (
+    point.x >= box.x &&
+    point.x <= box.x + box.width &&
+    point.y >= box.y &&
+    point.y <= box.y + box.height
+  );
+};
+
 export const checkOverlap = (obj1: iBox, obj2: iBox) => {
   return (
     obj1.x < obj2.x + obj2.width &&

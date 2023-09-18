@@ -2,6 +2,7 @@ import { Component } from "solid-js";
 import { eTool, iObject } from "../../types";
 import * as EventHandlers from "../../event-handlers";
 import * as Store from "../../store";
+import * as Config from "../../config";
 
 export interface iSVGObjectProps {
   object: iObject;
@@ -16,7 +17,7 @@ export const InfoPin: Component<iSVGObjectProps> = (props) => {
       data-width={props.object.width}
       data-height={props.object.height}
       id={props.object.id}
-      class="__object absolute left-0 top-0 transform-gpu"
+      class={`${Config.OBJECT_CLASS} absolute left-0 top-0 transform-gpu`}
       classList={{
         "__selected-object hover:cursor-grab": props.isSelected,
         "__is-locked": props.object.isLocked,
@@ -24,12 +25,6 @@ export const InfoPin: Component<iSVGObjectProps> = (props) => {
           props.isSelected && Store.selectedObjectIds().length > 1,
       }}
       draggable="false"
-      onMouseDown={(e) => {
-        if (Store.selectedTool() !== eTool.CURSOR) {
-          return;
-        }
-        EventHandlers.onObjectMouseDown(e, props.object);
-      }}
       style={`
 outline-width: calc(2px / var(--app-camera-zoom));
 max-width: none;

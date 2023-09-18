@@ -1,21 +1,14 @@
-import { Component, Show, onMount } from "solid-js";
-import {
-  eImageMaskShapes,
-  eImageMotionEffects,
-  eObjectType,
-  eTextAlign,
-  eTool,
-  iObject,
-} from "../../types";
+import { Component, onMount } from "solid-js";
+import { eTextAlign, eTool, iObject } from "../../types";
 import * as EventHandlers from "../../event-handlers";
 import * as Store from "../../store";
-import * as MotionEffects from "../motion-effect-overlays";
-import * as BattleMapFeatures from "../battlemap-grid-overlays";
+import * as Config from "../../config";
 
 export interface iTextObjectProps {
   object: iObject;
   isSelected?: boolean;
 }
+
 export const TextObject: Component<iTextObjectProps> = (props) => {
   onMount(() => {
     const element = document.getElementById(props.object.id);
@@ -42,7 +35,7 @@ export const TextObject: Component<iTextObjectProps> = (props) => {
       data-line-height={props.object.lineHeight}
       data-object-type={props.object.type}
       id={props.object.id}
-      class="__object absolute left-0 top-0 transform-gpu bg-white"
+      class={`${Config.OBJECT_CLASS} absolute left-0 top-0 transform-gpu bg-white`}
       classList={{
         "cursor-default": Store.focusedObjectId() !== props.object.id,
         "__selected-object hover:cursor-grab": props.isSelected,
@@ -58,12 +51,12 @@ export const TextObject: Component<iTextObjectProps> = (props) => {
 
         Store.setFocusedObjectId(props.object.id);
       }}
-      onMouseDown={(e) => {
-        if (Store.selectedTool() !== eTool.CURSOR) {
-          return;
-        }
-        EventHandlers.onObjectMouseDown(e, props.object);
-      }}
+      // onMouseDown={(e) => {
+      //   if (Store.selectedTool() !== eTool.CURSOR) {
+      //     return;
+      //   }
+      //   EventHandlers.onObjectMouseDown(e, props.object);
+      // }}
       style={`
       outline-width: calc(2px / var(--app-camera-zoom));
       max-width: none;

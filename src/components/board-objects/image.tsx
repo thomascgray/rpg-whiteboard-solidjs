@@ -4,7 +4,6 @@ import {
   eImageMaskShapes,
   eImageMotionEffects,
   eObjectType,
-  eTextAlign,
   eTool,
   iObject,
 } from "../../types";
@@ -13,6 +12,7 @@ import * as Store from "../../store";
 import * as MotionEffects from "../motion-effect-overlays";
 import * as BattleMapFeatures from "../battlemap-grid-overlays";
 import { DynamicLighting } from "../line-of-sight-overlays";
+import * as Config from "../../config";
 
 export interface iImageObjectProps {
   object: iObject;
@@ -55,7 +55,7 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         }
         data-object-type={props.object.type}
         id={props.object.id}
-        class="__object absolute left-0 top-0 transform-gpu object-cover"
+        class={`${Config.OBJECT_CLASS} absolute left-0 top-0 transform-gpu object-cover`}
         classList={{
           "__selected-object hover:cursor-grab":
             props.isSelected &&
@@ -70,12 +70,6 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
             props.isSelected && Store.selectedObjectIds().length > 1,
         }}
         draggable="false"
-        onMouseDown={(e) => {
-          if (Store.selectedTool() !== eTool.CURSOR) {
-            return;
-          }
-          EventHandlers.onObjectMouseDown(e, props.object);
-        }}
         src={props.object.url}
         style={`
         outline-width: calc(2px / var(--app-camera-zoom));

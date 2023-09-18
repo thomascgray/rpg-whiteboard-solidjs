@@ -2,6 +2,7 @@
 import { render } from "solid-js/web";
 import "./index.css";
 import { App } from "./app";
+import { ComingSoon } from "./coming-soon";
 
 const root = document.getElementById("root");
 
@@ -11,4 +12,8 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
-render(() => <App />, root!);
+if (import.meta.env.VITE_IS_COMING_SOON) {
+  render(() => <ComingSoon />, root!);
+} else {
+  render(() => <App />, root!);
+}

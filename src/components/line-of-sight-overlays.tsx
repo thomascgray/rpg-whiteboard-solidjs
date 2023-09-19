@@ -12,7 +12,7 @@ import {
   Vector2D,
   Segments,
 } from "visibility-polygon";
-import { isPointInsideBox } from "../utils/general-utils";
+import { isPointInsideBox, randomColour } from "../utils/general-utils";
 
 export const DynamicLighting: Component<{ object: iObject }> = (props) => {
   let canvasRef: any;
@@ -50,7 +50,12 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
     // ...then calculate the visibility of each token
-    let visibilitySets: Vector2D[][] = [];
+    // let visibilitySets: Vector2D[][] = [];
+    let tokensAndVisibilitys: {
+      obj: iObject;
+      visibility: Vector2D[];
+    }[] = [];
+
     Store.objects
       .filter((o) => o.type === eObjectType.IMAGE && o.isBattleToken === true)
       .filter((o) => isPointInsideBox(o, props.object))
@@ -59,12 +64,17 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
           [token.x + token.width / 2, token.y + token.height / 2],
           breakIntersections(segys),
         );
-        visibilitySets.push(visibility);
+        tokensAndVisibilitys.push({
+          obj: token,
+          visibility,
+        });
       });
 
     // ...then "paint"/remove the visibility of each token
-    visibilitySets.forEach((visibility) => {
-      const [first, ...rest] = visibility;
+
+    // if (!props.object.battlemap_isDynamicLightingDarkness) {
+    tokensAndVisibilitys.forEach((x) => {
+      const [first, ...rest] = x.visibility;
       context.globalAlpha = 1;
       context.globalCompositeOperation = "destination-out";
       context.beginPath();
@@ -75,6 +85,7 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
       context.fill();
       context.closePath();
     });
+    // }
 
     // night time mode stuff
 
@@ -87,7 +98,7 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
     // https://i.imgur.com/3JL9BGE.png
 
     if (props.object.battlemap_isDynamicLightingDarkness) {
-      visibilitySets.forEach((visibilityPolygon) => {
+      tokensAndVisibilitys.forEach((x) => {
         const visibilityCanvas = document.createElement("canvas");
         visibilityCanvas.width = canvasRef.width;
         visibilityCanvas.height = canvasRef.height;
@@ -98,7 +109,7 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
         }
 
         // draw the shadows
-        const [first, ...rest] = visibilityPolygon;
+        const [first, ...rest] = x.visibility;
         visibilityContext.globalAlpha = 0.5;
         visibilityContext.globalCompositeOperation = "source-over";
         visibilityContext.fillStyle = "black";
@@ -126,7 +137,7 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
             (o) =>
               (o.type === eObjectType.IMAGE && o.isBattleToken === true) ||
               (o.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE &&
-                inPolygon([o.x, o.y], visibilityPolygon)),
+                inPolygon([o.x, o.y], x.visibility)),
           )
           .forEach((token) => {
             visibilityContext.beginPath();

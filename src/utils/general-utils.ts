@@ -143,3 +143,6 @@ export const calculateMidpoint = (point1: iPoint, point2: iPoint) => {
   const midpoint = { x: midpointX, y: midpointY };
   return midpoint;
 };
+export const randomColour = () => {
+  return Math.floor(Math.random() * 16777215).toString(16);
+};

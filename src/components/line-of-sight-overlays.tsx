@@ -1,6 +1,7 @@
 import { Component, createEffect } from "solid-js";
 import { eObjectType, iObject, iPoint } from "../types";
 import * as Store from "../store";
+import * as _ from "lodash";
 import {
   breakIntersections,
   convertToSegments,
@@ -12,7 +13,13 @@ import {
   Vector2D,
   Segments,
 } from "visibility-polygon";
-import { isPointInsideBox, randomColour } from "../utils/general-utils";
+import {
+  generateCirclePolygon,
+  isPointInsideBox,
+  randomColour,
+} from "../utils/general-utils";
+import * as polyclip from "polyclip-ts";
+import { Geom } from "polyclip-ts/types/geom-in";
 
 export const DynamicLighting: Component<{ object: iObject }> = (props) => {
   let canvasRef: any;
@@ -110,107 +117,71 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
         return;
       }
 
-      tokensAndVisibilitys.forEach((x) => {
-        // const visibilityCanvas = document.createElement("canvas");
-        // visibilityCanvas.width = canvasRef.width;
-        // visibilityCanvas.height = canvasRef.height;
+      const radius = 100; // in meters
 
-        // const visibilityContext = visibilityCanvas.getContext("2d");
-        // if (!visibilityContext) {
-        //   return;
-        // }
-
-        // use the visibility polygons to create a "shadow" for each token
-
-        // use the visibility polygons to create a "master shadow"
-        const [first, ...rest] = x.visibility;
-        nightTimeCanvasContext.globalAlpha = 1;
-        nightTimeCanvasContext.globalCompositeOperation = "source-over";
-        // nightTimeCanvasContext.fillStyle = `#${randomColour()}`;
-        nightTimeCanvasContext.fillStyle = `black`;
-        nightTimeCanvasContext.beginPath();
-        nightTimeCanvasContext.moveTo(
-          first[0] - props.object.x,
-          first[1] - props.object.y,
+      const shapes = tokensAndVisibilitys.map((x) => {
+        const circle = generateCirclePolygon(
+          [x.obj.x + x.obj.width / 2, x.obj.y + x.obj.height / 2],
+          radius,
+          32,
         );
-        rest.forEach((vector) => {
-          // @ts-ignore
-          nightTimeCanvasContext.lineTo(
-            vector[0] - props.object.x,
-            vector[1] - props.object.y,
-          );
-        });
-        nightTimeCanvasContext.fill();
-        nightTimeCanvasContext.closePath();
 
-        // now, for each visibility polygon, we need to make a shape that we can cut out of the master shadow layer
-        // so that means that for each visibility polygon, we need to make a new canvas
-        // and then we need to cut out the light sources from that canvas
-
-        const xCanvas = document.createElement("canvas");
-        xCanvas.width = canvasRef.width;
-        xCanvas.height = canvasRef.height;
-        const xContext = xCanvas.getContext("2d")!;
-        xContext.globalAlpha = 1;
-        xContext.globalCompositeOperation = "source-over";
-        xContext.fillStyle = `#${randomColour()}`;
-        // xContext.fillStyle = `red`;
-        xContext.beginPath();
-        xContext.moveTo(first[0] - props.object.x, first[1] - props.object.y);
-        rest.forEach((vector) => {
-          // @ts-ignore
-          xContext.lineTo(
-            vector[0] - props.object.x,
-            vector[1] - props.object.y,
-          );
-        });
-        xContext.fill();
-        xContext.closePath();
-
-        // "cut out" the light sources out of each visibility canvas individually
-        xContext.globalCompositeOperation = "destination-out";
-        xContext.globalAlpha = 1;
-        const lightSourceTokens = [
-          x.obj,
-          ...Store.objects
-            .filter(
-              (o) =>
-                (o.type === eObjectType.IMAGE && o.isBattleToken === true) ||
-                o.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE,
-            )
-            .filter((o) => isPointInsideBox(o, props.object))
-            .filter((o) => isPointInsideBox(o, x.obj)),
-        ];
-        lightSourceTokens.forEach((token) => {
-          xContext.beginPath();
-          xContext.arc(
-            // we need the offest of the token from the canvas
-            // here but not above, because this xContext is entirely in memory;
-            // the real context has the same offset as the tokens already
-            token.x + token.width / 2 - props.object.x,
-            token.y + token.height / 2 - props.object.y,
-            200,
-            0,
-            2 * Math.PI,
-          );
-          xContext.fill();
-          xContext.closePath();
-        });
-
-        // and then cut the x canvas out of the master shadow canvas
-        nightTimeCanvasContext.globalAlpha = 1;
-        nightTimeCanvasContext.globalCompositeOperation = "destination-out";
-        nightTimeCanvasContext.drawImage(xCanvas, 0, 0);
-
-        // now combine all the visibility "shadows" into a single one on the nighttime canvas
-        // nightTimeCanvasContext.globalAlpha = 1;
-        // nightTimeCanvasContext.globalCompositeOperation = "source-over";
-        // nightTimeCanvasContext.drawImage(visibilityCanvas, 0, 0);
+        return polyclip.union([x.visibility], [circle]);
       });
+
+      console.log("shapes", shapes);
+
+      // const totalLight = polyclip.union([...shapes])
+
+      // const circles = tokensAndVisibilitys.map((x) => {
+      //   const coordinates = [
+      //     x.obj.x + x.obj.width / 2,
+      //     x.obj.y + x.obj.height / 2,
+      //   ];
+      //   return [generateCirclePolygon(coordinates, radius, 32)];
+      // });
+
+      // const unionSet = polyclip.union([
+      //   ...tokensAndVisibilitys.map((x) => [x.visibility]),
+      // ]) as Geom;
+
+      // const unionSetWithShadowsCutOut = polyclip.intersection(
+      //   unionSet,
+      //   circles,
+      // );
+
+      nightTimeCanvasContext.globalAlpha = 1;
+      nightTimeCanvasContext.globalCompositeOperation = "source-over";
+      nightTimeCanvasContext.fillStyle = `black`;
+      nightTimeCanvasContext.beginPath();
+
+      shapes.forEach((multiPolygon) => {
+        multiPolygon.forEach((polygon) => {
+          const [firstPoint, ...restPoints] = polygon!;
+
+          nightTimeCanvasContext.moveTo(
+            // @ts-ignore
+            firstPoint[0] - props.object.x,
+            // @ts-ignore
+            firstPoint[1] - props.object.y,
+          );
+          restPoints.forEach((point) => {
+            nightTimeCanvasContext.lineTo(
+              // @ts-ignore
+              point[0] - props.object.x,
+              // @ts-ignore
+              point[1] - props.object.y,
+            );
+          });
+        });
+      });
+
+      nightTimeCanvasContext.fill();
+      nightTimeCanvasContext.closePath();
 
       // and now add the night time canvas over the main canvas
       context.globalAlpha = 1;
-      context.globalCompositeOperation = "destination-out";
+      context.globalCompositeOperation = "source-over";
       context.drawImage(nightTimeCanvas, 0, 0);
     }
     // if we're in nighttime mode, we need to

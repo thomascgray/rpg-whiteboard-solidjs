@@ -146,3 +146,25 @@ export const calculateMidpoint = (point1: iPoint, point2: iPoint) => {
 export const randomColour = () => {
   return Math.floor(Math.random() * 16777215).toString(16);
 };
+
+export const generateCirclePolygon = (
+  center: number[],
+  radius: number,
+  sides: number,
+): [number, number][] => {
+  if (sides < 3) {
+    throw new Error("Number of sides must be at least 3.");
+  }
+
+  const angleIncrement = (2 * Math.PI) / sides;
+  const circlePolygon: [number, number][] = [];
+
+  for (let i = 0; i < sides; i++) {
+    const angle = i * angleIncrement;
+    const x = center[0] + radius * Math.cos(angle);
+    const y = center[1] + radius * Math.sin(angle);
+    circlePolygon.push([x, y]);
+  }
+
+  return circlePolygon;
+};

@@ -364,8 +364,8 @@ export const addingObjectsBasedOnSelectedTool = (e: MouseEvent) => {
 
     Store.addNewObject({
       type: eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE,
-      x: pos.x,
-      y: pos.y,
+      x: pos.x - 20,
+      y: pos.y - 20,
       width: 40,
       height: 40,
     });

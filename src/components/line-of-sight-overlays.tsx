@@ -57,7 +57,6 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
     // ...then calculate the visibility of each token
-    // let visibilitySets: Vector2D[][] = [];
     let tokensAndVisibilitys: {
       obj: iObject;
       visibility: Vector2D[];
@@ -97,15 +96,9 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
       });
     }
 
-    // night time mode stuff
-
-    // todo this has a bug where the lightsources are "going through walls"
-    // see https://i.imgur.com/qRQHJEy.png
-    // i THINK a fix might be to only draw the lightsources that are in the same
-    // polygon as the token
-    // thats only gone and bloody done it boys
-    // wait, no, still fucked lmao
-    // https://i.imgur.com/3JL9BGE.png
+    // ok actually i was wrong - what we want is for players to be able to see the intersection of
+    // their base visibility and the light source
+    // see: https://i.imgur.com/cbOv4xa.png
 
     if (props.object.battlemap_isDynamicLightingDarkness) {
       const nightTimeCanvas = document.createElement("canvas");
@@ -117,45 +110,83 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
         return;
       }
 
-      const radius = 100; // in meters
+      const extraTokensAndVisibilitiesFromLightSources: {
+        obj: iObject;
+        visibility: Vector2D[];
+      }[] = [];
 
-      const shapes = tokensAndVisibilitys.map((x) => {
-        const circle = generateCirclePolygon(
-          [x.obj.x + x.obj.width / 2, x.obj.y + x.obj.height / 2],
-          radius,
-          32,
-        );
-
-        return polyclip.union([x.visibility], [circle]);
+      tokensAndVisibilitys.forEach((x) => {
+        Store.objects
+          .filter(
+            (o) =>
+              o.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE &&
+              inPolygon([o.x + o.width / 2, o.y + o.height / 2], x.visibility),
+          )
+          .forEach((lightSource) => {
+            const visibility = compute(
+              [
+                lightSource.x + lightSource.width / 2,
+                lightSource.y + lightSource.height / 2,
+              ],
+              breakIntersections(segys),
+            );
+            extraTokensAndVisibilitiesFromLightSources.push({
+              obj: lightSource,
+              visibility,
+            });
+          });
       });
 
-      console.log("shapes", shapes);
+      const shapes = [
+        ...tokensAndVisibilitys,
+        ...extraTokensAndVisibilitiesFromLightSources,
+      ].map((x) => {
+        // get all the light source tokens that are inside the visibility polygon
+        // and generate a visibility polygon for each of them
+        // const lightSources = Store.objects.filter(
+        //   (o) =>
+        //     o.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE &&
+        //     inPolygon([o.x + o.width / 2, o.y + o.height / 2], x.visibility),
+        // );
 
-      // const totalLight = polyclip.union([...shapes])
+        // we need to make a circle for each light source that is inside the
+        // original visibility area
+        const lightSources = _.flatten([
+          x.obj,
+          // Store.objects.filter(
+          //   (o) =>
+          //     o.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE &&
+          //     inPolygon([o.x + o.width / 2, o.y + o.height / 2], x.visibility),
+          // ),
+        ]);
 
-      // const circles = tokensAndVisibilitys.map((x) => {
-      //   const coordinates = [
-      //     x.obj.x + x.obj.width / 2,
-      //     x.obj.y + x.obj.height / 2,
-      //   ];
-      //   return [generateCirclePolygon(coordinates, radius, 32)];
-      // });
+        const circles = lightSources.map((lightSource) => {
+          return [
+            generateCirclePolygon(
+              [
+                lightSource.x + lightSource.width / 2,
+                lightSource.y + lightSource.height / 2,
+              ],
+              lightSource.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE
+                ? 200
+                : 100,
+              20,
+            ),
+          ];
+        });
+        const circlesShapes = polyclip.union(circles) as Geom;
+        return polyclip.intersection([x.visibility], circlesShapes);
+      });
 
-      // const unionSet = polyclip.union([
-      //   ...tokensAndVisibilitys.map((x) => [x.visibility]),
-      // ]) as Geom;
-
-      // const unionSetWithShadowsCutOut = polyclip.intersection(
-      //   unionSet,
-      //   circles,
-      // );
+      // @ts-ignore
+      const unionSet = polyclip.union(...shapes) as Geom;
 
       nightTimeCanvasContext.globalAlpha = 1;
       nightTimeCanvasContext.globalCompositeOperation = "source-over";
       nightTimeCanvasContext.fillStyle = `black`;
       nightTimeCanvasContext.beginPath();
 
-      shapes.forEach((multiPolygon) => {
+      unionSet.forEach((multiPolygon) => {
         multiPolygon.forEach((polygon) => {
           const [firstPoint, ...restPoints] = polygon!;
 
@@ -181,7 +212,7 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
 
       // and now add the night time canvas over the main canvas
       context.globalAlpha = 1;
-      context.globalCompositeOperation = "source-over";
+      context.globalCompositeOperation = "destination-out";
       context.drawImage(nightTimeCanvas, 0, 0);
     }
     // if we're in nighttime mode, we need to

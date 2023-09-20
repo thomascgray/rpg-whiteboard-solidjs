@@ -1,6 +1,7 @@
 import { Component, createEffect } from "solid-js";
 import { eObjectType, iObject, iPoint } from "../types";
 import * as Store from "../store";
+import * as _ from "lodash";
 import {
   breakIntersections,
   convertToSegments,
@@ -12,7 +13,13 @@ import {
   Vector2D,
   Segments,
 } from "visibility-polygon";
-import { isPointInsideBox, randomColour } from "../utils/general-utils";
+import {
+  generateCirclePolygon,
+  isPointInsideBox,
+  randomColour,
+} from "../utils/general-utils";
+import * as polyclip from "polyclip-ts";
+import { Geom } from "polyclip-ts/types/geom-in";
 
 export const DynamicLighting: Component<{ object: iObject }> = (props) => {
   let canvasRef: any;
@@ -49,115 +56,222 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
     context.fillStyle = "black";
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
-    // ...then calculate the visibility of each token
-    // let visibilitySets: Vector2D[][] = [];
-    let tokensAndVisibilitys: {
-      obj: iObject;
-      visibility: Vector2D[];
-    }[] = [];
+    if (!props.object.battlemap_isDynamicLightingDarkness) {
+      // ...then calculate the visibility of each token
+      let tokensAndVisibilitys: {
+        obj: iObject;
+        visibility: Vector2D[];
+      }[] = [];
 
-    Store.objects
-      .filter((o) => o.type === eObjectType.IMAGE && o.isBattleToken === true)
-      .filter((o) => isPointInsideBox(o, props.object))
-      .forEach((token) => {
-        const visibility = compute(
-          [token.x + token.width / 2, token.y + token.height / 2],
-          breakIntersections(segys),
-        );
-        tokensAndVisibilitys.push({
-          obj: token,
-          visibility,
+      Store.objects
+        .filter((o) => o.type === eObjectType.IMAGE && o.isBattleToken === true)
+        .filter((o) => isPointInsideBox(o, props.object))
+        .forEach((token) => {
+          const visibility = compute(
+            [token.x + token.width / 2, token.y + token.height / 2],
+            breakIntersections(segys),
+          );
+          tokensAndVisibilitys.push({
+            obj: token,
+            visibility,
+          });
         });
-      });
 
-    // ...then "paint"/remove the visibility of each token
+      // ...then "paint"/remove the visibility of each token
 
-    // if (!props.object.battlemap_isDynamicLightingDarkness) {
-    tokensAndVisibilitys.forEach((x) => {
-      const [first, ...rest] = x.visibility;
-      context.globalAlpha = 1;
-      context.globalCompositeOperation = "destination-out";
-      context.beginPath();
-      context.moveTo(first[0] - props.object.x, first[1] - props.object.y);
-      rest.forEach((vector) => {
-        context.lineTo(vector[0] - props.object.x, vector[1] - props.object.y);
-      });
-      context.fill();
-      context.closePath();
-    });
-    // }
-
-    // night time mode stuff
-
-    // todo this has a bug where the lightsources are "going through walls"
-    // see https://i.imgur.com/qRQHJEy.png
-    // i THINK a fix might be to only draw the lightsources that are in the same
-    // polygon as the token
-    // thats only gone and bloody done it boys
-    // wait, no, still fucked lmao
-    // https://i.imgur.com/3JL9BGE.png
-
-    if (props.object.battlemap_isDynamicLightingDarkness) {
       tokensAndVisibilitys.forEach((x) => {
-        const visibilityCanvas = document.createElement("canvas");
-        visibilityCanvas.width = canvasRef.width;
-        visibilityCanvas.height = canvasRef.height;
-
-        const visibilityContext = visibilityCanvas.getContext("2d");
-        if (!visibilityContext) {
-          return;
-        }
-
-        // draw the shadows
         const [first, ...rest] = x.visibility;
-        visibilityContext.globalAlpha = 0.5;
-        visibilityContext.globalCompositeOperation = "source-over";
-        visibilityContext.fillStyle = "black";
-        visibilityContext.beginPath();
-        visibilityContext.moveTo(
-          first[0] - props.object.x,
-          first[1] - props.object.y,
-        );
+        context.globalAlpha = 1;
+        context.globalCompositeOperation = "destination-out";
+        context.beginPath();
+        context.moveTo(first[0] - props.object.x, first[1] - props.object.y);
         rest.forEach((vector) => {
-          // @ts-ignore
-          visibilityContext.lineTo(
+          context.lineTo(
             vector[0] - props.object.x,
             vector[1] - props.object.y,
           );
         });
-        visibilityContext.fill();
-        visibilityContext.closePath();
-
-        // "cut out" the light sources
-        visibilityContext.globalCompositeOperation = "destination-out";
-        visibilityContext.globalAlpha = 1;
-
-        Store.objects
-          .filter(
-            (o) =>
-              (o.type === eObjectType.IMAGE && o.isBattleToken === true) ||
-              (o.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE &&
-                inPolygon([o.x, o.y], x.visibility)),
-          )
-          .forEach((token) => {
-            visibilityContext.beginPath();
-            visibilityContext.arc(
-              // we need the offest of the token from the canvas
-              // here but not above, because this visibilityContext is entirely in memory;
-              // the real context has the same offset as the tokens already
-              token.x + token.width / 2 - props.object.x,
-              token.y + token.height / 2 - props.object.y,
-              200,
-              0,
-              2 * Math.PI,
-            );
-            visibilityContext.fill();
-            visibilityContext.closePath();
-          });
-
-        context.globalCompositeOperation = "source-over";
-        context.drawImage(visibilityCanvas, 0, 0);
+        context.fill();
+        context.closePath();
       });
+    }
+
+    // ok actually i was wrong - what we want is for players to be able to see the intersection of
+    // their base visibility and the light source
+    // see: https://i.imgur.com/cbOv4xa.png
+
+    if (props.object.battlemap_isDynamicLightingDarkness) {
+      const nightTimeCanvas = document.createElement("canvas");
+      nightTimeCanvas.width = canvasRef.width;
+      nightTimeCanvas.height = canvasRef.height;
+
+      const nightTimeCanvasContext = nightTimeCanvas.getContext("2d");
+      if (!nightTimeCanvasContext) {
+        return;
+      }
+
+      const tokensWithVisibility = Store.objects
+        .filter((o) => o.type === eObjectType.IMAGE && o.isBattleToken === true)
+        .filter((o) => isPointInsideBox(o, props.object))
+        .map((lineOfSightToken) => {
+          const visibility = compute(
+            [
+              lineOfSightToken.x + lineOfSightToken.width / 2,
+              lineOfSightToken.y + lineOfSightToken.height / 2,
+            ],
+            breakIntersections(segys),
+          );
+          const circle = generateCirclePolygon(
+            [
+              lineOfSightToken.x + lineOfSightToken.width / 2,
+              lineOfSightToken.y + lineOfSightToken.height / 2,
+            ],
+            100,
+            20,
+          );
+          const actualVisibility = polyclip.intersection(
+            [visibility],
+            [circle],
+          ) as Geom;
+
+          return {
+            obj: lineOfSightToken,
+            visibility: polyclip.union([visibility]),
+            visibilityWithRange: actualVisibility,
+          };
+        });
+
+      const lightSourcesWithVisibility = Store.objects
+        .filter((o) => o.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE)
+        .filter((o) => isPointInsideBox(o, props.object))
+        .map((lineOfSightToken) => {
+          const visibility = compute(
+            [
+              lineOfSightToken.x + lineOfSightToken.width / 2,
+              lineOfSightToken.y + lineOfSightToken.height / 2,
+            ],
+            breakIntersections(segys),
+          );
+          const circle = generateCirclePolygon(
+            [
+              lineOfSightToken.x + lineOfSightToken.width / 2,
+              lineOfSightToken.y + lineOfSightToken.height / 2,
+            ],
+            100,
+            20,
+          );
+          const actualVisibility = polyclip.intersection(
+            [visibility],
+            [circle],
+          ) as Geom;
+
+          return {
+            obj: lineOfSightToken,
+            visibility: actualVisibility,
+          };
+        });
+
+      nightTimeCanvasContext.globalAlpha = 1;
+      nightTimeCanvasContext.globalCompositeOperation = "source-over";
+      nightTimeCanvasContext.fillStyle = `black`;
+      nightTimeCanvasContext.beginPath();
+
+      const lightSourceVisibilityPolygons = lightSourcesWithVisibility.map(
+        (x) => x.visibility,
+      );
+
+      const lightSourceUnionSet = polyclip.union(
+        // @ts-ignore
+        ...lightSourceVisibilityPolygons,
+      );
+
+      const tokenVisibilities = tokensWithVisibility.map((x) => x.visibility);
+      const tokenVisibilitiesWithRange = tokensWithVisibility.map(
+        (x) => x.visibilityWithRange,
+      );
+
+      // @ts-ignore
+      const tokenVisibilityUnionSet = polyclip.union(...tokenVisibilities);
+
+      const tokenVisibilityWithRangeUnionSet = polyclip.union(
+        // @ts-ignore
+        ...tokenVisibilitiesWithRange,
+      );
+
+      const intersectionOfTokensAndLightSources = polyclip.intersection(
+        // @ts-ignore
+        tokenVisibilityUnionSet,
+        lightSourceUnionSet,
+      );
+
+      const megaUnionSet = polyclip.union(
+        // @ts-ignore
+        tokenVisibilityWithRangeUnionSet,
+        intersectionOfTokensAndLightSources,
+      );
+
+      // const uniionOfAllLightSources = polyclip.union(
+      //   ...extraTokensAndVisibilitiesFromLightSources.map((x) => [
+      //     x.visibility,
+      //   ]),
+      // ) as Geom;
+
+      // const intersectionsOfTokenVisibilityAndLightSources =
+      //   tokensAndVisibilitys.map((x) => {
+      //     const shape = polyclip.intersection(
+      //       [x.visibility],
+      //       uniionOfAllLightSources,
+      //     ) as Geom;
+      //   });
+      // lightSourceVisibilityPolygons.forEach((x) => {
+      //   // console.log("x.visibility", x.visibility);
+      //   console.log("x", x);
+      //   const [first, ...rest] = x[0][0];
+      //   console.log("first", first);
+      //   console.log("rest", rest);
+      //   nightTimeCanvasContext.moveTo(
+      //     // @ts-ignore
+      //     first[0] - props.object.x,
+      //     // @ts-ignore
+      //     first[1] - props.object.y,
+      //   );
+      //   rest.forEach((point) => {
+      //     nightTimeCanvasContext.lineTo(
+      //       // @ts-ignore
+      //       point[0] - props.object.x,
+      //       // @ts-ignore
+      //       point[1] - props.object.y,
+      //     );
+      //   });
+      // });
+      megaUnionSet.forEach((multiPolygon) => {
+        multiPolygon.forEach((polygon) => {
+          const [firstPoint, ...restPoints] = polygon!;
+
+          nightTimeCanvasContext.moveTo(
+            // @ts-ignore
+            firstPoint[0] - props.object.x,
+            // @ts-ignore
+            firstPoint[1] - props.object.y,
+          );
+          restPoints.forEach((point) => {
+            nightTimeCanvasContext.lineTo(
+              // @ts-ignore
+              point[0] - props.object.x,
+              // @ts-ignore
+              point[1] - props.object.y,
+            );
+          });
+        });
+      });
+
+      nightTimeCanvasContext.fill();
+      nightTimeCanvasContext.closePath();
+
+      // and now add the night time canvas over the main canvas
+      context.globalAlpha = 1;
+      context.globalCompositeOperation = "destination-out";
+      context.drawImage(nightTimeCanvas, 0, 0);
     }
     // if we're in nighttime mode, we need to
     // - Work out the original visibility polygon

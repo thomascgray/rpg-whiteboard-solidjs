@@ -4,6 +4,7 @@ import { createStore, produce, reconcile } from "solid-js/store";
 import {
   eKey,
   eLeftTray,
+  eLineOfSightTools,
   eMeasuringTools,
   eModalTypes,
   eMouseButton,
@@ -79,6 +80,9 @@ export const [selectedTool, setSelectedTool] = createSignal<eTool>(
 
 export const [selectedMeasuringTool, setSelectedMeasuringTool] =
   createSignal<eMeasuringTools>(eMeasuringTools.LINE);
+
+export const [selectedLineOfSightTool, setSelectedLineOfSightTool] =
+  createSignal<eLineOfSightTools>(eLineOfSightTools.LOS_CURSOR);
 
 export const [penColour, setPenColour] = createSignal<string>("#e74c3c");
 export const [penSize, setPenSize] = createSignal<number>(10);

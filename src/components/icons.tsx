@@ -320,7 +320,7 @@ export const EyeFill = () => {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-eye-fill"
+      class="bi bi-eye-fill h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />

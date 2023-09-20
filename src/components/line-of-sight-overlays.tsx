@@ -16,7 +16,6 @@ import {
 import {
   generateCirclePolygon,
   isPointInsideBox,
-  randomColour,
 } from "../utils/general-utils";
 import * as polyclip from "polyclip-ts";
 import { Geom } from "polyclip-ts/types/geom-in";
@@ -210,40 +209,6 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
         intersectionOfTokensAndLightSources,
       );
 
-      // const uniionOfAllLightSources = polyclip.union(
-      //   ...extraTokensAndVisibilitiesFromLightSources.map((x) => [
-      //     x.visibility,
-      //   ]),
-      // ) as Geom;
-
-      // const intersectionsOfTokenVisibilityAndLightSources =
-      //   tokensAndVisibilitys.map((x) => {
-      //     const shape = polyclip.intersection(
-      //       [x.visibility],
-      //       uniionOfAllLightSources,
-      //     ) as Geom;
-      //   });
-      // lightSourceVisibilityPolygons.forEach((x) => {
-      //   // console.log("x.visibility", x.visibility);
-      //   console.log("x", x);
-      //   const [first, ...rest] = x[0][0];
-      //   console.log("first", first);
-      //   console.log("rest", rest);
-      //   nightTimeCanvasContext.moveTo(
-      //     // @ts-ignore
-      //     first[0] - props.object.x,
-      //     // @ts-ignore
-      //     first[1] - props.object.y,
-      //   );
-      //   rest.forEach((point) => {
-      //     nightTimeCanvasContext.lineTo(
-      //       // @ts-ignore
-      //       point[0] - props.object.x,
-      //       // @ts-ignore
-      //       point[1] - props.object.y,
-      //     );
-      //   });
-      // });
       megaUnionSet.forEach((multiPolygon) => {
         multiPolygon.forEach((polygon) => {
           const [firstPoint, ...restPoints] = polygon!;
@@ -273,11 +238,6 @@ export const DynamicLighting: Component<{ object: iObject }> = (props) => {
       context.globalCompositeOperation = "destination-out";
       context.drawImage(nightTimeCanvas, 0, 0);
     }
-    // if we're in nighttime mode, we need to
-    // - Work out the original visibility polygon
-    // - Then we make an all black version of THAT polygon
-    // - We cut the light source circles out of THAT polygon
-    // - And we then overlay that on top of the area of the original visibility polygon
   });
 
   return (

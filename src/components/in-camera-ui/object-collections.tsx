@@ -10,7 +10,8 @@ export const ObjectCollection: Component = (props) => {
       each={Store.objects.filter(
         (o) =>
           o.type !== eObjectType.LINE_OF_SIGHT_WALL &&
-          o.type !== eObjectType.LINE_OF_SIGHT_WALL_ANCHOR,
+          o.type !== eObjectType.LINE_OF_SIGHT_WALL_ANCHOR &&
+          o.type !== eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE,
       )}
     >
       {(object) => (
@@ -61,7 +62,9 @@ export const LineOfSightWallAnchorCollection: Component = (props) => {
   return (
     <For
       each={Store.objects.filter(
-        (o) => o.type === eObjectType.LINE_OF_SIGHT_WALL_ANCHOR,
+        (o) =>
+          o.type === eObjectType.LINE_OF_SIGHT_WALL_ANCHOR ||
+          o.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE,
       )}
     >
       {(object) => (

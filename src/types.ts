@@ -23,6 +23,7 @@ export enum eTool {
   CURSOR = "CURSOR",
   SKETCH = "SKETCH",
   MEASURING = "MEASURING",
+  LINE_OF_SIGHT = "LINE_OF_SIGHT",
   ERASER = "ERASER",
   ADD_INFO_PIN = "ADD_INFO_PIN",
   ADD_LOS_WALL_ANCHOR = "ADD_LOS_WALL_ANCHOR",
@@ -35,6 +36,13 @@ export enum eMeasuringTools {
   CIRCLE = "CIRCLE",
   SQUARE = "SQUARE",
   CONE = "CONE",
+}
+
+export enum eLineOfSightTools {
+  LOS_CURSOR = "LOS_CURSOR",
+  LOS_ADD_WALL_ANCHOR = "LOS_ADD_WALL_ANCHOR",
+  LOS_DELETE_WALL = "LOS_DELETE_WALL",
+  LOS_ADD_LIGHT_SOURCE = "LOS_ADD_LIGHT_SOURCE",
 }
 
 export enum eLeftTray {

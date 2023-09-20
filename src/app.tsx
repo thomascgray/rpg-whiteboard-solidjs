@@ -100,9 +100,14 @@ export const App: Component = () => {
 
           <ObjectCollection />
 
-          <LineOfSightWallCollection />
-
-          <LineOfSightWallAnchorCollection />
+          <div
+            classList={{
+              invisible: Store.selectedTool() !== eTool.LINE_OF_SIGHT,
+            }}
+          >
+            <LineOfSightWallCollection />
+            <LineOfSightWallAnchorCollection />
+          </div>
 
           {/* object selection stuff */}
           <Show when={Store.selectedObjectIds().length >= 1}>

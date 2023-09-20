@@ -1,6 +1,11 @@
 import { Component, For, Show } from "solid-js";
 import * as Store from "../../store";
-import { eMeasuringTools, eObjectType, eTool } from "../../types";
+import {
+  eLineOfSightTools,
+  eMeasuringTools,
+  eObjectType,
+  eTool,
+} from "../../types";
 import * as Icons from "../icons";
 import * as Common from "../common-components";
 import { nanoid } from "nanoid";
@@ -42,24 +47,24 @@ export const BottomToolbar: Component = (props) => {
             }}
           />
 
-          <Common.CircleToolbarButton
+          {/* <Common.CircleToolbarButton
             icon={<Icons.GeoFill />}
             isActive={Store.selectedTool() === eTool.ADD_INFO_PIN}
             title="Add info pin"
             onMouseDown={() => {
               Store.setSelectedTool(eTool.ADD_INFO_PIN);
             }}
-          />
+          /> */}
 
           <Common.CircleToolbarButton
-            icon={<Icons.Bricks />}
-            isActive={Store.selectedTool() === eTool.ADD_LOS_WALL_ANCHOR}
+            icon={<Icons.EyeFill />}
+            isActive={Store.selectedTool() === eTool.LINE_OF_SIGHT}
             title="Add line of sight walls"
             onMouseDown={() => {
-              Store.setSelectedTool(eTool.ADD_LOS_WALL_ANCHOR);
+              Store.setSelectedTool(eTool.LINE_OF_SIGHT);
             }}
           />
-
+          {/* 
           <Common.CircleToolbarButton
             icon={<Icons.Trash3Fill />}
             isActive={Store.selectedTool() === eTool.DELETE_LOS_WALL}
@@ -76,7 +81,7 @@ export const BottomToolbar: Component = (props) => {
             onMouseDown={() => {
               Store.setSelectedTool(eTool.ADD_LOS_LIGHT_SOURCE);
             }}
-          />
+          /> */}
         </div>
 
         <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
@@ -160,6 +165,9 @@ export const BottomToolbar: Component = (props) => {
       </div>
       <Show when={Store.selectedTool() === eTool.MEASURING}>
         <MeasuringToolbar />
+      </Show>
+      <Show when={Store.selectedTool() === eTool.LINE_OF_SIGHT}>
+        <LineOfSightToolbar />
       </Show>
     </>
   );
@@ -326,6 +334,57 @@ export const MeasuringToolbar: Component = (props) => {
           title="Measuring tool - Cone"
           onMouseDown={() => {
             Store.setSelectedMeasuringTool(eMeasuringTools.CONE);
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
+export const LineOfSightToolbar: Component = (props) => {
+  return (
+    <div
+      class={`${Config.UI_CLASS} fixed bottom-[5.5em] left-[50%] z-50 flex translate-x-[-50%] flex-row justify-center space-x-2`}
+    >
+      <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
+        <Common.CircleToolbarButton
+          icon={<Icons.Cursor />}
+          isActive={
+            Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_CURSOR
+          }
+          title="Line of Sight - Cursor"
+          onMouseDown={() => {
+            Store.setSelectedLineOfSightTool(eLineOfSightTools.LOS_CURSOR);
+          }}
+        />
+        <Common.CircleToolbarButton
+          icon={<Icons.Cursor />}
+          isActive={
+            Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_CURSOR
+          }
+          title="Line of Sight - Cursor"
+          onMouseDown={() => {
+            Store.setSelectedLineOfSightTool(eLineOfSightTools.LOS_CURSOR);
+          }}
+        />
+        <Common.CircleToolbarButton
+          icon={<Icons.Cursor />}
+          isActive={
+            Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_CURSOR
+          }
+          title="Line of Sight - Cursor"
+          onMouseDown={() => {
+            Store.setSelectedLineOfSightTool(eLineOfSightTools.LOS_CURSOR);
+          }}
+        />
+        <Common.CircleToolbarButton
+          icon={<Icons.Cursor />}
+          isActive={
+            Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_CURSOR
+          }
+          title="Line of Sight - Cursor"
+          onMouseDown={() => {
+            Store.setSelectedLineOfSightTool(eLineOfSightTools.LOS_CURSOR);
           }}
         />
       </div>

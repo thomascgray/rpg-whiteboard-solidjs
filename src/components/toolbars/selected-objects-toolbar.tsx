@@ -27,7 +27,7 @@ export const SelectedObjectsToolbar: Component = (props) => {
   const topLeftY = () => {
     return Store.objectSelectionBox() === null
       ? 0
-      : (Store.objectSelectionBox()!.y - height() - 15 / cameraZ()) * cameraZ();
+      : (Store.objectSelectionBox()!.y - height() - 40 / cameraZ()) * cameraZ();
   };
 
   const ro = new ResizeObserver(() => {

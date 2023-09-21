@@ -21,7 +21,6 @@ Barnabus VTT is built with:
 
 So a typical interaction flow is;
 
-- clicking on an object -> triggering the `onObjectMouseDown` and `onWindowMouseDown` event handlers
 - moving the mouse around -> triggering the `onWindowMouseMove` and in turn, an interaction handler such as `interactionMoveObjects`
 - letting go of the mouse -> triggering the `onWindowMouseUp`, which may trigger further interaction handlers
 
@@ -58,7 +57,7 @@ And all of those event and interaction handlers read and write state, read and w
 - stop firing global key events when focused on a text box, all sorts of bugs to do with hitting delete and stuff.
 - the dynamic lighting needs to take into account only the tokens and walls inside the image thats relevant
 - sometimes deleting walls doesn't delete wall anchors correctly, and vice versa
-- the darkness lighting mode is fucked in many ways
+- when something is invisible we need it so that drag select doesn't select it
 
 ## Motion Effects Notes
 

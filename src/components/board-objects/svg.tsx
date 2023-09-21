@@ -25,12 +25,6 @@ export const SVGObject: Component<iSVGObjectProps> = (props) => {
           props.isSelected && Store.selectedObjectIds().length > 1,
       }}
       draggable="false"
-      // onMouseDown={(e) => {
-      //   if (Store.selectedTool() !== eTool.CURSOR) {
-      //     return;
-      //   }
-      //   EventHandlers.onObjectMouseDown(e, props.object);
-      // }}
       style={`
 outline-width: calc(2px / var(--app-camera-zoom));
 max-width: none;

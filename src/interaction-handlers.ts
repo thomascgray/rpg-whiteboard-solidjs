@@ -1,5 +1,6 @@
 import {
   eKey,
+  eLineOfSightTools,
   eMouseButton,
   eObjectType,
   eResizingFrom,
@@ -18,7 +19,7 @@ export const interactionLeftMouseDownOnObject = (
   e: MouseEvent,
   object: iObject,
 ) => {
-  if (Store.selectedTool() === eTool.CURSOR) {
+  if (Store.isCursorToolSelected()) {
     const selectedObjectIds = Store.selectedObjectIds();
     // if the we've already selected the one we've clicked on, do nothing
     // this is so we can start a drag
@@ -56,7 +57,8 @@ export const interactionLeftMouseDownOnObject = (
   }
 
   if (
-    Store.selectedTool() === eTool.DELETE_LOS_WALL &&
+    Store.selectedTool() === eTool.LINE_OF_SIGHT &&
+    Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_DELETE_WALL &&
     object.type === eObjectType.LINE_OF_SIGHT_WALL
   ) {
     Store.deleteObjectsById([object.id]);
@@ -294,7 +296,8 @@ export const addingObjectsBasedOnSelectedTool = (e: MouseEvent) => {
   }
 
   if (
-    Store.selectedTool() === eTool.ADD_LOS_WALL_ANCHOR &&
+    Store.selectedTool() === eTool.LINE_OF_SIGHT &&
+    Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_ADD_WALL_ANCHOR &&
     e.button === eMouseButton.LEFT
   ) {
     const pos = Utils.screenToCanvas(
@@ -351,7 +354,9 @@ export const addingObjectsBasedOnSelectedTool = (e: MouseEvent) => {
   }
 
   if (
-    Store.selectedTool() === eTool.ADD_LOS_LIGHT_SOURCE &&
+    Store.selectedTool() === eTool.LINE_OF_SIGHT &&
+    Store.selectedLineOfSightTool() ===
+      eLineOfSightTools.LOS_ADD_LIGHT_SOURCE &&
     e.button === eMouseButton.LEFT
   ) {
     const pos = Utils.screenToCanvas(

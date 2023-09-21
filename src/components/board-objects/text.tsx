@@ -51,12 +51,6 @@ export const TextObject: Component<iTextObjectProps> = (props) => {
 
         Store.setFocusedObjectId(props.object.id);
       }}
-      // onMouseDown={(e) => {
-      //   if (Store.selectedTool() !== eTool.CURSOR) {
-      //     return;
-      //   }
-      //   EventHandlers.onObjectMouseDown(e, props.object);
-      // }}
       style={`
       outline-width: calc(2px / var(--app-camera-zoom));
       max-width: none;

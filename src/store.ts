@@ -4,6 +4,7 @@ import { createStore, produce, reconcile } from "solid-js/store";
 import {
   eKey,
   eLeftTray,
+  eLineOfSightTools,
   eMeasuringTools,
   eModalTypes,
   eMouseButton,
@@ -80,6 +81,9 @@ export const [selectedTool, setSelectedTool] = createSignal<eTool>(
 export const [selectedMeasuringTool, setSelectedMeasuringTool] =
   createSignal<eMeasuringTools>(eMeasuringTools.LINE);
 
+export const [selectedLineOfSightTool, setSelectedLineOfSightTool] =
+  createSignal<eLineOfSightTools>(eLineOfSightTools.LOS_CURSOR);
+
 export const [penColour, setPenColour] = createSignal<string>("#e74c3c");
 export const [penSize, setPenSize] = createSignal<number>(10);
 
@@ -134,6 +138,15 @@ export const [rightMouseDownPosCanvas, setRightMouseDownPosCanvas] =
  *
  *
  */
+
+export const isCursorToolSelected = () => {
+  return (
+    selectedTool() === eTool.CURSOR ||
+    (selectedTool() === eTool.LINE_OF_SIGHT &&
+      selectedLineOfSightTool() === eLineOfSightTools.LOS_CURSOR)
+  );
+};
+
 export const unselectObjects = () => {
   // if any of the objects we're about to unselect are a text area, we need
   // to make that text area unfocused

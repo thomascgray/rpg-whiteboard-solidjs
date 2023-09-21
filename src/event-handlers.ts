@@ -2,6 +2,7 @@ import * as InteractionHandlers from "./interaction-handlers";
 import * as Store from "./store";
 import {
   eKey,
+  eLineOfSightTools,
   eMouseButton,
   eObjectType,
   eResizingFrom,
@@ -64,6 +65,14 @@ export const onWindowMouseDown = (e: MouseEvent) => {
     if (
       elements.at(-1)?.id === Config.APP_BACKGROUND_DOM_ID ||
       elements.at(-1)?.id === Config.APP_CAMERA_DOM_ID
+    ) {
+      InteractionHandlers.leftMouseDownEmptySpace();
+    }
+
+    if (
+      elements.at(-1)?.id === "line-of-sight-walls-svg-wrapper" &&
+      Store.selectedTool() === eTool.LINE_OF_SIGHT &&
+      Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_CURSOR
     ) {
       InteractionHandlers.leftMouseDownEmptySpace();
     }
@@ -198,7 +207,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 
   // mouse movement for drawing a selection box
   if (
-    Store.selectedTool() === eTool.CURSOR &&
+    Store.isCursorToolSelected() &&
     selectedObjectDOMElements.length <= 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT)
   ) {
@@ -220,7 +229,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 
   // mouse movement for moving objects around
   if (
-    Store.selectedTool() === eTool.CURSOR &&
+    Store.isCursorToolSelected() &&
     selectedObjectDOMElements.length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
     Store.isResizingFrom() === null &&
@@ -231,7 +240,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 
   // resizing object(s)
   if (
-    Store.selectedTool() === eTool.CURSOR &&
+    Store.isCursorToolSelected() &&
     selectedObjectDOMElements.length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
     Store.isResizingFrom() !== null &&
@@ -293,7 +302,8 @@ export const onWindowKeyDown = (e: KeyboardEvent) => {
   }
 
   if (
-    Store.selectedTool() === eTool.ADD_LOS_WALL_ANCHOR &&
+    Store.selectedTool() === eTool.LINE_OF_SIGHT &&
+    Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_ADD_WALL_ANCHOR &&
     e.key === eKey.SPACE
   ) {
     Store.setLastWallAnchorAdded(null);
@@ -363,49 +373,4 @@ export const onBeginResizing = (e: MouseEvent, resizingFrom: eResizingFrom) => {
   if (e.button === eMouseButton.LEFT) {
     Store.setIsResizingFrom(resizingFrom);
   }
-};
-
-export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
-  // e.stopPropagation();
-  // // we've stopped propagation so, so we need to call this manually
-  // onWindowMouseDown(e);
-  // // todo convert this to work in the main window event handler
-  // if (Store.selectedTool() === eTool.CURSOR) {
-  //   const selectedObjectIds = Store.selectedObjectIds();
-  //   if (e.button === eMouseButton.LEFT) {
-  //     // if the we've already selected the one we've clicked on, do nothing
-  //     // this is so we can start a drag
-  //     if (selectedObjectIds.includes(object.id)) {
-  //       return;
-  //     }
-  //     // if we're not holding any other objects, just select it
-  //     if (selectedObjectIds.length === 0) {
-  //       Store.setSelectedObjectIds([object.id]);
-  //       window.__app_selectedObjects = document.querySelectorAll(
-  //         ".__selected-object:not(.__is-locked)",
-  //       );
-  //       return;
-  //     }
-  //     // if we're not holding shift and we have some other objects, get
-  //     // rid of those and only select the one we've clicked
-  //     if (!Store.heldKeys().includes(eKey.SHIFT)) {
-  //       Store.setSelectedObjectIds([object.id]);
-  //       window.__app_selectedObjects = document.querySelectorAll(
-  //         ".__selected-object:not(.__is-locked)",
-  //       );
-  //       return;
-  //     }
-  //     // if we ARE holding shift, then add the selected one to the list
-  //     if (Store.heldKeys().includes(eKey.SHIFT) && !object.isLocked) {
-  //       Store.setSelectedObjectIds((selectedIds) => [
-  //         ...selectedIds,
-  //         object.id,
-  //       ]);
-  //       window.__app_selectedObjects = document.querySelectorAll(
-  //         ".__selected-object:not(.__is-locked)",
-  //       );
-  //       return;
-  //     }
-  //   }
-  // }
 };

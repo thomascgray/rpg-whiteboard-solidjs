@@ -60,7 +60,7 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
           "__selected-object hover:cursor-grab":
             props.isSelected &&
             !props.object.isLocked &&
-            Store.selectedTool() === eTool.CURSOR,
+            Store.isCursorToolSelected(),
           "__is-locked": props.object.isLocked,
           "rounded-full":
             props.object.maskShape === eImageMaskShapes.CIRCLE ||

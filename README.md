@@ -21,7 +21,6 @@ Barnabus VTT is built with:
 
 So a typical interaction flow is;
 
-- clicking on an object -> triggering the `onObjectMouseDown` and `onWindowMouseDown` event handlers
 - moving the mouse around -> triggering the `onWindowMouseMove` and in turn, an interaction handler such as `interactionMoveObjects`
 - letting go of the mouse -> triggering the `onWindowMouseUp`, which may trigger further interaction handlers
 

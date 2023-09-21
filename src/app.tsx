@@ -25,7 +25,7 @@ import { ContextMenu } from "./components/in-camera-ui/context-menu";
 
 export const App: Component = () => {
   onMount(() => {
-    TestingUtils.battlemapTest2();
+    TestingUtils.makeDummyObjects(2000, 10);
 
     window.__cameraDom = document.getElementById(Config.APP_CAMERA_DOM_ID)!;
     window.__backgroundAppDom = document.getElementById(
@@ -151,16 +151,12 @@ export const App: Component = () => {
 
       {/* <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
         <p>
-          camera
-          {JSON.stringify(Store.camera())}
+          selected tool
+          {JSON.stringify(Store.selectedTool())}
         </p>
         <p>
-          left mouse last down
-          {JSON.stringify(Store.leftMouseDownPosCanvas())}
-        </p>
-        <p>
-          right mouse last down
-          {JSON.stringify(Store.rightMouseDownPosCanvas())}
+          selected los tool
+          {JSON.stringify(Store.selectedLineOfSightTool())}
         </p>
       </div> */}
     </>

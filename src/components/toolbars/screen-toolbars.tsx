@@ -59,29 +59,12 @@ export const BottomToolbar: Component = (props) => {
           <Common.CircleToolbarButton
             icon={<Icons.EyeFill />}
             isActive={Store.selectedTool() === eTool.LINE_OF_SIGHT}
-            title="Add line of sight walls"
+            title="Line of sight tools"
             onMouseDown={() => {
               Store.setSelectedTool(eTool.LINE_OF_SIGHT);
+              Store.setSelectedLineOfSightTool(eLineOfSightTools.LOS_CURSOR);
             }}
           />
-          {/* 
-          <Common.CircleToolbarButton
-            icon={<Icons.Trash3Fill />}
-            isActive={Store.selectedTool() === eTool.DELETE_LOS_WALL}
-            title="Remove line of sight walls"
-            onMouseDown={() => {
-              Store.setSelectedTool(eTool.DELETE_LOS_WALL);
-            }}
-          />
-
-          <Common.CircleToolbarButton
-            icon={<Icons.BulbFill />}
-            isActive={Store.selectedTool() === eTool.ADD_LOS_LIGHT_SOURCE}
-            title="Add line of sight light source"
-            onMouseDown={() => {
-              Store.setSelectedTool(eTool.ADD_LOS_LIGHT_SOURCE);
-            }}
-          /> */}
         </div>
 
         <div class="space-x-2 rounded-full border border-solid border-slate-400 bg-slate-300 p-2 text-white shadow-lg">
@@ -358,33 +341,40 @@ export const LineOfSightToolbar: Component = (props) => {
           }}
         />
         <Common.CircleToolbarButton
-          icon={<Icons.Cursor />}
+          icon={<Icons.Bricks />}
           isActive={
-            Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_CURSOR
+            Store.selectedLineOfSightTool() ===
+            eLineOfSightTools.LOS_ADD_WALL_ANCHOR
           }
-          title="Line of Sight - Cursor"
+          title="Line of Sight - Add Wall Anchor"
           onMouseDown={() => {
-            Store.setSelectedLineOfSightTool(eLineOfSightTools.LOS_CURSOR);
+            Store.setSelectedLineOfSightTool(
+              eLineOfSightTools.LOS_ADD_WALL_ANCHOR,
+            );
           }}
         />
         <Common.CircleToolbarButton
-          icon={<Icons.Cursor />}
+          icon={<Icons.Eraser />}
           isActive={
-            Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_CURSOR
+            Store.selectedLineOfSightTool() ===
+            eLineOfSightTools.LOS_DELETE_WALL
           }
-          title="Line of Sight - Cursor"
+          title="Line of Sight - Delete Wall Anchor"
           onMouseDown={() => {
-            Store.setSelectedLineOfSightTool(eLineOfSightTools.LOS_CURSOR);
+            Store.setSelectedLineOfSightTool(eLineOfSightTools.LOS_DELETE_WALL);
           }}
         />
         <Common.CircleToolbarButton
-          icon={<Icons.Cursor />}
+          icon={<Icons.BulbFill />}
           isActive={
-            Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_CURSOR
+            Store.selectedLineOfSightTool() ===
+            eLineOfSightTools.LOS_ADD_LIGHT_SOURCE
           }
-          title="Line of Sight - Cursor"
+          title="Line of Sight - Add Light Source"
           onMouseDown={() => {
-            Store.setSelectedLineOfSightTool(eLineOfSightTools.LOS_CURSOR);
+            Store.setSelectedLineOfSightTool(
+              eLineOfSightTools.LOS_ADD_LIGHT_SOURCE,
+            );
           }}
         />
       </div>

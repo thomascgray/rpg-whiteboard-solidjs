@@ -1,5 +1,5 @@
 import { Component } from "solid-js";
-import { eTool, iObject } from "../../types";
+import { eLineOfSightTools, eTool, iObject } from "../../types";
 import * as EventHandlers from "../../event-handlers";
 import * as Store from "../../store";
 import * as Config from "../../config";
@@ -59,8 +59,13 @@ export const Wall: Component<iLineOfSightWallPointObjectProps> = (props) => {
       id={props.object.id}
       class={`${Config.OBJECT_CLASS} z-[1500] stroke-[#00FFFF] transition-colors duration-500`}
       classList={{
+        "pointer-events-none": !(
+          Store.selectedTool() === eTool.LINE_OF_SIGHT &&
+          Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_DELETE_WALL
+        ),
         "hover:stroke-[#FF0000] cursor-pointer":
-          Store.selectedTool() === eTool.DELETE_LOS_WALL,
+          Store.selectedTool() === eTool.LINE_OF_SIGHT &&
+          Store.selectedLineOfSightTool() === eLineOfSightTools.LOS_DELETE_WALL,
       }}
       stroke-linecap="round"
       x1={props.object.x}
@@ -90,18 +95,12 @@ export const LightSource: Component<iLineOfSightWallPointObjectProps> = (
         "__selected-object hover:cursor-grab":
           props.isSelected &&
           !props.object.isLocked &&
-          Store.selectedTool() === eTool.CURSOR,
+          Store.isCursorToolSelected(),
         "__is-locked": props.object.isLocked,
         "outline-dashed outline-blue-400":
           props.isSelected && Store.selectedObjectIds().length > 1,
       }}
       draggable="false"
-      onMouseDown={(e) => {
-        if (Store.selectedTool() !== eTool.CURSOR) {
-          return;
-        }
-        EventHandlers.onObjectMouseDown(e, props.object);
-      }}
       style={`
     outline-width: calc(2px / var(--app-camera-zoom));
     max-width: none;

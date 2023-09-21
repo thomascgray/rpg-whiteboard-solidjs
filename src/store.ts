@@ -138,6 +138,15 @@ export const [rightMouseDownPosCanvas, setRightMouseDownPosCanvas] =
  *
  *
  */
+
+export const isCursorToolSelected = () => {
+  return (
+    selectedTool() === eTool.CURSOR ||
+    (selectedTool() === eTool.LINE_OF_SIGHT &&
+      selectedLineOfSightTool() === eLineOfSightTools.LOS_CURSOR)
+  );
+};
+
 export const unselectObjects = () => {
   // if any of the objects we're about to unselect are a text area, we need
   // to make that text area unfocused

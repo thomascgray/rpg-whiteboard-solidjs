@@ -137,21 +137,27 @@ export const onWindowMouseUp = (e: MouseEvent) => {
   if (e.button === eMouseButton.LEFT && Store.dragSelectionBox() !== null) {
     const currentSelectionBox = Store.dragSelectionBox()!;
     // any objects that were within the bounding box of the drawing selection box need to be selected
-    const objectsWithinSelectionBox = Object.values(Store.objects)
-      .filter((o) => !o.isLocked)
-      .filter((o) => o.type !== eObjectType.LINE_OF_SIGHT_WALL)
+    const objectsWithinSelectionBox = [...Store.objects]
+      // .filter((o) => !o.isLocked)
+      // .filter((o) => o.type !== eObjectType.LINE_OF_SIGHT_WALL)
       .filter((obj) => {
-        const selectionBox = {
-          x: currentSelectionBox.x,
-          y: currentSelectionBox.y,
-          width: currentSelectionBox.width,
-          height: currentSelectionBox.height,
-        };
+        // const selectionBox = {
+        //   x: currentSelectionBox.x,
+        //   y: currentSelectionBox.y,
+        //   width: currentSelectionBox.width,
+        //   height: currentSelectionBox.height,
+        // };
 
-        return Utils.checkOverlap(obj, selectionBox);
+        return Utils.checkOverlap(obj, currentSelectionBox);
       });
 
+    console.log(
+      "objectsWithinSelectionBox.length",
+      objectsWithinSelectionBox.length,
+    );
+    console.log("a");
     Store.setSelectedObjectIds(objectsWithinSelectionBox.map((obj) => obj.id));
+    console.log("b");
     Store.setDragSelectionBox(null);
     window.__app_selectedObjects = document.querySelectorAll(
       ".__selected-object:not(.__is-locked)",
@@ -220,8 +226,8 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     );
 
     Store.setDragSelectionBox({
-      x: Math.min(mousePoint.x, Store.leftMouseDownPosCanvas().x),
-      y: Math.min(mousePoint.y, Store.leftMouseDownPosCanvas().y),
+      x: Math.round(Math.min(mousePoint.x, Store.leftMouseDownPosCanvas().x)),
+      y: Math.round(Math.min(mousePoint.y, Store.leftMouseDownPosCanvas().y)),
       width: Math.abs(mousePoint.x - Store.leftMouseDownPosCanvas().x),
       height: Math.abs(mousePoint.y - Store.leftMouseDownPosCanvas().y),
     });

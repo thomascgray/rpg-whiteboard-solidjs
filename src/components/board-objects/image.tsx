@@ -55,64 +55,18 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         }
         data-object-type={props.object.type}
         id={props.object.id}
-        class={`${Config.OBJECT_CLASS} absolute left-0 top-0 transform-gpu object-cover`}
-        classList={{
-          "__selected-object hover:cursor-grab":
-            props.isSelected &&
-            !props.object.isLocked &&
-            Store.isCursorToolSelected(),
-          "__is-locked": props.object.isLocked,
-          "rounded-full":
-            props.object.maskShape === eImageMaskShapes.CIRCLE ||
-            props.object.isBattleToken,
-          "cursor-cell": Store.selectedTool() === eTool.ADD_INFO_PIN,
-          "outline-dashed outline-blue-400":
-            props.isSelected && Store.selectedObjectIds().length > 1,
-        }}
+        class={`${Config.OBJECT_CLASS} absolute left-0 top-0`}
+        width={props.object.width}
+        height={props.object.height}
+        classList={{}}
         draggable="false"
         src={props.object.url}
         style={`
-        outline-width: calc(2px / var(--app-camera-zoom));
-        max-width: none;
-      width: ${props.object.width}px;
-      height: ${props.object.height}px;
-      z-index: ${props.object.zIndex};
       transform:
         translate(${props.object.x}px,
           ${props.object.y}px)`}
       />
-      <Show when={props.object.motionEffect === eImageMotionEffects.RAIN}>
-        <MotionEffects.Rain object={props.object} />
-      </Show>
 
-      <Show when={props.object.battlemap_isDynamicLighting}>
-        <DynamicLighting object={props.object} />
-      </Show>
-
-      <Show
-        when={
-          props.object.battlemap_gridType === eBattlemapGridType.SQUARES &&
-          props.object.battlemap_shouldRenderGrid === true
-        }
-      >
-        <BattleMapFeatures.SquaresOverlay object={props.object} />
-      </Show>
-      <Show
-        when={
-          props.object.battlemap_gridType ===
-          eBattlemapGridType.HEXAGONS_FLAT_TOP
-        }
-      >
-        <BattleMapFeatures.HexesFlatTopOverlay object={props.object} />
-      </Show>
-      <Show
-        when={
-          props.object.battlemap_gridType ===
-          eBattlemapGridType.HEXAGONS_POINTY_TOP
-        }
-      >
-        <BattleMapFeatures.HexesPointyTopOverlay object={props.object} />
-      </Show>
       {/* <p
         class="z-999999 absolute left-0 top-0 text-white"
         style={`transform: translate(${props.object.x}px, ${props.object.y}px); z-index: ${props.object.zIndex};`}

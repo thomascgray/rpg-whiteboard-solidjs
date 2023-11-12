@@ -173,7 +173,7 @@ export const persistSelectedObjectDOMElementsToState = () => {
 export const getCameraDomPosStyleValues = () => {
   // ridiculous string substition method
   const chunks = window.__cameraDom!.style.transform.split(" ");
-
+  console.log("chunks", chunks);
   const [scale, trans1, trans2] = chunks;
   const z = scale.substring(6, scale.length - 1);
   const x = trans1.substring(10, trans1.length - 3);

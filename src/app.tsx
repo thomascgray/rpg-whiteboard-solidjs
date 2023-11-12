@@ -22,6 +22,7 @@ import { ModalWrapper } from "./components/modals/modal-wrapper";
 import * as MeasuringSvgs from "./components/in-camera-ui/measuring-svgs";
 import * as Config from "./config";
 import { ContextMenu } from "./components/in-camera-ui/context-menu";
+import { effect } from "solid-js/web";
 
 export const App: Component = () => {
   onMount(() => {
@@ -31,14 +32,10 @@ export const App: Component = () => {
     window.__backgroundAppDom = document.getElementById(
       Config.APP_BACKGROUND_DOM_ID,
     )!;
-    window.__canvasDom = document.getElementById(Config.APP_CANVAS_DOM_ID)!;
 
     window.__barnabusGetObjects = () => {
       return Store.objects;
     };
-
-    // @ts-ignore
-    window.__canvasContext = window.__canvasDom.getContext("2d");
 
     window.onmousedown = EventHandlers.onWindowMouseDown;
     window.onmouseup = EventHandlers.onWindowMouseUp;
@@ -66,30 +63,24 @@ export const App: Component = () => {
     window.removeEventListener("wheel", EventHandlers.onWindowMouseWheel);
   });
 
+  effect(() => {
+    console.log(Store.camera());
+  });
+
   return (
     <>
       <div
-        style={{
-          "--app-border-thickness": `${3 / Store.camera().z}px`,
-          "--app-font-size": `${20 / Store.camera().z}px`,
-          "--app-resize-handle-size": `${20 / Store.camera().z}px`,
-          "--app-camera-zoom": `${Store.camera().z}`,
-          "background-color":
-            Store.boardSettings.boardBackgroundColour || "white",
-          "--app-active-pen-colour": Store.penColour() || "black",
-          "--app-measuring-tool-colour": "#e74c3c",
-        }}
-        draggable="false"
         id={Config.APP_BACKGROUND_DOM_ID}
+        draggable="false"
         class="h-screen w-screen cursor-auto touch-none overflow-hidden bg-slate-100"
       >
         <div
+          id={Config.APP_CAMERA_DOM_ID}
           data-pos-x={Store.camera().x}
           data-pos-y={Store.camera().y}
           data-pos-z={Store.camera().z}
-          id={Config.APP_CAMERA_DOM_ID}
           draggable="false"
-          class="h-screen w-screen origin-top-left transform-gpu select-none"
+          class=""
           style={`transform: scale(${Store.camera().z}) translate(${
             Store.camera().x
           }px, ${Store.camera().y}px)`}
@@ -99,35 +90,6 @@ export const App: Component = () => {
           */}
 
           <ObjectCollection />
-
-          <div
-            classList={{
-              invisible: Store.selectedTool() !== eTool.LINE_OF_SIGHT,
-            }}
-          >
-            <LineOfSightWallCollection />
-            <LineOfSightWallAnchorCollection />
-          </div>
-
-          {/* object selection stuff */}
-          <Show when={Store.selectedObjectIds().length >= 1}>
-            <ObjectSelectionHighlightBox />
-            <ResizeHandles />
-            <SelectedObjectsToolbar />
-          </Show>
-
-          {/* show the drawing box */}
-          <Show when={Store.dragSelectionBox()}>
-            <DragSelectionBoxComponent />
-          </Show>
-
-          <Show when={Store.isMeasuringDistance()}>
-            <MeasuringSvgs.Wrapper />
-          </Show>
-
-          <Show when={Store.rightMouseDownPosCanvas() !== null}>
-            <ContextMenu />
-          </Show>
         </div>
         {/* end camera */}
       </div>
@@ -135,30 +97,13 @@ export const App: Component = () => {
       {/* 
       all of the below happens OUTSIDE of the camera, so it's not affected by the camera's transform.
       */}
-      <MainCanvas />
 
-      <Show when={Store.selectedTool() === eTool.SKETCH}>
-        <CanvasPenNib />
-        <ScreenToolbars.BottomSketchToolbar />
-      </Show>
-      <ScreenToolbars.BottomToolbar />
-      <ScreenToolbars.TopToolbar />
-      <LeftTray />
-
-      <Show when={Store.currentModal() !== null}>
-        <ModalWrapper />
-      </Show>
-
-      {/* <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
+      <div class="absolute bottom-0 left-0 w-full bg-red-400 font-mono text-white">
         <p>
-          selected tool
-          {JSON.stringify(Store.selectedTool())}
+          is panning
+          {JSON.stringify(Store.isPanning())}
         </p>
-        <p>
-          selected los tool
-          {JSON.stringify(Store.selectedLineOfSightTool())}
-        </p>
-      </div> */}
+      </div>
     </>
   );
 };

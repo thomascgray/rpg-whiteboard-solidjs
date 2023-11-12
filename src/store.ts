@@ -122,6 +122,7 @@ export const [lastWallAnchorAdded, setLastWallAnchorAdded] =
 export const [rightMouseDownPosCanvas, setRightMouseDownPosCanvas] =
   createSignal<iPoint | null>(null);
 
+export const [isPanning, setIsPanning] = createSignal<boolean>(false);
 /**
  *
  *

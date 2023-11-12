@@ -116,6 +116,9 @@ export const onWindowMouseDown = (e: MouseEvent) => {
   if (e.button === eMouseButton.RIGHT) {
     console.log("aaaaaa right click");
   }
+  if (e.button === eMouseButton.MIDDLE) {
+    Store.setIsPanning(true);
+  }
 };
 
 export const onWindowMouseUp = (e: MouseEvent) => {
@@ -138,26 +141,14 @@ export const onWindowMouseUp = (e: MouseEvent) => {
     const currentSelectionBox = Store.dragSelectionBox()!;
     // any objects that were within the bounding box of the drawing selection box need to be selected
     const objectsWithinSelectionBox = [...Store.objects]
-      // .filter((o) => !o.isLocked)
-      // .filter((o) => o.type !== eObjectType.LINE_OF_SIGHT_WALL)
+      .filter((o) => !o.isLocked)
+      .filter((o) => o.type !== eObjectType.LINE_OF_SIGHT_WALL)
       .filter((obj) => {
-        // const selectionBox = {
-        //   x: currentSelectionBox.x,
-        //   y: currentSelectionBox.y,
-        //   width: currentSelectionBox.width,
-        //   height: currentSelectionBox.height,
-        // };
-
         return Utils.checkOverlap(obj, currentSelectionBox);
       });
 
-    console.log(
-      "objectsWithinSelectionBox.length",
-      objectsWithinSelectionBox.length,
-    );
-    console.log("a");
     Store.setSelectedObjectIds(objectsWithinSelectionBox.map((obj) => obj.id));
-    console.log("b");
+
     Store.setDragSelectionBox(null);
     window.__app_selectedObjects = document.querySelectorAll(
       ".__selected-object:not(.__is-locked)",
@@ -172,6 +163,7 @@ export const onWindowMouseUp = (e: MouseEvent) => {
     window.__cameraDom!.dataset.posX = String(x);
     window.__cameraDom!.dataset.posY = String(y);
     window.__cameraDom!.dataset.posZ = String(z);
+    Store.setIsPanning(false);
   }
 
   // // if we were just resizing
@@ -186,6 +178,12 @@ export const onWindowMouseUp = (e: MouseEvent) => {
 
 export const onWindowMouseMove = (e: MouseEvent) => {
   window.__mousePosition = { x: e.clientX, y: e.clientY };
+  // panning
+  if (Store.heldMouseButtons().includes(eMouseButton.MIDDLE)) {
+    InteractionHandlers.interactionPanCamera(-e.movementX, -e.movementY);
+    return;
+  }
+
   if (Store.isMeasuringDistance()) {
     Store.setMousePosMeasuringDistance(
       Utils.screenToCanvas(
@@ -200,12 +198,6 @@ export const onWindowMouseMove = (e: MouseEvent) => {
 
   if (Store.selectedTool() === eTool.SKETCH) {
     Store.setmousePosSketching({ x: e.clientX, y: e.clientY });
-  }
-
-  // panning
-  if (Store.heldMouseButtons().includes(eMouseButton.MIDDLE)) {
-    InteractionHandlers.interactionPanCamera(-e.movementX, -e.movementY);
-    return;
   }
 
   const selectedObjectDOMElements =

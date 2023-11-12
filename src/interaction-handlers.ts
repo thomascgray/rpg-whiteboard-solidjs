@@ -66,7 +66,7 @@ export const interactionLeftMouseDownOnObject = (
 };
 
 export const interactionPanCamera = (movementX: number, movementY: number) => {
-  DOMUtils.stopCameraAnimating();
+  // DOMUtils.stopCameraAnimating();
 
   const deltaX = movementX;
   const deltaY = movementY;
@@ -76,6 +76,10 @@ export const interactionPanCamera = (movementX: number, movementY: number) => {
   window.__cameraDom!.style.transform = `scale(${z}) translate(${
     x - deltaX / z
   }px, ${y - deltaY / z}px)`;
+
+  // window.__cameraDom!.style.transform = `scale(${z}) translate(${
+  //   x - deltaX / z
+  // }px, ${y - deltaY / z}px)`;
 };
 
 export const interactionMoveObjects = (e: MouseEvent) => {

@@ -55,7 +55,7 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         }
         data-object-type={props.object.type}
         id={props.object.id}
-        class={`${Config.OBJECT_CLASS} absolute left-0 top-0 transform-gpu object-cover`}
+        class={`${Config.OBJECT_CLASS} absolute left-0 top-0 `}
         classList={{
           "__selected-object hover:cursor-grab":
             props.isSelected &&
@@ -72,14 +72,15 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         draggable="false"
         src={props.object.url}
         style={`
-        outline-width: calc(2px / var(--app-camera-zoom));
-        max-width: none;
+        // outline-width: calc(2px / var(--app-camera-zoom));
+        // max-width: none;
       width: ${props.object.width}px;
       height: ${props.object.height}px;
-      z-index: ${props.object.zIndex};
+      // z-index: ${props.object.zIndex};
       transform:
         translate(${props.object.x}px,
-          ${props.object.y}px)`}
+          ${props.object.y}px)
+          `}
       />
       <Show when={props.object.motionEffect === eImageMotionEffects.RAIN}>
         <MotionEffects.Rain object={props.object} />

@@ -114,3 +114,10 @@ https://github.com/wilsonpage/fastdom ???
 
 maybe we should start doing mad shit like keeping all selected object dom nodes on the window so we don't have to recompute, etc.
 update: we did this, it works great, may god have mercy on our souls
+
+---
+
+so doing a test with 100 image objects.....
+when they're all bunched up on top of each other, chrome's performance drops to a crawl
+but when they're literally spread out and not on top of each other, everything is fine.
+very interesting, i wonder if this is a limitation in chrome itself.

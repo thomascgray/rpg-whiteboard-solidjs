@@ -73,6 +73,8 @@ export const interactionPanCamera = (movementX: number, movementY: number) => {
 
   const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
 
+  console.log("pan");
+
   window.__cameraDom!.style.transform = `scale(${z}) translate(${
     x - deltaX / z
   }px, ${y - deltaY / z}px)`;

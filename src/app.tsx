@@ -25,7 +25,7 @@ import { ContextMenu } from "./components/in-camera-ui/context-menu";
 
 export const App: Component = () => {
   onMount(() => {
-    TestingUtils.makeDummyObjects(2000, 10);
+    TestingUtils.makeDummyObjects2(100, 100);
 
     window.__cameraDom = document.getElementById(Config.APP_CAMERA_DOM_ID)!;
     window.__backgroundAppDom = document.getElementById(
@@ -89,7 +89,7 @@ export const App: Component = () => {
           data-pos-z={Store.camera().z}
           id={Config.APP_CAMERA_DOM_ID}
           draggable="false"
-          class="h-screen w-screen origin-top-left transform-gpu select-none"
+          class="h-screen w-screen origin-top-left select-none"
           style={`transform: scale(${Store.camera().z}) translate(${
             Store.camera().x
           }px, ${Store.camera().y}px)`}

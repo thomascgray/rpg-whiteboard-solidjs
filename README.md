@@ -121,3 +121,11 @@ so doing a test with 100 image objects.....
 when they're all bunched up on top of each other, chrome's performance drops to a crawl
 but when they're literally spread out and not on top of each other, everything is fine.
 very interesting, i wonder if this is a limitation in chrome itself.
+
+---
+
+bunch more testing;
+from what i can tell, chromes insane performance problems are literally only when theres like 50+ images stacked on top
+of each other AND they're taking up the whole screen
+which, i mean, will never happen? so fuck it?
+i tried with 2000 objects, 500ish more than the average BitD board and performance was not amazing, not shit. i think we're fine

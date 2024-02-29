@@ -7,7 +7,6 @@ export interface ImageProps {
 }
 
 export const ImageObject: Component<ImageProps> = (props) => {
-  // const derivedUrl = () => props.object.url;
   const derivedUrl = createMemo(() => props.object.url);
   const derivedId = createMemo(() => props.object.id);
 
@@ -22,12 +21,12 @@ export const ImageObject: Component<ImageProps> = (props) => {
       img.onload = function () {
         Store.setObjects(_id, {
           dimensions: {
-            width: img.width,
-            height: img.height,
+            _width: img.width,
+            _height: img.height,
           },
           preResizeDimensions: {
-            width: img.width,
-            height: img.height,
+            _width: img.width,
+            _height: img.height,
           },
         });
 

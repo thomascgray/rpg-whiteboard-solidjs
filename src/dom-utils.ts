@@ -1,5 +1,6 @@
 import { iObject } from "./types";
 import * as Store from "./store";
+import { reconcile } from "solid-js/store";
 
 // recalculates the position for the object selection box and redraws it manually
 export const redrawObjectSelectionBox = () => {
@@ -9,10 +10,6 @@ export const redrawObjectSelectionBox = () => {
 export const getAllCurrentlySelectedObjectDOMElements = () => {
   const elements = document.getElementsByClassName("__selected-object");
   return elements;
-};
-
-export const getDOMElementPosDataValues = (element: HTMLElement) => {
-  return [element.dataset.posX, element.dataset.posY];
 };
 
 export const getDOMElementPosStyleValues = (element: HTMLElement) => {
@@ -37,15 +34,22 @@ export const getDOMElementDimensionsStyleValues = (element: HTMLElement) => {
 };
 
 // sets the transform coords on an element
-// and also the data attributes so we can get them back out later
 export const setCoordsOnElement = (
   element: HTMLElement,
   x: number,
   y: number
 ) => {
   element.style.transform = `translate(${x}px, ${y}px)`;
-  // element.dataset.posX = `${x}`;
-  // element.dataset.posY = `${y}`;
+};
+
+// sets the transform coords on an element
+export const setDimensionOnElement = (
+  element: HTMLElement,
+  width: number,
+  height: number
+) => {
+  element.style.width = `${width}px`;
+  element.style.height = `${height}px`;
 };
 
 export const setCoordsAndDimensionsOnElement = (
@@ -58,10 +62,6 @@ export const setCoordsAndDimensionsOnElement = (
   element.style.transform = `translate(${x}px, ${y}px)`;
   element.style.width = `${width}px`;
   element.style.height = `${height}px`;
-  // element.dataset.posX = `${x}`;
-  // element.dataset.posY = `${y}`;
-  // element.dataset.width = `${width}`;
-  // element.dataset.height = `${height}`;
 };
 
 export const getBottomLeftCoords = (
@@ -69,37 +69,40 @@ export const getBottomLeftCoords = (
 ) => {};
 
 export const persistSelectedObjectDOMElementsToState = () => {
-  const newObjs: Partial<{ [key: string]: iObject }> = {};
+  console.log("persistSelectedObjectDOMElementsToState");
   const selectedObjectDOMElements = getAllCurrentlySelectedObjectDOMElements();
 
+  const objs = [...Store.objects];
   for (let el of selectedObjectDOMElements) {
     const element = el as HTMLElement;
-    const obj = Store.objects[element.id];
+    const obj = Store.objects.find((o) => o.id === element.id)!;
+    const objIndex = Store.objects.findIndex((o) => o.id === element.id);
+
     const [x, y] = getDOMElementPosStyleValues(element);
     const [width, height] = getDOMElementDimensionsStyleValues(element);
-    const pos: iObject["pos"] = {
-      x: +x!,
-      y: +y!,
-    };
-    element.dataset.posX = x.toString();
-    element.dataset.posY = y.toString();
-    element.dataset.width = width.toString();
-    element.dataset.height = height.toString();
-    newObjs[element.id] = {
+
+    objs[objIndex] = {
       ...obj,
-      pos,
-      preDragPos: pos,
-      dimensions: {
-        width: +width,
-        height: +height,
-      },
-      preResizeDimensions: {
-        width: +width,
-        height: +height,
-      },
+      x,
+      y,
+      width,
+      height,
     };
   }
-  console.log("newObjs", JSON.stringify(newObjs, null, 2));
 
-  Store.setObjects(newObjs);
+  // its chuggy when we're moving or resizing like 1000+ plus objects, but
+  // at that point... we'll worry about it later
+  Store.setObjects(reconcile(objs));
+};
+
+export const getCameraDomPosStyleValues = () => {
+  const cameraDom = document.getElementById("camera");
+  const style = window.getComputedStyle(cameraDom!);
+  const matrix = style.transform
+    .substring(7, style.transform.length - 1)
+    .split(",")
+    .map((x) => Number(x));
+
+  const [z, , , , x, y] = matrix;
+  return [x / z, y / z, z];
 };

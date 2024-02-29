@@ -4,10 +4,10 @@ import { eKey, eMouseButton, eResizingFrom, iCamera, iObject } from "./types";
 import * as Utils from "./utils";
 import * as DOMUtils from "./dom-utils";
 
-export const onMouseDown_Window = (e: MouseEvent) => {
+export const onWindowMouseDown = (e: MouseEvent) => {
   Store.setHeldMouseButtons((buttons) => [...buttons, e.button]);
 
-  if (e.button === eMouseButton.LEFT) {
+  if (e.button === eMouseButton.LEFT || e.button === eMouseButton.MIDDLE) {
     Store.setMouseDownPos({ x: e.clientX, y: e.clientY });
     Store.setMouseDownPosCanvas(
       Utils.screenToCanvas(
@@ -19,26 +19,19 @@ export const onMouseDown_Window = (e: MouseEvent) => {
       )
     );
   }
-
-  if (e.button === eMouseButton.MIDDLE) {
-    Store.setIsPanning(true);
-  }
 };
 
-// mouse up is primarily used for re-setting "dom state", e.g stuff that is
-// in style but not in state, like the position of a dragged object
-// BACK into actual state
-export const onMouseUp_Window = (e: MouseEvent) => {
+export const onWindowMouseUp = (e: MouseEvent) => {
   // if we were just dragging some objects around
-  if (e.button === eMouseButton.LEFT && Store.selectedObjectIds().length > 0) {
+  if (
+    e.button === eMouseButton.LEFT &&
+    Store.selectedObjectIds().length > 0 &&
+    Store.isResizingFrom() === null
+  ) {
     DOMUtils.persistSelectedObjectDOMElementsToState();
-
-    // we should just work these out and set them directly
-    // Store.recalculateObjectSelectionBoxPos();
-    // Store.recalculateObjectSelectionBoxWidthAndHeight();
   }
 
-  // // if we're letting go of dragging a selection box
+  // if we're letting go of dragging a selection box
   if (
     e.button === eMouseButton.LEFT &&
     Store.isDrawingSelectionBox() &&
@@ -49,14 +42,10 @@ export const onMouseUp_Window = (e: MouseEvent) => {
     const objectsWithinSelectionBox = Object.values(Store.objects).filter(
       (obj) => {
         const selectionBox = {
-          pos: {
-            x: Store.drawingSelectionBoxStartPos().x,
-            y: Store.drawingSelectionBoxStartPos().y,
-          },
-          dimensions: {
-            width: Store.drawingSelectionBoxWidth(),
-            height: Store.drawingSelectionBoxHeight(),
-          },
+          x: Store.drawingSelectionBoxStartPos().x,
+          y: Store.drawingSelectionBoxStartPos().y,
+          width: Store.drawingSelectionBoxWidth(),
+          height: Store.drawingSelectionBoxHeight(),
         };
 
         return Utils.checkOverlap(obj, selectionBox);
@@ -64,8 +53,6 @@ export const onMouseUp_Window = (e: MouseEvent) => {
     );
 
     Store.setSelectedObjectIds(objectsWithinSelectionBox.map((obj) => obj.id));
-    Store.recalculateObjectSelectionBoxPos();
-    Store.recalculateObjectSelectionBoxWidthAndHeight();
     Store.setIsSelectingMultipleObjects(objectsWithinSelectionBox.length > 1);
 
     Store.setIsDrawingSelectionBox(false);
@@ -75,33 +62,34 @@ export const onMouseUp_Window = (e: MouseEvent) => {
 
   // if we were panning
   if (e.button === eMouseButton.MIDDLE) {
-    const cameraDOM = document.getElementById("camera");
-    const existingCamera: iCamera = {
-      x: Number(cameraDOM!.dataset.posX),
-      y: Number(cameraDOM!.dataset.posY),
-      z: Number(cameraDOM!.dataset.posZ),
-    };
-    Store.setCamera(existingCamera);
+    const [x, y, z] = DOMUtils.getCameraDomPosStyleValues();
+
+    Store.setCamera({ x, y, z });
   }
 
-  // // if we were just resizing, we're not anymore
+  // // if we were just resizing
   if (e.button === eMouseButton.LEFT && Store.isResizingFrom() !== null) {
-    DOMUtils.persistSelectedObjectDOMElementsToState();
-
     Store.setIsResizingFrom(null);
-    // we should just work these out and set them directly
-    Store.recalculateObjectSelectionBoxPos();
-    Store.recalculateObjectSelectionBoxWidthAndHeight();
+    DOMUtils.persistSelectedObjectDOMElementsToState();
   }
 
   // finally, unset the held buttons
   Store.setHeldMouseButtons((buttons) => buttons.filter((b) => b !== e.button));
 };
 
-export const onMouseMove_Window = (e: MouseEvent) => {
+export const onWindowMouseMove = (e: MouseEvent) => {
+  const selectedObjectDOMElements =
+    DOMUtils.getAllCurrentlySelectedObjectDOMElements();
+
+  // panning
+  if (Store.heldMouseButtons().includes(eMouseButton.MIDDLE)) {
+    InteractionHandlers.interactionPanCamera(-e.movementX, -e.movementY);
+    return;
+  }
+
   // mouse movement for drawing a selection box
   if (
-    Store.selectedObjectIds().length <= 0 &&
+    selectedObjectDOMElements.length <= 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT)
   ) {
     const mousePoint = Utils.screenToCanvas(
@@ -127,47 +115,72 @@ export const onMouseMove_Window = (e: MouseEvent) => {
 
   // mouse movement for moving objects around
   if (
-    Store.selectedObjectIds().length > 0 &&
+    selectedObjectDOMElements.length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
     Store.isResizingFrom() === null &&
     !Store.isFocusedInTextbox()
   ) {
+    // lol, do more of this i guess? [shrug]
+    window.__app_selectedObjects =
+      document.getElementsByClassName("__selected-object");
     InteractionHandlers.interactionMoveObjects(e);
+    window.__app_selectedObjects = undefined;
   }
 
   // resizing object(s)
   if (
-    Store.selectedObjectIds().length > 0 &&
+    selectedObjectDOMElements.length > 0 &&
     Store.heldMouseButtons().includes(eMouseButton.LEFT) &&
     Store.isResizingFrom() !== null &&
     !Store.isFocusedInTextbox()
   ) {
     InteractionHandlers.interactionResizeObjects(e);
   }
+};
 
-  // panning
-  if (Store.heldMouseButtons().includes(eMouseButton.MIDDLE)) {
-    InteractionHandlers.interactionPanCamera(e.movementX, e.movementY);
+export const onWindowMouseWheel = (e: WheelEvent) => {
+  // e.preventDefault();
+  e.stopPropagation();
+  if (e.type === "pinch" || e.ctrlKey) {
+    console.log("pinch");
+    InteractionHandlers.interactionZoomCamera(e);
+  } else {
+    console.log("pan");
+    InteractionHandlers.interactionPanCamera(e.deltaX, e.deltaY);
   }
 };
 
-export const onMouseWheel_Window = (e: WheelEvent) => {
-  InteractionHandlers.interactionZoomCamera(e);
-};
-
-export const onKeyDown_Window = (e: KeyboardEvent) => {
+export const onWindowKeyDown = (e: KeyboardEvent) => {
   if (e.repeat) {
     return;
   }
   Store.setHeldKeys((keys) => [...keys, e.key as eKey]);
+
+  if (e.key === eKey.DELETE) {
+    Store.deleteSelectedObjects();
+  }
+
+  if (e.key === eKey.ESCAPE) {
+    Store.setIsDrawingSelectionBox(false);
+    Store.setIsResizingFrom(null);
+    Store.setIsSelectingMultipleObjects(false);
+    Store.setSelectedObjectIds([]);
+  }
+
+  if (e.key === eKey.NUMBER_1) {
+    Utils.sendSelectedObjectsToBack();
+  }
 };
 
-export const onKeyUp_Window = (e: KeyboardEvent) => {
+export const onWindowKeyUp = (e: KeyboardEvent) => {
   Store.setHeldKeys((keys) => keys.filter((k) => k !== (e.key as eKey)));
 };
 
+/**
+ * DOM handlers
+ */
+
 export const onCanvasMouseDown = (e: MouseEvent) => {
-  console.log("onCanvasMouseDown");
   if (e.button === eMouseButton.LEFT) {
     Store.unselectObjects();
     Store.setIsDrawingSelectionBox(true);
@@ -175,18 +188,12 @@ export const onCanvasMouseDown = (e: MouseEvent) => {
 };
 
 export const onBeginResizing = (e: MouseEvent, resizingFrom: eResizingFrom) => {
-  console.log("onBeginResizing");
-
   e.stopPropagation();
   // we've stopped propagation so, so we need to call this manually
-  onMouseDown_Window(e);
+  onWindowMouseDown(e);
 
   if (e.button === eMouseButton.LEFT) {
     Store.setIsResizingFrom(resizingFrom);
-    Store.setObjectSelectionBoxWidthPreResize(Store.objectSelectionBoxWidth());
-    Store.setObjectSelectionBoxHeightPreResize(
-      Store.objectSelectionBoxHeight()
-    );
   }
 };
 
@@ -194,7 +201,7 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
   e.stopPropagation();
 
   // we've stopped propagation so, so we need to call this manually
-  onMouseDown_Window(e);
+  onWindowMouseDown(e);
 
   const selectedObjectIds = Store.selectedObjectIds();
   if (e.button === eMouseButton.LEFT) {
@@ -207,8 +214,6 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
     // if we're not holding any other objects, just select it
     if (selectedObjectIds.length === 0) {
       Store.setSelectedObjectIds([object.id]);
-      Store.recalculateObjectSelectionBoxPos();
-      Store.recalculateObjectSelectionBoxWidthAndHeight();
       Store.setIsSelectingMultipleObjects(false);
       return;
     }
@@ -217,19 +222,13 @@ export const onObjectMouseDown = (e: MouseEvent, object: iObject) => {
     // rid of those and only select the one we've clicked
     if (!Store.heldKeys().includes(eKey.SHIFT)) {
       Store.setSelectedObjectIds([object.id]);
-      Store.recalculateObjectSelectionBoxPos();
-      Store.recalculateObjectSelectionBoxWidthAndHeight();
       Store.setIsSelectingMultipleObjects(false);
-      // selectedObjectIds = [object.id];
-      // state.isSelectingMultipleObjects = selectedObjectIds.length > 1;
       return;
     }
 
     // if we ARE holding shift, then add the selected one to the list
     if (Store.heldKeys().includes(eKey.SHIFT)) {
       Store.setSelectedObjectIds((selectedIds) => [...selectedIds, object.id]);
-      Store.recalculateObjectSelectionBoxPos();
-      Store.recalculateObjectSelectionBoxWidthAndHeight();
       Store.setIsSelectingMultipleObjects(Store.selectedObjectIds().length > 1);
       return;
     }

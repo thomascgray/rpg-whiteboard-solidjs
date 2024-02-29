@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    __app_selectedObjects?: HTMLCollectionOf<Element>;
+  }
+}
+
 export enum eKey {
   SPACE = " ",
   NUMBER_1 = "1",
@@ -41,7 +47,6 @@ export interface iState {
   };
 
   // 3. everything else is basically "interaction" state. e.g what objects are selected, is the user dragging, etc.
-  // selectedObjectIds: string[];
 
   isSelectingMultipleObjects: boolean;
 
@@ -62,48 +67,22 @@ export interface iState {
   isResizingFrom: eResizingFrom | null;
 }
 
-// export const initialState: iState = {
-// 	objects: {},
-// 	// selectedObjectIds: [],
-// 	isFocusedInTextbox: false,
-// 	mouseDownPos: { x: 0, y: 0 },
-// 	mouseDownPosCanvas: { x: 0, y: 0 },
-// 	isPanning: false,
-// 	isDrawingSelectionBox: false,
-// 	drawingSelectionBoxStartPos: { x: 0, y: 0 },
-// 	drawingSelectionBoxWidth: 0,
-// 	drawingSelectionBoxHeight: 0,
-// 	isSelectingMultipleObjects: false,
-// 	input: {
-// 		heldMouseButtons: [],
-// 		heldKeys: []
-// 	},
-// 	camera: {
-// 		x: 0,
-// 		y: 0,
-// 		z: 1
-// 	},
-// 	isResizingFrom: null
-// };
-
 export interface iObject {
   id: string;
 
-  // position stuff
-  pos: iPoint;
-  preDragPos: iPoint;
-  preResizePos: iPoint;
-
-  dimensions: iDimensions;
-  preResizeDimensions: iDimensions;
-
+  x: number;
+  y: number;
+  width: number;
+  height: number;
   zIndex: number;
   type: eObjectType;
 
+  // used for text at the minute but maybe other stuff later on?
   isFocused: boolean;
 
   // for images
   url?: string;
+  hasSelfResized?: boolean;
 
   // for text
   text?: string;
@@ -114,13 +93,15 @@ export interface iPoint {
   y: number;
 }
 export interface iDimensions {
-  width: number;
-  height: number;
+  _width: number;
+  _height: number;
 }
 
 export interface iBox {
-  pos: iPoint;
-  dimensions: iDimensions;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
 export interface iCamera {

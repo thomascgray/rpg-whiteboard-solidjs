@@ -5,51 +5,7 @@ import * as DOMUtils from "./dom-utils";
 export const resizeBottomLeftToTopRight = (
   distanceX: number,
   distanceY: number
-) => {
-  let newParentWidth = () =>
-    Store.objectSelectionBoxWidthPreResize() + distanceX;
-  let newParentHeight = () =>
-    Store.objectSelectionBoxHeightPreResize() + distanceY;
-
-  const ratio = () =>
-    Math.min(
-      newParentWidth() / Store.objectSelectionBoxWidthPreResize(),
-      newParentHeight() / Store.objectSelectionBoxHeightPreResize()
-    );
-  const newWidthWithRatio = Store.objectSelectionBoxWidthPreResize() * ratio();
-
-  const newParentXWithRatio =
-    Store.objectSelectionBoxPosX() -
-    (newWidthWithRatio - Store.objectSelectionBoxWidthPreResize());
-
-  Store.selectedObjectIds().forEach((id) => {
-    const object = Store.getObjectById(id);
-    const x1 = Store.objectSelectionBoxPosX() - object.preResizePos.x;
-    const x2 = x1 * ratio();
-    const x3 = x1 - x2;
-    const y1 = Store.objectSelectionBoxPosY() - object.preResizePos.y;
-    const y2 = y1 * ratio();
-    const y3 = y1 - y2;
-
-    const parentDiff = Store.objectSelectionBoxPosX() - newParentXWithRatio;
-
-    const newX = object.preResizePos.x + x3 - parentDiff;
-    const newY = object.preResizePos.y + y3;
-    const newWidth = object.dimensions.width * ratio();
-    const newHeight = object.dimensions.height * ratio();
-
-    Store.setObjects(object.id, {
-      pos: {
-        x: newX,
-        y: newY,
-      },
-      dimensions: {
-        width: newWidth,
-        height: newHeight,
-      },
-    });
-  });
-};
+) => {};
 
 export const resizeBottomRightToTopLeft = (
   distanceX: number,
@@ -71,7 +27,11 @@ export const resizeBottomRightToTopLeft = (
     newParentHeight / Number(objectSelectionBoxElement.dataset.height)
   );
 
-  const elements = DOMUtils.getAllCurrentlySelectedObjectDOMElements();
+  let elements = DOMUtils.getAllCurrentlySelectedObjectDOMElements();
+
+  const xList: number[] = [];
+  const yList: number[] = [];
+
   for (let el of elements) {
     const element = el as HTMLElement;
 
@@ -91,6 +51,9 @@ export const resizeBottomRightToTopLeft = (
     const newWidth = Number(element.dataset.width) * ratio;
     const newHeight = Number(element.dataset.height) * ratio;
 
+    xList.push(newX + newWidth);
+    yList.push(newY + newHeight);
+
     DOMUtils.setCoordsAndDimensionsOnElement(
       element,
       newX,
@@ -99,4 +62,30 @@ export const resizeBottomRightToTopLeft = (
       newHeight
     );
   }
+
+  // move the selection box...
+  const newWidth =
+    Math.max(...xList) - Number(objectSelectionBoxElement.dataset.posX);
+  const newHeight =
+    Math.max(...yList) - Number(objectSelectionBoxElement.dataset.posY);
+  DOMUtils.setDimensionOnElement(
+    objectSelectionBoxElement,
+    newWidth,
+    newHeight
+  );
+
+  // now move the resize handles
+  // left one just needs to go up by the amount that the box has gone up
+  const resizeHandleLeft = document.getElementById("__resize_handle_left");
+  const resizeHandleRight = document.getElementById("__resize_handle_right");
+
+  const leftX = Number(resizeHandleLeft!.dataset.posX);
+  const leftY = Number(objectSelectionBoxElement.dataset.posY) + newHeight;
+  DOMUtils.setCoordsOnElement(resizeHandleLeft!, leftX, leftY);
+
+  const rightX =
+    Number(resizeHandleRight!.dataset.posX) -
+    (Number(objectSelectionBoxElement.dataset.width) - newWidth);
+  const rightY = Number(objectSelectionBoxElement.dataset.posY) + newHeight;
+  DOMUtils.setCoordsOnElement(resizeHandleRight!, rightX, rightY);
 };

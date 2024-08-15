@@ -45,7 +45,14 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
 
   return (
     <>
-      <img
+      <div
+        style={`
+        width: ${props.object.width}px;
+        height: ${props.object.height}px;
+        background-image: url(${props.object.url});
+        background-size: cover;
+        // backface-visibility: hidden;
+        transform: translateX(${props.object.x}px) translateY(${props.object.y}px) translateZ(0);`}
         data-pos-x={props.object.x}
         data-pos-y={props.object.y}
         data-width={props.object.width}
@@ -53,10 +60,12 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
         data-is-battle-token={
           props.object.type === eObjectType.IMAGE && props.object.isBattleToken
         }
+        // src={props.object.url}
         data-object-type={props.object.type}
         id={props.object.id}
-        class={`${Config.OBJECT_CLASS} absolute left-0 top-0 `}
+        draggable="false"
         classList={{
+          "pointer-events-none": true,
           "__selected-object hover:cursor-grab":
             props.isSelected &&
             !props.object.isLocked &&
@@ -66,22 +75,12 @@ export const ImageObject: Component<iImageObjectProps> = (props) => {
             props.object.maskShape === eImageMaskShapes.CIRCLE ||
             props.object.isBattleToken,
           "cursor-cell": Store.selectedTool() === eTool.ADD_INFO_PIN,
-          "outline-dashed outline-blue-400":
-            props.isSelected && Store.selectedObjectIds().length > 1,
+          // "outline-dashed outline-blue-400":
+          //   props.isSelected && Store.selectedObjectIds().length > 1,
         }}
-        draggable="false"
-        src={props.object.url}
-        style={`
-        // outline-width: calc(2px / var(--app-camera-zoom));
-        // max-width: none;
-      width: ${props.object.width}px;
-      height: ${props.object.height}px;
-      // z-index: ${props.object.zIndex};
-      transform:
-        translate(${props.object.x}px,
-          ${props.object.y}px)
-          `}
-      />
+        class={`${Config.OBJECT_CLASS} absolute left-0 top-0 bg-red-500`}
+      ></div>
+
       <Show when={props.object.motionEffect === eImageMotionEffects.RAIN}>
         <MotionEffects.Rain object={props.object} />
       </Show>

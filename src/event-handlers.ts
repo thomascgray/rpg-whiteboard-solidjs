@@ -13,7 +13,7 @@ import {
 import * as Utils from "./utils/general-utils";
 import * as DOMUtils from "./utils/dom-utils";
 import * as Config from "./config";
-
+import * as _ from "lodash";
 export const onWindowMouseDown = (e: MouseEvent) => {
   Store.setHeldMouseButtons((buttons) => [...buttons, e.button]);
 
@@ -31,24 +31,23 @@ export const onWindowMouseDown = (e: MouseEvent) => {
       );
       break;
     case eMouseButton.RIGHT:
-      Store.setRightMouseDownPosCanvas(
-        Utils.screenToCanvas(
-          e.clientX,
-          e.clientY,
-          Store.camera().x,
-          Store.camera().y,
-          Store.camera().z,
-        ),
-      );
+      // Store.setRightMouseDownPosCanvas(
+      //   Utils.screenToCanvas(
+      //     e.clientX,
+      //     e.clientY,
+      //     Store.camera().x,
+      //     Store.camera().y,
+      //     Store.camera().z,
+      //   ),
+      // );
       break;
   }
 
   // first of all, unless i can think of a better reason why, if we've just clicked
   // on an element of UI, don't do anything
-  if (e.target) {
-    if ((e.target as HTMLElement).closest(`.${Config.UI_CLASS}`)) {
-      return;
-    }
+  // this is becayse clicking on a ui element will do its own thing
+  if (e.target && (e.target as HTMLElement).closest(`.${Config.UI_CLASS}`)) {
+    return;
   }
 
   // todo this function should also be able to handle
@@ -115,6 +114,7 @@ export const onWindowMouseDown = (e: MouseEvent) => {
   }
   if (e.button === eMouseButton.RIGHT) {
     console.log("aaaaaa right click");
+    // e.de
   }
 };
 
@@ -137,28 +137,31 @@ export const onWindowMouseUp = (e: MouseEvent) => {
   if (e.button === eMouseButton.LEFT && Store.dragSelectionBox() !== null) {
     const currentSelectionBox = Store.dragSelectionBox()!;
     // any objects that were within the bounding box of the drawing selection box need to be selected
-    const objectsWithinSelectionBox = [...Store.objects]
-      // .filter((o) => !o.isLocked)
-      // .filter((o) => o.type !== eObjectType.LINE_OF_SIGHT_WALL)
-      .filter((obj) => {
-        // const selectionBox = {
-        //   x: currentSelectionBox.x,
-        //   y: currentSelectionBox.y,
-        //   width: currentSelectionBox.width,
-        //   height: currentSelectionBox.height,
-        // };
+    const objectsWithinSelectionBox = [...Store.objects].filter((obj) => {
+      return Utils.checkOverlap(obj, currentSelectionBox);
+    });
 
-        return Utils.checkOverlap(obj, currentSelectionBox);
-      });
+    // loop over the objects and add their type into an array
+    // loop using a for loop
+    const typesOfObjectsWithinSelectionBox: Set<eObjectType> = new Set();
+    for (let obj of objectsWithinSelectionBox) {
+      typesOfObjectsWithinSelectionBox.add(obj.type);
+    }
 
-    console.log(
-      "objectsWithinSelectionBox.length",
-      objectsWithinSelectionBox.length,
-    );
-    console.log("a");
-    Store.setSelectedObjectIds(objectsWithinSelectionBox.map((obj) => obj.id));
-    console.log("b");
     Store.setDragSelectionBox(null);
+
+    const objectIds: string[] = [];
+    const selectedObjectElements: HTMLElement[] = [];
+    for (let obj of objectsWithinSelectionBox) {
+      objectIds.push(obj.id);
+      const element = document.getElementById(obj.id);
+      if (element) {
+        element.classList.add("__selected-object");
+        selectedObjectElements.push(element);
+      }
+    }
+    // Store.setSelectedObjectIds(objectIds);
+
     window.__app_selectedObjects = document.querySelectorAll(
       ".__selected-object:not(.__is-locked)",
     );
@@ -208,6 +211,8 @@ export const onWindowMouseMove = (e: MouseEvent) => {
     return;
   }
 
+  console.log("aaaa");
+
   const selectedObjectDOMElements =
     document.getElementsByClassName("__selected-object");
 
@@ -225,6 +230,7 @@ export const onWindowMouseMove = (e: MouseEvent) => {
       Store.camera().z,
     );
 
+    console.log("mousePoint", mousePoint);
     Store.setDragSelectionBox({
       x: Math.round(Math.min(mousePoint.x, Store.leftMouseDownPosCanvas().x)),
       y: Math.round(Math.min(mousePoint.y, Store.leftMouseDownPosCanvas().y)),

@@ -5,7 +5,7 @@ import * as Store from "../../store";
 export const DragSelectionBoxComponent: Component = (props) => {
   return (
     <div
-      class="absolute left-0 top-0 border-2 border-dashed border-black"
+      class=" absolute left-0 top-0 border-2 border-dashed border-black"
       style={`
         border-width: var(--app-border-thickness); 
         width: ${Store.dragSelectionBox()?.width}px; 

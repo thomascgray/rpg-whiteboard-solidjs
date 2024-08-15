@@ -129,3 +129,18 @@ from what i can tell, chromes insane performance problems are literally only whe
 of each other AND they're taking up the whole screen
 which, i mean, will never happen? so fuck it?
 i tried with 2000 objects, 500ish more than the average BitD board and performance was not amazing, not shit. i think we're fine
+
+<!-- ok more testing -->
+
+alright, 6 months later, im back
+
+so as you can see in src\utils\testing-utils.ts i've done some testing making loads of objects live just next to each other not QUITE overlapping
+and the problem definitely IS overlapping
+like, performance isnt _great_ with 2000 things, but with 100 stacked directly on top of each other its literally unusable
+for example, with 500 stacked directly on top of each other, the app literally struggles to zoom out
+
+- changing file type to jpeg doesnt help
+
+things that do help performance, generally speaking
+
+- putting `pointer-events-none` on everything that you're not gonna click

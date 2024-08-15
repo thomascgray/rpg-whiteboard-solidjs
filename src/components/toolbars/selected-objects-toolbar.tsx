@@ -44,7 +44,8 @@ export const SelectedObjectsToolbar: Component = (props) => {
   );
 
   const so_every = (property: keyof iObject, value: any) => {
-    console.log("so_every");
+    // console.log("so_every");
+    // TODO this function is fired all the time
     return selectedObjects().every((obj) => obj?.[property] === value);
   };
 

@@ -276,7 +276,10 @@ export const zoomCamera = (xPos: number, yPos: number, distance: number) => {
 };
 
 export const leftMouseDownEmptySpace = () => {
-  Store.unselectObjects();
+  // Store.unselectObjects();
+  if (Store.selectedObjectIds().length > 0) {
+    Store.unselectObjects();
+  }
   Store.setDragSelectionBox(null);
 };
 

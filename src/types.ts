@@ -16,6 +16,8 @@ declare global {
 
     __mousePosition?: iPoint;
     __barnabusGetObjects: () => void;
+
+    __selectionBox?: iBox;
   }
 }
 

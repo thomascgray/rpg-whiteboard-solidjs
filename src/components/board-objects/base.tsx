@@ -16,38 +16,55 @@ export const BaseObject: Component<iBaseObjectProps> = (props) => {
     <>
       {/* image objects */}
       <Show when={props.object.type === eObjectType.IMAGE}>
-        <ImageObject object={props.object} isSelected={props.isSelected} />
+        <ImageObject
+          object={props.object}
+          // isSelected={props.isSelected}
+        />
       </Show>
 
       {/* text objects */}
       <Show when={props.object.type === eObjectType.TEXT}>
-        <TextObject object={props.object} isSelected={props.isSelected} />
+        <TextObject
+          object={props.object}
+          // isSelected={props.isSelected}
+        />
       </Show>
 
       {/* svg objects */}
       <Show when={props.object.type === eObjectType.SVG}>
-        <SVGObject object={props.object} isSelected={props.isSelected} />
+        <SVGObject
+          object={props.object}
+          // isSelected={props.isSelected}
+        />
       </Show>
 
       <Show when={props.object.type === eObjectType.INFO_PIN}>
-        <InfoPin object={props.object} isSelected={props.isSelected} />
+        <InfoPin
+          object={props.object}
+          // isSelected={props.isSelected}
+        />
       </Show>
 
       <Show when={props.object.type === eObjectType.LINE_OF_SIGHT_WALL_ANCHOR}>
         <LineOfSight.WallAnchor
           object={props.object}
-          isSelected={props.isSelected}
+
+          // isSelected={props.isSelected}
         />
       </Show>
 
       <Show when={props.object.type === eObjectType.LINE_OF_SIGHT_WALL}>
-        <LineOfSight.Wall object={props.object} isSelected={props.isSelected} />
+        <LineOfSight.Wall
+          object={props.object}
+          // isSelected={props.isSelected}
+        />
       </Show>
 
       <Show when={props.object.type === eObjectType.LINE_OF_SIGHT_LIGHT_SOURCE}>
         <LineOfSight.LightSource
           object={props.object}
-          isSelected={props.isSelected}
+
+          // isSelected={props.isSelected}
         />
       </Show>
     </>

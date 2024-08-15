@@ -23,9 +23,35 @@ import * as MeasuringSvgs from "./components/in-camera-ui/measuring-svgs";
 import * as Config from "./config";
 import { ContextMenu } from "./components/in-camera-ui/context-menu";
 
+/**
+ * These are the window variables that we use throughout the app for performance reasons.
+ * They are:
+ * - __app_selectedObjects
+ * - __cameraDom
+ * - __backgroundAppDom
+ * - __canvasDom
+ * - __barnabusGetObjects (this is a function that returns the objects in the app)
+ *
+ */
+
 export const App: Component = () => {
   onMount(() => {
-    TestingUtils.makeDummyObjects2(100, 100);
+    const urlParams = new URLSearchParams(window.location.search);
+    const testId = urlParams.get("testId");
+    switch (testId) {
+      case "battlemapTestA":
+        TestingUtils.battlemapTestA();
+        break;
+      case "200ImagesNotOverlapping":
+        TestingUtils._200ImagesNotOverlapping();
+        break;
+      case "2000ImagesNotOverlapping":
+        TestingUtils._2000ImagesNotOverlapping();
+        break;
+      case "200ImagesOverlapping":
+        TestingUtils._200ImagesOverlapping();
+        break;
+    }
 
     window.__cameraDom = document.getElementById(Config.APP_CAMERA_DOM_ID)!;
     window.__backgroundAppDom = document.getElementById(
@@ -33,12 +59,12 @@ export const App: Component = () => {
     )!;
     window.__canvasDom = document.getElementById(Config.APP_CANVAS_DOM_ID)!;
 
+    // @ts-ignore - window.__canvasDom IS a HTMLCanvasElement
+    window.__canvasContext = window.__canvasDom.getContext("2d");
+
     window.__barnabusGetObjects = () => {
       return Store.objects;
     };
-
-    // @ts-ignore
-    window.__canvasContext = window.__canvasDom.getContext("2d");
 
     window.onmousedown = EventHandlers.onWindowMouseDown;
     window.onmouseup = EventHandlers.onWindowMouseUp;
@@ -125,9 +151,9 @@ export const App: Component = () => {
             <MeasuringSvgs.Wrapper />
           </Show>
 
-          <Show when={Store.rightMouseDownPosCanvas() !== null}>
+          {/* <Show when={Store.rightMouseDownPosCanvas() !== null}>
             <ContextMenu />
-          </Show>
+          </Show> */}
         </div>
         {/* end camera */}
       </div>

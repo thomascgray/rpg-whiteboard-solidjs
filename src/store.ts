@@ -150,13 +150,13 @@ export const isCursorToolSelected = () => {
 export const unselectObjects = () => {
   // if any of the objects we're about to unselect are a text area, we need
   // to make that text area unfocused
-  const objs = [...objects];
+  // const objs = [...objects];
 
   setFocusedObjectId(null);
   setSelectedObjectIds([]);
-  setObjects(reconcile(objs));
+  // setObjects(reconcile(objs));
 
-  window.getSelection()!.removeAllRanges();
+  // window.getSelection()!.removeAllRanges();
 };
 
 export const deleteSelectedObjects = () => {
@@ -262,4 +262,11 @@ export const updateObject = (id: string, props: Partial<iObject>) => {
     ...props,
   };
   setObjects(reconcile(objs));
+};
+
+export const getAllObjectsOnScreen = () => {
+  // const objectsOnScreen: iObject[] = [];
+  // for (let obj of objects) {
+  //   if
+  // }
 };

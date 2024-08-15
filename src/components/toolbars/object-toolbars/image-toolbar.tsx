@@ -8,6 +8,7 @@ import { reconcile } from "solid-js/store";
 
 export const ImageModeSelect: Component = (props) => {
   const isAllBattlemap = createMemo(() => {
+    console.log("isAllBattlemap");
     if (Store.selectedObjectIds().length === 0) return false;
     return Store.selectedObjectIds().every((id) => {
       const obj = Store.objects.find((obj) => obj.id === id);
@@ -17,6 +18,7 @@ export const ImageModeSelect: Component = (props) => {
   });
 
   const isAllBattletoken = createMemo(() => {
+    console.log("isAllBattletoken");
     if (Store.selectedObjectIds().length === 0) return false;
     return Store.selectedObjectIds().every((id) => {
       const obj = Store.objects.find((obj) => obj.id === id);
